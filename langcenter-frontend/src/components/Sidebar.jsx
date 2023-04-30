@@ -24,7 +24,6 @@ export default function Sidebar(props) {
     const style = {
         position: 'fixed',
         top: '0',
-        width: '280',
         backgroundColor: "#242b5e",
         left: showSidebar ? 0 : -300, // Set left to 0 when showSidebar is true, -300 when false
         transition: 'left 0.3s ease-out',
@@ -32,7 +31,7 @@ export default function Sidebar(props) {
     };
     return (
 
-        <div className={` sidebar-container  `} style={style}>
+        <div className={` sidebar-container`} style={style}>
             <div className={`logo-container w-100 m-0`} >
                 <button onClick={onHideSidebar} className="OpenCloseBtn2"><AiOutlineClose style={{ color: "white" }} /></button>
                 <Link to="/dashboard"><img src={centreLogo} className="logo"></img></Link>
