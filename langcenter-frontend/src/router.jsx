@@ -38,11 +38,6 @@ const router = createBrowserRouter([
                 element: <Enseignants/>,
             },
             {
-                
-                path: '/auth',
-                element: <Login />
-            },
-            {
                 path: '/students',
                 element: <Students/>
             },
@@ -75,26 +70,30 @@ const router = createBrowserRouter([
                 element: <PaiementsEns/>
             },
             {
-                path: "emploiTemps",
+                path: "/emploiTemps",
                 element: <EmploiTemps/>
             },
             {
-                path: "resultats",
+                path: "/resultats",
                 element: <Resultats/>
             },
             {
-                path: "salles",
+                path: "/salles",
                 element: <Salles/>
             },
             {
-                path: "settings",
+                path: "/settings",
                 element: <Settings/>
             },
             {
-                path: "utilisateurs",
+                path: "/utilisateurs",
                 element: <Utilisateurs/>
             }
         ]
+    },
+    {
+        path: '/auth',
+        element: <Login />
     },
     {
         path: '*',

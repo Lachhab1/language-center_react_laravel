@@ -1,4 +1,5 @@
 import { NavLink , Link} from "react-router-dom";
+import Nav from 'react-bootstrap/Nav';
 
 import centreLogo from "../images/EnglishCastle_HQ.png"
 import cours from "../images/icons/cours.svg"
@@ -32,41 +33,41 @@ export default function Sidebar(props) {
     return (
 
         <div className={` sidebar-container  `} style={style}>
-            <div className={`logo-container  `} >
-                <button onClick={onHideSidebar} className="OpenCloseBtn"><AiOutlineClose style={{ color: "white" }} /></button>
-                <Link to="/"><img src={centreLogo} className="logo"></img></Link>
+            <div className={`logo-container w-100 m-0`} >
+                <button onClick={onHideSidebar} className="OpenCloseBtn2"><AiOutlineClose style={{ color: "white" }} /></button>
+                <Link to="/dashboard"><img src={centreLogo} className="logo"></img></Link>
             </div>
 
-            <div className={`Sidebar`}>
-                <ul className="nav nav-pills flex-column" >
-                    <li className="nav-item"><NavLink className="a nav-link  " to="/"><img src={dashboard} />Dashboard</NavLink></li>
-                    <li className="nav-item"><NavLink className="a nav-link " to="/enseignants"><img src={enseignant} />Enseignants</NavLink></li>
-                    <li className="nav-item"><NavLink className="a nav-link " to="/students"><img src={etudiant} />Etudiants</NavLink></li>
-                    <li className="nav-item"><NavLink className="a nav-link " to="/parents"><img src={parents} />Parents</NavLink></li>
-                    <li className="nav-item"><NavLink className="a nav-link " to="/groupes"><img src={groupes} />Groupes</NavLink></li>
-                    <li className="nav-item"><NavLink className="a nav-link " to="/cours"><img src={cours} className="cou" />Cours</NavLink></li>
+            <Nav className={`Sidebar`}>
+                <Nav className="flex-column" defaultActiveKey="/dashboard" >
+                    <Nav.Item><NavLink className="a nav-link link-light" to="/dashboard"><img src={dashboard} />Dashboard</NavLink></Nav.Item>
+                    <Nav.Item><NavLink className="a nav-link link-light" to="/enseignants"><img src={enseignant} />Enseignants</NavLink></Nav.Item>
+                    <Nav.Item><NavLink className="a nav-link link-light" to="/students"><img src={etudiant} />Etudiants</NavLink></Nav.Item>
+                    <Nav.Item><NavLink className="a nav-link link-light" to="/parents"><img src={parents} />Parents</NavLink></Nav.Item>
+                    <Nav.Item><NavLink className="a nav-link link-light" to="/groupes"><img src={groupes} />Groupes</NavLink></Nav.Item>
+                    <Nav.Item><NavLink className="a nav-link link-light" to="/cours"><img src={cours} />Cours</NavLink></Nav.Item>
 
                     {/* Presences le span pour cacher ces elements a fin de remplacer le collapse avec dropdown dans les petits ecrans */}
 
-                    <li className="nav-item "><a className="a nav-link dropdown-toggle " href="#dropPresence" id="menu" data-bs-toggle="collapse"><img src={presence} />Presences</a>
+                    <Nav.Item className="nav-item "><a className="a nav-link link-light dropdown-toggle " href="#dropPresence" id="menu" data-bs-toggle="collapse"><img src={presence} />Presences</a>
                         <ul className="collapse   " id="dropPresence" data-bs-parent="#menu" >
-                            <li><NavLink className="a nav-link " to="/presencesEtu">etudiants</NavLink></li>
-                            <li><NavLink className="a nav-link " to="/presencesEns">enseignants</NavLink></li>
+                            <Nav.Item className="test"><NavLink className="a nav-link link-light" to="/presencesEtu">etudiants</NavLink></Nav.Item>
+                            <Nav.Item><NavLink className="a nav-link link-light" to="/presencesEns">enseignants</NavLink></Nav.Item>
                         </ul>
-                    </li>
+                    </Nav.Item>
 
 
 
 
                     {/* Paiements: le span pour cacher ces elements a fin de remplacer le collapse avec dropdown dans les petits ecrans */}
 
-                    <li className="nav-item "><a className="a nav-link  dropdown-toggle" href="#dropFees" id="menu" data-bs-toggle="collapse"><img src={paiements} />Paiements</a>
+                    <Nav.Item className="nav-item link-light"><a className="a nav-link link-light  dropdown-toggle" href="#dropFees" id="menu" data-bs-toggle="collapse"><img src={paiements} />Paiements</a>
                         <ul className="collapse
                         " id="dropFees" data-bs-parent="#menu" >
-                            <li className="nav-item" ><NavLink className="a nav-link " to="/paiementsEtu">student fees</NavLink></li>
-                            <li className="nav-item" ><NavLink className="a nav-link " to="/paiementsEns">teacher fees </NavLink></li>
+                            <Nav.Item ><NavLink className="a nav-link link-light" to="/paiementsEtu">student fees</NavLink></Nav.Item>
+                            <Nav.Item ><NavLink className="a nav-link link-light" to="/paiementsEns">teacher fees </NavLink></Nav.Item>
                         </ul>
-                    </li>
+                    </Nav.Item>
 
 
 
@@ -74,19 +75,19 @@ export default function Sidebar(props) {
 
 
 
-                    <li className="nav-item"><NavLink className="a nav-link " to="/resultats"><img src={results} />Resultats</NavLink></li>
-                    <li className="nav-item"><NavLink className="a nav-link " to="/salles"><img src={salles} />Salles</NavLink></li>
-                    <li className="nav-item"><NavLink className="a nav-link " to="/emploiTemps"><img src={empTemps} />Emploi du temps</NavLink></li>
-                    <li className="nav-item"><NavLink className="a nav-link " to="/utilisateurs"><img src={users} />Utilisateurs</NavLink></li>
-                    <li className="nav-item"><a className="a nav-link " heref="#"><img src={logout} />Se deconnecter</a></li>
+                    <Nav.Item><NavLink className="a nav-link link-light" to="/resultats"><img src={results} />Resultats</NavLink></Nav.Item>
+                    <Nav.Item><NavLink className="a nav-link link-light" to="/salles"><img src={salles} />Salles</NavLink></Nav.Item>
+                    <Nav.Item><NavLink className="a nav-link link-light" to="/emploiTemps"><img src={empTemps} />Emploi du temps</NavLink></Nav.Item>
+                    <Nav.Item><NavLink className="a nav-link link-light" to="/utilisateurs"><img src={users} />Utilisateurs</NavLink></Nav.Item>
+                    <Nav.Item><NavLink className="a nav-link link-light" to="/logout"><img src={logout} />Se deconnecter</NavLink></Nav.Item>
 
 
 
 
 
 
-                </ul>
-            </div>
+                </Nav>
+            </Nav>
 
         </div>
 
