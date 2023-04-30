@@ -58,17 +58,18 @@ body{
   height: auto;
   border-radius: 10px;
   margin: 5px;
-  margin-left: -76px;
+  margin-left: -100px;
   padding: 0px 5px;
   background-color: white;
 }
-.Sidebar .a{
+.Sidebar div{
+    width: 100%;
     border-bottom: 2px solid #2D4F8E;
 }
 .Sidebar .collapse{
-  background: #5FC6E9;
-} 
-.Sidebar .collapse .a{
+  background: #ACB1EE;
+}
+ #dropPresence div,#dropFees div{
   border-bottom: none;
 }
 .Sidebar .a:hover{
@@ -81,8 +82,8 @@ body{
 }
 
 .sidebar-container img:not(.logo){
-  width: 30px;
-  height:25px;
+  width: 50px;
+  height:30px;
   margin-right: 10px;
   filter: invert(100%) sepia(0%) saturate(3231%) hue-rotate(232deg) brightness(78%) contrast(143%);
 }
@@ -162,7 +163,7 @@ body{
 .OpenCloseBtn2{
     background: none;
     border: none;
-    margin-left: 140px;
+    margin-left: 199px;
 }
 .OpenCloseBtn2 svg {
   color: var(--red-color);

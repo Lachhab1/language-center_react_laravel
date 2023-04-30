@@ -24,6 +24,7 @@ export default function Sidebar(props) {
     const style = {
         position: 'fixed',
         top: '0',
+        width: "269px",
         backgroundColor: "#242b5e",
         left: showSidebar ? 0 : -300, // Set left to 0 when showSidebar is true, -300 when false
         transition: 'left 0.3s ease-out',
@@ -49,7 +50,7 @@ export default function Sidebar(props) {
                     {/* Presences le span pour cacher ces elements a fin de remplacer le collapse avec dropdown dans les petits ecrans */}
 
                     <Nav.Item className="nav-item "><a className="a nav-link link-light dropdown-toggle " href="#dropPresence" id="menu" data-bs-toggle="collapse"><img src={presence} />Presences</a>
-                        <ul className="collapse   " id="dropPresence" data-bs-parent="#menu" >
+                        <ul className="collapse " id="dropPresence" data-bs-parent="#menu" >
                             <Nav.Item className="test"><NavLink className="a nav-link link-light" to="/presencesEtu">etudiants</NavLink></Nav.Item>
                             <Nav.Item><NavLink className="a nav-link link-light" to="/presencesEns">enseignants</NavLink></Nav.Item>
                         </ul>
