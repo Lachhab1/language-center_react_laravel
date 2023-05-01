@@ -12,10 +12,10 @@
 
 }
 .contents{
-  background-color: #ff9e026b;
-  margin-top: 60px;
-  width: 100%;
-  height: 100%;
+  height: calc(100vh - 60px);
+}
+#nav-dropdown{
+  color: #242B5E;
 }
 .contents div {
   text-align: center;
@@ -34,37 +34,27 @@ body{
   
 }
 .sidebar-container{
-  height: 100%;
+  height: calc(100vh);
   overflow: auto;
 }
 
 
 .logo-container{
-  position: sticky;
-  top: 0;
   height: 60px;
-  display: flex;
-  justify-content: center;
   align-items: center;
   background-color: var(--red-color);
-  z-index: 9999;
 }
-.logo-container button{
-  position: absolute;
-  left: 0;
-}
+
 .logo{
   width: 40px;  
   height: auto;
   border-radius: 10px;
-  margin: 5px;
-  margin-left: -100px;
   padding: 0px 5px;
   background-color: white;
 }
 .Sidebar div{
     width: 100%;
-    border-bottom: 2px solid #2D4F8E;
+    border-bottom: 1px solid #2D4F8E;
 }
 .Sidebar .collapse{
   background: #ACB1EE;
@@ -82,8 +72,8 @@ body{
 }
 
 .sidebar-container img:not(.logo){
-  width: 50px;
-  height:30px;
+  width: 3rem;
+  height:2rem;
   margin-right: 10px;
   filter: invert(100%) sepia(0%) saturate(3231%) hue-rotate(232deg) brightness(78%) contrast(143%);
 }
@@ -139,31 +129,27 @@ body{
 
 /*  Top bar styles*/
 
-.layout{
-  height: auto;
-  width: auto;
-  display: flex;
-}
+
 
 
 .Topbar{
-  width: -webkit-fill-available;
-  position: fixed;
-  z-index: 99;
-  top: 0;
   background-color: rgb(255, 255, 255);
   box-shadow: 0px 0px 5px rgb(147, 147, 147);
-  height: 60px;
+  height: 4rem;
 }
 .OpenCloseBtn{
   background: none;
   border: none;
   margin-left: 10px;
 }
+.OpenCloseBtn2:hover{
+  background-color: rgba(198, 255, 220, 0.2);
+  border-radius: 30%;
+}
 .OpenCloseBtn2{
     background: none;
     border: none;
-    margin-left: 199px;
+    
 }
 .OpenCloseBtn2 svg {
   color: var(--red-color);
@@ -183,14 +169,15 @@ body{
    
 }
 .profile-photoContainer{
+  height: 50px;
   border-left: 2px solid #D60A0B;
   padding-left: 1rem;
+  display: flex;
+  flex-direction: column;
 }
 .pPhoto{
   width: 40px;
-  height: 40px;
   border-radius: 50%;
-
 }
 .profile-section{
   display: flex;

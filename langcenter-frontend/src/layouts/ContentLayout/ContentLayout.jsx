@@ -3,21 +3,14 @@ import { Outlet } from "react-router-dom";
 import Sidebar from "../../components/Sidebar"
 import Topbar from "../../components/Topbar"
 export default function ContentLayout() {
-  const [showSidebar, setShowSidebar] = useState(false);
-
-  const handleShowSidebar = () => {
-    setShowSidebar(true);
-  };
-
-  const handleHideSidebar = () => {
-    setShowSidebar(false);
-  };
   return (
-    <div className="layout">
-      <Topbar onShowSidebar={handleShowSidebar} />
-      <Sidebar onHideSidebar={handleHideSidebar} showSidebar={showSidebar} />
+    <div className="d-flex flex-row w-100">
+      <Sidebar />
+      <div className="w-100 m-0">
+      <Topbar />
       <div className="contents">
-        <Outlet />
+        <Outlet />  
+      </div>
       </div>
   </div>
 
