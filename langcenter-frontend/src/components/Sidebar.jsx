@@ -1,5 +1,5 @@
 import { NavLink , Link} from "react-router-dom";
-import {Nav,NavDropdown} from 'react-bootstrap';
+import {Nav,NavDropdown,Dropdown} from 'react-bootstrap';
 
 import centreLogo from "../images/EnglishCastle_HQ.png"
 import cours from "../images/icons/cours.svg"
@@ -25,9 +25,9 @@ export default function Sidebar() {
         setOpenSidebar((prev) => !prev);
     }
     return (
-        <div style={{width: openSidebar ? "18%":"auto"}} className="">
+        <div style={{width: openSidebar ? "20%":"auto"}} className="">
 
-        <div className={` sidebar-container bg-dark`}>
+        <div className={` sidebar-container`} style={{backgroundColor:"#242B5E"}} >
             <div className={`logo-container m-0 d-flex flex-row-reverse justify-content-between align-items-center`} >
             <div className={openSidebar ?"w-25":"w-100"}>
                 <button  onClick={handleOpen}  className="OpenCloseBtn2">{openSidebar ?<Bars3BottomLeftIcon width={25} className="text-white" />:<XMarkIcon width={45} className="text-white" style={{ color: "white"}} /> }</button>
@@ -48,13 +48,17 @@ export default function Sidebar() {
 
                     {/* Presences le span pour cacher ces elements a fin de remplacer le collapse avec dropdown dans les petits ecrans */}
 
-                    <Nav.Item className="nav-item "><a className="a nav-link link-light dropdown-toggle " href="#dropPresence" id="menu" data-bs-toggle="collapse"><img src={presence} />{openSidebar && "Presences"}</a>
+                    {openSidebar ? 
+                    <Nav.Item className="nav-item link-light"><a className="a nav-link link-light  dropdown-toggle" href="#dropPresence" id="menu" data-bs-toggle="collapse"><img src={presence} />{openSidebar && "Presences"}</a>
                         <ul className="collapse " id="dropPresence" data-bs-parent="#menu" >
-                            <Nav.Item className="test"><NavLink className="a nav-link link-light" to="/presencesEtu">etudiants</NavLink></Nav.Item>
-                            <Nav.Item><NavLink className="a nav-link link-light" to="/presencesEns">enseignants</NavLink></Nav.Item>
+                            <Nav.Item ><NavLink className="a nav-link link-light" to="/presencesEtu">student</NavLink></Nav.Item>
+                            <Nav.Item ><NavLink className="a nav-link link-light" to="/presencesEns">teacher </NavLink></Nav.Item>
                         </ul>
                     </Nav.Item>
-
+                        :
+                    <Nav.Item className="nav-item"><a onClick={handleOpen} className="a nav-link link-light dropdown-toggle " href="#dropFees" id="menu" data-bs-toggle="collapse"><img src={presence} /></a>
+                    </Nav.Item>
+                    }
 
 
 
@@ -68,12 +72,8 @@ export default function Sidebar() {
                         </ul>
                     </Nav.Item>
                         :
-                        <Nav.Item className="a nav-item link-light">
-                        <NavDropdown menuVariant="dark"  drop="end" align={"down"} id="nav-dropdown">
-                                <NavDropdown.Item className="a nav-link link-dark" as={Link} to="/paiementsEtu">Student fees</NavDropdown.Item>
-                                <NavDropdown.Item className="a nav-link link-dark" as={Link} to="/paiementsEns">Teacher fees</NavDropdown.Item>
-                        </NavDropdown>
-                        </Nav.Item>
+                    <Nav.Item className="nav-item"><a onClick={handleOpen} className="a nav-link link-light dropdown-toggle " href="#dropFees" id="menu" data-bs-toggle="collapse"><img src={paiements} /></a>
+                    </Nav.Item>
                     }
 
 
