@@ -7,7 +7,7 @@ export default function Button(props)
         <button  
                  style={props.style} 
                  className={props.className} 
-                 onClick={props.onClick}
+                 onClick={props.onlClick}
                  disabled={props.disabled}
         >
             {props.value}

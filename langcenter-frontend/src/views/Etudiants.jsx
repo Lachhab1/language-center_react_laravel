@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import TableEtud from '../Composentforstudentspage/TableEtud';
-import Button from '../Button/Button';
+import Button from '../components/Button';
 export default function Etudiants(){
     
     
@@ -26,7 +26,7 @@ export default function Etudiants(){
                         
                     
                         
-            <Button className="btn btn-danger" value="Ajouter"/>
+            <Button className="btn btn-dark" value="Ajouter" onlClick={() => alert('Button clicked!')}/>
                         
                         
                     
