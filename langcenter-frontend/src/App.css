@@ -35,7 +35,7 @@ body{
 }
 .sidebar-container{
   height: calc(100vh);
-  font-size: 1rem;
+  font-size: 1.2rem;
   overflow: auto;
 }
 
@@ -58,7 +58,7 @@ body{
     border-bottom: 1px solid #2D4F8E;
 }
 .Sidebar .collapse{
-  background: #ACB1EE;
+  background: #800000;/*#CCCCCC #999999 #800000 #000080)*/
 }
  #dropPresence div,#dropFees div{
   border-bottom: none;

@@ -5,12 +5,10 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import { Container, Nav, Navbar } from "react-bootstrap";
 import { EnvelopeIcon,BellIcon } from '@heroicons/react/24/outline'
 
-
-
 export default function Topbar() {
     return (
             <Navbar style={{height: "60px"}}  className="Topbar order-3" >
-                <Container  className="d-flex justify-content-end align-items-center">
+                <Container  className="w-100 d-flex justify-content-end align-items-center">
                     <Nav className="">
                         <Nav.Link as={Link} to="/dashboard"> <EnvelopeIcon width={25} className="text-danger" /></Nav.Link>
                         <Nav.Link as={Link} to="/dashboard"><BellIcon width={25} className="text-danger"/></Nav.Link>
