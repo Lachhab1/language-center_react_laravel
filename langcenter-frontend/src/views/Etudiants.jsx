@@ -1,9 +1,5 @@
 import React, { useState } from 'react';
 import TableEtud from '../Composentforstudentspage/TableEtud';
-import ButtonADD from '../Composentforstudentspage/Button';
-import ButtonSearch from '../Composentforstudentspage/ButtonSearch';
-import Searchbyname_form from '../Composentforstudentspage/Searchbyname_Form';
-import Searchbyclass_form from '../Composentforstudentspage/Searchbyclass_Form';
 import Button from '../Button/Button';
 export default function Etudiants(){
     
@@ -30,7 +26,7 @@ export default function Etudiants(){
                         
                     
                         
-
+            <Button className="btn btn-danger" value="Ajouter"/>
                         
                         
                     
