@@ -4,6 +4,7 @@ import ButtonADD from '../Composentforstudentspage/Button';
 import ButtonSearch from '../Composentforstudentspage/ButtonSearch';
 import Searchbyname_form from '../Composentforstudentspage/Searchbyname_Form';
 import Searchbyclass_form from '../Composentforstudentspage/Searchbyclass_Form';
+import Button from '../Button/Button';
 export default function Etudiants(){
     
     
@@ -13,7 +14,7 @@ export default function Etudiants(){
             <div className="row">
                 <div className="col-md-2">
                    
-                    <h2>Students</h2>
+                    <h2 >Students</h2>
                     <p>Home &gt;  Students</p>
                 </div>
             </div>
@@ -26,16 +27,14 @@ export default function Etudiants(){
                 <br />
                 <div className="row">
                    
-                        <Searchbyname_form/>
+                        
                     
+                        
+
+                        
+                        
                     
-                        <Searchbyclass_form/>
-                    
-                        <ButtonSearch/>
-                    
-                        <ButtonADD/>
-                    
-                </div>
+                </div >
                 <br />
                 <TableEtud/>
                 </div>
