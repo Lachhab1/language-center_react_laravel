@@ -1,3 +1,6 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;700&display=swap');
+
 :root{
   /* colors*/
   --body-color :  #F0F1F3;
@@ -11,6 +14,10 @@
   
 
 }
+*{
+  font-family: 'Inter', sans-serif;
+}
+
 .contents{
   height: calc(100vh - 60px);
 }
@@ -41,6 +48,9 @@ body{
 
 
 .logo-container{
+  position: sticky;
+  z-index: 999;
+  top: 0;
   height: 60px;
   align-items: center;
   background-color: var(--red-color);
@@ -78,6 +88,8 @@ body{
   filter: invert(100%) sepia(0%) saturate(3231%) hue-rotate(232deg) brightness(78%) contrast(143%);
 }
 .Sidebar div {
+  font-size: 15px;
+  font-weight: 400;
   width: 100%;
   border-bottom: 2px solid #2D4F8E;
 }
