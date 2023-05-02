@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import TableEtud from '../Composentforstudentspage/TableEtud';
 import Button from '../components/Button';
+import Input_Youssef from '../components/Input_Youssef';
 export default function Etudiants(){
     
     
@@ -24,12 +25,6 @@ export default function Etudiants(){
                 <div className="row">
                    
                         
-                    
-                        
-            <Button className="btn btn-dark" value="Ajouter" onlClick={() => alert('Button clicked!')}/>
-                        
-                        
-                    
                 </div >
                 <br />
                 <TableEtud/>
