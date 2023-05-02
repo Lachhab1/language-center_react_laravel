@@ -30,7 +30,7 @@ export default function Sidebar() {
         <div className={` sidebar-container`} style={{backgroundColor:"#242B5E"}} >
             <div className={`logo-container m-0 d-flex flex-row-reverse justify-content-between align-items-center`} >
             <div className={openSidebar ?"w-25":"w-100"}>
-                <button  onClick={handleOpen}  className="OpenCloseBtn2">{openSidebar ?<Bars3BottomLeftIcon width={25} className="text-white" />:<XMarkIcon width={45} className="text-white" style={{ color: "white"}} /> }</button>
+                <button  onClick={handleOpen}  className="OpenCloseBtn2">{openSidebar ?<XMarkIcon width={25} className="text-white" style={{ color: "white"}} />:<Bars3BottomLeftIcon width={40} className="text-white" /> }</button>
             </div>
                <div className="ms-4">
                  {openSidebar && <Link className="" to="/dashboard"><img src={centreLogo} className="logo"></img></Link>}
