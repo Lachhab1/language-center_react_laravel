@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import TableEtud from '../Composentforstudentspage/TableEtud';
-
+import ButtonADD from '../Composentforstudentspage/Button';
+import ButtonSearch from '../Composentforstudentspage/ButtonSearch';
+import Searchbyname_form from '../Composentforstudentspage/Searchbyname_Form';
+import Searchbyclass_form from '../Composentforstudentspage/Searchbyclass_Form';
 export default function Etudiants(){
     
     
@@ -22,22 +25,16 @@ export default function Etudiants(){
                 </div>
                 <br />
                 <div className="row">
-                    <div className="col-3">
-                        <form>
-                            <input className="form-control" type="text" name="Nom" id="1" placeholder="Search by name" />
-                        </form>
-                    </div>
-                    <div className="col-3">
-                        <form>
-                            <input className="form-control" type="text" name="Class" id="2" placeholder="Search by class" />
-                        </form>
-                    </div>
-                    <div className="col-3">
-                        <button className="btn btn-danger"> Search </button>
-                    </div>
-                    <div className="col-3">
-                        <button className="btn btn-success"> Add Student </button>
-                    </div>
+                   
+                        <Searchbyname_form/>
+                    
+                    
+                        <Searchbyclass_form/>
+                    
+                        <ButtonSearch/>
+                    
+                        <ButtonADD/>
+                    
                 </div>
                 <br />
                 <TableEtud/>
