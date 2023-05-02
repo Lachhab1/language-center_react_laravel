@@ -47,6 +47,7 @@ export default function Etudiants(){
                                 <th>ID</th>
                                 <th>Nom</th>
                                 <th>Prenom</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                     </table>
