@@ -40,19 +40,19 @@ export default function Sidebar() {
             <Nav className="Sidebar h-100">
                 <Nav className="flex-column" defaultActiveKey="/dashboard" >
                     <Nav.Item><NavLink className="a nav-link link-light" to="/dashboard"><img src={dashboard} />{openSidebar && "Dashboard"}</NavLink></Nav.Item>
-                    <Nav.Item><NavLink className="a nav-link link-light" to="/enseignants"><img src={enseignant} />{openSidebar &&"Enseignants"}</NavLink></Nav.Item>
-                    <Nav.Item><NavLink className="a nav-link link-light" to="/students"><img src={etudiant} />{openSidebar && "Etudiants"}</NavLink></Nav.Item>
-                    <Nav.Item><NavLink className="a nav-link link-light" to="/parents"><img src={parents} />{openSidebar && "Parents" }</NavLink></Nav.Item>
-                    <Nav.Item><NavLink className="a nav-link link-light" to="/groupes"><img src={groupes} />{openSidebar && "Groupes"}</NavLink></Nav.Item>
-                    <Nav.Item><NavLink className="a nav-link link-light" to="/cours"><img src={cours} />{openSidebar && "Cours"}</NavLink></Nav.Item>
+                    <Nav.Item><NavLink className="a nav-link link-light" to="/enseignants"><img src={enseignant} />{openSidebar &&"Teacher"}</NavLink></Nav.Item>
+                    <Nav.Item><NavLink className="a nav-link link-light" to="/students"><img src={etudiant} />{openSidebar && "Student"}</NavLink></Nav.Item>
+                    <Nav.Item><NavLink className="a nav-link link-light" to="/parents"><img src={parents} />{openSidebar && "Parent" }</NavLink></Nav.Item>
+                    <Nav.Item><NavLink className="a nav-link link-light" to="/groupes"><img src={groupes} />{openSidebar && "Groupe"}</NavLink></Nav.Item>
+                    <Nav.Item><NavLink className="a nav-link link-light" to="/cours"><img src={cours} />{openSidebar && "Course"}</NavLink></Nav.Item>
 
                     {/* Presences le span pour cacher ces elements a fin de remplacer le collapse avec dropdown dans les petits ecrans */}
 
                     {openSidebar ? 
-                    <Nav.Item className="nav-item link-light"><a className="a nav-link link-light  dropdown-toggle" href="#dropPresence" id="menu" data-bs-toggle="collapse"><img src={presence} />{openSidebar && "Presences"}</a>
+                    <Nav.Item className="nav-item link-light"><a className="a nav-link link-light  dropdown-toggle" href="#dropPresence" id="menu" data-bs-toggle="collapse"><img src={presence} />{openSidebar && "Attendance"}</a>
                         <ul className="collapse " id="dropPresence" data-bs-parent="#menu" >
-                            <Nav.Item ><NavLink className="a nav-link link-light" to="/presencesEtu">student</NavLink></Nav.Item>
-                            <Nav.Item ><NavLink className="a nav-link link-light" to="/presencesEns">teacher </NavLink></Nav.Item>
+                            <Nav.Item ><NavLink className="a nav-link link-light" to="/presencesEtu">Student</NavLink></Nav.Item>
+                            <Nav.Item ><NavLink className="a nav-link link-light" to="/presencesEns">Teacher </NavLink></Nav.Item>
                         </ul>
                     </Nav.Item>
                         :
@@ -64,32 +64,23 @@ export default function Sidebar() {
 
                     {/* Paiements: le span pour cacher ces elements a fin de remplacer le collapse avec dropdown dans les petits ecrans */}
                     {openSidebar ? 
-                    <Nav.Item className="nav-item link-light"><a className="a nav-link link-light  dropdown-toggle" href="#dropFees" id="menu" data-bs-toggle="collapse"><img src={paiements} />{openSidebar && "Paiements"}</a>
+                    <Nav.Item className="nav-item link-light"><a className="a nav-link link-light  dropdown-toggle" href="#dropFees" id="menu" data-bs-toggle="collapse"><img src={paiements} />{openSidebar && "Paiement"}</a>
                         <ul className="collapse
                         " id="dropFees" data-bs-parent="#menu" >
-                            <Nav.Item ><NavLink className="a nav-link link-light" to="/paiementsEtu">student fees</NavLink></Nav.Item>
-                            <Nav.Item ><NavLink className="a nav-link link-light" to="/paiementsEns">teacher fees </NavLink></Nav.Item>
+                            <Nav.Item ><NavLink className="a nav-link link-light" to="/paiementsEtu">Student fees</NavLink></Nav.Item>
+                            <Nav.Item ><NavLink className="a nav-link link-light" to="/paiementsEns">Teacher fees </NavLink></Nav.Item>
                         </ul>
                     </Nav.Item>
                         :
                     <Nav.Item className="nav-item"><a onClick={handleOpen} className="a nav-link link-light dropdown-toggle " href="#dropFees" id="menu" data-bs-toggle="collapse"><img src={paiements} /></a>
                     </Nav.Item>
                     }
-
-
-
-
-
-                    <Nav.Item><NavLink className="a nav-link link-light" to="/resultats"><img src={results} />{openSidebar &&"Resultats"}</NavLink></Nav.Item>
-                    <Nav.Item><NavLink className="a nav-link link-light" to="/salles"><img src={salles} />{openSidebar && "Salles"}</NavLink></Nav.Item>
-                    <Nav.Item><NavLink className="a nav-link link-light" to="/emploiTemps"><img src={empTemps} />{openSidebar && "Emploi du temps"}</NavLink></Nav.Item>
-                    <Nav.Item><NavLink className="a nav-link link-light" to="/utilisateurs"><img src={users} />{openSidebar && "Utilisateurs"}</NavLink></Nav.Item>
-                    <Nav.Item><NavLink className="a nav-link link-light" to="/logout"><img src={logout} />{openSidebar && "Se deconnecter"}</NavLink></Nav.Item>
-
-
-
-
-
+                    
+                    <Nav.Item><NavLink className="a nav-link link-light" to="/resultats"><img src={results} />{openSidebar &&"Results"}</NavLink></Nav.Item>
+                    <Nav.Item><NavLink className="a nav-link link-light" to="/salles"><img src={salles} />{openSidebar && "Classroom"}</NavLink></Nav.Item>
+                    <Nav.Item><NavLink className="a nav-link link-light" to="/emploiTemps"><img src={empTemps} />{openSidebar && "Schedule"}</NavLink></Nav.Item>
+                    <Nav.Item><NavLink className="a nav-link link-light" to="/utilisateurs"><img src={users} />{openSidebar && "Users"}</NavLink></Nav.Item>
+                    <Nav.Item><NavLink className="a nav-link link-light" to="/logout"><img src={logout} />{openSidebar && "Logout"}</NavLink></Nav.Item>
 
                 </Nav>
             </Nav>
