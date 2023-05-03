@@ -1,17 +1,13 @@
+import Button from 'react-bootstrap/Button';
 
 
-
-export default function Button(props)
-{
+const ButtonCustom = ({value,isDisabled,variant,size,className,handleSmthg}) => {
     return(
-        <button  
-                 style={props.style} 
-                 className={props.className} 
-                 onClick={props.onlClick}
-                 disabled={props.disabled}
-        >
-            {props.value}
-
-        </button>
+        <>
+        <Button onClick={handleSmthg} className={className} variant={variant} size={size} disabled={isDisabled} >
+            {value}
+        </Button>
+        </>
     )
 }
+export default ButtonCustom;
