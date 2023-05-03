@@ -19,7 +19,7 @@
 }
 
 .contents{
-  height: calc(100% - 60px);
+  min-height: calc(100vh   - 60px);
 }
 #nav-dropdown{
   color: #242B5E;
@@ -30,6 +30,7 @@
 }
 body{
   background-color: var(--body-color);
+  height: 100%;
 }
 
 /*  side bar styles     */
