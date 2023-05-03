@@ -1,18 +1,30 @@
 // import { useState } from "react";
+import { Placeholder } from "react-bootstrap"
 import  Button from "../components/Button"
-import  FormCustom from "../components/Form"
+import  Input from "../components/Input"
+import FormC from "../components/Form"
 
 export default function TableEtud()
 {
-//     const [dataInput,setDataInput] = useState({});
-//     const handleClick = () =>
-//     {
-//         return({
-//         });
-//     }
+    const inputInfo = 
+        {
+            label:"Full Name",
+            Placeholder:"Enter the name",
+            type: "text"
+        }
+    const option = {
+        label: "select age"
+        ,options:[
+            {
+                value: "1",
+                text:"alpha",
+            }
+        ]
+        ,defText:"select age"
+    }
     return(
     <div>
-                    <table className='table'>
+                    {/* <table className='table'>
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -34,8 +46,9 @@ export default function TableEtud()
                             </tr>
                         </tbody>
                     </table>
-                    <Button className="" variant="danger" isDisabled={false} size="md" value="add Student" handleSmthg={() => console.log("chibakiya")} />
-                    <FormCustom/>
+                    <Button className="" variant="danger" isDisabled={false} size="md" value="add Student" handleSmthg={() => console.log("chibakiya")} /> */}
+                    <FormC  />
+
                 </div>
     )
 

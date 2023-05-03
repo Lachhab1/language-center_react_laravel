@@ -1,19 +1,13 @@
-const Input = (props) =>
+import { Form,Col } from 'react-bootstrap';
+
+function Input({inputUnit})
 {
-    return (
-        <div>
-            {/* <label htmlFor={props.id}>{props.label}</label>
-            <input 
-              // type={props.type} 
-              // id={props.id} 
-              // name={props.name} 
-              // placeholder={props.placeholder} 
-              // value={props.value} 
-              // onChange={props.onChange} 
-              // style={props.style} 
-              // className={props.className} 
-            /> */}
-        </div>
-      )
+  return (
+        <Col lg={3} md={4} sm={6} className='d-flex flex-column mb-3'>
+        <Form.Label>{inputUnit.label}</Form.Label>
+        <Form.Control className='w-auto' type={inputUnit.type} placeholder={inputUnit.placeholder} />
+        </Col>
+  );
 }
+
 export default Input;

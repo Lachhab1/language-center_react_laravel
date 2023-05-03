@@ -19,7 +19,7 @@
 }
 
 .contents{
-  height: calc(100vh - 60px);
+  height: calc(100% - 60px);
 }
 #nav-dropdown{
   color: #242B5E;
@@ -41,7 +41,7 @@ body{
   
 }
 .sidebar-container{
-  height: calc(100vh);
+  height: 100%;
   font-size: 1.2rem;
   overflow: auto;
 }
@@ -68,7 +68,7 @@ body{
     border-bottom: 1px solid #2D4F8E;
 }
 .Sidebar .collapse{
-  background: #800000;/*#CCCCCC #999999 #800000 #000080)*/
+  background: #999999;/*#CCCCCC #999999 #800000 #000080)*/
 }
  #dropPresence div,#dropFees div{
   border-bottom: none;
