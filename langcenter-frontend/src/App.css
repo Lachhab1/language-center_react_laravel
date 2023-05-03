@@ -67,7 +67,9 @@ body{
 .Sidebar div{
     width: auto;
     border-bottom: 1px solid #2D4F8E;
+    
 }
+
 .Sidebar .collapse{
   background: #999999;/*#CCCCCC #999999 #800000 #000080)*/
 }
@@ -80,6 +82,9 @@ body{
 }
 .Sidebar .a:focus {
   border-radius: 0px;
+  background-color: #14238A;
+}
+.nav-item .active{
   background-color: #14238A;
 }
 

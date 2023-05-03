@@ -34,51 +34,51 @@ const router = createBrowserRouter([
                     element: <Dashboard/>,
             },
             {
-                path: '/enseignants',
+                path: '/teacher',
                 element: <Enseignants/>,
             },
             {
-                path: '/students',
+                path: '/student',
                 element: <Students/>
             },
             {
-                path: '/parents',
+                path: '/parent',
                 element: <Parents/>
             },
             {
-                path: '/groupes',
+                path: '/groupe',
                 element: <Groupes/>
             },
             {
-                path: '/cours',
+                path: '/course',
                 element: <Cours />     
             },
             {
-                path: "/presencesEns",
+                path: "/attendance Teacher",
                 element: <PresencesEns/>
             },
             {
-                path: "/presencesEtu",
+                path: "/attendance Student",
                 element: <PresencesEtu/>
             },
             {
-                path: "/paiementsEtu",
+                path: "/payement Student",
                 element: <PaiementsEtu/>
             },
             {
-                path: "/paiementsEns",
+                path: "/payement Teacher",
                 element: <PaiementsEns/>
             },
             {
-                path: "/emploiTemps",
+                path: "/schedule",
                 element: <EmploiTemps/>
             },
             {
-                path: "/resultats",
+                path: "/results",
                 element: <Resultats/>
             },
             {
-                path: "/salles",
+                path: "/classroom",
                 element: <Salles/>
             },
             {
@@ -86,7 +86,7 @@ const router = createBrowserRouter([
                 element: <Settings/>
             },
             {
-                path: "/utilisateurs",
+                path: "/users",
                 element: <Utilisateurs/>
             }
         ]
