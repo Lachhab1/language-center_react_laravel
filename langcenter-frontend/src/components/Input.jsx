@@ -1,6 +1,6 @@
 
 
-export default function Input_Youssef(props)
+export default function Input(props)
 {
     return (
         <div>
