@@ -23,8 +23,28 @@ export default function Etudiants(){
                 </div>
                 <br />
                 <div className="row">
-                   
-                        
+                  
+                         <div className='col-4'>
+                            <form>
+                                <Input  type="text" name="SearchN" placeholder="Search by name" className="form-control"/>
+                            </form>
+                         </div>
+                         <div className='col-4'>
+                            <form>
+                                <Input  type="text" name="SearchC" placeholder="Search by class" className="form-control"/>
+                            </form>
+                         </div>
+                         <div className='col-2'>
+                            <form>
+                                <Button value="Search" className="btn btn-danger mt-4"/>
+                            </form>
+                         </div>
+                         <div className='col-2'>
+                            <form>
+                                <Button value="Add Student" className="btn btn-success mt-4"/>
+                            </form>
+                         </div>    
+                                                 
                 </div >
                 <br />
                 <TableEtud/>
