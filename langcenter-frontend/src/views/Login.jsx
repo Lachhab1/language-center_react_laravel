@@ -1,6 +1,8 @@
-
+import FormLogin from "../components/LoginCompo/FormLogin"
 export default function Login() {
   return (
-    <div>Login</div>
+    <div>
+      <FormLogin />
+    </div>
   )
 }
