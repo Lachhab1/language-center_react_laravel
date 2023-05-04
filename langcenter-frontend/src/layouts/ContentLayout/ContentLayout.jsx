@@ -13,17 +13,17 @@ export default function ContentLayout() {
       <Topbar />
       <div className="contents w-100">
         <div  className="p-4">
-        <h1 style={{fontFamily: "poppins"}} className="fw-semibold fs-3 mb-1 w-auto text-start">{replaced}</h1>
+        <h1 className="fw-semibold fs-3 mb-1 w-auto text-start">{replaced}</h1>
         <div style={{width:"4%",height:0,border: "2px solid red"}}></div>
         <div className="d-flex flex-row align-items-center pt-4">
         <div style={{fontFamily: "regular",fontSize: "18px"}} className="text-secondary me-2">Home</div>
           {
-          location.pathname == "/dashboard" ? "" : <div className="text-danger me-2 fw-semibold">&gt;<span className="ms-2 fw-bold">{replaced}</span></div>
+          location.pathname === "/dashboard" ? "" : <div className="text-danger me-2 fw-semibold">&gt;<span className="ms-2 fw-bold">{replaced}</span></div>
           }
         </div>
         <Card className="mt-3" style={{borderRadius: "0",border:"0"}}>
           <Card.Body>
-            <Outlet />  
+            <Outlet />
           </Card.Body>
         </Card>
       </div>
