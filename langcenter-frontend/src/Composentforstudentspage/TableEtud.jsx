@@ -2,29 +2,31 @@
 import { Placeholder } from "react-bootstrap"
 import  Button from "../components/Button"
 import  Input from "../components/Input"
-import FormC from "../components/Form"
+
+import { Link, Navigate } from "react-router-dom"
+import { useEffect } from "react"
 
 export default function TableEtud()
 {
-    const inputInfo = 
-        {
-            label:"Full Name",
-            Placeholder:"Enter the name",
-            type: "text"
-        }
-    const option = {
-        label: "select age"
-        ,options:[
-            {
-                value: "1",
-                text:"alpha",
-            }
-        ]
-        ,defText:"select age"
-    }
+//     const inputInfo = 
+//         {
+//             label:"Full Name",
+//             Placeholder:"Enter the name",
+//             type: "text"
+//         }
+//     const option = {
+//         label: "select age"
+//         ,options:[
+//             {
+//                 value: "1",
+//                 text:"alpha",
+//             }
+//         ]
+//         ,defText:"select age"
+//     }
     return(
     <div>
-                    {/* <table className='table'>
+                    <table className='table'>
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -42,13 +44,12 @@ export default function TableEtud()
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                             
                             </tr>
                         </tbody>
                     </table>
-                    <Button className="" variant="danger" isDisabled={false} size="md" value="add Student" handleSmthg={() => console.log("chibakiya")} /> */}
-                    <FormC  />
-
+                    <Link to="/student/addStudent">
+                    <Button className="" variant="danger" isDisabled={false} size="md" value="add Student" handleSmthg={() => console.log("chibakiya")}/>
+                    </Link>
                 </div>
     )
 

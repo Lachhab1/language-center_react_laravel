@@ -1,4 +1,5 @@
 import { useFormik } from 'formik';
+import { useState } from 'react'
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import {Form,InputGroup} from 'react-bootstrap';
@@ -24,8 +25,8 @@ function FormC() {
         guardEmail: '',
         guardPhone: '',
         courseName: '',
-        courseFeesPaid: ''
-        // file: null,
+        courseFeesPaid: '',
+        file: '',
       },
     validationSchema: yup.object().shape({
     firstName: yup.string()
@@ -52,14 +53,18 @@ function FormC() {
       guardPhone: yup.string().min(9,'to short to be a valid phone number'),
       courseName: yup.string().oneOf(['english','talks']).required('required'),
       courseFeesPaid: yup.number().required('required'),
-      // file: yup.mixed(),
+      file: yup.mixed(),
   }),
   onSubmit: values => {console.log(values)},
 });
+  const [underAge,setUnderAge] = useState(false);
+
+
 
   return (
         <Form className='' noValidate onSubmit={formik.handleSubmit}>
           <Row className='mb-3'>
+            <h3>Student</h3>
               <Form.Group
               as={Col}
               md="3"
@@ -205,12 +210,14 @@ function FormC() {
               feedbackType="invalid"
               id="validationFormik106"
               feedbackTooltip
+              onClick={()=>setUnderAge((prev) => !prev)}
             />
           </Form.Group>
             </Row>
-          {(formik.values.adult) ? 
+          {(underAge) ? 
           <Row className='mb-3'>
-             <Form.Group
+            <h3>Parents</h3>
+              <Form.Group
               as={Col}
               md="3"
               sm="6"
@@ -280,7 +287,7 @@ function FormC() {
             <Form.Label>Phone</Form.Label>
             <Form.Control
             type="tel"
-            placeholder="+(212) . . . . . . ."
+            placeholder="+(212) . . . . . . . . ."
             name="guardphone"
             {...formik.getFieldProps('guardPhone')}
             isInvalid={formik.touched.guardPhone && formik.errors.guardPhone}
@@ -299,6 +306,7 @@ function FormC() {
         
         }
         <Row className='mb-3'>
+          <h3>Course</h3>
         <Form.Group
               as={Col}
               md={3}
@@ -331,7 +339,7 @@ function FormC() {
               <Form.Control
               type="text"
               name="courseFees"
-              {...formik.getFieldProps('guardOcup')}
+              value={"1000dh"}
               readOnly
               />
                 </Form.Group>
@@ -352,6 +360,27 @@ function FormC() {
                 isInvalid={formik.touched.courseFeesPaid && formik.errors.courseFeesPaid}
                 />
               <Form.Control.Feedback className='' type="invalid" tooltip>{formik.errors.courseFeesPaid}</Form.Control.Feedback>
+          </Form.Group>
+        </Row>
+        <Row className='mb-3'>
+            <Form.Group
+             as={Col}
+              md="3"
+              sm="6"
+              xs="12"
+            className="position-relative mb-3">
+            <Form.Label>File</Form.Label>
+            <Form.Control
+            className=''
+              type="file"
+              required
+              name="file"
+              onChange={formik.handleChange}
+              isInvalid={!!(formik.errors.file)}
+            />
+            <Form.Control.Feedback type="invalid" tooltip>
+              {formik.errors.file}
+            </Form.Control.Feedback>
           </Form.Group>
         </Row>
           <Button type="submit">Submit form</Button>

@@ -51,8 +51,8 @@ export default function Sidebar() {
                     {openSidebar ? 
                     <Nav.Item className="nav-item link-light"><a className="a nav-link link-light  dropdown-toggle" href="#dropPresence" id="menu" data-bs-toggle="collapse"><img src={presence} />{openSidebar && "Attendance"}</a>
                         <ul className="collapse " id="dropPresence" data-bs-parent="#menu" >
-                            <Nav.Item ><NavLink className="a nav-link link-light" to="/attendance_student">Student</NavLink></Nav.Item>
-                            <Nav.Item ><NavLink className="a nav-link link-light" to="/attendance_teacher">Teacher </NavLink></Nav.Item>
+                            <Nav.Item ><NavLink className="a nav-link link-light" to="/attendance/student">Student</NavLink></Nav.Item>
+                            <Nav.Item ><NavLink className="a nav-link link-light" to="/attendance/teacher">Teacher </NavLink></Nav.Item>
                         </ul>
                     </Nav.Item>
                         :
@@ -67,8 +67,8 @@ export default function Sidebar() {
                     <Nav.Item className="nav-item link-light"><a className="a nav-link link-light  dropdown-toggle" href="#dropFees" id="menu" data-bs-toggle="collapse"><img src={paiements} />{openSidebar && "Paiement"}</a>
                         <ul className="collapse
                         " id="dropFees" data-bs-parent="#menu" >
-                            <Nav.Item ><NavLink className="a nav-link link-light" to="/payement_student">Student fees</NavLink></Nav.Item>
-                            <Nav.Item ><NavLink className="a nav-link link-light" to="/payement_teacher">Teacher fees </NavLink></Nav.Item>
+                            <Nav.Item ><NavLink className="a nav-link link-light" to="/fees/student">Student fees</NavLink></Nav.Item>
+                            <Nav.Item ><NavLink className="a nav-link link-light" to="/fees/teacher">Teacher fees </NavLink></Nav.Item>
                         </ul>
                     </Nav.Item>
                         :

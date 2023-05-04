@@ -17,6 +17,8 @@ import Resultats from './views/Resultats';
 import Salles from './views/Salles';
 import Settings from './views/Settings';
 import Utilisateurs from './views/Utliisateurs';
+import AddEtudiant from "./views/AddEtudiant";
+import Etudiants from "./views/Etudiants";
 
 
 const router = createBrowserRouter([
@@ -38,8 +40,17 @@ const router = createBrowserRouter([
                 element: <Enseignants/>,
             },
             {
-                path: '/student',
-                element: <Students/>
+                path: '/',
+                children:[
+                    {
+                        path: '/student',
+                        element: <Etudiants/>
+                    },
+                    {
+                        path: '/student/addStudent',
+                        element: <AddEtudiant/>
+                    },
+                ]
             },
             {
                 path: '/parent',
@@ -54,20 +65,36 @@ const router = createBrowserRouter([
                 element: <Cours />     
             },
             {
-                path: "/attendance_Teacher",
-                element: <PresencesEns/>
+                path: "/",
+                children: [
+                    {
+                        path: "/attendance",
+                    },
+                    {
+                        path: "/attendance/teacher",
+                        element: <PresencesEns/>
+                    },
+                    {
+                        path: "/attendance/student",
+                        element: <PresencesEtu/>
+                    },
+                ]
             },
             {
-                path: "/attendance_Student",
-                element: <PresencesEtu/>
-            },
-            {
-                path: "/payement_Student",
-                element: <PaiementsEtu/>
-            },
-            {
-                path: "/payement_Teacher",
-                element: <PaiementsEns/>
+                path: "/",
+                children: [
+                    {
+                        path: "/fees",
+                    },
+                    {
+                        path: "/fees/teacher",
+                        element: <PaiementsEns/>
+                    },
+                    {
+                        path: "/fees/student",
+                        element: <PaiementsEtu/>
+                    },
+                ]
             },
             {
                 path: "/schedule",
