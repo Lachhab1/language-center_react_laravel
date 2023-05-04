@@ -7,15 +7,21 @@ import * as formik from 'formik';
 import * as yup from 'yup';
 
 function FormC() {
-  const { Formik } = formik;
+  const { Formik,Field } = formik;
 
   const schema = yup.object().shape({
-    firstName: yup.string().required('required'),
-    lastName: yup.string().required('required'),
-    // class: yup.string().oneOf(
-    //   ['class1', 'class2', 'class3', 'other'],
-    //   'Invalid Job Type'
-    // )
+    firstName: yup.string()
+    .min(2, 'Too Short!')
+    .max(50, 'Too Long!')
+    .required('Required'),
+    lastName: yup.string()
+    .min(2, "Too short")
+    .max(50, 'Too Long!')
+    .required('Required'),
+    location: yup.string().oneOf(
+      ['class1', 'class2', 'class3', 'other'],
+      'Invalid class'
+    ).required("required")
     // .required('Required'),
     // file: yup.mixed(),
     // adult: yup.boolean.oneOf[false],
@@ -41,12 +47,11 @@ function FormC() {
   
   return (
     <Formik
-      validationSchema={schema}
       onSubmit={(values) => console.log(values)}
       initialValues={{
         firstName: '',
         lastName: '',
-        // class: '',
+        location: [],
         // gender: '',
         // adress: '',
         // email: '',
@@ -64,46 +69,78 @@ function FormC() {
         // courseFees: '',
         // courseFeesPaid: ''
       }}
+      validationSchema={schema}
     >
       {({ handleSubmit, handleChange, values, touched, errors }) => (
         <Form noValidate onSubmit={handleSubmit}>
-          <Row className="mb-3">
+          <Row className="m-3">
             <Form.Group
               as={Col}
               md="3"
+              sm="6"
+              xs="12"
               controlId="validationFormik101"
               className="position-relative"
             >
-              <Form.Label>First name</Form.Label>
+              <Form.Label>First name *</Form.Label>
               <Form.Control
                 type="text"
                 name="firstName"
                 value={values.firstName}
                 onChange={handleChange}
-                isValid={touched.firstName && !errors.firstName}
+                isInvalid={!!errors.firstName}
               />
-              <Form.Control.Feedback tooltip>Looks good!</Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid" tooltip>{errors.firstName}</Form.Control.Feedback>
             </Form.Group>
              <Form.Group
+             hasValidation
               as={Col}
               md="3"
+              sm="6"
+              xs="12"
               controlId="validationFormik102"
               className="position-relative"
               >
-              <Form.Label>Last name</Form.Label>
+              <Form.Label>Last name *</Form.Label>
               <Form.Control
                 type="text"
                 name="lastName"
                 value={values.lastName}
                 onChange={handleChange}
-                isValid={touched.lastName && !errors.lastName}
+                isInvalid={!!errors.lastName}
                 />
 
-              <Form.Control.Feedback tooltip>Looks good!</Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid" tooltip>{errors.lastName}</Form.Control.Feedback>
+            </Form.Group>
+            <Form.Group
+                hasValidation
+                as={Col}
+                md="3"
+                sm="6"
+                xs="12"
+                controlId="validationFormik102"
+                className="position-relative"
+            >
+
+            <Form.Select
+            md="3"
+            sm="6"
+            component="select"
+            id="location"
+            name="location"
+            isInvalid={!!errors.location}
+           >
+            <option value="">Chose Class</option>
+            <option value="NY">New York</option>
+            <option value="SF">San Francisco</option>
+            <option value="CH">Chicago</option>
+            <option value="OTHER">Other</option>
+           </Form.Select>
+           <Form.Control.Feedback type="invalid" tooltip>{errors.location}</Form.Control.Feedback>
             </Form.Group>
             </Row>
-                {/*\
-            <Form.Group as={Col} md="3" controlId="validationFormikUsername2">
+              {/*\
+            <Form.Group as={Col} md="3" sm="6" xs="12" controlId="validationFormikUsername2">
               <Form.Label>adress</Form.Label>
               <Form.Control
                 type="text"

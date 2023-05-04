@@ -54,19 +54,19 @@ const router = createBrowserRouter([
                 element: <Cours />     
             },
             {
-                path: "/attendance Teacher",
+                path: "/attendance_Teacher",
                 element: <PresencesEns/>
             },
             {
-                path: "/attendance Student",
+                path: "/attendance_Student",
                 element: <PresencesEtu/>
             },
             {
-                path: "/payement Student",
+                path: "/payement_Student",
                 element: <PaiementsEtu/>
             },
             {
-                path: "/payement Teacher",
+                path: "/payement_Teacher",
                 element: <PaiementsEns/>
             },
             {

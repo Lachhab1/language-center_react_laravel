@@ -1,13 +1,21 @@
-import { Form,Col } from 'react-bootstrap';
+import Form from 'react-bootstrap/Form';
 
-function Input({inputUnit})
-{
+function FormInput({field}) {
+  
+  
   return (
-        <Col lg={3} md={4} sm={6} className='d-flex flex-column mb-3'>
-        <Form.Label>{inputUnit.label}</Form.Label>
-        <Form.Control className='w-auto' type={inputUnit.type} placeholder={inputUnit.placeholder} />
-        </Col>
+    <>
+              <Form.Label>First name *</Form.Label>
+              <Form.Control
+                type="text"
+                name="firstName"
+                {...field}
+              />
+              <Form.Control.Feedback type="invalid" tooltip>{formik.errors.firstName}</Form.Control.Feedback>
+              </>
+
+             
   );
 }
 
-export default Input;
+export default FormInput;

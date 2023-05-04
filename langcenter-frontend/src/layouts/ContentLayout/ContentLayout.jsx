@@ -1,9 +1,10 @@
 import { Outlet,useLocation } from "react-router-dom";
 import Sidebar from "../../components/Sidebar";
 import Topbar from "../../components/Topbar";
+import Card from 'react-bootstrap/Card';
 export default function ContentLayout() {
   const location = useLocation();
-  var replaced = location.pathname.slice(1).replace("%20", " ")
+  var replaced = location.pathname.slice(1).replace("_", " ")
   replaced = replaced.charAt(0).toUpperCase() + replaced.slice(1).toLowerCase()
   return (
     <div className="d-flex flex-row w-100">
@@ -17,10 +18,14 @@ export default function ContentLayout() {
         <div className="d-flex flex-row align-items-center pt-4">
         <div style={{fontFamily: "regular",fontSize: "18px"}} className="text-secondary me-2">Home</div>
           {
-          location.pathname == "/dashboard" ? "" : <div className="text-danger me-2 fw-semibold">&gt;</div>
+          location.pathname == "/dashboard" ? "" : <div className="text-danger me-2 fw-semibold">&gt;<span className="ms-2 fw-bold">{replaced}</span></div>
           }
         </div>
-        <Outlet />  
+        <Card className="mt-3" style={{borderRadius: "0",border:"0"}}>
+          <Card.Body>
+            <Outlet />  
+          </Card.Body>
+        </Card>
       </div>
       </div>
   </div>
