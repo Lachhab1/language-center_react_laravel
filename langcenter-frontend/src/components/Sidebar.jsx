@@ -37,7 +37,7 @@ export default function Sidebar() {
                 </div>
             </div>
 
-            <div className="Sidebar h-100">
+            <div className="Sidebar h-100 fs-6">
                 <Nav className="flex-column" defaultActiveKey="/dashboard" >
                     <Nav.Item><NavLink className="a nav-link link-light" to="/dashboard"><img src={dashboard} />{openSidebar && "Dashboard"}</NavLink></Nav.Item>
                     <Nav.Item><NavLink className="a nav-link link-light" to="/teacher"><img src={enseignant} />{openSidebar &&"Teacher"}</NavLink></Nav.Item>

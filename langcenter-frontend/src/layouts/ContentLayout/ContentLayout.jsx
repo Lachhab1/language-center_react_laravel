@@ -10,18 +10,15 @@ export default function ContentLayout() {
       <Sidebar />
       <div className="w-100 m-0">
       <Topbar />
-      <div className="contents">
-        <div style={{width: "6rem"}} className="p-4 navig-title d-flex flex-column align-items-start">
-        <h1 style={{fontFamily: "poppins"}} className="fw-semibold fs-3">{replaced}</h1>
-        <div style={{width:"90%",height:0,border: "2px solid red", marginTop: "-.25rem"}}></div>
-        <div className="d-flex flex-row align-items-center">
-
-        <div style={{fontFamily: "regular",fontSize: "18px"}} className="pt-4 text-secondary">Home</div>
-        <div>
+      <div className="contents w-100">
+        <div  className="p-4">
+        <h1 style={{fontFamily: "poppins"}} className="fw-semibold fs-3 mb-1 w-auto text-start">{replaced}</h1>
+        <div style={{width:"4%",height:0,border: "2px solid red"}}></div>
+        <div className="d-flex flex-row align-items-center pt-4">
+        <div style={{fontFamily: "regular",fontSize: "18px"}} className="text-secondary me-2">Home</div>
           {
-          location.pathname == "/dashboard" ? "" : <>&gt;</>
+          location.pathname == "/dashboard" ? "" : <div className="text-danger me-2 fw-semibold">&gt;</div>
           }
-        </div>
         </div>
         <Outlet />  
       </div>
