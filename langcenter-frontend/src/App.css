@@ -24,10 +24,7 @@
 #nav-dropdown{
   color: #242B5E;
 }
-.contents div {
-  text-align: center;
-  
-}
+
 body{
   background-color: var(--body-color);
   height: 100%;

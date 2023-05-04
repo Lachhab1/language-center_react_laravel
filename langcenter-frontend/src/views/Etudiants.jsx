@@ -9,7 +9,7 @@ export default function Etudiants(){
     return(
         <div className="Container">
             <div className="row">
-                <div className="col-md-2">
+                <div className="">
                    
     
                 <TableEtud/>
