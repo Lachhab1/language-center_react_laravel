@@ -17,8 +17,13 @@ import Resultats from './views/Resultats';
 import Salles from './views/Salles';
 import Settings from './views/Settings';
 import Utilisateurs from './views/Utliisateurs';
+<<<<<<< HEAD
 import ForgotPasswordPage from './views/ForgotPasswordPage';
 
+=======
+import AddEtudiant from "./views/AddEtudiant";
+import Etudiants from "./views/Etudiants";
+>>>>>>> Test
 
 
 const router = createBrowserRouter([
@@ -36,51 +41,76 @@ const router = createBrowserRouter([
                     element: <Dashboard/>,
             },
             {
-                path: '/enseignants',
+                path: '/teacher',
                 element: <Enseignants/>,
             },
             {
-                path: '/students',
-                element: <Students/>
+                path: '/',
+                children:[
+                    {
+                        path: '/student',
+                        element: <Etudiants/>
+                    },
+                    {
+                        path: '/student/addStudent',
+                        element: <AddEtudiant/>
+                    },
+                ]
             },
             {
-                path: '/parents',
+                path: '/parent',
                 element: <Parents/>
             },
             {
-                path: '/groupes',
+                path: '/groupe',
                 element: <Groupes/>
             },
             {
-                path: '/cours',
+                path: '/course',
                 element: <Cours />     
             },
             {
-                path: "/presencesEns",
-                element: <PresencesEns/>
+                path: "/",
+                children: [
+                    {
+                        path: "/attendance",
+                    },
+                    {
+                        path: "/attendance/teacher",
+                        element: <PresencesEns/>
+                    },
+                    {
+                        path: "/attendance/student",
+                        element: <PresencesEtu/>
+                    },
+                ]
             },
             {
-                path: "/presencesEtu",
-                element: <PresencesEtu/>
+                path: "/",
+                children: [
+                    {
+                        path: "/fees",
+                    },
+                    {
+                        path: "/fees/teacher",
+                        element: <PaiementsEns/>
+                    },
+                    {
+                        path: "/fees/student",
+                        element: <PaiementsEtu/>
+                    },
+                ]
             },
             {
-                path: "/paiementsEtu",
-                element: <PaiementsEtu/>
-            },
-            {
-                path: "/paiementsEns",
-                element: <PaiementsEns/>
-            },
-            {
-                path: "/emploiTemps",
+                path: "/schedule",
                 element: <EmploiTemps/>
             },
             {
-                path: "/resultats",
+                path: "/results",
                 element: <Resultats/>
             },
             {
-                path: "/salles",
+                path: "/classroom",
                 element: <Salles/>
             },
             {
@@ -88,7 +118,7 @@ const router = createBrowserRouter([
                 element: <Settings/>
             },
             {
-                path: "/utilisateurs",
+                path: "/users",
                 element: <Utilisateurs/>
             }
         ]

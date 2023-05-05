@@ -19,17 +19,15 @@
 }
 
 .contents{
-  height: calc(100vh - 60px);
+  min-height: calc(100vh   - 60px);
 }
 #nav-dropdown{
   color: #242B5E;
 }
-.contents div {
-  text-align: center;
-  
-}
+
 body{
   background-color: var(--body-color);
+  height: 100%;
 }
 
 /*  side bar styles     */
@@ -41,7 +39,7 @@ body{
   
 }
 .sidebar-container{
-  height: calc(100vh);
+  height: 100%;
   font-size: 1.2rem;
   overflow: auto;
 }
@@ -67,9 +65,11 @@ body{
 .Sidebar div{
     width: auto;
     border-bottom: 1px solid #2D4F8E;
+    
 }
+
 .Sidebar .collapse{
-  background: #800000;/*#CCCCCC #999999 #800000 #000080)*/
+  background: #999999;/*#CCCCCC #999999 #800000 #000080)*/
 }
  #dropPresence div,#dropFees div{
   border-bottom: none;
@@ -82,6 +82,9 @@ body{
   border-radius: 0px;
   background-color: #14238A;
 }
+.nav-item .active{
+  background-color: #14238A;
+}
 
 .sidebar-container img:not(.logo){
   width:1.75rem;
@@ -89,7 +92,6 @@ body{
   filter: invert(100%) sepia(0%) saturate(3231%) hue-rotate(232deg) brightness(78%) contrast(143%);
 }
 .Sidebar div {
-  font-size: 15px;
   font-weight: 400;
   width: 100%;
   border-bottom: 2px solid #2D4F8E;
