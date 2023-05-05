@@ -17,13 +17,11 @@ import Resultats from './views/Resultats';
 import Salles from './views/Salles';
 import Settings from './views/Settings';
 import Utilisateurs from './views/Utliisateurs';
-<<<<<<< HEAD
+
 import ForgotPasswordPage from './views/ForgotPasswordPage';
 
-=======
 import AddEtudiant from "./views/AddEtudiant";
 import Etudiants from "./views/Etudiants";
->>>>>>> Test
 
 
 const router = createBrowserRouter([

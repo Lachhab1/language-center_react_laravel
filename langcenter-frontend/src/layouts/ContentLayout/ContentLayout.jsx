@@ -24,8 +24,6 @@ export default function ContentLayout() {
       <Topbar />
 
       <div className="contents">
-        <Outlet /> 
-        
 
       <div className="contents w-100">
         <div  className="p-4">

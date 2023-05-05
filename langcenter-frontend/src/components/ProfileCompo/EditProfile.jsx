@@ -66,9 +66,6 @@ const EditProfile = () => {
           input {
             margin-left: 10px;
           }
-          button {
-            margin-top: 20px;
-          }
         `}
       </style>
     </div>
