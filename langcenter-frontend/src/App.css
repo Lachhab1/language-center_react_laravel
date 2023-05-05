@@ -49,6 +49,7 @@ body{
 
 .logo-container{
   position: sticky;
+  display: flex;
   z-index: 999;
   top: 0;
   height: 60px;
@@ -176,7 +177,6 @@ body{
 }
 
 .profile-section a img :not(.pPhoto) {
-  
   height: 25px;
   width: 25px;
   filter: brightness(0) saturate(100%) invert(31%) sepia(95%)
