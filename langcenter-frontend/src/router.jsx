@@ -17,8 +17,12 @@ import Resultats from './views/Resultats';
 import Salles from './views/Salles';
 import Settings from './views/Settings';
 import Utilisateurs from './views/Utliisateurs';
+
+import ForgotPasswordPage from './views/ForgotPasswordPage';
+
 import AddEtudiant from "./views/AddEtudiant";
 import Etudiants from "./views/Etudiants";
+import StudentsDetail from "./views/StudentsDetails";
 
 
 const router = createBrowserRouter([
@@ -45,6 +49,10 @@ const router = createBrowserRouter([
                     {
                         path: '/student',
                         element: <Etudiants/>
+                    },
+                    {
+                        path: '/student/:id',
+                        element: <StudentsDetail/>
                     },
                     {
                         path: '/student/addStudent',
@@ -121,6 +129,10 @@ const router = createBrowserRouter([
     {
         path: '/auth',
         element: <Login />
+    },
+    {
+        path: '/ForgotPassword',
+        element: <ForgotPasswordPage />
     },
     {
         path: '*',
