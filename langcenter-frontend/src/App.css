@@ -251,3 +251,7 @@ align-items: center;
   gap: 40px;
   align-items: center;
 }
+
+.student-add input,.student-add select{
+  background-color:  rgba(221, 222, 238, 0.5);
+}
