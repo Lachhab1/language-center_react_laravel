@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;700&family=Poppins:wght@300;700&display=swap');
+
+.formulaireLogin {
+    width: 400px;
+    height: 372px;
+    min-width: 280px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.formulaireLogin input  {
+    height: 64px;
+    margin: 10px 0;
+    background-color:  rgba(221, 222, 238, 0.5);
+}
+.formulaireLogin button{
+    width: 100%;
+    height: 64px;
+    font-weight: 700;
+}
+
+.leftBg h2{
+    font-family: Poppins;
+    font-weight: 700;
+    font-size: 5vw;
+}
+.login{
+    background-color: #242B5E;
+    background-image: url('../../images/logingBgImage.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    height: 100vh;
+  }
+.logoLogin{
+    width: 113px;
+    background: white;
+    padding: 10px 15px;
+    border-radius: 15px;
+  }
+
+  /*******************Recuperatpion style*********************/
+  .recupPassBody{
+    background-color: #242B5E;
+  }
+  .recupPassBody form{
+    background-color: #d4d7e9;
+  }
