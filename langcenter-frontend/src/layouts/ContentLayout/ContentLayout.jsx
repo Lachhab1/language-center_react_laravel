@@ -1,7 +1,10 @@
 import { Outlet,useLocation } from "react-router-dom";
 import Sidebar from "../../components/Sidebar";
 import Topbar from "../../components/Topbar";
+
+
 import Card from 'react-bootstrap/Card';
+
 export default function ContentLayout() {
   const location = useLocation();
   var replaced = location.pathname.slice(1).replace("_", " ").replaceAll("/", " ").replace(/\b\w/g, c => c.toUpperCase());
@@ -14,12 +17,14 @@ export default function ContentLayout() {
     result += words[i] + " ";
   }
 
-console.log(result.trim()); // "This is a"
   return (
     <div className="d-flex flex-row w-100">
       <Sidebar />
       <div className="w-100 m-0">
       <Topbar />
+
+      <div className="contents">
+
       <div className="contents w-100">
         <div  className="p-4">
         <h1 className="fw-semibold fs-3 mb-1 w-auto text-start">{result}</h1>
@@ -37,8 +42,10 @@ console.log(result.trim()); // "This is a"
           </Card.Body>
         </Card>
       </div>
+      
+  </div>  
       </div>
-  </div>
-  </div>
 
+  </div>
+  </div>
 )}

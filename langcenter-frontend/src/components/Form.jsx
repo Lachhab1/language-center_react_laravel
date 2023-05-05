@@ -73,7 +73,7 @@ function FormC() {
               controlId="validationFormik1032"
               className='position-relative'
               >
-              <Form.Label>First name *</Form.Label>
+              <Form.Label>First name <span className="text-danger">*</span></Form.Label>
               <Form.Control
                 type="text"
                 name="firstName"
@@ -91,7 +91,7 @@ function FormC() {
               controlId="validationFormik1"
               className='position-relative'
               >
-              <Form.Label>Last name *</Form.Label>
+              <Form.Label>Last name <span className="text-danger">*</span></Form.Label>
               <Form.Control
                 type="text"
                 name="lastName"
@@ -108,7 +108,7 @@ function FormC() {
               xs={7}
               className="position-relative"
               >
-              <Form.Label>Class*</Form.Label>
+              <Form.Label>Class<span className="text-danger">*</span></Form.Label>
               <Form.Select
               component="select"
               id="class"
@@ -130,7 +130,7 @@ function FormC() {
               xs={7}
               className="position-relative"
               >
-              <Form.Label>Gender*</Form.Label>
+              <Form.Label>Gender <span className="text-danger">*</span></Form.Label>
               <Form.Select
               component="select"
               id="gender"
@@ -146,7 +146,7 @@ function FormC() {
               </Form.Group>
             <Form.Group as={Col} md="3" sm="6" xs="12" 
               className="position-relative">
-            <Form.Label>adress</Form.Label>
+            <Form.Label>adress <span className="text-danger">*</span></Form.Label>
             <Form.Control
             type="text"
             placeholder="adress"
@@ -160,7 +160,7 @@ function FormC() {
             </Form.Group>
             <Form.Group as={Col} md="3" sm="6" xs="12"
               className="position-relative">
-            <Form.Label>Date of Birth</Form.Label>
+            <Form.Label>Date of Birth <span className="text-danger">*</span></Form.Label>
             <Form.Control
             type="date"
             name="dateofbirth"
@@ -173,7 +173,7 @@ function FormC() {
             </Form.Group>
             <Form.Group as={Col} md="3" sm="6" xs="12" 
               className="position-relative">
-            <Form.Label>Email</Form.Label>
+            <Form.Label>Email <span className="text-danger">*</span></Form.Label>
             <Form.Control
             type="email"
             placeholder="email"
@@ -187,7 +187,7 @@ function FormC() {
             </Form.Group>
             <Form.Group as={Col} md="3" sm="6" xs="12" 
               className="position-relative">
-            <Form.Label>Phone</Form.Label>
+            <Form.Label>Phone <span className="text-danger">*</span></Form.Label>
             <Form.Control
             type="tel"
             placeholder="+(212) . . . . . . ."
@@ -314,7 +314,7 @@ function FormC() {
               xs={7}
               className="position-relative"
               >
-              <Form.Label>Course Name*</Form.Label>
+              <Form.Label>Course Name <span className="text-danger">*</span></Form.Label>
               <Form.Select
               component="select"
               id="courseName"
@@ -335,7 +335,7 @@ function FormC() {
               xs={7}
               className="position-relative"
               >
-              <Form.Label>Course Fees</Form.Label>
+              <Form.Label>Course Fees <span className="text-danger">*</span></Form.Label>
               <Form.Control
               type="text"
               name="courseFees"
@@ -351,7 +351,7 @@ function FormC() {
               controlId="validationFormik1"
               className='position-relative'
               >
-              <Form.Label>Fees Paid</Form.Label>
+              <Form.Label>Fees Paid <span className="text-danger">*</span></Form.Label>
               <Form.Control
                 type="text"
                 name="courseFeesPaid"

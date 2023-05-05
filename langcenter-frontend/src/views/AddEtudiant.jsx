@@ -4,8 +4,9 @@ import React from 'react'
 
 export default function AddEtudiant() {
   return (
-    <div className="student-add">
+  //resolved
+    <main className="student-add">
         <FormC/>
-    </div>
+    </main>
   )
 }
