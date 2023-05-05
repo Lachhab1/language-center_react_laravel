@@ -1,6 +1,29 @@
+// import { useState } from "react";
+import { Placeholder } from "react-bootstrap"
+import  Button from "../components/Button"
+import  Input from "../components/Input"
+
+import { Link, Navigate } from "react-router-dom"
+import { useEffect } from "react"
+
 export default function TableEtud()
 {
-
+//     const inputInfo = 
+//         {
+//             label:"Full Name",
+//             Placeholder:"Enter the name",
+//             type: "text"
+//         }
+//     const option = {
+//         label: "select age"
+//         ,options:[
+//             {
+//                 value: "1",
+//                 text:"alpha",
+//             }
+//         ]
+//         ,defText:"select age"
+//     }
     return(
     <div>
                     <table className='table'>
@@ -21,10 +44,12 @@ export default function TableEtud()
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                             
                             </tr>
                         </tbody>
                     </table>
+                    <Link to="/student/addStudent">
+                    <Button className="" variant="danger" isDisabled={false} size="md" value="add Student" handleSmthg={() => console.log("chibakiya")}/>
+                    </Link>
                 </div>
     )
 

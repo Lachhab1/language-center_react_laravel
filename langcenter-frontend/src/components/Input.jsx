@@ -1,20 +1,21 @@
+import Form from 'react-bootstrap/Form';
 
+function FormInput({field}) {
+  
+  
+  return (
+    <>
+              <Form.Label>First name *</Form.Label>
+              <Form.Control
+                type="text"
+                name="firstName"
+                {...field}
+              />
+              <Form.Control.Feedback type="invalid" tooltip>{formik.errors.firstName}</Form.Control.Feedback>
+              </>
 
-export default function Input(props)
-{
-    return (
-        <div>
-          <label htmlFor={props.id}>{props.label}</label>
-          <input 
-            type={props.type} 
-            id={props.id} 
-            name={props.name} 
-            placeholder={props.placeholder} 
-            value={props.value} 
-            onChange={props.onChange} 
-            style={props.style} 
-            className={props.className} 
-          />
-        </div>
-      )
+             
+  );
 }
+
+export default FormInput;
