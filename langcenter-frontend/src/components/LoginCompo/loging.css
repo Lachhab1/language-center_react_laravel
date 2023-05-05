@@ -28,6 +28,7 @@
 .login{
     background-color: #242B5E;
     background-image: url('../../images/logingBgImage.png');
+    background-size: contain;
     background-repeat: no-repeat;
     overflow: hidden;
     height: 100vh;
