@@ -17,6 +17,8 @@ import Resultats from './views/Resultats';
 import Salles from './views/Salles';
 import Settings from './views/Settings';
 import Utilisateurs from './views/Utliisateurs';
+import ForgotPasswordPage from './views/ForgotPasswordPage';
+
 
 
 const router = createBrowserRouter([
@@ -94,6 +96,10 @@ const router = createBrowserRouter([
     {
         path: '/auth',
         element: <Login />
+    },
+    {
+        path: '/ForgotPassword',
+        element: <ForgotPasswordPage />
     },
     {
         path: '*',
