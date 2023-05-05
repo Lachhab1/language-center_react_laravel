@@ -22,6 +22,7 @@ import ForgotPasswordPage from './views/ForgotPasswordPage';
 
 import AddEtudiant from "./views/AddEtudiant";
 import Etudiants from "./views/Etudiants";
+import StudentsDetail from "./views/StudentsDetails";
 
 
 const router = createBrowserRouter([

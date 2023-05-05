@@ -7,12 +7,10 @@ export default function Etudiants(){
     
     
     return(
-<<<<<<< HEAD
-       
+       <div>
                    
                     <h2 >Students</h2>
                     
-=======
         <div className="Container">
             <div className="row">
                 <div className="">
@@ -22,9 +20,10 @@ export default function Etudiants(){
                 </div>
             </div>
             </div>
+               
+               
                 
->>>>>>> cd3cd598ae95ce677eadf7d956810db9c5606145
-           
+            </div>
         
     )
 }

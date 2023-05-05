@@ -12,6 +12,7 @@
   "dependencies": {
     "@heroicons/react": "^2.0.17",
     "bootstrap": "^5.2.3",
+    "faker": "^6.6.6",
     "formik": "^2.2.9",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.1",

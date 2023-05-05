@@ -19,6 +19,7 @@ import salles from "../images/icons/salles.svg";
 import users from "../images/icons/utilisateurs.svg";
 
 
+
 export default function Sidebar() {
     const [openSidebar,setOpenSidebar] = useState(true);
     const handleOpen = () => {
@@ -45,7 +46,7 @@ export default function Sidebar() {
                     <Nav.Item><NavLink className="a nav-link link-light" to="/parent"><img src={parents} />{openSidebar && "Parent" }</NavLink></Nav.Item>
                     <Nav.Item><NavLink className="a nav-link link-light" to="/groupe"><img src={groupes} />{openSidebar && "Groupe"}</NavLink></Nav.Item>
                     <Nav.Item><NavLink className="a nav-link link-light" to="/course"><img src={cours} />{openSidebar && "Course"}</NavLink></Nav.Item>
-
+                    
                     {/* Presences le span pour cacher ces elements a fin de remplacer le collapse avec dropdown dans les petits ecrans */}
 
                     {openSidebar ? 
