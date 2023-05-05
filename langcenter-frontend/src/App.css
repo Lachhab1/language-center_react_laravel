@@ -33,7 +33,6 @@ body{
 /*  side bar styles     */
 
 .sidebar-controler button {
-  
   background: none;
   border: none;
   
@@ -65,7 +64,6 @@ body{
 .Sidebar div{
     width: auto;
     border-bottom: 1px solid #2D4F8E;
-    
 }
 
 .Sidebar .collapse{

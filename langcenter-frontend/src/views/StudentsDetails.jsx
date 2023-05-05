@@ -1,3 +1,6 @@
+import Image from 'react-bootstrap/Image'
+import imgStudent from "../images/photo-profile.png"
+
 export default function StudentsDetails() {
 
 
@@ -17,12 +20,11 @@ export default function StudentsDetails() {
       };
    return(
     <div>
-        <br /><br /><br />
-
-        <div className="Container">
+        <div className="Container mt-5 w-100">
             <div className="row">
                 <div className="col-5">
-                    place photo
+                    <Image width={"50%"} className="ms-5"  src={imgStudent} roundedCircle>
+                        </Image>
                 </div>
                 <div className="col">
                     <h5>{etudiant.nom} {etudiant.prenom}</h5>
