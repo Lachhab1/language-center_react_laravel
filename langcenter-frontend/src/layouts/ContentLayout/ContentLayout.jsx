@@ -1,7 +1,8 @@
-import { Outlet,useLocation } from "react-router-dom";
+import { Navigate, Outlet,useLocation } from "react-router-dom";
 import Sidebar from "../../components/Sidebar";
 import Topbar from "../../components/Topbar";
 import Card from 'react-bootstrap/Card';
+import { UseStateContext } from "../../context/ContextProvider";
 export default function ContentLayout() {
   const location = useLocation();
   var replaced = location.pathname.slice(1).replace("_", " ").replaceAll("/", " ").replace(/\b\w/g, c => c.toUpperCase());
@@ -18,6 +19,14 @@ export default function ContentLayout() {
     backgroundColor: "#F1F1F3"
   }
   const style = location.pathname === "/dashboard" ? dashboardstyle: ""
+
+  const {user,token} = UseStateContext()
+  if(!token){
+    return(
+      <Navigate to="/auth" />
+    )
+  }
+
   return (
     <div className="d-flex flex-row w-100">
       <Sidebar />

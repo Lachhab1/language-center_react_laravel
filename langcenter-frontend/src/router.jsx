@@ -2,7 +2,6 @@ import { createBrowserRouter, Navigate } from "react-router-dom";
 import ContentLayout from "./layouts/ContentLayout/ContentLayout";
 import Dashboard from "./views/Dashboard"
 import Enseignants from "./views/Enseignants"
-import Students from "./views/Etudiants"
 import Error404 from "./views/Error404"
 import Login from "./views/Login";
 import Groupes from './views/Groupes';
@@ -23,6 +22,7 @@ import ForgotPasswordPage from './views/ForgotPasswordPage';
 import AddEtudiant from "./views/AddEtudiant";
 import Etudiants from "./views/Etudiants";
 import StudentsDetail from "./views/StudentsDetails";
+import GuestLayout from "./layouts/GuestLayout/GuestLayout";
 
 
 const router = createBrowserRouter([
@@ -127,8 +127,14 @@ const router = createBrowserRouter([
         ]
     },
     {
-        path: '/auth',
-        element: <Login />
+        path: "/",
+        element: <GuestLayout/>,
+        children: [
+                {
+                    path: '/auth',
+                    element: <Login />
+               },
+        ]
     },
     {
         path: '/ForgotPassword',

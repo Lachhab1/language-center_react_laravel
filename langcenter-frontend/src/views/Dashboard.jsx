@@ -57,7 +57,6 @@ const Dashboard = () => {
     { groupName: 'Group 3', courseName: 'Spanish', salle: 'C303', dateStart: new Date(2023, 4, 6, 13, 0), dateEnd: new Date(2023, 4, 6, 14, 30) }
     // Add more timetable data as needed
   ];
-
   return (
     <div className=''>
       <div className='row justify-content-around'>
@@ -93,6 +92,5 @@ const Dashboard = () => {
     </div>
   );
 };
-
 export default Dashboard;
 
