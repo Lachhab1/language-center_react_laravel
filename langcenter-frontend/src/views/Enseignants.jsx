@@ -1,7 +1,8 @@
+import TableTeacher from "../components/Composantforteacherpage/TableTeacher";
 export default function Enseignants(){
     return(
         <div>
-            <h1>Enseignants Page </h1>
+            <TableTeacher/>
         </div>
     )
 }

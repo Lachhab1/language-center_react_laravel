@@ -1,8 +1,10 @@
+import TableCourse from "../components/Composantsforcoursepage/TableCourse"
+
 
 export default function Cours(){
     return(
         <div>
-            <h1>Cours Page </h1>
+            <TableCourse/>
         </div>
     )
 }

@@ -1,7 +1,8 @@
+import TableFeesEtud from "../components/Composantforstedentsfeespage/TableFeesEtud";
 export default function PaiementsEtu(){
     return(
         <div>
-            <h1>Paiements Etudiants Page </h1>
+            <TableFeesEtud />
         </div>
     )
 }
