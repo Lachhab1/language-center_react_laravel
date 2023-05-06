@@ -1,31 +1,32 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;700&display=swap');
 
-:root{
+:root {
   /* colors*/
-  --body-color :  #F0F1F3;
-  --sidebar-color : #242B5E;
-  --red-color : #D60A0B;
-  --orange-color : #FFA002;
-  --white-color :#E5E5E5;
+  --body-color: #F0F1F3;
+  --sidebar-color: #242B5E;
+  --red-color: #D60A0B;
+  --orange-color: #FFA002;
+  --white-color: #E5E5E5;
 
-  --sidebar-openWidth : 265px;
-  --sidebar-openWidth : 110px;
-  
+  --sidebar-openWidth: 265px;
+  --sidebar-openWidth: 110px;
+
 
 }
-*{
+
+* {
   font-family: 'Inter', sans-serif;
 }
 
-.contents{
-  min-height: calc(100vh   - 60px);
+.contents {
+  min-height: calc(100vh - 60px);
 }
-#nav-dropdown{
+
+#nav-dropdown {
   color: #242B5E;
 }
 
-body{
+body {
   background-color: var(--body-color);
   height: 100%;
 }
@@ -35,16 +36,16 @@ body{
 .sidebar-controler button {
   background: none;
   border: none;
-  
 }
-.sidebar-container{
+
+.sidebar-container {
   height: 100%;
   font-size: 1.2rem;
   overflow: auto;
 }
 
 
-.logo-container{
+.logo-container {
   position: sticky;
   display: flex;
   z-index: 999;
@@ -54,41 +55,49 @@ body{
   background-color: var(--red-color);
 }
 
-.logo{
-  width: 40px;  
+.logo {
+  width: 40px;
   height: auto;
   border-radius: 10px;
   padding: 0px 5px;
   background-color: white;
 }
-.Sidebar div{
-    width: auto;
-    border-bottom: 1px solid #2D4F8E;
+
+.Sidebar div {
+  width: auto;
+  border-bottom: 1px solid #2D4F8E;
 }
 
-.Sidebar .collapse{
-  background: #999999;/*#CCCCCC #999999 #800000 #000080)*/
+.Sidebar .collapse {
+  background: #999999;
+  /*#CCCCCC #999999 #800000 #000080)*/
 }
- #dropPresence div,#dropFees div{
+
+#dropPresence div,
+#dropFees div {
   border-bottom: none;
 }
-.Sidebar .a:hover{
-  border-radius: 0px ;
+
+.Sidebar .a:hover {
+  border-radius: 0px;
   background-color: #2D4F8E;
 }
+
 .Sidebar .a:focus {
   border-radius: 0px;
   background-color: #14238A;
 }
-.nav-item .active{
+
+.nav-item .active {
   background-color: #14238A;
 }
 
-.sidebar-container img:not(.logo){
-  width:1.75rem;
+.sidebar-container img:not(.logo) {
+  width: 1.75rem;
   margin: 0 1rem;
   filter: invert(100%) sepia(0%) saturate(3231%) hue-rotate(232deg) brightness(78%) contrast(143%);
 }
+
 .Sidebar div {
   font-weight: 400;
   width: 100%;
@@ -101,7 +110,7 @@ body{
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 8px ;
+  margin: 8px;
 }
 
 .search-input {
@@ -130,17 +139,18 @@ body{
   outline: none;
   background-color: transparent;
 }
+
 .search-button:hover {
   background: transparent;
 }
 
-.btn .searchIcon  {
+.btn .searchIcon {
   height: 30px;
   width: 30px;
-  filter: brightness(0) saturate(100%) invert(31%) sepia(95%)
-   saturate(2018%) hue-rotate(342deg) brightness(81%) contrast(102%);
-   
+  filter: brightness(0) saturate(100%) invert(31%) sepia(95%) saturate(2018%) hue-rotate(342deg) brightness(81%) contrast(102%);
+
 }
+
 /******************/
 
 /*  Top bar styles*/
@@ -148,30 +158,35 @@ body{
 
 
 
-.Topbar{
+.Topbar {
   background-color: rgb(255, 255, 255);
   box-shadow: 0px 0px 5px rgb(147, 147, 147);
   height: 4rem;
 }
-.OpenCloseBtn{
+
+.OpenCloseBtn {
   background: none;
   border: none;
   margin-left: 10px;
 }
-.OpenCloseBtn2:hover{
+
+.OpenCloseBtn2:hover {
   background-color: rgba(198, 255, 220, 0.2);
   border-radius: 30%;
 }
-.OpenCloseBtn2{
-    background: none;
-    border: none;
-    
+
+.OpenCloseBtn2 {
+  background: none;
+  border: none;
+
 }
+
 .OpenCloseBtn2 svg {
   color: var(--red-color);
   font-size: 25px;
 }
-.OpenCloseBtn svg{
+
+.OpenCloseBtn svg {
   color: var(--red-color);
   font-size: 25px;
 }
@@ -179,77 +194,86 @@ body{
 .profile-section a img :not(.pPhoto) {
   height: 25px;
   width: 25px;
-  filter: brightness(0) saturate(100%) invert(31%) sepia(95%)
-   saturate(2018%) hue-rotate(342deg) brightness(81%) contrast(102%);
-   
+  filter: brightness(0) saturate(100%) invert(31%) sepia(95%) saturate(2018%) hue-rotate(342deg) brightness(81%) contrast(102%);
+
 }
-.profile-photoContainer{
+
+.profile-photoContainer {
   height: 50px;
   border-left: 2px solid #D60A0B;
   padding-left: 1rem;
   display: flex;
   flex-direction: column;
 }
-.pPhoto{
+
+.pPhoto {
   width: 40px;
   border-radius: 50%;
 }
-.profile-section{
+
+.profile-section {
   display: flex;
   align-items: center;
-  
- 
-}
-.profile-section a{
-  margin-right: 15px;
- 
+
+
 }
 
-.pPhoto::before{
-  content: url(""); 
+.profile-section a {
+  margin-right: 15px;
+
+}
+
+.pPhoto::before {
+  content: url("");
   background-color: #D60A0B;
   width: 2px;
   height: 40px;
-  
+
 }
 
-.sidebar-controler{
- display: flex;
- flex-direction: column;
- justify-content: space-around;
+.sidebar-controler {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 }
-.left-arrow{
+
+.left-arrow {
   transform: rotate(180deg);
   margin-left: 7px;
- 
+
 }
-.right-arrow ,.left-arrow{
+
+.right-arrow,
+.left-arrow {
   width: 25px;
 }
-.sidebar-controler img:hover{
+
+.sidebar-controler img:hover {
   cursor: pointer;
   filter: invert(23%) sepia(57%) saturate(2658%) hue-rotate(343deg) brightness(74%) contrast(100%);
 }
 
 
 /* photo profile (Avatar) test ayman*/
-.FormContainer{
-display: flex;
-margin: 10px;
-flex-direction: column;
-justify-content: center;
-align-items: center;
+.FormContainer {
+  display: flex;
+  margin: 10px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   background-color: white;
   border-radius: 15px;
   border: 1px solid black;
 }
-.EditAvatar{
+
+.EditAvatar {
   margin-left: 25px;
   display: flex;
   gap: 40px;
   align-items: center;
 }
 
-.student-add input,.student-add select{
-  background-color:  rgba(221, 222, 238, 0.5);
+.student-add input,
+.student-add select {
+  background-color: rgba(221, 222, 238, 0.5);
 }
