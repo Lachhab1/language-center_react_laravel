@@ -14,7 +14,10 @@ export default function ContentLayout() {
     result += words[i] + " ";
   }
 
-console.log(result.trim()); // "This is a"
+  const dashboardstyle = {
+    backgroundColor: "#F1F1F3"
+  }
+  const style = location.pathname === "/dashboard" ? dashboardstyle: ""
   return (
     <div className="d-flex flex-row w-100">
       <Sidebar />
@@ -31,8 +34,8 @@ console.log(result.trim()); // "This is a"
           <div className="text-danger me-2 fw-semibold">&gt;<span className="ms-2 fw-bold">{second}</span></div>
           }
         </div>
-        <Card className="mt-3" style={{borderRadius: "0",border:"0"}}>
-          <Card.Body>
+        <Card className="mt-3" style={{borderRadius: "0",border:"0", ...style}}>
+          <Card.Body >
             <Outlet />
           </Card.Body>
         </Card>

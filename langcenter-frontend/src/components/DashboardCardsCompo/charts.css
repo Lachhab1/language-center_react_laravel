@@ -1,8 +1,6 @@
 .Charts{
-    padding: 5px ;
     background-color: rgb(255, 255, 255);
     border: 1px solid rgba(128, 128, 128, 0.326);
     border-radius: 5px;
-    margin: 12px;
     box-shadow: 0 0.125rem 10px rgba(0, 0, 0, 0.103);
 }

@@ -21,7 +21,7 @@ const DoughnutChart = ({ maleCount, femaleCount }) => {
     maintainAspectRatio: false,
   };
 
-  return <Doughnut data={data} options={options} height={150} width={150} />;
+  return <Doughnut data={data} options={options} width={100} />;
 };
 
 export default DoughnutChart;

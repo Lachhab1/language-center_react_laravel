@@ -60,35 +60,36 @@ const Dashboard = () => {
 
   return (
     <div className=''>
-      <div className='row'>
-        <div className='col mb-4'>
+      <div className='row justify-content-around'>
+        <div className='col-md-2 col-sm-7 col-xs-7 mb-4'>
           <Card title='Students' icon={student} />
         </div>
-        <div className='col mb-4'>
-          <Card title='Teachers' icon={teacher} />
+        <div className='col col-md-2 col-sm-7 col-xs-7  mb-4'>
+          <Card title='Teachers' col-md- icon={teacher} />
         </div>
-        <div className='col mb-4'>
+        <div className='col col-md-2 col-sm-7 col-xs-7  mb-4'>
           <Card title='Parents' icon={parents} />
         </div>
-        <div className='col mb-4'>
+        <div className='col col-md-2 col-sm-7 col-xs-7  mb-4'>
           <Card title='Earnings' icon={money} />
         </div>
-        <div className='col-8 mb-4 Charts'>
+      </div>
+        <div className='row'>
+        <div className='col-6 mx-auto mb-4 Charts'>
           <LineChart data={chartData} interval={interval} onIntervalChange={handleIntervalChange} />
         </div>
-        <div className='col-3 mb-4 Charts'>
+        <div className='col-4 mx-auto mb-4 Charts'>
           <DoughnutChart maleCount={maleCount} femaleCount={femaleCount} />
         </div>
-      </div>
+        </div>
       <div className='row'>
-        <div className='col mb-4 Charts'>
+        <div className='col-11 mx-auto mb-4 Charts'>
           <BarChart data={chartData.courses} />
         </div>
-        <div className='col-12 mb-4 Charts'>
+        <div className='col-11 mx-auto mb-4 Charts'>
         <TimetableScheduler data={timetableData} />
-
         </div>
-      </div>
+        </div>
     </div>
   );
 };
