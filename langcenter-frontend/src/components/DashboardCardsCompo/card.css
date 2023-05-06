@@ -1,0 +1,25 @@
+.AyCard{
+    display: flex;
+    justify-content: space-between;
+    box-shadow: 0 0.125rem 10px rgba(0, 0, 0, 0.103);
+
+}
+
+.CardText h6 ,.CardText h2 {
+    padding-left: 10px;
+    font-family: 'Poppins';
+}
+.CardText h6  {
+    color: rgba(35, 37, 37, 0.482);
+}
+.CardText h2 {
+    font-size: 24px;
+}
+
+.CardText::before{
+ content:'';
+ position: absolute;
+ height: 50%;
+ width: 2px;
+ background-color: red;
+}
