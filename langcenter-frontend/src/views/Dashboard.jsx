@@ -61,16 +61,16 @@ const Dashboard = () => {
   return (
     <div className=''>
       <div className='row justify-content-around'>
-        <div className='col-md-2 col-sm-7 col-xs-7 mb-4'>
-          <Card title='Students' icon={student} />
+        <div className='col  mb-4'>
+          <Card  title='Students' icon={student} />
         </div>
-        <div className='col col-md-2 col-sm-7 col-xs-7  mb-4'>
+        <div className='col  mb-4'>
           <Card title='Teachers' col-md- icon={teacher} />
         </div>
-        <div className='col col-md-2 col-sm-7 col-xs-7  mb-4'>
+        <div className='col  mb-4'>
           <Card title='Parents' icon={parents} />
         </div>
-        <div className='col col-md-2 col-sm-7 col-xs-7  mb-4'>
+        <div className='col  mb-4'>
           <Card title='Earnings' icon={money} />
         </div>
       </div>
