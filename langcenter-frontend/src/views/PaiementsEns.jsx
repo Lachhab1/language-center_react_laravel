@@ -1,7 +1,8 @@
+import TableFeesTeacher from "../components/Composantforteacherfeespage/TableFeesTeacher";
 export default function PaiementsEns(){
     return(
         <div>
-            <h1>Paiements Enseignants Page </h1>
+            <TableFeesTeacher />
         </div>
     )
 }

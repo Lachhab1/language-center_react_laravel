@@ -24,6 +24,9 @@ import Etudiants from "./views/Etudiants";
 import StudentsDetail from "./views/StudentsDetails";
 import GuestLayout from "./layouts/GuestLayout/GuestLayout";
 
+import AddSchedule from "./components/EmploiTempsCompo/AddSchedule";
+import EditSchedule from "./components/EmploiTempsCompo/EditSchedule";
+
 
 const router = createBrowserRouter([
         {
@@ -105,10 +108,6 @@ const router = createBrowserRouter([
                 ]
             },
             {
-                path: "/schedule",
-                element: <EmploiTemps/>
-            },
-            {
                 path: "/results",
                 element: <Resultats/>
             },
@@ -123,7 +122,24 @@ const router = createBrowserRouter([
             {
                 path: "/users",
                 element: <Utilisateurs/>
-            }
+            }, 
+            {
+                path:"/",
+                children : [{
+                    path: "/schedule",
+                    element: <EmploiTemps/>
+                },
+                {
+                    path: "/schedule/AddSchedule",
+                    element: <AddSchedule/>
+                },
+                {
+                    path: "/schedule/EditSchedule/:id",
+                    element: <EditSchedule />
+                }
+                ]
+                
+            },
         ]
     },
     {
