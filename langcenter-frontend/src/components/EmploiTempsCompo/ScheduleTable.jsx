@@ -41,11 +41,11 @@ export default function ScheduleTable({ data, handleDelete }) {
       cell: (row) => (
         <div style={{ display: 'flex', gap: '0px' }}>
           <Link to={`/schedule/EditSchedule/${row.id}`}>
-            <button style={{ border: 'none', background: 'none' }}>
-              <BsFillPencilFill style={{ color: 'orange' }} />
+            <button style={{ border: 'none', background: 'none' }} title="Edit">
+              <BsFillPencilFill style={{ color: 'orange', fontSize: '16px'  }} />
             </button>
           </Link>
-          <button style={{ border: 'none', background: 'none' }} onClick={() => deleteRow(row.id)}>
+          <button style={{ border: 'none', background: 'none' }} onClick={() => deleteRow(row.id)} title="Delete">
             <MdDelete style={{ color: 'red', fontSize: '20px' }} />
           </button>
         </div>
