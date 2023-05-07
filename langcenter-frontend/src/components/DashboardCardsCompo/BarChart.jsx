@@ -15,6 +15,7 @@ const BarChart = ({ data }) => {
   ];
 
   const options = {
+    maintainAspectRatio: false,
     scales: {
       y: {
         beginAtZero: true,
@@ -29,6 +30,7 @@ const BarChart = ({ data }) => {
         datasets,
       }}
       options={options}
+      style={{height:"70vh" , maxHeight:"400px"}}
     />
   );
 };
