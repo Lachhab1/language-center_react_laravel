@@ -6,6 +6,10 @@ import { Container, Nav, Navbar } from "react-bootstrap";
 import { EnvelopeIcon,BellIcon } from '@heroicons/react/24/outline'
 
 export default function Topbar() {
+    const handleLocalStorage = () => {
+        localStorage.removeItem('ACCES_TOKEN');
+        window.location.href = '/';
+    }
     return (
             <Navbar style={{height: "60px"}}  className="Topbar order-3" >
                 <Container  className="w-100 d-flex justify-content-end align-items-center">
@@ -17,7 +21,7 @@ export default function Topbar() {
                         </Nav.Link>
                         <NavDropdown drop={"down-centered"} align={ "end" }  title="username" id="nav-dropdown">
                                 <NavDropdown.Item as={Link} to="/settings">Settings</NavDropdown.Item>
-                                <NavDropdown.Item>Logout</NavDropdown.Item>
+                                <NavDropdown.Item onClick={handleLocalStorage}>Logout</NavDropdown.Item>
                             </NavDropdown>
                     </Nav>
                     </Container>

@@ -24,6 +24,10 @@ export default function Sidebar() {
     const handleOpen = () => {
         setOpenSidebar((prev) => !prev);
     }
+    const handleLocalStorage = () => {
+        localStorage.removeItem('ACCES_TOKEN');
+        window.location.href = '/';
+    }
     return (
         <div style={{width: openSidebar ? "20%":"auto"}} className="">
 
@@ -80,7 +84,7 @@ export default function Sidebar() {
                     <Nav.Item><NavLink className="a nav-link link-light" to="/classroom"><img src={salles} />{openSidebar && "Classroom"}</NavLink></Nav.Item>
                     <Nav.Item><NavLink className="a nav-link link-light" to="/schedule"><img src={empTemps} />{openSidebar && "Schedule"}</NavLink></Nav.Item>
                     <Nav.Item><NavLink className="a nav-link link-light" to="/users"><img src={users} />{openSidebar && "Users"}</NavLink></Nav.Item>
-                    <Nav.Item><NavLink className="a nav-link link-light" to="/logout"><img src={logout} />{openSidebar && "Logout"}</NavLink></Nav.Item>
+                    <Nav.Item className='a nav-link link-light' onClick={handleLocalStorage}><img src={logout}  />{openSidebar && "Logout"}</Nav.Item>
 
                 </Nav>
             </div>

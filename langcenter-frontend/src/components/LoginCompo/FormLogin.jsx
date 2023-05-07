@@ -4,6 +4,11 @@ import './loging.css'
 
 export default function FormLogin() {
     const currentYear = new Date().getFullYear();
+
+    const handleLocalStorage = () => {
+        localStorage.setItem('ACCES_TOKEN', true);
+        window.location.href = '/dashboard';
+    }
     return (
         <div className="container-fluid ">
             <div className="row login">
@@ -23,7 +28,7 @@ export default function FormLogin() {
                             <div className="mb-3">
                                 <a href="/ForgotPassword" className="text-decoration-none text-primary">Forgot your password</a>
                             </div>
-                            <button type="submit" className="btn btn-danger rounded-3">SIGN IN</button>
+                            <button type="submit" className="btn btn-danger rounded-3" onClick={handleLocalStorage}>SIGN IN</button>
                         </form>
                     </div>
                     <p className="text-white mt-5">&copy; {currentYear} School Management</p>
