@@ -1,5 +1,5 @@
 import Image from 'react-bootstrap/Image'
-import imgStudent from "../images/photo-profile.png"
+import imgStudent from "../../images/photo-profile.png"
 
 export default function StudentsDetails() {
 

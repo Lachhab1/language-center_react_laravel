@@ -1,12 +1,10 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import ContentLayout from "./layouts/ContentLayout/ContentLayout";
 import Dashboard from "./views/Dashboard"
-import Enseignants from "./views/Enseignants"
 import Error404 from "./views/Error404"
 import Login from "./views/Login";
 import Groupes from './views/Groupes';
 import Cours from './views/Cours';
-import EmploiTemps from './views/EmploiTemps';
 import PaiementsEns from './views/PaiementsEns';
 import PaiementsEtu from './views/PaiementsEtu';
 import Parents from './views/Parents';
@@ -19,14 +17,22 @@ import Utilisateurs from './views/Utliisateurs';
 
 import ForgotPasswordPage from './views/ForgotPasswordPage';
 
+import StudentsDetail from "./components/Composentforstudentspage/StudentsDetails";
 import AddEtudiant from "./components/Composentforstudentspage/AddEtudiant";
 import EditEtudiant from "./components/Composentforstudentspage/EditEtudiant";
 import Etudiants from "./views/Etudiants";
-import StudentsDetail from "./views/StudentsDetails";
-import GuestLayout from "./layouts/GuestLayout/GuestLayout";
 
+import EmploiTemps from './views/EmploiTemps';
 import AddSchedule from "./components/EmploiTempsCompo/AddSchedule";
 import EditSchedule from "./components/EmploiTempsCompo/EditSchedule";
+
+import Enseignants from "./views/Enseignants"
+import AddTeacher from "./components/Composantforteacherpage/AddTeacher";
+import EditTeacher from "./components/Composantforteacherpage/EditTeacher";
+import EnseignantDetails from "./components/Composantforteacherpage/EnseignantDetails";
+
+import GuestLayout from "./layouts/GuestLayout/GuestLayout";
+
 
 
 const router = createBrowserRouter([
@@ -44,8 +50,25 @@ const router = createBrowserRouter([
                     element: <Dashboard/>,
             },
             {
-                path: '/teacher',
-                element: <Enseignants/>,
+                path:"/",
+                children : [{
+                    path: '/teacher',
+                    element: <Enseignants/>
+                },
+                {
+                    path: "/teacher/add",
+                    element: <AddTeacher />
+                },
+                {
+                    path: "/teacher/edit/:id",
+                    element: <EditTeacher />
+                },
+                {
+                    path: "/teacher/details/:id",
+                    element: <EnseignantDetails />
+                }
+                ]
+                
             },
             {
                 path: '/',

@@ -20,7 +20,7 @@ import users from "../images/icons/utilisateurs.svg";
 
 
 export default function Sidebar() {
-    const [openSidebar,setOpenSidebar] = useState(true);
+    const [openSidebar,setOpenSidebar] = useState(false);
     const handleOpen = () => {
         setOpenSidebar((prev) => !prev);
     }

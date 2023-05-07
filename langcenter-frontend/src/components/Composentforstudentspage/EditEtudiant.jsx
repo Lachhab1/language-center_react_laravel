@@ -14,7 +14,6 @@ export default function EditEtudiant() {
         // Fetch schedule data based on the ID from the database or API
         // Example API call: fetchScheduleData(id)
         // Once you have the data, update the schedule state
-        console.log("data");
        fetchdata = {
           id: id,
           firstName:"sopa",
@@ -24,7 +23,7 @@ export default function EditEtudiant() {
       }, [id]);
   return (
     <div className="student-add">
-        <FormC firstName={fetchdata.firstName} lastName={fetchdata.lastName} />
+        <FormC {...fetchdata} />
     </div>
   )
 }
