@@ -1,77 +1,166 @@
 // import { useState } from "react";
-import { Placeholder } from "react-bootstrap"
-import  Button from "../components/Button"
-import  Input from "../components/Input"
+import Button from "../Button"
 
-import { Link, Navigate } from "react-router-dom"
-import { useEffect } from "react"
+import { useState } from "react"
 import DataTable from "react-data-table-component"
+import { Link } from "react-router-dom"
+import { BsFillPencilFill,MdDelete } from 'react-icons/all';
 
 export default function TableEtud()
 {
-//     const inputInfo = 
-//         {
-//             label:"Full Name",
-//             Placeholder:"Enter the name",
-//             type: "text"
-//         }
-//     const option = {
-//         label: "select age"
-//         ,options:[
-//             {
-//                 value: "1",
-//                 text:"alpha",
-//             }
-//         ]
-//         ,defText:"select age"
-//     }
+
 const col=[
     {
-        name:"ID",
-        selector:row => row.id
-    },
-    {
         name:"Name",
-        selector:row => row.name
+        selector:row => row.name,
+        sortable: true 
     },
     {
         name:"Gender",
-        selector:row => row.gender
+        selector:row => row.gender,
     },
     {
         name:"Class",
-        selector:row => row.class
+        selector:row => row.class,
+        sortable: true 
     },
     {
         name:"Parents",
-        selector:row => row.parents
+        selector:row => row.parents,
+        sortable: true 
     },
     {
         name:"Status",
-        selector:row => row.status
+        selector:row => row.status,
+        sortable: true 
     },
     {
         name:"Action",
-        selector:row => row.action
+        selector:row => row.action,
+        cell: (row) => (
+        <div style={{ display: 'flex', gap: '0px' }}>
+          <Link to={`/schedule/EditSchedule/${row.id}`}>
+            <button style={{ border: 'none', background: 'none' }}>
+              <BsFillPencilFill style={{ color: 'orange' }} />
+            </button>
+          </Link>
+          <button style={{ border: 'none', background: 'none' }} onClick={() => deleteRow(row.id)}>
+            <MdDelete style={{ color: 'red', fontSize: '20px' }} />
+          </button>
+        </div>
+      ),
     },
    
 ]
 const Data=[
-    {id:"1"}
+
+    {
+        id:1,
+        name:"youssef",
+        class:"5"
+        
+    },
+    {
+        id:2,
+        name:"mohammed",
+        class:"7"
+    },
+    {
+        id:3,
+        name:"othmane",
+        class:"8"
+    },
+    {
+        id:4,
+        name:"aziz",
+        class:"5"
+        
+    },
+    {
+        id:5,
+        name:"kamal",
+        class:"7"
+    },
+    {
+        id:6,
+        name:"aymen",
+        class:"8"
+    },
+    {
+        id:7,
+        name:"messi",
+        class:"5"
+        
+    },
+    {
+        id:8,
+        name:"walid",
+        class:"7"
+    },
+    {
+        id:9,
+        name:"ronaldo",
+        class:"8"
+    },
+    {
+        id:10,
+        name:"ayoube",
+        class:"5"
+        
+    },
+    {
+        id:11,
+        name:"zakaria",
+        class:"7"
+    },
+    {
+        id:12,
+        name:"mountasir",
+        class:"8"
+    }
+
 ]
+        const [records,setRecords]=useState(Data);
+        const [recordsC,setRecordsC]=useState(Data);
+        function handlefilter(event)
+        {
+            const NewData = Data.filter(row => {
+                return row.name.toLowerCase().includes(event.target.value.toLowerCase())
+
+            }) 
+            setRecords(NewData)
+        }
+        function handlefilterC(event)
+        {
+            const NewData = Data.filter(row => {
+                return row.class.toLowerCase().includes(event.target.value.toLowerCase())
+
+            }) 
+            setRecords(NewData)
+        }
+
+
     return(
+
     <div>
-                      
+        <div className="row offset-1">
+            <div className="col">
+                 <input type="text" className="form-control" placeholder="Search by Name" onChange={handlefilter}/>
+            </div>
+            <div className="col">
+                 <input type="text" className="form-control" placeholder="Search by Class" onChange={handlefilterC}/>
+            </div>
+            <Link to="/student/addStudent" className="col">
+                    <Button className="" variant="danger" isDisabled={false} size="md" value="add Student" handleSmthg={() => console.log("chibakiya")}/>
+            </Link>
+        </div>
             <DataTable
                     columns={col}
-                    data={Data}
+                    data={records}
                     fixedHeader
                     pagination
             >
              </DataTable>
-                    <Link to="/student/addStudent">
-                    <Button className="" variant="danger" isDisabled={false} size="md" value="add Student" handleSmthg={() => console.log("chibakiya")}/>
-                    </Link>
                 </div>
     )
 
