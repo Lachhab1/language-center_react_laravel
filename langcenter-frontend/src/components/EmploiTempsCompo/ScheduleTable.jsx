@@ -13,7 +13,7 @@ export default function ScheduleTable({ data, handleDelete }) {
   // Filtre les données en fonction du groupe et du nom du cours
   const filteredData = data.filter((item) => {
     const groupMatch = item.group.toLowerCase().includes(groupFilter.toLowerCase());
-    const courseNameMatch = item.courseName.toLowerCase().includes(courseNameFilter.toLowerCase());
+    const courseNameMatch = item.name.toLowerCase().includes(courseNameFilter.toLowerCase());
     return groupMatch && courseNameMatch;
   });
 
@@ -28,14 +28,14 @@ export default function ScheduleTable({ data, handleDelete }) {
 
   // Define the columns for the DataTable
   const columns = [
-    { name: 'ID', selector: 'id', sortable: true },
-    { name: 'Course Name', selector: 'courseName', sortable: true },
-    { name: 'Course Level', selector: 'courseLevel', sortable: true },
-    { name: 'Group', selector: 'group', sortable: true },
-    { name: 'Classroom', selector: 'classroom', sortable: true },
-    { name: 'Day', selector: 'day', sortable: true },
-    { name: 'Start Time', selector: 'startTime', sortable: true },
-    { name: 'End Time', selector: 'endTime', sortable: true },
+    { name: 'id', selector:row => row.id, sortable: true },
+    { name: 'Course Name', selector: row => row.name, sortable: true },
+    { name: 'Course Level', selector: row => row.level, sortable: true },
+    { name: 'Group', selector: row => row.group, sortable: true },
+    { name: 'Classroom', selector: row => row.classroom, sortable: true },
+    { name: 'Day', selector: row => row.day, sortable: true },
+    { name: 'Start Time', selector: row => row.startTime, sortable: true },
+    { name: 'End Time', selector: row => row.endTime, sortable: true },
     {
       name: 'Action',
       cell: (row) => (

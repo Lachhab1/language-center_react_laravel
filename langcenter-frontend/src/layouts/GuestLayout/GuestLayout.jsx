@@ -9,7 +9,7 @@ export default function GuestLayout() {
     <Navigate to="/" />
   }
   return (
-    <div>Guest Layout
+    <div>
       <Outlet/>
     </div>
   )
