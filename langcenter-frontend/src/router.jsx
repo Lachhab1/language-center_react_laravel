@@ -19,7 +19,8 @@ import Utilisateurs from './views/Utliisateurs';
 
 import ForgotPasswordPage from './views/ForgotPasswordPage';
 
-import AddEtudiant from "./views/AddEtudiant";
+import AddEtudiant from "./components/Composentforstudentspage/AddEtudiant";
+import EditEtudiant from "./components/Composentforstudentspage/EditEtudiant";
 import Etudiants from "./views/Etudiants";
 import StudentsDetail from "./views/StudentsDetails";
 import GuestLayout from "./layouts/GuestLayout/GuestLayout";
@@ -61,6 +62,10 @@ const router = createBrowserRouter([
                         path: '/student/addStudent',
                         element: <AddEtudiant/>
                     },
+                    {
+                        path: '/student/editStudent/:id',
+                        element: <EditEtudiant/>
+                    }
                 ]
             },
             {

@@ -1,4 +1,4 @@
-import FormC from "../components/Form"
+import FormC from "../Form"
 
 import React from 'react'
 

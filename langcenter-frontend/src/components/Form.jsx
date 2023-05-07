@@ -6,26 +6,27 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import * as yup from 'yup';
 
-function FormC() {
+function FormC({firstName,lastName,gender,classe,dateofBirth,adress,adult,email,phone,guardfName,guardLName,guardOcup,guardEmail,guardPhone,courseName,courseFeesPaid}) {
+  console.log("first Name "+firstName);
   const formik = useFormik({
         initialValues:{
-        firstName: '',
-        lastName: '',
-        class: '',
-        gender: '',
-        adress: '',
-        dateofBirth: '',
+        firstName: `${firstName}`,
+        lastName: `${lastName}`,
+        class: `${classe}`,
+        gender: `${gender}`,
+        adress: `${adress}`,
+        dateofBirth: `${dateofBirth}`,
         active: false,
-        adult: true,
-        email: '',
-        phone: '',
-        guardfName: '',
-        guardLName: '',
-        guardOcup: '',
-        guardEmail: '',
-        guardPhone: '',
-        courseName: '',
-        courseFeesPaid: '',
+        adult: `${adult}`,
+        email: `${email}`,
+        phone: `${phone}`,
+        guardfName:`${guardfName}`,
+        guardLName: `${guardLName}`,
+        guardOcup: `${guardOcup}`,
+        guardEmail: `${guardEmail}`,
+        guardPhone: `${guardPhone}`,
+        courseName: `${courseName}`,
+        courseFeesPaid: `${courseFeesPaid}`,
         file: '',
       },
     validationSchema: yup.object().shape({

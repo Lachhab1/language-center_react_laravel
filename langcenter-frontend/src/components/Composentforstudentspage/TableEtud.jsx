@@ -4,11 +4,12 @@ import Button from "../Button"
 import { useState } from "react"
 import DataTable from "react-data-table-component"
 import { Link } from "react-router-dom"
-import { BsFillPencilFill,MdDelete } from 'react-icons/all';
+import { BsFillPencilFill,
+    MdDelete,
+    BsFillEyeFill}from 'react-icons/all';
 
 export default function TableEtud()
 {
-
 const col=[
     {
         name:"Name",
@@ -39,7 +40,12 @@ const col=[
         selector:row => row.action,
         cell: (row) => (
         <div style={{ display: 'flex', gap: '0px' }}>
-          <Link to={`/schedule/EditSchedule/${row.id}`}>
+            <Link to={`/student/${row.id}`}>
+            <button style={{ border: 'none', background: 'none'}}>
+              <BsFillEyeFill style={{ color: 'green', fontSize: '20px' }} />
+            </button>
+            </Link>
+                <Link to={`/student/editStudent/${row.id}`}>
             <button style={{ border: 'none', background: 'none' }}>
               <BsFillPencilFill style={{ color: 'orange' }} />
             </button>
@@ -126,7 +132,6 @@ const Data=[
         {
             const NewData = Data.filter(row => {
                 return row.name.toLowerCase().includes(event.target.value.toLowerCase())
-
             }) 
             setRecords(NewData)
         }
@@ -134,12 +139,9 @@ const Data=[
         {
             const NewData = Data.filter(row => {
                 return row.class.toLowerCase().includes(event.target.value.toLowerCase())
-
             }) 
             setRecords(NewData)
         }
-
-
     return(
 
     <div>
