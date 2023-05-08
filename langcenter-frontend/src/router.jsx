@@ -133,6 +133,7 @@ const router = createBrowserRouter([
                         path: "/fees/student",
                         element: <PaiementsEtu/>
                     },
+                 
                 ]
             },
             {
