@@ -20,7 +20,7 @@ export default function ContentLayout() {
   }
   const style = location.pathname === "/dashboard" ? dashboardstyle: ""
 
-  const {user,token} = UseStateContext()
+  const {token} = UseStateContext()
   if(!token){
     return(
       <Navigate to="/auth" />

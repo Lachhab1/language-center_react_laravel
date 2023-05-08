@@ -35,6 +35,14 @@ import GuestLayout from "./layouts/GuestLayout/GuestLayout";
 
 
 
+import EditFeesT from "./components/Composantforteacherfeespage/EditfeesT";
+import TableFeesTeacher from "./components/Composantforteacherfeespage/TableFeesTeacher";
+
+import EditFees from "./components/Composantforstedentsfeespage/EditFees";
+import TableFeesEtud from "./components/Composantforstedentsfeespage/TableFeesEtud";
+
+
+
 const router = createBrowserRouter([
         {
             path: '/',
@@ -127,11 +135,30 @@ const router = createBrowserRouter([
                     },
                     {
                         path: "/fees/teacher",
-                        element: <PaiementsEns/>
+                        children: [
+                            {
+                                path: "/fees/teacher",
+                                element: <TableFeesTeacher/>
+                            },
+                            {
+                                path: "/fees/teacher/edit/:id",
+                                element: <EditFeesT/>
+                            },
+                        ]
+                        
                     },
                     {
-                        path: "/fees/student",
-                        element: <PaiementsEtu/>
+                        path: "/fees",
+                        children: [
+                            {
+                                path: "/fees/student",
+                                element: <PaiementsEtu/>
+                            },
+                            {
+                                path: "/fees/student/edit/:id",
+                                element: <EditFees/>
+                            },
+                        ]
                     },
                 ]
             },
