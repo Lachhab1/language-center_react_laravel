@@ -57,7 +57,7 @@ export default function TableFeesEtud()
             selector:row => row.action,
             cell: (row) => (
         <div style={{ display: 'flex', gap: '0px' }}>
-          <Link to={`/fees/editfees/${row.id}`}>
+          <Link to={`/fees/student/edit/${row.id}`}>
             <button style={{ border: 'none', background: 'none' }}>
               <BsFillPencilFill style={{ color: 'orange' }} />
             </button>
