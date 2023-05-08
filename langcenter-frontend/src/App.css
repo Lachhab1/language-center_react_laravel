@@ -276,7 +276,10 @@ body {
   align-items: center;
 }
 
-.student-add input,
-.student-add select {
+.student-add input,.student-add select, 
+.addTeacher input , .addTeacher select ,
+ .editTeacher input,.editTeacher select,
+ .addSchedule input,.addSchedule select,
+ .editSchedule input,.editSchedule select{
   background-color: rgba(221, 222, 238, 0.5);
 }

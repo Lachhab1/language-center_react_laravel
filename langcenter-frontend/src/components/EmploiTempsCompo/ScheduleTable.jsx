@@ -58,7 +58,7 @@ export default function ScheduleTable({ data, handleDelete }) {
       <div className="d-flex justify-content-around">
         {/* Champ de recherche pour le nom du cours */}
         <input
-          style={{ backgroundColor: "#E5E5E5", border: "none", borderRadius: "8px" }}
+          style={{ backgroundColor: "rgba(221, 222, 238, 0.5)", border: "none", borderRadius: "8px" }}
           type="text"
           placeholder="Search Course Name"
           value={courseNameFilter}
@@ -66,7 +66,7 @@ export default function ScheduleTable({ data, handleDelete }) {
         />
         {/* Champ de recherche pour le groupe */}
         <input
-          style={{ backgroundColor: "#E5E5E5", border: "none", borderRadius: "8px" }}
+          style={{ backgroundColor: "rgba(221, 222, 238, 0.5)", border: "none", borderRadius: "8px" }}
           type="text"
           placeholder="Search Group"
           value={groupFilter}

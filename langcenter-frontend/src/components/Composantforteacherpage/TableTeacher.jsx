@@ -88,14 +88,14 @@ export default function TableTeacher() {
     <div>
       <div className="d-flex justify-content-around">
         <input
-          style={{ backgroundColor: '#E5E5E5', border:'none', borderRadius: '8px' }}
+          style={{ backgroundColor: ' rgba(221, 222, 238, 0.5)', border:'none', borderRadius: '8px' }}
           type="text"
           placeholder="Search by Name"
           value={nameFilter}
           onChange={(e) => setNameFilter(e.target.value)}
         />
         <input
-          style={{ backgroundColor: '#E5E5E5', border: 'none', borderRadius: '8px' }}
+          style={{ backgroundColor: ' rgba(221, 222, 238, 0.5)', border: 'none', borderRadius: '8px' }}
           type="text"
           placeholder="Search by Class"
           value={classFilter}

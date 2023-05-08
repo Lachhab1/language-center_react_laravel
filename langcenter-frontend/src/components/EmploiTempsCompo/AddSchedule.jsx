@@ -42,7 +42,7 @@ export default function AddSchedule() {
     };
 
     return (
-        <form onSubmit={formik.handleSubmit}>
+        <form onSubmit={formik.handleSubmit} className='addSchedule'>
             <h1>Add Schedule</h1>
 
             <div className="row">

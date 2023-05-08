@@ -83,7 +83,7 @@ export default function EditSchedule() {
       <p>Day: {schedule.day.join(', ')}</p>
       <p>Start Time: {schedule.startTime}</p>
       <p>Finish Time: {schedule.finishTime}</p>
-      <form>
+      <form  className='editSchedule'> 
         <div className="mb-3">
           <label htmlFor="days" className="form-label">
             Day(s):
