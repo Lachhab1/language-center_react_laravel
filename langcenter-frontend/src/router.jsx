@@ -41,7 +41,9 @@ import TableFeesTeacher from "./components/Composantforteacherfeespage/TableFees
 import EditFees from "./components/Composantforstedentsfeespage/EditFees";
 import TableFeesEtud from "./components/Composantforstedentsfeespage/TableFeesEtud";
 
-
+import EditParent from "./components/Composantforparentpage/EditParent";
+import AddParent from "./components/Composantforparentpage/AddParent";
+import ParentDetails from "./components/Composantforparentpage/ParentDetails";
 
 const router = createBrowserRouter([
         {
@@ -100,8 +102,26 @@ const router = createBrowserRouter([
                 ]
             },
             {
-                path: '/parent',
-                element: <Parents/>
+                path: "/",
+                children: [
+                    {
+                        path: '/parent',
+                        element: <Parents/>
+                    },
+                    {
+                        path: '/parent/addParent',
+                        element: <AddParent/>
+                    },
+                    {
+                        path: "/parent/edit/:id",
+                        element: <EditParent/>
+                    },
+                    {
+                        path: "/parent/:id",
+                        element: <ParentDetails/>
+                    }
+
+                ]
             },
             {
                 path: '/groupe',

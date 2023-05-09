@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import DataTable from 'react-data-table-component';
-import Button from '../Button';
-import { BsFillPencilFill } from 'react-icons/bs';
-import { MdDelete } from 'react-icons/md';
+import Button from "../Button"
+import {
+    BsFillEyeFill, BsFillPencilFill,
+    MdDelete
+} from 'react-icons/all';
+import { Link } from 'react-router-dom';
 
 export default function TableParent()
 {
-
     const col=[
         {
             name:"ID",
@@ -36,11 +37,68 @@ export default function TableParent()
         {
             name:"Phone",
             selector:row => row.phone
+        },
+        {
+            name: "Action",
+            selector: row => row.action,
+            cell: (row) => (
+                <div style={{ display: 'flex', gap: '0px' }}>
+                    <Link to={`/parent/${row.id}`}>
+                    <button style={{ border: 'none', background: 'none'}}>
+                      <BsFillEyeFill style={{ color: 'green', fontSize: '20px' }} />
+                    </button>
+                    </Link>
+                        <Link to={`/parent/edit/${row.id}`}>
+                    <button style={{ border: 'none', background: 'none' }}>
+                      <BsFillPencilFill style={{ color: 'orange' }} />
+                    </button>
+                  </Link>
+                  <button style={{ border: 'none', background: 'none' }} onClick={() => deleteRow(row.id)}>
+                    <MdDelete style={{ color: 'red', fontSize: '20px' }} />
+                  </button>
+                </div>
+              ),
         }
     ]
-    const Data=[ {id:"1",name:"sopa",gender:"male",occupation:"eng teacher",address:"sopa 3owa",email:"6@ma.com",phone:"060000000"}]
+    const Data=[ {id:"1",name:"sopa",gender:"male",occupation:"eng teacher",address:"sopa 3owa",email:"6@ma.com",phone:"060000000"},
+    {id:"2",name:"sopa",gender:"male",occupation:"eng teacher",address:"sopa 3owa",email:"6@ma.com",phone:"060000000"},
+    {id:"3",name:"sopa",gender:"male",occupation:"eng teacher",address:"sopa 3owa",email:"6@ma.com",phone:"060000000"}    
+        ]
+    const [formData,setFormData] = useState(
+        ...Data,
+        // ...localStorage.getItem("PARENT_DATA")?.
+    )
+
+
+    const [records,setRecords]=useState(Data);
+    const [recordsC,setRecordsC]=useState(Data);
+    function handlefilter(event)
+    {
+        const NewData = Data.filter(row => {
+            return row.name.toLowerCase().includes(event.target.value.toLowerCase())
+        }) 
+        setRecords(NewData)
+    }
+    function handlefilterC(event)
+    {
+        const NewData = Data.filter(row => {
+            return row.class.toLowerCase().includes(event.target.value.toLowerCase())
+        }) 
+        setRecords(NewData)
+    }
     return(
         <div>
+            <div className="row offset-1">
+            <div className="col">
+                 <input type="text" className="form-control" placeholder="Search by Name" onChange={handlefilter}/>
+            </div>
+            <div className="col">
+                 <input type="text" className="form-control" placeholder="Search by Class" onChange={handlefilterC}/>
+            </div>
+            <Link to="/parent/addParent" className="col">
+                    <Button className="" variant="danger" isDisabled={false} size="md" value="add Parent" handleSmthg={() => console.log("chibakiya")}/>
+            </Link>
+        </div>
              
             <DataTable
                     columns={col}

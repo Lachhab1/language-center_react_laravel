@@ -296,7 +296,6 @@ function FormC({firstName,lastName,gender,classe,dateofBirth,adress,adult,email,
             <Form.Control.Feedback type="invalid" tooltip>
             {formik.errors.guardPhone}
             </Form.Control.Feedback>
-
             </Form.Group>
           </Row>
           
