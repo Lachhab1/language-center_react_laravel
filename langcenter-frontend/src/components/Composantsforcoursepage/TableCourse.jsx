@@ -99,7 +99,7 @@ export default function TableCourse()
                     pagination
             >
              </DataTable>
-           <AddCourse/>
+           
         </div>
     )
 }
