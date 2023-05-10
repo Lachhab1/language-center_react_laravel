@@ -1,7 +1,8 @@
+import SallesTable from "../components/SallesCompo/SallesTable"
 export default function Salles(){
     return(
         <div>
-            <h1>Salles  Page </h1>
+            <SallesTable />
         </div>
     )
 }

@@ -11,7 +11,6 @@ import Parents from './views/Parents';
 import PresencesEns from './views/PresencesEns';
 import PresencesEtu from './views/PresencesEtu';
 import Resultats from './views/Resultats';
-import Salles from './views/Salles';
 import Settings from './views/Settings';
 import Utilisateurs from './views/Utliisateurs';
 
@@ -44,6 +43,13 @@ import TableFeesEtud from "./components/Composantforstedentsfeespage/TableFeesEt
 import EditParent from "./components/Composantforparentpage/EditParent";
 import AddParent from "./components/Composantforparentpage/AddParent";
 import ParentDetails from "./components/Composantforparentpage/ParentDetails";
+
+import Salles from './views/Salles';
+import AddSalle from "./components/SallesCompo/AddSalle";
+import EditSalle from "./components/SallesCompo/EditSalle";
+import ViewSalleDetails from "./components/SallesCompo/ViewSalleDetails";
+import { elements } from "chart.js";
+
 
 const router = createBrowserRouter([
         {
@@ -187,8 +193,25 @@ const router = createBrowserRouter([
                 element: <Resultats/>
             },
             {
-                path: "/classroom",
-                element: <Salles/>
+                path: "/",
+                children:[
+                    {
+                        path:'/classroom',
+                        element: <Salles/>
+                    },
+                    {
+                        path:"/classroom/add",
+                        element:<AddSalle/>
+                    },
+                    {
+                        path:'/classroom/edit/:id',
+                        element : <EditSalle/>
+                    },
+                    {
+                        path:'/classroom/details/:id',
+                        element : <ViewSalleDetails/>
+                    }
+                ]
             },
             {
                 path: "/settings",
