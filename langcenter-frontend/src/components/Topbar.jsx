@@ -4,8 +4,11 @@ import photo_profile from "../images/photo-profile.png"
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { Container, Nav, Navbar } from "react-bootstrap";
 import { EnvelopeIcon,BellIcon } from '@heroicons/react/24/outline'
+import { UseStateContext } from "../context/ContextProvider";
 
 export default function Topbar() {
+    const {logout,user} = UseStateContext();
+    console.log(user);
     const handleLocalStorage = () => {
         localStorage.removeItem('ACCES_TOKEN');
         window.location.href = '/';
@@ -19,9 +22,9 @@ export default function Topbar() {
                         <Nav.Link className="profile-photoContainer">
                             <img src={photo_profile} className="pPhoto" />
                         </Nav.Link>
-                        <NavDropdown drop={"down-centered"} align={ "end" }  title="username" id="nav-dropdown">
+                        <NavDropdown drop={"down-centered"} align={ "end" }  title={user?.name} id="nav-dropdown">
                                 <NavDropdown.Item as={Link} to="/settings">Settings</NavDropdown.Item>
-                                <NavDropdown.Item onClick={handleLocalStorage}>Logout</NavDropdown.Item>
+                                <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
                             </NavDropdown>
                     </Nav>
                     </Container>
