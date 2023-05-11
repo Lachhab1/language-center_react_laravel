@@ -3,6 +3,7 @@ import logo from '../../images/EnglishCastle_HQ.png'
 import './loging.css'
 import { UseStateContext } from "../../context/ContextProvider";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 export default function FormLogin() {
     const currentYear = new Date().getFullYear();
@@ -11,13 +12,14 @@ export default function FormLogin() {
     const {login,error} = UseStateContext();
     const navigate = useNavigate()
 
-    const handleLogin =async (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
         await login({email,password});
         setEmail("");
         setPassword("");
         navigate("/");
     }
+
     return (
         <div className="container-fluid">
             <div className="row login">

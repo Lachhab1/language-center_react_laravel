@@ -11,15 +11,15 @@ const stateContext = createContext({
     logout: () => {}
 })
 export const ContextProvider = ({children}) => {
-    const [user,setUser] = useState(null);
+    const [user,setUser] = useState(sessionStorage.getItem("user") ? JSON.parse(sessionStorage.getItem("user")):null);
     const [errors,setErrors] = useState([]);
     const csrf = () => axios.get("/sanctum/csrf-cookie");
-
+    
                 const getUser = async () => {
                     try {
                             const data = await axios.get('/api/user');
-                            setUser(data.data);
-
+                            sessionStorage.setItem("user",JSON.stringify(data.data));
+                            setUser(sessionStorage.getItem("user") ? JSON.parse(sessionStorage.getItem("user")):null);
                     } catch (error) {
                         console.log(error);
                     }
@@ -37,8 +37,11 @@ export const ContextProvider = ({children}) => {
         }
         
     }
-    const logout = () => {
-        axios.post('/api/logout').then(() => {
+    const logout = async () => {
+        sessionStorage.removeItem("user");
+        console.log("logout");
+        console.log(sessionStorage.getItem("user"));
+        await axios.post('/api/logout').then(() => {
             setUser(null);
         })
         

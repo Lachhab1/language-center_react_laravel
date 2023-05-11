@@ -8,7 +8,6 @@ import { UseStateContext } from "../context/ContextProvider";
 
 export default function Topbar() {
     const {logout,user} = UseStateContext();
-    console.log(user);
     const handleLocalStorage = () => {
         localStorage.removeItem('ACCES_TOKEN');
         window.location.href = '/';
