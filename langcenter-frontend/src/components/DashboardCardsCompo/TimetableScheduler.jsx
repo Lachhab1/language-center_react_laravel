@@ -31,6 +31,11 @@ const TimetableScheduler = ({ data }) => {
         events={events}
         startAccessor="start"
         endAccessor="end"
+        style={{ height: 500 }}
+        min={new Date().setHours(8, 0, 0)} // Set the minimum time to 8:00 AM
+        max={new Date().setHours(20, 0, 0)} // Set the maximum time to 8:00 PM
+        views={['day', 'work_week', 'week', 'month']} // Optionally restrict the views
+        defaultView="week" // Set the default view to 'week'
         eventPropGetter={eventStyleGetter}
       />
     </div>

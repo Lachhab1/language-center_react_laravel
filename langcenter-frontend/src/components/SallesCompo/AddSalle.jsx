@@ -7,7 +7,7 @@ const addSalleScheme = Yup.object().shape({
     .max(50, 'Too Long!')
     .required('Required'),
   capacity: Yup.number()
-  .integer("must be an Integer")
+    .integer("must be an Integer")
     .required('Required'),
 });
 
@@ -45,28 +45,32 @@ export default function AddSalle() {
     >
       {({ errors, touched }) => (
         <Form className='add-salle-form'>
-          <div className='form-group'>
-            <label htmlFor='name'>Name*</label>
-            <Field
-              type='text'
-              name='name'
-              className={`form-control ${errors.name && touched.name ? 'is-invalid' : ''}`}
-              placeholder='Entrez le nom de la salle' // Placeholder avec commentaire
-            />
-            {errors.name && touched.name && <div className='invalid-feedback'>{errors.name}</div>}
-          </div>
+          <div className='row'>
+            <div className='form-group col-lg-5 mt-3 mt-lg-0' >
+              <label htmlFor='name'>Name*</label>
+              <Field
+                style={{ backgroundColor: ' rgba(221, 222, 238, 0.5)', border: 'none', borderRadius: '8px' }}
+                type='text'
+                name='name'
+                className={`form-control ${errors.name && touched.name ? 'is-invalid' : ''}`}
+                placeholder='Entrez le nom de la salle' // Placeholder avec commentaire
+              />
+              {errors.name && touched.name && <div className='invalid-feedback'>{errors.name}</div>}
+            </div>
 
-          <div className='form-group'>
-            <label htmlFor='capacity'>Capacity*</label>
-            <Field
-              type='number'
-              name='capacity'
-              className={`form-control ${errors.capacity && touched.capacity ? 'is-invalid' : ''}`}
-              placeholder='Entrez la capacité de la salle' // Placeholder avec commentaire
-            />
-            {errors.capacity && touched.capacity && (
-              <div className='invalid-feedback'>{errors.capacity}</div>
-            )}
+            <div className='form-group col-lg-5 mt-3 mt-lg-0'>
+              <label htmlFor='capacity'>Capacity*</label>
+              <Field
+                style={{ backgroundColor: ' rgba(221, 222, 238, 0.5)', border: 'none', borderRadius: '8px' }}
+                type='number'
+                name='capacity'
+                className={`form-control ${errors.capacity && touched.capacity ? 'is-invalid' : ''}`}
+                placeholder='Entrez la capacité de la salle' // Placeholder avec commentaire
+              />
+              {errors.capacity && touched.capacity && (
+                <div className='invalid-feedback'>{errors.capacity}</div>
+              )}
+            </div>
           </div>
 
           <button type='submit' className='btn btn-danger mt-2'>
