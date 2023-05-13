@@ -16,7 +16,7 @@ export default function ViewSalleDetails({ id }) {
       // const data = await response.json();
 
       // Simulate fetching the classroom details from the database
-      const data = {
+      const data = {  
         id: 1,
         name: 'Classroom 101',
         capacity: 30,
