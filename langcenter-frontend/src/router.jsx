@@ -49,6 +49,7 @@ import AddSalle from "./components/SallesCompo/AddSalle";
 import EditSalle from "./components/SallesCompo/EditSalle";
 import ViewSalleDetails from "./components/SallesCompo/ViewSalleDetails";
 import { elements } from "chart.js";
+import AddUser from "./components/componentforUsers/addUser";
 
 
 const router = createBrowserRouter([
@@ -152,6 +153,10 @@ const router = createBrowserRouter([
                         element: <PresencesEtu/>
                     },
                 ]
+            },
+            {
+                path: "/users/add",
+                element: <AddUser/>,
             },
             {
                 path: "/",

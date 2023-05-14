@@ -20,8 +20,8 @@ export default function ContentLayout() {
   }
   const style = location.pathname === "/dashboard" ? dashboardstyle: ""
 
-  const {user} = UseStateContext();
-  if(!user) return <Navigate to="/auth" />
+  const {user,token} = UseStateContext();
+  if(!token) return <Navigate to="/auth" />
   return (
     <div className="d-flex flex-row w-100">
       <Sidebar />

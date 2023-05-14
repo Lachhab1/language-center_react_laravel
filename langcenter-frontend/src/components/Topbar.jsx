@@ -8,10 +8,6 @@ import { UseStateContext } from "../context/ContextProvider";
 
 export default function Topbar() {
     const {logout,user} = UseStateContext();
-    const handleLocalStorage = () => {
-        localStorage.removeItem('ACCES_TOKEN');
-        window.location.href = '/';
-    }
     return (
             <Navbar style={{height: "60px"}}  className="Topbar order-3" >
                 <Container  className="w-100 d-flex justify-content-end align-items-center">

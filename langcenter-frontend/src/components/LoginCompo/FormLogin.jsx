@@ -12,9 +12,9 @@ export default function FormLogin() {
     const {login,error} = UseStateContext();
     const navigate = useNavigate()
 
-    const handleLogin = async (e) => {
+    const handleLogin =  (e) => {
         e.preventDefault();
-        await login({email,password});
+        login({email,password});
         setEmail("");
         setPassword("");
         navigate("/");
@@ -30,6 +30,11 @@ export default function FormLogin() {
                 <div className="col-md-6 rightBg d-flex flex-column align-items-center justify-content-center">
                     <div className="formulaireLogin p-4 bg-white rounded-3">
                         <form onSubmit={handleLogin}>
+                            {error && <div className="alert alert-danger">{Object.keys(err).map((key) => (
+                                <p key={key}>
+                                    {err[key][0]}
+                                </p>
+                            ) )}</div>}
                             <div className="mb-3">
                                 <input type="email" className="form-control rounded-3" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
                             </div>
