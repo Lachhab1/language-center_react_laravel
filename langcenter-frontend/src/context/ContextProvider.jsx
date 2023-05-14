@@ -5,7 +5,6 @@ const stateContext = createContext({
     user: null,
     setUser: () => {},
     setToken: () => {},
-    // getUser: () => {},
     login: () => {},
     logout: () => {}
 })
