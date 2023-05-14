@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import AvatarEdit from "../ProfileCompo/AvatarEdit";
 import * as Yup from 'yup';
-import { Button } from 'react-bootstrap';
+import { Form,Button,Row,Col } from 'react-bootstrap';
 import axios from '../../api/axios';
 
 export default function AddUser() {
@@ -17,6 +17,7 @@ export default function AddUser() {
             emailConfirmation: '',
             password: '',
             passwordConfirmation: '',
+            role: '',
             address: '',
             phone: '',
             isActive: false,
@@ -27,13 +28,14 @@ export default function AddUser() {
             lastName: Yup.string().required('Last name is required'),
             cin: Yup.string().required('CIN is required'),
             birthday: Yup.date().required('Birthday is required'),
-            gender: Yup.string().required('Gender is required'),
+            gender: Yup.string().oneOf(['female','male']).required('required'),
             email: Yup.string().email('Invalid email address').required('Email is required'),
             emailConfirmation: Yup.string()
-                .oneOf([Yup.ref('email'), null], 'email must match'),
+                .oneOf([Yup.ref('email'), null], 'email must match').required('Email confirmation is required'),
             password: Yup.string().required('Password is required'),
             passwordConfirmation: Yup.string()
-            .oneOf([Yup.ref('password'), null], 'Passwords must match'),
+            .oneOf([Yup.ref('password'), null], 'Passwords must match').required('Password confirmation is required'),
+            role: Yup.string().required('Role is required').oneOf(['admin', 'secretary', 'director']),
             address: Yup.string().required('Address is required'),
             phone: Yup.string().required('Phone number is required'),
             isActive: Yup.boolean(),
@@ -53,222 +55,270 @@ export default function AddUser() {
     });
   return (
     <div>
-        <form onSubmit={formik.handleSubmit} noValidate className='addTeacher'>
+        <Form onSubmit={formik.handleSubmit} noValidate className='addTeacher'>
             <h1>Add New User</h1>
-
-            <div className="row">
-                <div className="col-md-3 col-sm-6 col-xs-7 mb-3">
-                    <label htmlFor="firstName" className="form-label">
-                        First Name*
-                    </label>
-                    <input
-                        id="firstName"
+            <Row>
+                < Form.Group
+              as={Col}
+              md="4"
+              sm="6"
+              xs="12"
+              className='position-relative' controlId="validationFormik01">
+                    <Form.Label>First name</Form.Label>
+                    <Form.Control
                         type="text"
-                        className={`form-control ${formik.errors.firstName ? 'is-invalid' : ''}`}
+                        name="firstName"
                         {...formik.getFieldProps('firstName')}
+                        isInvalid={formik.touched.firstName && formik.errors.firstName}
                     />
-                    {formik.touched.firstName && formik.errors.firstName && (
-                        <div className="invalid-feedback">{formik.errors.firstName}</div>
-                    )}
-                </div>
-
-                <div className="col-md-3 col-sm-6 col-xs-7 mb-3">
-                    <label htmlFor="lastName" className="form-label">
-                        Last Name*
-                    </label>
-                    <input
-                        id="lastName"
+                    <Form.Control.Feedback type="invalid">
+                        {formik.errors.firstName}
+                    </Form.Control.Feedback>
+                </Form.Group>
+                < Form.Group
+              as={Col}
+              md="4"
+              sm="6"
+              xs="12"
+              className='position-relative' controlId="validationFormik02">
+                    <Form.Label>Last name</Form.Label>
+                    <Form.Control
                         type="text"
-                        className={`form-control ${formik.errors.lastName ? 'is-invalid' : ''}`}
+                        name="lastName"
                         {...formik.getFieldProps('lastName')}
+                        isInvalid={formik.touched.lastName && formik.errors.lastName}
                     />
-                    {formik.touched.lastName && formik.errors.lastName && (
-                        <div className="invalid-feedback">{formik.errors.lastName}</div>
-                    )}
-                </div>
-
-
-                <div className="col-md-3 col-sm-6 col-xs-7 mb-3">
-                    <label htmlFor="cin" className="form-label">
-                        CIN*
-                    </label>
-                    <input
-                        id="cin"
+                    <Form.Control.Feedback type="invalid">
+                        {formik.errors.lastName}
+                    </Form.Control.Feedback>
+                </Form.Group>
+                < Form.Group
+              as={Col}
+              md="4"
+              sm="6"
+              xs="12"
+              className='position-relative' controlId="validationFormik03">
+                    <Form.Label>CIN</Form.Label>
+                    <Form.Control
                         type="text"
-                        className={`form-control ${formik.errors.cin ? 'is-invalid' : ''}`}
+                        name="cin"
                         {...formik.getFieldProps('cin')}
+                        isInvalid={formik.touched.cin && formik.errors.cin}
                     />
-                    {formik.touched.cin && formik.errors.cin && (
-                        <div className="invalid-feedback">{formik.errors.cin}</div>
-                    )}
-                </div>
+                    <Form.Control.Feedback type="invalid">
+                        {formik.errors.cin}
+                    </Form.Control.Feedback>
+                </Form.Group>
+                < Form.Group
+              as={Col}
+              md="4"
+              sm="6"
+              xs="12"
+              className='position-relative' controlId="validationFormik04">
+                    <Form.Label>Birthday</Form.Label>
+                    <Form.Control
 
-                <div className="col-md-3 col-sm-6 col-xs-7 mb-3">
-                    <label htmlFor="birthday" className="form-label">
-                        Birthday*
-                    </label>
-                    <input
-                        id="birthday"
                         type="date"
-                        className={`form-control ${formik.errors.birthday ? 'is-invalid' : ''}`}
+                        name="birthday"
                         {...formik.getFieldProps('birthday')}
+                        isInvalid={formik.touched.birthday && formik.errors.birthday}
                     />
-                    {formik.touched.birthday && formik.errors.birthday && (<div className="invalid-feedback">{formik.errors.birthday}</div>
-                    )}
-                </div>
-            </div>
+                    <Form.Control.Feedback type="invalid">
+                        {formik.errors.birthday}
+                    </Form.Control.Feedback>
+                </Form.Group>
+                <Form.Group
+              as={Col}
+              md={4}
+              sm={6}
+              xs={7}
+              className="position-relative"
+              >
+                <Form.Label>Gender*</Form.Label>
+              <Form.Select
+              component="select"
+              id="gender"
+              name="gender"
+              {...formik.getFieldProps('gender')}
+              isInvalid={formik.touched.gender && formik.errors.gender}
+              >
+              <option value=''>Chose Gender</option>
+              <option value='female'>female</option>
+              <option value='male'>male</option>
+              </Form.Select>
+              <Form.Control.Feedback type="invalid" tooltip>{formik.errors.gender}</Form.Control.Feedback>
+              </Form.Group>
+        < Form.Group
+              as={Col}
+              md="4"
+              sm="6"
+              xs="12"
+              className='position-relative' controlId="validationFormik10">
+            <Form.Label>Phone</Form.Label>
+            <Form.Control
 
-            <div className="row">
-                <div className="col-md-3 col-sm-6 col-xs-7 mb-3">
-                    <label htmlFor="gender" className="form-label">
-                        Gender*
-                    </label>
-                    <select
-                        id="gender"
-                        className={`form-select ${formik.errors.gender ? 'is-invalid' : ''}`}
-                        {...formik.getFieldProps('gender')}
-                    >
-                        <option value="">Select gender</option>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                    </select>
-                    {formik.touched.gender && formik.errors.gender && (
-                        <div className="invalid-feedback">{formik.errors.gender}</div>
-                    )}
-                </div>
-                <div className="col-md-3 col-sm-6 col-xs-7 mb-3">
-                    <label htmlFor="address" className="form-label">
-                        Address*
-                    </label>
-                    <input
-                        id="address"
-                        type="text"
-                        className={`form-control ${formik.errors.address ? 'is-invalid' : ''}`}
-                        {...formik.getFieldProps('address')}
-                    />
-                    {formik.touched.address && formik.errors.address && (
-                        <div className="invalid-feedback">{formik.errors.address}</div>
-                    )}
-                </div>
+                type="text"
+                name="phone"
+                {...formik.getFieldProps('phone')}
+                isInvalid={formik.touched.phone && formik.errors.phone}
+            />
+            <Form.Control.Feedback type="invalid">
+                {formik.errors.phone}
+            </Form.Control.Feedback>
+        </Form.Group>
+        < Form.Group
+              as={Col}
+              md="4"
+              sm="6"
+              xs="12"
+              className='position-relative' controlId="validationFormik11">
+            <Form.Label>Address</Form.Label>
+            <Form.Control
+            type="text"
+            name="address"
+            {...formik.getFieldProps('address')}
+            isInvalid={formik.touched.address && formik.errors.address}
+            />
+            <Form.Control.Feedback type="invalid">
+                {formik.errors.address}
+            </Form.Control.Feedback>
+        </Form.Group>
+        < Form.Group
+              as={Col}
+              md="4"
+              sm="6"
+              xs="12"
+              className='position-relative' controlId="validationFormik12">
+            <Form.Label>Hiredata</Form.Label>
+            <Form.Control
+                type="date"
+                name="hireDate"
+                {...formik.getFieldProps('hireDate')}
+                isInvalid={formik.touched.hireDate && formik.errors.hireDate}
+            />
+            <Form.Control.Feedback type="invalid">
+                {formik.errors.hireDate}
+            </Form.Control.Feedback>
+        </Form.Group>
+        <Row>
+            < Form.Group
+                as={Col}
+                md="4"
+                sm="6"
+                xs="12"
+                className='position-relative' controlId="validationFormik06">
+                <Form.Label>Email</Form.Label>
+                <Form.Control
+                    type="text"
+                    name="email"
+                    {...formik.getFieldProps('email')}
+                    isInvalid={formik.touched.email && formik.errors.email}
+                />
+                <Form.Control.Feedback type="invalid">
+                    {formik.errors.email}
+                </Form.Control.Feedback>
+            </Form.Group>
+            < Form.Group
+                as={Col}
+                md="4"
+                sm="6"
+                xs="12"
+                className='position-relative' controlId="validationFormik07">
+                <Form.Label>Email Confirmation</Form.Label>
+                <Form.Control
+                    type="text"
+                    name="emailConfirmation"
+                    {...formik.getFieldProps('emailConfirmation')}
+                    isInvalid={formik.touched.emailConfirmation && formik.errors.emailConfirmation}
+                />
+                <Form.Control.Feedback type="invalid">
+                    {formik.errors.emailConfirmation}
+                </Form.Control.Feedback>
+            </Form.Group>
+            < Form.Group
+                as={Col}
+                md="4"
+                sm="6"
+                xs="12"
+                className='position-relative' controlId="validationFormik08">
+                <Form.Label>Password</Form.Label>
+                <Form.Control
+                    type="password"
+                    name="password"
+                    {...formik.getFieldProps('password')}
+                    isInvalid={formik.touched.password && formik.errors.password}
+                />
+                <Form.Control.Feedback type="invalid">
+                    {formik.errors.password}
+                </Form.Control.Feedback>
+            </Form.Group>
+            < Form.Group
+                as={Col}
+                md="4"
+                sm="6"
+                xs="12"
+                className='position-relative' controlId="validationFormik09">
+                <Form.Label>Password Confirmation</Form.Label>
+                <Form.Control
+                    type="password"
+                    name="passwordConfirmation"
+                    {...formik.getFieldProps('passwordConfirmation')}
+                    isInvalid={formik.touched.passwordConfirmation && formik.errors.passwordConfirmation}
+                />
+                <Form.Control.Feedback type="invalid">
+                    {formik.errors.passwordConfirmation}
+                </Form.Control.Feedback>
+            </Form.Group>
+            < Form.Group
+                as={Col}
+                md="4"
+                sm="6"
+                xs="12"
+                className='position-relative' controlId="validationFormik10">
+                <Form.Label>Role</Form.Label>
+                <Form.Select
+                    component="select"
+                    id="role"
+                    name="role"
+                    {...formik.getFieldProps('role')}
+                    isInvalid={formik.touched.role && formik.errors.role}
+                >
+                    <option value=''>Chose Role</option>
+                    <option value='admin'>admin</option>
+                    <option value='user'>user</option>
+                </Form.Select>
+                <Form.Control.Feedback type="invalid" tooltip>{formik.errors.role}</Form.Control.Feedback>
+            </Form.Group>
 
-                <div className="col-md-3 col-sm-6 col-xs-7 mb-3">
-                    <label htmlFor="phone" className="form-label">
-                        Phone*
-                    </label>
-                    <input
-                        id="phone"
-                        type="text"
-                        className={`form-control ${formik.errors.phone ? 'is-invalid' : ''}`}
-                        {...formik.getFieldProps('phone')}
-                    />
-                    {formik.touched.phone && formik.errors.phone && (
-                        <div className="invalid-feedback">{formik.errors.phone}</div>
-                    )}
-                </div>
-
-
-                <div className="col-md-3 col-sm-6 col-xs-7 mb-3">
-                    <label htmlFor="hireDate" className="form-label">
-                        Hire Date*
-                    </label>
-                    <input
-                        id="hireDate"
-                        type="date"
-                        className={`form-control ${formik.errors.hireDate ? 'is-invalid' : ''}`}
-                        {...formik.getFieldProps('hireDate')}
-                        />
-                    {formik.touched.hireDate && formik.errors.hireDate && (
-                        <div className="invalid-feedback">{formik.errors.hireDate}</div>
-                        )}
-                </div>
-
-            </div>
-                <div className='row'>
-                    <div className="col-md-3 col-sm-6 col-xs-7 mb-3">
-                    <label htmlFor="email" className="form-label">
-                        Email*
-                    </label>
-                    <input
-                        id="email"
-                        type="email"
-                        className={`form-control ${formik.errors.email ? 'is-invalid' : ''}`}
-                        {...formik.getFieldProps('email')}
-                    />
-                    {formik.touched.email && formik.errors.email && (
-                        <div className="invalid-feedback">{formik.errors.email}</div>
-                    )}
-                </div>
-                <div className="col-md-3 col-sm-6 col-xs-7 mb-3">
-                    <label htmlFor="conf-email" className="form-label">
-                        Confirme Email*
-                    </label>
-                    <input
-                        id="conf-email"
-                        type="email"
-                        className={`form-control ${formik.errors.emailConfirmation ? 'is-invalid' : ''}`}
-                        {...formik.getFieldProps('emailConfirmation')}
-                    />
-                    {formik.touched.emailConfirmation && formik.errors.emailConfirmation && (
-                        <div className="invalid-feedback">{formik.errors.emailConfirmation}</div>
-                    )}
-                </div>
-                <div className="col-md-3 col-sm-6 col-xs-7 mb-3">
-                    <label htmlFor="password" className="form-label">
-                        password*
-                    </label>
-                    <input
-                        id="password"
-                        type="password"
-                        className={`form-control ${formik.errors.password ? 'is-invalid' : ''}`}
-                        {...formik.getFieldProps('password')}
-                    />
-                    {formik.touched.password && formik.errors.password && (
-                        <div className="invalid-feedback">{formik.errors.password}</div>
-                    )}
-                </div>
-                <div className="col-md-3 col-sm-6 col-xs-7 col-sm-6 col-xs-7 mb-3">
-                    <label htmlFor="conf-password" className="form-label">
-                        Confirme password*
-                    </label>
-                    <input
-                        id="conf-password"
-                        type="password"
-                        className={`form-control ${formik.errors.passwordConfirmation ? 'is-invalid' : ''}`}
-                        {...formik.getFieldProps('passwordConfirmation')}
-                    />
-                    {formik.touched.passwordConfirmation && formik.errors.passwordConfirmation && (
-                        <div className="invalid-feedback">{formik.errors.passwordConfirmation}</div>
-                    )}
-                </div>
-                        </div>
-                <div className="row">
-                        <AvatarEdit button='Add Teacher profile photo'/>
-            <div className='col-md-3 col-sm-6 col-xs-7 col-sm-6 col-xs-7 mb-3 w-100'>
-            
-                <div className="col-md-3 col-sm-6 col-xs-7 col-sm-6 col-xs-7 m-3">
-                    <div className="form-check">
-                        <input
-                            id="isActive"
-                            type="checkbox"
-                            className="form-check-input"
-                            checked={formik.values.isActive}
-                            {...formik.getFieldProps('isActive')}
-                            />
-                        <label htmlFor="isActive" className="form-check-label ">
-                            Active
-                        </label>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <Button type="submit">add User</Button>
-        </form>
-
-
-
-
-
+        </Row>
+        <Form.Group className="position-relative my-3">
+            <Form.Check
+              required
+              name="Active"
+              label="Active"
+              onChange={formik.handleChange}
+              feedback={formik.errors.isActive}
+              isInvalid={!!(formik.errors.isActive && formik.touched.isActive)}
+              feedbackType="invalid"
+              id="validationFormik106"
+              feedbackTooltip
+            />
+          </Form.Group>
+        </Row>
+        <Button type="submit">Save User</Button>
+        </Form>
     </div>
   )
 }
 
+
+
+
+
+
+
+
+
+
+
+       

@@ -12,7 +12,7 @@ import PresencesEns from './views/PresencesEns';
 import PresencesEtu from './views/PresencesEtu';
 import Resultats from './views/Resultats';
 import Settings from './views/Settings';
-import Utilisateurs from './views/Utliisateurs';
+import Utilisateurs from './views/Utlisateurs';
 
 import ForgotPasswordPage from './views/ForgotPasswordPage';
 
@@ -48,7 +48,8 @@ import Salles from './views/Salles';
 import AddSalle from "./components/SallesCompo/AddSalle";
 import EditSalle from "./components/SallesCompo/EditSalle";
 import ViewSalleDetails from "./components/SallesCompo/ViewSalleDetails";
-import { elements } from "chart.js";
+
+import EditUser from "./components/componentforUsers/editUser";
 import AddUser from "./components/componentforUsers/addUser";
 
 
@@ -155,8 +156,21 @@ const router = createBrowserRouter([
                 ]
             },
             {
-                path: "/users/add",
-                element: <AddUser/>,
+                path: "/",
+                children: [
+                    {
+                        path: "/users",
+                        element: <Utilisateurs/>
+                    }, 
+                    {
+                        path: "/users/addUser",
+                        element: <AddUser/>,
+                    },
+                    {
+                        path: "/users/editUser/:id",
+                        element: <EditUser/>,
+                    }
+                ]
             },
             {
                 path: "/",
@@ -222,10 +236,6 @@ const router = createBrowserRouter([
                 path: "/settings",
                 element: <Settings/>
             },
-            {
-                path: "/users",
-                element: <Utilisateurs/>
-            }, 
             {
                 path:"/",
                 children : [{
