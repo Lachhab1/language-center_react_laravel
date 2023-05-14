@@ -3,28 +3,58 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\LoginRequest;
+use App\Models\User;
 
 class LoginController extends Controller
 {
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
-        $credentials = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required']
-        ]);
-        if (!auth()->attempt($credentials)) {
-            throw ValidationException::withMessages([
-                'email' => [
-                    _('auth.failed')
-                ]
-            ]);
+        $credentials = $request->validate(
+            [
+                'email' => 'required|email|exists:users,email',
+                'password' => 'required|string'
+            ]
+        );
+
+        if (!Auth::attempt($credentials)) {
+            return response(
+                [
+                    'message' => 'Provided email or password is incorrect.'
+                ],
+                401
+            );
         }
-        return $request->user();
+        /** @var User $user */
+        $user = Auth::user();
+        $token = $user->createToken('authToken')->plainTextToken;
+        return response(
+            [
+                'user' => $user,
+                'token' => $token
+            ],
+            200
+        );
     }
     public function logout(Request $request)
     {
-        return Auth::logout();
+        $user = $request->user();
+        $user->currentAccessToken()->delete();
+        if ($user->currentAccessToken()) {
+            return response(
+                [
+                    'message' => 'User logged out successfully.'
+                ],
+                200
+            );
+        } else {
+            return response(
+                [
+                    'message' => 'Something went wrong.'
+                ],
+                500
+            );
+        }
     }
 }
