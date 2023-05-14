@@ -17,7 +17,7 @@ export default function FormLogin() {
         login({email,password});
         setEmail("");
         setPassword("");
-        navigate("/");
+        navigate("/dashboard");
     }
 
     return (

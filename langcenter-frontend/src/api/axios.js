@@ -6,10 +6,9 @@ const axiosCleint= axios.create({
         "Content-Type": "application/vnd.api+json",
         "X-Requested-With": "XMLHttpRequest",
     },
-        withCredentials: true
 });
 axiosCleint.interceptors.request.use((config) => {
-    config.headers.Authorization = `Bearer ${localStorage.getItem("ACCESS_TOKEN")}`;
+    config.headers.Authorization = `Bearer ${localStorage.getItem("ACCESS_TOKEN")}`
     return config;
 });
 axiosCleint.interceptors.response.use((response) => {
