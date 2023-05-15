@@ -3,14 +3,18 @@ import Sidebar from "../../components/Sidebar";
 import Topbar from "../../components/Topbar";
 import {Card,Alert, Col} from 'react-bootstrap';
 import { UseStateContext } from "../../context/ContextProvider";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 export default function ContentLayout() {
+  const {token,notification,variant} = UseStateContext();
   const location = useLocation();
   var replaced = location.pathname.slice(1).replace("_", " ").replaceAll("/", " ").replace(/\b\w/g, c => c.toUpperCase());
   replaced = replaced.charAt(0).toUpperCase() + replaced.slice(1).toLowerCase() 
   var second = location.pathname.slice(1).replace("_", " ").replaceAll("/", " ").replaceAll(" "," > ").replace(/\b\w/g, c => c.toUpperCase());
   const words = replaced.split(" ");
   let result = "";
-
+  if (variant === "success") toast.success(notification);
+  if (variant === "danger") toast.error(notification);
   for (let i = 0; i < 1 && i < words.length; i++) {
     result += words[i] + " ";
   }
@@ -19,7 +23,6 @@ export default function ContentLayout() {
     backgroundColor: "#F1F1F3"
   }
   const style = location.pathname === "/dashboard" ? dashboardstyle: ""
-  const {token,notification,variant} = UseStateContext();
   if(!token) return <Navigate to="/auth" />
   return (
     <div className="d-flex flex-row w-100">
@@ -40,7 +43,8 @@ export default function ContentLayout() {
         {
             notification != '' &&
           <Col xs={12} className="d-flex justify-content-end">
-          <Alert variant={variant} className="w-25">{notification}</Alert>
+            <ToastContainer />
+          {/* <Alert variant={variant} className="w-25">{notification}</Alert> */}
           </Col>
           }
         <Card className="mt-3" style={{borderRadius: "0",border:"0", ...style}}>
