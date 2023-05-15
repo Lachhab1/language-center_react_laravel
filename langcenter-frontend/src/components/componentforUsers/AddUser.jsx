@@ -4,8 +4,12 @@ import AvatarEdit from "../ProfileCompo/AvatarEdit";
 import * as Yup from 'yup';
 import { Form,Button,Row,Col } from 'react-bootstrap';
 import axios from '../../api/axios';
+import { useNavigate } from 'react-router-dom';
+import { UseStateContext } from '../../context/ContextProvider';
 
 export default function AddUser() {
+    const {notification,setNotification,setVariant} = UseStateContext();
+    const navigate = useNavigate();
     const formik = useFormik({
         initialValues: {
             firstName: '',
@@ -42,8 +46,24 @@ export default function AddUser() {
             hireDate: Yup.date().required('Hire date is required'),
         }),
         onSubmit: values => {
-            axios.post('/saveUser',values).then(({data}) => {
+            values = {
+                ...values,
+                is_active: values.isActive ? 1 : 0,
+                first_name: values.firstName,
+                last_name: values.lastName,
+                email_confirmation: values.emailConfirmation,
+                password_confirmation: values.passwordConfirmation,
+                date_of_hiring: values.hireDate,
+                image: 'https://i.pravatar.cc/300',
+            }
+            axios.post('/api/users',values).then(({data}) => {
                 console.log(data);
+                setNotification('User added successfully');
+                setVariant('success');
+                setTimeout(() => {
+                    setNotification('');
+                }, 3000);
+                navigate('/users');
             })
             .catch (error => {
                 if(error.response &&error.response.status === 422)
@@ -285,7 +305,8 @@ export default function AddUser() {
                 >
                     <option value=''>Chose Role</option>
                     <option value='admin'>admin</option>
-                    <option value='user'>user</option>
+                    <option value='director'>director</option>
+                    <option value='secretary'>secretary</option>
                 </Form.Select>
                 <Form.Control.Feedback type="invalid" tooltip>{formik.errors.role}</Form.Control.Feedback>
             </Form.Group>

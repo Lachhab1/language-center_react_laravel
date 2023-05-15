@@ -2,16 +2,23 @@ import axios from "../api/axios";
 import { useContext, useState } from "react";
 import {createContext,useEffect} from "react";
 const stateContext = createContext({
+    variant: null,
+    setVariant: () => {},
     user: null,
+    notification: null,
+    setNotification: () => {},
+    token: null,
     setUser: () => {},
     setToken: () => {},
     login: () => {},
     logout: () => {}
 })
 export const ContextProvider = ({children}) => {
+    const [variant,setVariant] = useState(null);
     const [token,_setToken] = useState(localStorage.getItem("ACCESS_TOKEN") ? localStorage.getItem("ACCESS_TOKEN") : null);
     const [user,setUser] = useState({});
     const [errors,setErrors] = useState([]);
+    const [notification, setNotification] = useState("");
     const setToken = (token) => {
         _setToken(token);
         if(token)
@@ -44,10 +51,6 @@ export const ContextProvider = ({children}) => {
                         }
                     )};
                         
-            
-            
-
-    
     const logout = () => {
        axios.post('/api/logout').then(() => {
         setUser(null);
@@ -56,22 +59,28 @@ export const ContextProvider = ({children}) => {
         console.log(error);
         })
     }
-    useEffect(() => {
+    const getUser = async() => {
         if(token)
         {
             axios.get('/api/user').then(({data}) => {
-                setUser(data.user);
+                setUser(data);
             }).catch((error) => {
                 console.log(error);
             }
             )
             
         }
-    
+    }
+    useEffect(() => {
+        getUser();
     },[]);
         return(
             <stateContext.Provider value={{
             user,
+            notification,
+            setNotification,
+            variant,
+            setVariant,
             setUser,
             token,
             setToken,

@@ -51,6 +51,7 @@ import ViewSalleDetails from "./components/SallesCompo/ViewSalleDetails";
 
 import EditUser from "./components/componentforUsers/editUser";
 import AddUser from "./components/componentforUsers/addUser";
+import User from "./components/componentforUsers/User";
 
 
 const router = createBrowserRouter([
@@ -169,6 +170,10 @@ const router = createBrowserRouter([
                     {
                         path: "/users/editUser/:id",
                         element: <EditUser/>,
+                    },
+                    {
+                        path: "/users/:id",
+                        element: <User/>
                     }
                 ]
             },

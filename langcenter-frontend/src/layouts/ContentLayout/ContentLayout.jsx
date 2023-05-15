@@ -1,7 +1,7 @@
 import { Navigate, Outlet,useLocation } from "react-router-dom";
 import Sidebar from "../../components/Sidebar";
 import Topbar from "../../components/Topbar";
-import Card from 'react-bootstrap/Card';
+import {Card,Alert, Col} from 'react-bootstrap';
 import { UseStateContext } from "../../context/ContextProvider";
 export default function ContentLayout() {
   const location = useLocation();
@@ -19,7 +19,7 @@ export default function ContentLayout() {
     backgroundColor: "#F1F1F3"
   }
   const style = location.pathname === "/dashboard" ? dashboardstyle: ""
-  const {user,token} = UseStateContext();
+  const {token,notification,variant} = UseStateContext();
   if(!token) return <Navigate to="/auth" />
   return (
     <div className="d-flex flex-row w-100">
@@ -37,6 +37,12 @@ export default function ContentLayout() {
           <div className="text-danger me-2 fw-semibold">&gt;<span className="ms-2 fw-bold">{second}</span></div>
           }
         </div>
+        {
+            notification != '' &&
+          <Col xs={12} className="d-flex justify-content-end">
+          <Alert variant={variant} className="w-25">{notification}</Alert>
+          </Col>
+          }
         <Card className="mt-3" style={{borderRadius: "0",border:"0", ...style}}>
           <Card.Body >
             <Outlet />
