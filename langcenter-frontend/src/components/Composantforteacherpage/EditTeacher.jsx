@@ -4,6 +4,9 @@ import AvatarEdit from "../ProfileCompo/AvatarEdit";
 import * as Yup from 'yup';
 
 export default function EditTeacher() {
+
+    const {id} = useParams();
+
     const [selectedClasses, setSelectedClasses] = useState([]);
     const formik = useFormik({
         initialValues: {

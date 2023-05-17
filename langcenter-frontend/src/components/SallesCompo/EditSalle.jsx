@@ -7,7 +7,8 @@ const editSalleSchema = Yup.object().shape({
   capacity: Yup.number().integer('Must be an Integer').required('Required'),
 });
 
-export default function EditSalle({ id }) {
+export default function EditSalle() {
+  const {id} = useParams();
   const handleSubmit = async (values) => {
     try {
       const response = await fetch(`http://example.com/api/salles/${id}`, {

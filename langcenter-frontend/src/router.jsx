@@ -3,7 +3,6 @@ import ContentLayout from "./layouts/ContentLayout/ContentLayout";
 import Dashboard from "./views/Dashboard"
 import Error404 from "./views/Error404"
 import Login from "./views/Login";
-import Groupes from './views/Groupes';
 import Cours from './views/Cours';
 import PaiementsEns from './views/PaiementsEns';
 import PaiementsEtu from './views/PaiementsEtu';
@@ -50,6 +49,10 @@ import EditSalle from "./components/SallesCompo/EditSalle";
 import ViewSalleDetails from "./components/SallesCompo/ViewSalleDetails";
 import { elements } from "chart.js";
 
+import Groupes from './views/Groupes';
+import AddGroupe from "./components/GroupesCompo/AddGroupe";
+import EditGroupe from "./components/GroupesCompo/EditGroupe";
+import ViewGroupe from "./components/GroupesCompo/ViewGroupe";
 
 const router = createBrowserRouter([
         {
@@ -130,8 +133,23 @@ const router = createBrowserRouter([
                 ]
             },
             {
-                path: '/groupe',
-                element: <Groupes/>
+                path:"/",
+                children:[
+                    {
+                        path: "/class",
+                        element: <Groupes/>
+                    },
+                    {
+                    path:"/class/add",
+                    element:<AddGroupe />
+                },{
+                    path:"/class/edit/:id",
+                    element:<EditGroupe />
+                },{
+                    path:"/class/details/:id",
+                    element:<ViewGroupe/>
+                }
+            ]
             },
             {
                 path: '/course',
