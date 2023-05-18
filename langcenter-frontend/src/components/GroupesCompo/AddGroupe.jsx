@@ -17,6 +17,7 @@ export default function AddGroup() {
       course: Yup.string().required('Course is required'),
       level: Yup.string().required('Level is required'),
     }),
+    validateOnMount: false,
     onSubmit: (values) => {
       // Handle form submission and add group
       console.log(values);

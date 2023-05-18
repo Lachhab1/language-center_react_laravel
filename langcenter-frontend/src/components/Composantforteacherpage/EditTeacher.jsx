@@ -2,6 +2,7 @@ import React, { useState ,useEffect } from 'react';
 import { useFormik } from 'formik';
 import AvatarEdit from "../ProfileCompo/AvatarEdit";
 import * as Yup from 'yup';
+import { useParams } from 'react-router-dom';
 
 export default function EditTeacher() {
 

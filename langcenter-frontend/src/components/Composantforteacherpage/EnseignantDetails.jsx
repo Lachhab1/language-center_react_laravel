@@ -1,8 +1,11 @@
+import { useParams } from 'react-router-dom';
+
 export default function EnseignantDetails()
 {
+    const {id} = useParams();
     
     const Prof = {
-        id:'1',
+        id:id,
         nom: 'Wade7',
         prenom: 'Mzn',
         gender:'Male',
