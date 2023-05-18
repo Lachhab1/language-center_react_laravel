@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Password;
+use Illuminate\Validation\Rule;
 
 class UpdateUserRequest extends FormRequest
 {
@@ -21,20 +23,46 @@ class UpdateUserRequest extends FormRequest
      */
     public function rules(): array
     {
+        $userId = $this->id;
         return [
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'cin' => 'required|string|max:255|unique:users,cin,' . $this->id,
-            'phone' => 'required|string|max:255|unique:users,phone,' . $this->id,
+            'username' => [
+                'string',
+                'max:255',
+                Rule::unique('users')->ignore($userId),
+            ],
+            'cin' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('users')->ignore($userId),
+            ],
+            'phone' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('users')->ignore($userId),
+            ],
             'address' => 'required|string|max:255',
             'gender' => 'required|string|max:255',
             'date_of_hiring' => 'required|date',
             'birthday' => 'required|date',
             'image' => 'string|max:255',
-            'email' => 'required|email|unique:users,email,' . $this->id,
-            'password' => 'string|min:8|confirmed',
+            'email' => [
+                'required',
+                'email',
+                Rule::unique('users')->ignore($userId),
+            ],
+            'password' => [
+                'nullable',
+                'confirmed',
+                Password::min(8)
+                    ->letters()
+                    ->symbols(),
+            ],
             'role' => 'required|string|in:admin,secretary,director',
-            'is_active' => 'boolean'
+            'is_active' => 'boolean',
         ];
     }
 }
