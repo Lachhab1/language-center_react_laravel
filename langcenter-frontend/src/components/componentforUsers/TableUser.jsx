@@ -1,7 +1,8 @@
 import axios from "../../api/axios"
 import Button from "../Button"
 import DataTable from "react-data-table-component"
-import { Link } from "react-router-dom"
+import { Ellipsis } from 'react-awesome-spinners'
+import { Link, Navigate,useNavigate } from "react-router-dom"
 import { BsFillPencilFill,
     MdDelete,
     BsFillEyeFill}from 'react-icons/all';
@@ -10,15 +11,23 @@ import { UseStateContext } from "../../context/ContextProvider";
 export default function TabUser()
 {
 //fetching data from the database
+const [pending, setPending] = useState(true);
 const [data,setData]=useState([]);
-const {notification,setNotification,variant,setVariant} = UseStateContext();
+const {setNotification,setVariant} = UseStateContext();
+const navigate = useNavigate();
+
 const getUsers = async () => {
-    const response = await axios.get("/api/users");
-    setData(response.data.data);
+    
     };
     useEffect(() => {
-        getUsers();
-    }, []);
+        const timeout = setTimeout(async() => {
+			const response = await axios.get("/api/users");
+            setData(response.data.data);
+			setPending(false);
+		}, 1000);
+		return () => clearTimeout(timeout);
+    }, [data]);
+    
 //delete a row
 const deleteRow = async (id) => {
     await axios.delete(`/api/users/${id}`);
@@ -27,8 +36,8 @@ const deleteRow = async (id) => {
     setTimeout(() => {
         setNotification("");
     }, 3000);
-    getUsers();
-    };
+    navigate("/users");
+};
 
 
 
@@ -115,6 +124,10 @@ const col=[
                     data={data}
                     fixedHeader
                     pagination
+                    progressPending={pending}
+                    progressComponent={<Ellipsis  size={64}
+                        color='#D60A0B'
+                        sizeUnit='px' />}
             >
              </DataTable>
                 </div>

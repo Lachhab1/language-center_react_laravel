@@ -6,11 +6,13 @@ import { Form,Button,Row,Col } from 'react-bootstrap';
 import axios from '../../api/axios';
 import qs from 'qs';
 import { useParams,useNavigate } from 'react-router-dom';
+import { UseStateContext } from '../../context/ContextProvider';
 
 export default function EditUser() {
     //fetching data from the database
     const {id}=useParams();
     const navigate = useNavigate();
+    const {setNotification,setVariant} = UseStateContext();
     const getUser = async () => {
         const response = await axios.get(`/api/users/${id}`);
         formik.setValues(
@@ -50,7 +52,7 @@ export default function EditUser() {
             lastName: Yup.string().required('Last name is required'),
             cin: Yup.string().required('CIN is required'),
             birthday: Yup.date().required('Birthday is required'),
-            gender: Yup.string().oneOf(['Female','Male']).required('required'),
+            gender: Yup.string().oneOf(['female','male']).required('required'),
             email: Yup.string().email('Invalid email address').required('Email is required'),
             password: Yup.string(),
             passwordConfirmation: Yup.string()
@@ -63,9 +65,10 @@ export default function EditUser() {
         }),
         onSubmit: values => {
             const sendValues = {
-                ...values,
+                username: values.username,
                 first_name: values.firstName,
                 last_name: values.lastName,
+                role: values.role,
                 date_of_hiring: values.hireDate,
                 birthday: values.birthday,
                 email: values.email,
@@ -87,6 +90,11 @@ export default function EditUser() {
                 },
             }
             ).then(({data}) => {
+                setNotification('User has been edited successfully');
+                setVariant('warning');
+                setTimeout(() => {
+                    setNotification('');
+                }, 3000);
                 navigate('/users');
                 
             })
@@ -247,6 +255,25 @@ export default function EditUser() {
             </Form.Control.Feedback>
         </Form.Group>
         <Row>
+        < Form.Group
+
+as={Col}
+md="4"
+sm="6"
+xs="12"
+className='position-relative' controlId="validationFormik05">
+<Form.Label>Username</Form.Label>
+<Form.Control
+
+    type="text"
+    name="username"
+    {...formik.getFieldProps('username')}
+    isInvalid={formik.touched.username && formik.errors.username}
+/>
+<Form.Control.Feedback type="invalid">
+    {formik.errors.username}
+</Form.Control.Feedback>
+</Form.Group>
             < Form.Group
                 as={Col}
                 md="4"

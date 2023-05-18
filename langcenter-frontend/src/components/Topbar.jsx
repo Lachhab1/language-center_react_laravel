@@ -17,7 +17,7 @@ export default function Topbar() {
                         <Nav.Link className="profile-photoContainer">
                             <img src={photo_profile} className="pPhoto" />
                         </Nav.Link>
-                        <NavDropdown drop={"down-centered"} align={ "end" }  title={user?.first_name+' '+user?.last_name} id="nav-dropdown">
+                        <NavDropdown drop={"down-centered"} align={ "end" }  title={user && user.username} id="nav-dropdown">
                                 <NavDropdown.Item as={Link} to="/settings">Settings</NavDropdown.Item>
                                 <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
                             </NavDropdown>
