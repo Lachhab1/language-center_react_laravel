@@ -2,9 +2,9 @@ import axios from "axios";
 const axiosCleint= axios.create({
     baseURL: "http://localhost:8000",
     headers: {
-        "Accept": "application/vnd.api+json",
-        "Content-Type": "application/vnd.api+json",
-        "X-Requested-With": "XMLHttpRequest",
+        // "Accept": "application/json",
+        "Content-Type": "application/json",
+            // "X-Requested-With": "XMLHttpRequest",
     },
 });
 axiosCleint.interceptors.request.use((config) => {

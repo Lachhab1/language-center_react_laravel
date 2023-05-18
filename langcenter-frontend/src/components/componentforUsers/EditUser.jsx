@@ -4,6 +4,7 @@ import AvatarEdit from "../ProfileCompo/AvatarEdit";
 import * as Yup from 'yup';
 import { Form,Button,Row,Col } from 'react-bootstrap';
 import axios from '../../api/axios';
+import qs from 'qs';
 import { useParams,useNavigate } from 'react-router-dom';
 
 export default function EditUser() {
@@ -61,11 +62,31 @@ export default function EditUser() {
             hireDate: Yup.date().required('Hire date is required'),
         }),
         onSubmit: values => {
-            console.log(values);
-            const valuesToSend = {
-                ...values
+            const sendValues = {
+                ...values,
+                first_name: values.firstName,
+                last_name: values.lastName,
+                date_of_hiring: values.hireDate,
+                birthday: values.birthday,
+                email: values.email,
+                gender: values.gender,
+                cin: values.cin,
+                address: values.address,
+                phone: values.phone,
+                is_active: 1,
+                password: values.password ? values.password : undefined,
+                password_confirmation: values.passwordConfirmation ? values.passwordConfirmation : undefined
             }
-            axios.put(`/api/users/${id}`,JSON.stringify({valuesToSend})).then(({data}) => {
+            console.log(values);
+            axios.put(`/api/users/${id}`,sendValues,
+            {
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    "Accept": "application/json",
+        // "Content-Type": "application/json",
+                },
+            }
+            ).then(({data}) => {
                 navigate('/users');
                 
             })
