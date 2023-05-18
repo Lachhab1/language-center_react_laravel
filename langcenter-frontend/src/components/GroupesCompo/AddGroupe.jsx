@@ -1,28 +1,28 @@
 import React, { useState } from 'react';
-import { useFormik } from 'formik';
+import { Formik } from 'formik';
 import * as Yup from 'yup';
+import { Form, Button, Row, Col } from 'react-bootstrap';
 
-export default function AddGroup() {
+const AddGroup = () => {
   const [selectedCourse, setSelectedCourse] = useState('');
   const [selectedLevel, setSelectedLevel] = useState('');
-  
-  const formik = useFormik({
-    initialValues: {
-      groupName: '',
-      course: '',
-      level: '',
-    },
-    validationSchema: Yup.object({
-      groupName: Yup.string().required('Group name is required'),
-      course: Yup.string().required('Course is required'),
-      level: Yup.string().required('Level is required'),
-    }),
-    validateOnMount: false,
-    onSubmit: (values) => {
-      // Handle form submission and add group
-      console.log(values);
-    },
+
+  const validationSchema = Yup.object({
+    groupName: Yup.string().required('Group name is required'),
+    course: Yup.string().required('Course is required'),
+    level: Yup.string().required('Level is required'),
   });
+
+  const initialValues = {
+    groupName: '',
+    course: '',
+    level: '',
+  };
+
+  const handleSubmit = (values) => {
+    // Handle form submission and add group
+    console.log(values);
+  };
 
   // Fetch available courses and levels from the database
   // Replace this with your actual API call to fetch data
@@ -43,88 +43,98 @@ export default function AddGroup() {
   const handleCourseChange = (e) => {
     const courseId = e.target.value;
     setSelectedCourse(courseId);
-    formik.setFieldValue('course', courseId);
-    formik.setFieldValue('level', ''); // Reset the selected level when the course changes
   };
 
   const handleLevelChange = (e) => {
     const levelId = e.target.value;
     setSelectedLevel(levelId);
-    formik.setFieldValue('level', levelId);
   };
 
   return (
-    <form onSubmit={formik.handleSubmit} className="addGroup">
-      <h1>Add Group</h1>
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={handleSubmit}
+    >
+      {(formik) => (
+        <Form onSubmit={formik.handleSubmit} className="addGroup">
+          <h1>Add Group</h1>
 
-      <div className="row">
-        <div className="col-md-6 mb-3">
-          <label htmlFor="groupName" className="form-label">
-            Group Name*
-          </label>
-          <input
-            id="groupName"
-            type="text"
-            className={`form-control ${formik.errors.groupName ? 'is-invalid' : ''}`}
-            {...formik.getFieldProps('groupName')}
-          />
-          {formik.touched.groupName && formik.errors.groupName && (
-            <div className="invalid-feedback">{formik.errors.groupName}</div>
-          )}
-        </div>
+          <Row>
+            <Col md={6} className="mb-3">
+              <Form.Label htmlFor="groupName">Group Name*</Form.Label>
+              <Form.Control
+                id="groupName"
+                type="text"
+                {...formik.getFieldProps('groupName')}
+                isInvalid={formik.touched.groupName && formik.errors.groupName}
+              />
+              <Form.Control.Feedback type="invalid">
+                {formik.errors.groupName}
+              </Form.Control.Feedback>
+            </Col>
 
-        <div className="col-md-6 mb-3">
-          <label htmlFor="course" className="form-label">
-            Course*
-          </label>
-          <select
-            id="course"
-            className={`form-select ${formik.errors.course ? 'is-invalid' : ''}`}
-            value={selectedCourse}
-            onChange={handleCourseChange}
-          >
-            <option value="">Select course</option>
-            {availableCourses.map((course) => (
-              <option key={course.id} value={course.id}>
-                {course.name}
-              </option>
-            ))}
-          </select>
-          {formik.touched.course && formik.errors.course && (
-            <div className="invalid-feedback">{formik.errors.course}</div>
-          )}
-        </div>
-      </div>
+            <Col md={6} className="mb-3">
+              <Form.Label htmlFor="course">Course*</Form.Label>
+              <Form.Select
+                id="course"
+                {...formik.getFieldProps('course')}
+                value={selectedCourse}
+                onChange={(e) => {
+                  handleCourseChange(e);
+                  formik.handleChange(e);
+                }}
+                isInvalid={formik.touched.course && formik.errors.course}
+              >
+                <option value="">Select course</option>
+                {availableCourses.map((course) => (
+                  <option key={course.id} value={course.id}>
+                    {course.name}
+                  </option>
+                ))}
+              </Form.Select>
+              <Form.Control.Feedback type="invalid">
+                {formik.errors.course}
+              </Form.Control.Feedback>
+            </Col>
+          </Row>
 
-      <div className="row">
-        <div className="col-md-6 mb-3">
-            <label htmlFor="level" className="form-label">
-            Level*
-          </label>
-          <select
-            id="level"
-            className={`form-select ${formik.errors.level ? 'is-invalid' : ''}`}
-            value={selectedLevel}
-            onChange={handleLevelChange}
-            disabled={!selectedCourse} // Disable the level select if no course is selected
-          >
-            <option value="">Select level</option>
-            {availableLevels.map((level) => (
-              <option key={level.id} value={level.id}>
-                {level.name}
-              </option>
-            ))}
-          </select>
-          {formik.touched.level && formik.errors.level && (
-            <div className="invalid-feedback">{formik.errors.level}</div>
-          )}
-        </div>
-      </div>
-
-      <button type="submit" className="btn btn-primary">
-        Add Group
-      </button>
-    </form>
-  );
-}
-
+          <Row>
+            <Col md={6} className="mb-3">
+              <Form.Label htmlFor="level">Level*</Form.Label>
+              <Form.Select
+                id="level"
+                {...formik.getFieldProps('level')}
+                value={selectedLevel}
+                onChange={(e
+                  ) => {
+                    handleLevelChange(e);
+                    formik.handleChange(e);
+                  }}
+                  isInvalid={formik.touched.level && formik.errors.level}
+                  disabled={!selectedCourse}
+                >
+                  <option value="">Select level</option>
+                  {availableLevels.map((level) => (
+                    <option key={level.id} value={level.id}>
+                      {level.name}
+                    </option>
+                  ))}
+                </Form.Select>
+                <Form.Control.Feedback type="invalid">
+                  {formik.errors.level}
+                </Form.Control.Feedback>
+              </Col>
+            </Row>
+  
+            <Button type="submit" variant="primary">
+              Add Group
+            </Button>
+          </Form>
+        )}
+      </Formik>
+    );
+  };
+  
+  export default AddGroup;
+  

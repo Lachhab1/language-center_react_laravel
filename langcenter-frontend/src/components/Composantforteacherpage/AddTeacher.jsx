@@ -1,283 +1,254 @@
 import React, { useState } from 'react';
 import { useFormik } from 'formik';
-import AvatarEdit from "../ProfileCompo/AvatarEdit";
+import { Form, Button, Row, Col } from 'react-bootstrap';
 import * as Yup from 'yup';
+import AvatarEdit from '../ProfileCompo/AvatarEdit';
 
 export default function AddTeacher() {
-    const [selectedClasses, setSelectedClasses] = useState([]);
-    const formik = useFormik({
-        initialValues: {
-            firstName: '',
-            lastName: '',
-            cin: '',
-            birthday: '',
-            gender: '',
-            email: '',
-            address: '',
-            phone: '',
-            isActive: false,
-            diploma: '',
-            hireDate: '',
-            speciality: '',
-        },
-        validationSchema: Yup.object({
-            firstName: Yup.string().required('First name is required'),
-            lastName: Yup.string().required('Last name is required'),
-            cin: Yup.string().required('CIN is required'),
-            birthday: Yup.date().required('Birthday is required'),
-            gender: Yup.string().required('Gender is required'),
-            email: Yup.string().email('Invalid email address').required('Email is required'),
-            address: Yup.string().required('Address is required'),
-            phone: Yup.string().required('Phone number is required'),
-            isActive: Yup.boolean().required('Status is required'),
-            diploma: Yup.string().required('Diploma is required'),
-            hireDate: Yup.date().required('Hire date is required'),
-            speciality: Yup.string().required('Speciality is required'),
-        }),
-        onSubmit: (values) => {
-            // Handle form submission and add teacher
-            console.log(values);
-        },
-    });
-    //jib data mn database hado machi dynamique
-    const availableClasses = [
-        { id: '1', name: 'Class A' },
-        { id: '2', name: 'Class B' },
-        { id: '3', name: 'Class C' },
-        // Add more classes as needed
-    ];
+  const [selectedClasses, setSelectedClasses] = useState([]);
+  const formik = useFormik({
+    initialValues: {
+      firstName: '',
+      lastName: '',
+      cin: '',
+      birthday: '',
+      gender: '',
+      email: '',
+      address: '',
+      phone: '',
+      isActive: false,
+      diploma: '',
+      hireDate: '',
+      speciality: '',
+    },
+    validationSchema: Yup.object({
+      firstName: Yup.string().required('First name is required'),
+      lastName: Yup.string().required('Last name is required'),
+      cin: Yup.string().required('CIN is required'),
+      birthday: Yup.date().required('Birthday is required'),
+      gender: Yup.string().required('Gender is required'),
+      email: Yup.string().email('Invalid email address').required('Email is required'),
+      address: Yup.string().required('Address is required'),
+      phone: Yup.string().required('Phone number is required'),
+      isActive: Yup.boolean().required('Status is required'),
+      diploma: Yup.string().required('Diploma is required'),
+      hireDate: Yup.date().required('Hire date is required'),
+      speciality: Yup.string().required('Speciality is required'),
+    }),
+    onSubmit: (values) => {
+      // Handle form submission and add teacher
+      console.log(values);
+    },
+  });
 
+  // Available classes from the database (dynamic data)
+  const availableClasses = [
+    { id: '1', name: 'Class A' },
+    { id: '2', name: 'Class B' },
+    { id: '3', name: 'Class C' },
+    // Add more classes as needed
+  ];
 
-    return (
-        <form onSubmit={formik.handleSubmit} className='addTeacher'>
-            <h1>Add New Teacher</h1>
+  return (
+    <Form onSubmit={formik.handleSubmit} className='addTeacher'>
+      <h1>Add New Teacher</h1>
 
-            <div className="row">
-                <div className="col-md-3 mb-3">
-                    <label htmlFor="firstName" className="form-label">
-                        First Name*
-                    </label>
-                    <input
-                        id="firstName"
-                        type="text"
-                        className={`form-control ${formik.errors.firstName ? 'is-invalid' : ''}`}
-                        {...formik.getFieldProps('firstName')}
-                    />
-                    {formik.touched.firstName && formik.errors.firstName && (
-                        <div className="invalid-feedback">{formik.errors.firstName}</div>
-                    )}
-                </div>
+      <Row>
+        <Col md={3} className='mb-3'>
+          <Form.Label htmlFor='firstName'>First Name*</Form.Label>
+          <Form.Control
+            id='firstName'
+            type='text'
+            className={`form-control ${formik.errors.firstName  && formik.touched.firstName  ? 'is-invalid' : ''}`}
+            {...formik.getFieldProps('firstName')}
+          />
+          {formik.touched.firstName && formik.errors.firstName && (
+            <div className='invalid-feedback'>{formik.errors.firstName}</div>
+          )}
+        </Col>
 
-                <div className="col-md-3 mb-3">
-                    <label htmlFor="lastName" className="form-label">
-                        Last Name*
-                    </label>
-                    <input
-                        id="lastName"
-                        type="text"
-                        className={`form-control ${formik.errors.lastName ? 'is-invalid' : ''}`}
-                        {...formik.getFieldProps('lastName')}
-                    />
-                    {formik.touched.lastName && formik.errors.lastName && (
-                        <div className="invalid-feedback">{formik.errors.lastName}</div>
-                    )}
-                </div>
+        <Col md={3} className='mb-3'>
+          <Form.Label htmlFor='lastName'>Last Name*</Form.Label>
+          <Form.Control
+            id='lastName'
+            type='text'
+            className={`form-control ${formik.errors.lastName  && formik.touched.lastName ? 'is-invalid' : ''}`}
+            {...formik.getFieldProps('lastName')}
+          />
+          {formik.touched.lastName && formik.errors.lastName && (
+            <div className='invalid-feedback'>{formik.errors.lastName}</div>
+          )}
+        </Col>
 
+        <Col md={3} className='mb-3'>
+          <Form.Label htmlFor='cin'>CIN*</Form.Label>
+          <Form.Control
+            id='cin'
+            type='text'
+            className={`form-control ${formik.errors.cin  && formik.touched.cin ? 'is-invalid' : ''}`}
+            {...formik.getFieldProps('cin')}
+          />
+          {formik.touched.cin && formik.errors.cin && (
+            <div className='invalid-feedback'>{formik.errors.cin}</div>
+          )}
+        </Col>
 
-                <div className="col-md-3 mb-3">
-                    <label htmlFor="cin" className="form-label">
-                        CIN*
-                    </label>
-                    <input
-                        id="cin"
-                        type="text"
-                        className={`form-control ${formik.errors.cin ? 'is-invalid' : ''}`}
-                        {...formik.getFieldProps('cin')}
-                    />
-                    {formik.touched.cin && formik.errors.cin && (
-                        <div className="invalid-feedback">{formik.errors.cin}</div>
-                    )}
-                </div>
+        <Col md={3} className='mb-3'>
+          <Form.Label htmlFor='birthday'>Birthday*</Form.Label>
+          <Form.Control
+            id='birthday'
+            type='date'
+            className={`form-control ${formik.errors.birthday  && formik.touched.birthday ? 'is-invalid' : ''}`}
+            {...formik.getFieldProps('birthday')}
+          />
+          {formik.touched.birthday && formik.errors.birthday && (
+            <div className='invalid-feedback'>{formik.errors.birthday}</div>
+          )}
+        </Col>
+      </Row>
 
-                <div className="col-md-3 mb-3">
-                    <label htmlFor="birthday" className="form-label">
-                        Birthday*
-                    </label>
-                    <input
-                        id="birthday"
-                        type="date"
-                        className={`form-control ${formik.errors.birthday ? 'is-invalid' : ''}`}
-                        {...formik.getFieldProps('birthday')}
-                    />
-                    {formik.touched.birthday && formik.errors.birthday && (<div className="invalid-feedback">{formik.errors.birthday}</div>
-                    )}
-                </div>
-            </div>
+      <Row>
+        <Col md={3} className='mb-3'>
+          <Form.Label htmlFor='gender'>Gender*</Form.Label>
+          <Form.Select
+            id='gender'
+            className={`form-select ${formik.errors.gender   && formik.touched.gender? 'is-invalid' : ''}`}
+            {...formik.getFieldProps('gender')}
+          >
+            <option value=''>Select gender</option>
+            <option value='male'>Male</option>
+            <option value='female'>Female</option>
+          </Form.Select>
+          {formik.touched.gender && formik.errors.gender && (
+            <div className='invalid-feedback'>{formik.errors.gender}</div>
+          )}
+        </Col>
 
-            <div className="row">
-                <div className="col-md-3 mb-3">
-                    <label htmlFor="gender" className="form-label">
-                        Gender*
-                    </label>
-                    <select
-                        id="gender"
-                        className={`form-select ${formik.errors.gender ? 'is-invalid' : ''}`}
-                        {...formik.getFieldProps('gender')}
-                    >
-                        <option value="">Select gender</option>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                    </select>
-                    {formik.touched.gender && formik.errors.gender && (
-                        <div className="invalid-feedback">{formik.errors.gender}</div>
-                    )}
-                </div>
+        <Col md={3} className='mb-3'>
+          <Form.Label htmlFor='email'>Email*</Form.Label>
+          <Form.Control
+            id='email'
+            type='email'
+            className={`form-control ${formik.errors.email  && formik.touched.email ? 'is-invalid' : ''}`}
+            {...formik.getFieldProps('email')}
+          />
+          {formik.touched.email && formik.errors.email && (
+            <div className='invalid-feedback'>{formik.errors.email}</div>
+          )}
+        </Col>
 
-                <div className="col-md-3 mb-3">
-                    <label htmlFor="email" className="form-label">
-                        Email*
-                    </label>
-                    <input
-                        id="email"
-                        type="email"
-                        className={`form-control ${formik.errors.email ? 'is-invalid' : ''}`}
-                        {...formik.getFieldProps('email')}
-                    />
-                    {formik.touched.email && formik.errors.email && (
-                        <div className="invalid-feedback">{formik.errors.email}</div>
-                    )}
-                </div>
+        <Col md={3} className='mb-3'>
+          <Form.Label htmlFor='address'>Address*</Form.Label>
+          <Form.Control
+            id='address'
+            type='text'
+            className={`form-control ${formik.errors.address  && formik.touched.address ? 'is-invalid' : ''}`}
+            {...formik.getFieldProps('address')}
+          />
+          {formik.touched.address && formik.errors.address && (
+            <div className='invalid-feedback'>{formik.errors.address}</div>
+          )}
+        </Col>
 
+        <Col md={3} className='mb-3'>
+          <Form.Label htmlFor='phone'>Phone*</Form.Label>
+          <Form.Control
+            id='phone'
+            type='text'
+            className={`form-control ${formik.errors.phone  && formik.touched.phone ? 'is-invalid' : ''}`}
+            {...formik.getFieldProps('phone')}
+          />
+          {formik.touched.phone && formik.errors.phone && (
+            <div className='invalid-feedback'>{formik.errors.phone}</div>
+          )}
+        </Col>
+      </Row>
 
+      <Row>
+        <Col md={3} className='mb-3'>
+          <Form.Label htmlFor='speciality'>Speciality*</Form.Label>
+          <Form.Control
+            id='speciality'
+            type='text'
+            className={`form-control ${formik.errors.speciality  && formik.touched.speciality ?  'is-invalid' : ''}`}
+            {...formik.getFieldProps('speciality')}
+          />
+          {formik.touched.speciality && formik.errors.speciality && (
+            <div className='invalid-feedback'>{formik.errors.speciality}</div>
+          )}
+        </Col>
 
-                <div className="col-md-3 mb-3">
-                    <label htmlFor="address" className="form-label">
-                        Address*
-                    </label>
-                    <input
-                        id="address"
-                        type="text"
-                        className={`form-control ${formik.errors.address ? 'is-invalid' : ''}`}
-                        {...formik.getFieldProps('address')}
-                    />
-                    {formik.touched.address && formik.errors.address && (
-                        <div className="invalid-feedback">{formik.errors.address}</div>
-                    )}
-                </div>
+        <Col md={3} className='mb-3'>
+          <Form.Label htmlFor='diploma'>Diploma*</Form.Label>
+          <Form.Control
+            id='diploma'
+            type='text'
+            className={`form-control ${formik.errors.diploma  && formik.touched.diploma ? 'is-invalid' : ''}`}
+            {...formik.getFieldProps('diploma')}
+          />
+          {formik.touched.diploma && formik.errors.diploma && (
+            <div className='invalid-feedback'>{formik.errors.diploma}</div>
+          )}
+        </Col>
 
-                <div className="col-md-3 mb-3">
-                    <label htmlFor="phone" className="form-label">
-                        Phone*
-                    </label>
-                    <input
-                        id="phone"
-                        type="text"
-                        className={`form-control ${formik.errors.phone ? 'is-invalid' : ''}`}
-                        {...formik.getFieldProps('phone')}
-                    />
-                    {formik.touched.phone && formik.errors.phone && (
-                        <div className="invalid-feedback">{formik.errors.phone}</div>
-                    )}
-                </div>
-            </div>
+        <Col md={3} className='mb-3'>
+          <Form.Label htmlFor='hireDate'>Hire Date*</Form.Label>
+          <Form.Control
+            id='hireDate'
+            type='date'
+            className={`form-control ${formik.errors.hireDate  && formik.touched.hireDate ? 'is-invalid' : ''}`}
+            {...formik.getFieldProps('hireDate')}
+          />
+          {formik.touched.hireDate && formik.errors.hireDate && (
+            <div className='invalid-feedback'>{formik.errors.hireDate}</div>
+          )}
+        </Col>
 
-            <div className="row">
-                <div className="col-md-3 mb-3">
-                    <label htmlFor="speciality" className="form-label">
-                        Speciality*
-                    </label>
-                    <input
-                        id="speciality"
-                        type="text"
-                        className={`form-control ${formik.errors.speciality ? 'is-invalid' : ''}`}
-                        {...formik.getFieldProps('speciality')}
-                    />
-                    {formik.touched.speciality && formik.errors.speciality && (
-                        <div className="invalid-feedback">{formik.errors.speciality}</div>
-                    )}
-                </div>
+        <Col md={3} className='mb-3 d-flex justify-content-center align-items-end'>
+          <Form.Check
+            id='isActive'
+            type='checkbox'
+            className='form-check-input'
+            checked={formik.values.isActive}
+            {...formik.getFieldProps('isActive')}
+          />
+          <Form.Label htmlFor='isActive' className='form-check-label'>
+            Active
+          </Form.Label>
+        </Col>
+      </Row>
 
-                <div className="col-md-3 mb-3">
-                    <label htmlFor="diploma" className="form-label">
-                        Diploma*
-                    </label>
-                    <input
-                        id="diploma"
-                        type="text"
-                        className={`form-control ${formik.errors.diploma ? 'is-invalid' : ''}`}
-                        {...formik.getFieldProps('diploma')}
-                    />
-                    {formik.touched.diploma && formik.errors.diploma && (
-                        <div className="invalid-feedback">{formik.errors.diploma}</div>
-                    )}
-                </div>
+      <Row>
+        <Col md={3} className='mb-3'>
+          <Form.Label htmlFor='selectedClasses'>Class(es)*</Form.Label>
+          <Form.Select
+            id='selectedClasses'
+            className={`form-select ${formik.errors.selectedClasses  && formik.touched.selectedClasses ? 'is-invalid' : ''}`}
+            multiple
+            value={selectedClasses}
+            onChange={(e) =>
+              setSelectedClasses(Array.from(e.target.selectedOptions, (option) => option.value))
+            }
+          >
+            {availableClasses.map((classItem) => (
+              <option key={classItem.id} value={classItem.id}>
+                {classItem.name}
+              </option>
+            ))}
+          </Form.Select>
+          {formik.touched.selectedClasses && formik.errors.selectedClasses && (
+            <div className='invalid-feedback'>{formik.errors.selectedClasses}</div>
+          )}
+          <div className='form-text text-muted' style={{ fontSize: 'small', color: 'lightgray' }}>
+            (Ctrl + click) or (⌘ + click) to select multiple classes
+          </div>
+        </Col>
+        <AvatarEdit button='Add Teacher profile photo' />
+      </Row>
 
-                <div className="col-md-3 mb-3">
-                    <label htmlFor="hireDate" className="form-label">
-                        Hire Date*
-                    </label>
-                    <input
-                        id="hireDate"
-                        type="date"
-                        className={`form-control ${formik.errors.hireDate ? 'is-invalid' : ''}`}
-                        {...formik.getFieldProps('hireDate')}
-                    />
-                    {formik.touched.hireDate && formik.errors.hireDate && (
-                        <div className="invalid-feedback">{formik.errors.hireDate}</div>
-                    )}
-                </div>
-
-                <div className="col-md-3 mb-3 d-flex justify-content-center align-items-end">
-                    <div className="form-check">
-                        <input
-                            id="isActive"
-                            type="checkbox"
-                            className="form-check-input"
-                            checked={formik.values.isActive}
-                            {...formik.getFieldProps('isActive')}
-                        />
-                        <label htmlFor="isActive" className="form-check-label ">
-                            Active
-                        </label>
-                    </div>
-                </div>
-                <div className="row">
-
-                    <div className="col-md-3 mb-3">
-                        <label htmlFor="selectedClasses" className="form-label">
-                            Class(es)*
-                        </label>
-                        <select
-                            id="selectedClasses"
-                            className={`form-select ${formik.errors.selectedClasses ? 'is-invalid' : ''}`}
-                            multiple
-                            value={selectedClasses}
-                            onChange={(e) => setSelectedClasses(Array.from(e.target.selectedOptions, option => option.value))}
-                        >
-                            {availableClasses.map((classItem) => (
-                                <option key={classItem.id} value={classItem.id}>
-                                    {classItem.name}
-                                </option>
-                            ))}
-                        </select>
-                        {formik.touched.selectedClasses && formik.errors.selectedClasses && (
-                            <div className="invalid-feedback">{formik.errors.selectedClasses}</div>
-                        )}
-                        <div className="form-text text-muted" style={{ fontSize: 'small', color: 'lightgray' }}>
-                            (Ctrl + click) or (⌘ + click) to select multiple classes
-                        </div>
-                    </div>
-                        <AvatarEdit button='Add Teacher profile photo'/>
-
-
-                </div>
-            </div>
-
-
-            <button type="submit" className="btn btn-primary">
-                Add Teacher
-            </button>
-        </form>
-    );
+      <Button type='submit' className='btn btn-primary'>
+        Add Teacher
+      </Button>
+    </Form>
+  );
 }
-
