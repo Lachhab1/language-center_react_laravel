@@ -23,7 +23,7 @@ class UpdateUserRequest extends FormRequest
      */
     public function rules(): array
     {
-        $userId = $this->id;
+        $userId = $this->route('user')->id;
         return [
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
@@ -45,7 +45,7 @@ class UpdateUserRequest extends FormRequest
                 Rule::unique('users')->ignore($userId),
             ],
             'address' => 'required|string|max:255',
-            'gender' => 'required|string|max:255',
+            'gender' => 'required|string|in:female,male',
             'date_of_hiring' => 'required|date',
             'birthday' => 'required|date',
             'image' => 'string|max:255',
@@ -61,7 +61,7 @@ class UpdateUserRequest extends FormRequest
                     ->letters()
                     ->symbols(),
             ],
-            'role' => 'required|string|in:admin,secretary,director',
+            'role' => ['required','string','in:admin,secretary,director'],
             'is_active' => 'boolean',
         ];
     }
