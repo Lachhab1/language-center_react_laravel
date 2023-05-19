@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,usePa } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
+import { useParams } from 'react-router-dom';
 
-export default function ViewSalleDetails({ id }) {
+export default function ViewSalleDetails() {
   const localizer = momentLocalizer(moment);
   const [classroom, setClassroom] = useState(null);
   const [events, setEvents] = useState([]);
+  const {id} = useParams();
 
   useEffect(() => {
     // Fetch classroom details from the database based on the provided id

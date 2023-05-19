@@ -47,7 +47,7 @@ export default function Sidebar() {
                     <Nav.Item><NavLink className="a nav-link link-light" to="/teacher"><img src={enseignant} />{openSidebar &&"Teacher"}</NavLink></Nav.Item>
                     <Nav.Item><NavLink className="a nav-link link-light" to="/student"><img src={etudiant} />{openSidebar && "Student"}</NavLink></Nav.Item>
                     <Nav.Item><NavLink className="a nav-link link-light" to="/parent"><img src={parents} />{openSidebar && "Parent" }</NavLink></Nav.Item>
-                    <Nav.Item><NavLink className="a nav-link link-light" to="/groupe"><img src={groupes} />{openSidebar && "Groupe"}</NavLink></Nav.Item>
+                    <Nav.Item><NavLink className="a nav-link link-light" to="/class"><img src={groupes} />{openSidebar && "Groupe"}</NavLink></Nav.Item>
                     <Nav.Item><NavLink className="a nav-link link-light" to="/course"><img src={cours} />{openSidebar && "Course"}</NavLink></Nav.Item>
 
                     {/* Presences le span pour cacher ces elements a fin de remplacer le collapse avec dropdown dans les petits ecrans */}
