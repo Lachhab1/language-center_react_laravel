@@ -21,6 +21,7 @@ export default function EditUser() {
                 firstName: response.data.data.first_name,
                 lastName: response.data.data.last_name,
                 hireDate: response.data.data.date_of_hiring,
+                gender: response.data.data.gender,
                 isActive: response.data.data.is_active,
                 password: '',
                 passwordConfirmation: '',
@@ -197,8 +198,8 @@ export default function EditUser() {
                 isInvalid={formik.touched.gender && formik.errors.gender}
                 >
                 <option value=''>Chose Gender</option>
-                <option value='Female'>female</option>
-                <option value='Male'>male</option>
+                <option value='female'>female</option>
+                <option value='male'>male</option>
                 </Form.Select>
                 <Form.Control.Feedback type="invalid" tooltip>{formik.errors.gender}</Form.Control.Feedback>
                 </Form.Group>

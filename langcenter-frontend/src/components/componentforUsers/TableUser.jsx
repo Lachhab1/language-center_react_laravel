@@ -8,6 +8,7 @@ import { BsFillPencilFill,
     BsFillEyeFill}from 'react-icons/all';
 import { useEffect,useState } from "react";
 import { UseStateContext } from "../../context/ContextProvider";
+import {Form,Col,Row} from "react-bootstrap";
 export default function TabUser()
 {
 //fetching data from the database
@@ -90,7 +91,6 @@ const col=[
 
 
         const [records,setRecords]=useState(data);
-        const [recordsR,setRecordsR]=useState(data);
         function handlefilter(event)
         {
             const NewData = data.filter(row => {
@@ -98,12 +98,13 @@ const col=[
             }) 
             setRecords(NewData)
         }
-        function handlefilterR(event)
+        function handleFilterByRole(event)
         {
-            const NewData = data.filter(row => {
-                return row.role.toLowerCase().includes(event.target.value.toLowerCase())
-            }) 
-            setRecordsR(NewData)
+          const selectedRole = event.target.value.toLowerCase();
+
+            // Filtrer les lignes en fonction du statut
+            const newData = data.filter((row) => row.status.toLowerCase() === selectedRole);
+            setRecords(newData);
         }
     return(
 
@@ -113,7 +114,12 @@ const col=[
                  <input type="text" className="form-control" placeholder="Search by Last Name" onChange={handlefilter}/>
             </div>
             <div className="col">
-                 <input type="text" className="form-control" placeholder="Search by role" onChange={handlefilterR}/>
+                 <Form.Select type="text" className="form-control" onChange={handleFilterByRole}>
+                        <option value="">Filter by Role</option>
+                        <option value="admin">Admin</option>
+                        <option value="director">director</option>
+                        <option value="secretary">Secretary</option>
+                 </Form.Select>
             </div>
             <Link to="/users/addUser" className="col">
                     <Button className="" variant="danger" isDisabled={false} size="md" value="New User" handleSmthg={() => console.log("chibakiya")}/>
