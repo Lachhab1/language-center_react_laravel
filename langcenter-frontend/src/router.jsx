@@ -56,6 +56,8 @@ import Groupes from './views/Groupes';
 import AddGroupe from "./components/GroupesCompo/AddGroupe";
 import EditGroupe from "./components/GroupesCompo/EditGroupe";
 import ViewGroupe from "./components/GroupesCompo/ViewGroupe";
+import EditNote from "./components/ComponentResults/EditNote";
+import AddNote from "./components/ComponentResults/AddNote";
 
 const router = createBrowserRouter([
         {
@@ -231,9 +233,22 @@ const router = createBrowserRouter([
                 ]
             },
             {
-                path: "/results",
-                element: <Resultats/>
-            },
+                path: "/",   
+                children: [
+                    {
+                        path: "/results",
+                        element: <Resultats/>
+                    },
+                    {
+                        path: "/results/add",
+                        element: <AddNote/>
+                    },
+                    {
+                        path: "/results/edit/:id",
+                        element: <EditNote/>
+                    },
+                ]
+                },
             {
                 path: "/",
                 children:[

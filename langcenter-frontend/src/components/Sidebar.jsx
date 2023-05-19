@@ -10,16 +10,18 @@ import empTemps from "../images/icons/empTemps.svg";
 import enseignant from "../images/icons/enseignant.svg";
 import etudiant from "../images/icons/etudiant.svg";
 import groupes from "../images/icons/groupes.svg";
-import logout from "../images/icons/logout.svg";
+import disco from "../images/icons/logout.svg";
 import paiements from "../images/icons/paiements.svg";
 import parents from "../images/icons/parents.svg";
 import presence from "../images/icons/presence.svg";
 import results from "../images/icons/results.svg";
 import salles from "../images/icons/salles.svg";
 import users from "../images/icons/utilisateurs.svg";
+import { UseStateContext } from '../context/ContextProvider';
 
 
 export default function Sidebar() {
+    const {logout} = UseStateContext();
     const [openSidebar,setOpenSidebar] = useState(false);
     const handleOpen = () => {
         setOpenSidebar((prev) => !prev);
@@ -84,7 +86,7 @@ export default function Sidebar() {
                     <Nav.Item><NavLink className="a nav-link link-light" to="/classroom"><img src={salles} />{openSidebar && "Classroom"}</NavLink></Nav.Item>
                     <Nav.Item><NavLink className="a nav-link link-light" to="/schedule"><img src={empTemps} />{openSidebar && "Schedule"}</NavLink></Nav.Item>
                     <Nav.Item><NavLink className="a nav-link link-light" to="/users"><img src={users} />{openSidebar && "Users"}</NavLink></Nav.Item>
-                    <Nav.Item className='a nav-link link-light' onClick={handleLocalStorage}><img src={logout}  />{openSidebar && "Logout"}</Nav.Item>
+                    <Nav.Link className='a nav-link link-light' onClick={logout}><img src={disco}  />{openSidebar && "Logout"}</Nav.Link>
 
                 </Nav>
             </div>
