@@ -14,14 +14,15 @@ return new class extends Migration
         Schema::create('etudiants', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('parent_id')->nullable();
-            $table->string('nom', 254);
-            // $table->string('prenom', 254);
-            // $table->datetime('date_naissance');
-            // $table->string('sexe', 254);
-            // $table->string('email', 254);
-            // $table->string('adresse', 254);
-            // $table->string('telephone', 254);
-            // $table->boolean('isActive');
+            $table->string('nom');
+            // $table->string('prenom');
+            // $table->date('date_naissance');
+            // $table->string('sexe');
+            // $table->string('email');
+            // $table->string('adresse');
+            // $table->string('telephone');
+            // $table->boolean('isActive')->default(true);
+            $table->timestamps();
             $table->foreign('parent_id')->references('id')->on('parents')->onUpdate('cascade')->onDelete('cascade');
         });
     }
