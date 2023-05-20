@@ -19,5 +19,30 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
         \App\Models\User::create(['email' => 'admin@admin.com', 'password' => bcrypt('12345678'), 'first_name' => 'admin', 'last_name' => 'admin', 'username' => 'admin', 'role' => 'admin', 'cin' => 'bv1895', 'birthday' => '2002-01-01', 'date_of_hiring' => '2022-01-01', 'gender' => 'male', 'phone' => '0687439035', 'address' => 'qooqo', 'image' => 'empty']);
+        \App\Models\Parent_::create(
+            [
+                'nom' => 'Test User',
+                // 'prenom' => 'Test User',
+                'cin' => 'bv1895',
+                // 'date_naissance' => '2002-01-01',
+                // 'sexe' => 'male',
+                // 'email' => 'parent@parent.com',
+                // 'adresse' => 'test',
+                // 'telephone' => '0687439035',
+                // 'isActive' => true,
+                // 'nbenfants' => 1,
+            ]
+        );
+        \App\Models\Etudiant::create([
+            'nom' => 'Test User',
+            // 'prenom' => 'Test User',
+            // 'date_naissance' => '2002-01-01',
+            // 'sexe' => 'male',
+            // 'email' => 'test@test.com',
+            // 'adresse' => 'test',
+            // 'telephone' => '0687439035',
+            // 'isActive' => true,
+            'parent_id' => 1,
+        ]);
     }
 }
