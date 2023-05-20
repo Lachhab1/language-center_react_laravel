@@ -6,9 +6,15 @@ import { Link } from 'react-router-dom';
 import { BsFillPencilFill } from 'react-icons/bs';
 import { MdDelete } from 'react-icons/md';
 import AddCourse from "./AddCourse";
+import { useParams } from "react-router-dom";
 export default function TableCourse()
 {
+    const {id} = useParams();
     const col=[
+        {
+            name: 'ID',
+            selector: (row) => row.id,
+        },
         {
             name:"Course Code",
             selector:row => row.course_code
@@ -34,7 +40,7 @@ export default function TableCourse()
             selector:row => row.action,
             cell: (row) => (
                 <div style={{ display: 'flex', gap: '0px' }}>
-                  <Link >
+                  <Link to={`/course/edit/${row.id}`}>
                     <button style={{ border: 'none', background: 'none' }}>
                       <BsFillPencilFill style={{ color: 'orange' }} />
                     </button>
@@ -46,8 +52,8 @@ export default function TableCourse()
               ),
         }
     ]
-    const Data=[ {course_code:"1",course_name:"sopa",duration:"10",subject_name:"eng",teacher:"sopa",action:""}
-                ,{course_code:"2",course_name:"sopa1",duration:"10",subject_name:"frn",teacher:"sopa",action:""}
+    const Data=[ {id:"1",course_code:"1",course_name:"sopa",duration:"10",subject_name:"eng",teacher:"sopa",action:""}
+                ,{id:"2",course_code:"2",course_name:"sopa1",duration:"10",subject_name:"frn",teacher:"sopa",action:""}
 ]
     const [records,setRecords]=useState(Data);
     const [recordsS,setRecordsS]=useState(Data);
@@ -80,7 +86,7 @@ export default function TableCourse()
             </div>
             <div className="col">
 
-                <Link >
+                <Link to="/course/add">
                     <Button
                     className=""
                     variant="danger"

@@ -25,7 +25,7 @@ const getUsers = async () => {
 			const response = await axios.get("/api/users");
             setData(response.data.data);
 			setPending(false);
-		}, 1000);
+		}, 200);
 		return () => clearTimeout(timeout);
     }, [data]);
     

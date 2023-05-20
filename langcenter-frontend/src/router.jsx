@@ -58,6 +58,8 @@ import EditGroupe from "./components/GroupesCompo/EditGroupe";
 import ViewGroupe from "./components/GroupesCompo/ViewGroupe";
 import EditNote from "./components/ComponentResults/EditNote";
 import AddNote from "./components/ComponentResults/AddNote";
+import AddCourse from "./components/Composantsforcoursepage/AddCourse";
+import EditCourse from "./components/Composantsforcoursepage/EditCourse";
 
 const router = createBrowserRouter([
         {
@@ -157,9 +159,22 @@ const router = createBrowserRouter([
             ]
             },
             {
-                path: '/course',
-                element: <Cours />     
-            },
+                path: '/',
+                children: [
+                    {
+                    path: '/course',
+                    element: <Cours />     
+                    },
+                    {
+                        path: '/course/add',
+                        element: <AddCourse/>
+                    },
+                    {
+                        path: '/course/edit/:id',
+                        element: <EditCourse/>
+                    }
+            ]
+        },
             {
                 path: "/",
                 children: [
