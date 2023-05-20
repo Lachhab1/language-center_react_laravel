@@ -15,6 +15,7 @@ export default function ContentLayout() {
   let result = "";
   if (variant === "success") toast.success(notification);
   if (variant === "danger") toast.error(notification);
+  if  (variant === "warning") toast.warn(notification);
   for (let i = 0; i < 1 && i < words.length; i++) {
     result += words[i] + " ";
   }

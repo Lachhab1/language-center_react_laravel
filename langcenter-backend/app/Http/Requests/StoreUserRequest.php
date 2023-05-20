@@ -28,7 +28,7 @@ class StoreUserRequest extends FormRequest
             'cin' => 'required|string|max:255|unique:users,cin',
             'phone' => 'required|string|max:255|unique:users,phone',
             'address' => 'required|string|max:255',
-            'gender' => 'required|string|max:255',
+            'gender' => 'required|string|in:female,male',
             'date_of_hiring' => 'required|date',
             'birthday' => 'required|date',
             'image' => 'required|string|max:255',

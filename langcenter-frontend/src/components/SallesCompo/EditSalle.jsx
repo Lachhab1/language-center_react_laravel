@@ -1,13 +1,15 @@
 import React, { useEffect } from 'react';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
+import { useParams } from 'react-router-dom';
 
 const editSalleSchema = Yup.object().shape({
   name: Yup.string().max(50, 'Too Long!').required('Required'),
   capacity: Yup.number().integer('Must be an Integer').required('Required'),
 });
 
-export default function EditSalle({ id }) {
+export default function EditSalle() {
+  const {id} = useParams();
   const handleSubmit = async (values) => {
     try {
       const response = await fetch(`http://example.com/api/salles/${id}`, {

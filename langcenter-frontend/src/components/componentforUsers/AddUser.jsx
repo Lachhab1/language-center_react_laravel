@@ -14,6 +14,7 @@ export default function AddUser() {
         initialValues: {
             firstName: '',
             lastName: '',
+            username: '',
             cin: '',
             birthday: '',
             gender: '',
@@ -30,6 +31,7 @@ export default function AddUser() {
         validationSchema: Yup.object({
             firstName: Yup.string().required('First name is required'),
             lastName: Yup.string().required('Last name is required'),
+            username: Yup.string().required('Username is required'),
             cin: Yup.string().required('CIN is required'),
             birthday: Yup.date().required('Birthday is required'),
             gender: Yup.string().oneOf(['female','male']).required('required'),
@@ -49,6 +51,7 @@ export default function AddUser() {
             values = {
                 ...values,
                 is_active: values.isActive ? 1 : 0,
+                username: values.username,
                 first_name: values.firstName,
                 last_name: values.lastName,
                 email_confirmation: values.emailConfirmation,
@@ -221,6 +224,26 @@ export default function AddUser() {
             </Form.Control.Feedback>
         </Form.Group>
         <Row>
+            < Form.Group
+
+                as={Col}
+                md="4"
+                sm="6"
+                xs="12"
+                className='position-relative' controlId="validationFormik05">
+                <Form.Label>Username</Form.Label>
+                <Form.Control
+
+                    type="text"
+                    name="username"
+                    {...formik.getFieldProps('username')}
+                    isInvalid={formik.touched.username && formik.errors.username}
+                />
+                <Form.Control.Feedback type="invalid">
+                    {formik.errors.username}
+                </Form.Control.Feedback>
+            </Form.Group>
+
             < Form.Group
                 as={Col}
                 md="4"

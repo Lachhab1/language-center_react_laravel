@@ -1,24 +1,34 @@
 import axios from "../../api/axios"
 import Button from "../Button"
 import DataTable from "react-data-table-component"
-import { Link } from "react-router-dom"
+import { Ellipsis } from 'react-awesome-spinners'
+import { Link, Navigate,useNavigate } from "react-router-dom"
 import { BsFillPencilFill,
     MdDelete,
     BsFillEyeFill}from 'react-icons/all';
 import { useEffect,useState } from "react";
 import { UseStateContext } from "../../context/ContextProvider";
+import {Form,Col,Row} from "react-bootstrap";
 export default function TabUser()
 {
 //fetching data from the database
+const [pending, setPending] = useState(true);
 const [data,setData]=useState([]);
-const {notification,setNotification,variant,setVariant} = UseStateContext();
+const {setNotification,setVariant} = UseStateContext();
+const navigate = useNavigate();
+
 const getUsers = async () => {
-    const response = await axios.get("/api/users");
-    setData(response.data.data);
+    
     };
     useEffect(() => {
-        getUsers();
-    }, []);
+        const timeout = setTimeout(async() => {
+			const response = await axios.get("/api/users");
+            setData(response.data.data);
+			setPending(false);
+		}, 1000);
+		return () => clearTimeout(timeout);
+    }, [data]);
+    
 //delete a row
 const deleteRow = async (id) => {
     await axios.delete(`/api/users/${id}`);
@@ -27,8 +37,8 @@ const deleteRow = async (id) => {
     setTimeout(() => {
         setNotification("");
     }, 3000);
-    getUsers();
-    };
+    navigate("/users");
+};
 
 
 
@@ -81,7 +91,6 @@ const col=[
 
 
         const [records,setRecords]=useState(data);
-        const [recordsR,setRecordsR]=useState(data);
         function handlefilter(event)
         {
             const NewData = data.filter(row => {
@@ -89,12 +98,13 @@ const col=[
             }) 
             setRecords(NewData)
         }
-        function handlefilterR(event)
+        function handleFilterByRole(event)
         {
-            const NewData = data.filter(row => {
-                return row.role.toLowerCase().includes(event.target.value.toLowerCase())
-            }) 
-            setRecordsR(NewData)
+          const selectedRole = event.target.value.toLowerCase();
+
+            // Filtrer les lignes en fonction du statut
+            const newData = data.filter((row) => row.status.toLowerCase() === selectedRole);
+            setRecords(newData);
         }
     return(
 
@@ -104,7 +114,12 @@ const col=[
                  <input type="text" className="form-control" placeholder="Search by Last Name" onChange={handlefilter}/>
             </div>
             <div className="col">
-                 <input type="text" className="form-control" placeholder="Search by role" onChange={handlefilterR}/>
+                 <Form.Select type="text" className="form-control" onChange={handleFilterByRole}>
+                        <option value="">Filter by Role</option>
+                        <option value="admin">Admin</option>
+                        <option value="director">director</option>
+                        <option value="secretary">Secretary</option>
+                 </Form.Select>
             </div>
             <Link to="/users/addUser" className="col">
                     <Button className="" variant="danger" isDisabled={false} size="md" value="New User" handleSmthg={() => console.log("chibakiya")}/>
@@ -115,6 +130,10 @@ const col=[
                     data={data}
                     fixedHeader
                     pagination
+                    progressPending={pending}
+                    progressComponent={<Ellipsis  size={64}
+                        color='#D60A0B'
+                        sizeUnit='px' />}
             >
              </DataTable>
                 </div>
