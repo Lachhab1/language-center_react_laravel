@@ -11,7 +11,8 @@ class Cours extends Model
 {
     use HasFactory;
     public $table = 'cours';
-    protected $fillable = ['title', 'description', 'duration'];
+    protected $fillable = ['title', 'description', 'duration', 'price'];
+    public $timestamps = false;
 
     // Define the many-to-many relationship with Etudiant
     public function class_()

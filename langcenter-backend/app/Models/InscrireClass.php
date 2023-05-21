@@ -15,6 +15,14 @@ class InscrireClass extends Model
     protected $table = 'inscrire_classes'; // Corrected table name to match the migration
     protected $primaryKey = null; // Removed primaryKey property since composite primary key is used
     public $incrementing = false;
+    public $timestamps = false;
+    protected $fillable = [
+        'etudiant_id',
+        'class_id',
+        'cours_id',
+        'inscription_date',
+        'frais_paid',
+    ];
 
     // Define the relationships with other models
     public function etudiant()
@@ -31,4 +39,5 @@ class InscrireClass extends Model
     {
         return $this->belongsTo(Cours::class, 'cours_id');
     }
+
 }

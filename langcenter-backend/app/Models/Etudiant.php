@@ -16,6 +16,7 @@ class Etudiant extends Model
      *
      * @var array<int, string>
      */
+    public $timestamps = false;
     protected $fillable = [
         'nom',
         'prenom',
@@ -25,7 +26,7 @@ class Etudiant extends Model
         'adresse',
         'telephone',
         'isActive',
-        'parent_id',
+        'parent_cin',
     ];
     public function parent_()
     {

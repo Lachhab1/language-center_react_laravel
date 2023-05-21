@@ -12,6 +12,13 @@ class Class_ extends Model
 {
     use HasFactory;
     protected $table = 'classes';
+    public $timestamps = false;
+    protected $fillable = [
+        'title',
+        'anneeScolaire',
+        'description',
+        'frais',
+    ];
 
 
     public function etudiants()

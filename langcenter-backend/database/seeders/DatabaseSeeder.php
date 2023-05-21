@@ -44,5 +44,23 @@ class DatabaseSeeder extends Seeder
             // 'isActive' => true,
             'parent_id' => 1,
         ]);
+        \App\Models\Class_::create([
+            'class_nom' => 'Test User',
+            'anneeScolaire' => '2021-2022',
+            'description' => 'Test User',
+        ]);
+        \App\Models\Cours::create([
+            'title' => 'Test User',
+            'description' => 'Test User',
+            'duration' => '4 hours',
+            'price' => 1000,
+        ]);
+        \App\Models\InscrireClass::create([
+            'class_id' => 1,
+            'etudiant_id' => 1,
+            'cours_id' => 1,
+            'inscription_date' => '2021-01-01',
+            'frais_paid' => 1000,
+        ]);
     }
 }

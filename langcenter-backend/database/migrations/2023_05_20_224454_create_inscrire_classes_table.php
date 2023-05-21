@@ -20,7 +20,7 @@ return new class extends Migration
             $table->foreign('class_id')->references('id')->on('classes')->onDelete('cascade');
             $table->foreign('cours_id')->references('id')->on('cours')->onDelete('cascade');
             $table->date('inscription_date');
-            $table->decimal('inscription_frais', 8, 2);
+            $table->decimal('frais_paid', 8, 2);
         });
     }
 

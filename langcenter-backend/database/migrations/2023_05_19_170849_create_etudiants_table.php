@@ -22,7 +22,6 @@ return new class extends Migration
             // $table->string('adresse');
             // $table->string('telephone');
             // $table->boolean('isActive')->default(true);
-            $table->timestamps();
             $table->foreign('parent_id')->references('id')->on('parents')->onUpdate('cascade')->onDelete('cascade');
         });
     }

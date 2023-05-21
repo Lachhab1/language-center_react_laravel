@@ -12,37 +12,31 @@ class CoursController extends Controller
      */
     public function index()
     {
-        //
+        $cours = Cours::orderBy('id', 'desc')->paginate(10);
+        return $cours;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'title' => 'required|string|max:254',
+            'description' => 'string',
+            'duration' => 'required|integer',
+            'price' => 'required|decimal',
+        ]);
+        $cours = Cours::create($data);
+        return response($cours, 201);
     }
 
     /**
      * Display the specified resource.
      */
     public function show(Cours $cours)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Cours $cours)
     {
         //
     }
