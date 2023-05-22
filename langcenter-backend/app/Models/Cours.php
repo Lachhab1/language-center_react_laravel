@@ -14,16 +14,15 @@ class Cours extends Model
     protected $fillable = ['title', 'description', 'duration', 'price'];
     public $timestamps = false;
 
-    // Define the many-to-many relationship with Etudiant
-    public function class_()
-    {
-        return $this->belongsToMany(Class_::class, 'inscrire_classes')
-            ->using(InscrireClass::class)
-            ->withPivot('inscription_date', 'inscription_frais');
-    }
+    // public function class_()
+    // {
+    //     return $this->belongsToMany(Class_::class, 'inscrire_classes')
+    //         ->using(InscrireClass::class)
+    //         ->withPivot('inscription_date', 'frais_paid');
+    // }
 
     public function inscrireClasses()
     {
-        return $this->hasMany(InscrireClass::class);
+        return $this->hasMany(InscrireClass::class, 'cours_id', 'id');
     }
 }

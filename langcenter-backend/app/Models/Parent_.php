@@ -20,12 +20,11 @@ class Parent_ extends Model
         'nom',
         'prenom',
         'cin',
-        'date_naissance',
         'sexe',
+        'date_naissance',
         'email',
         'adresse',
         'telephone',
-        'isActive',
         'nbenfants',
     ];
     public function etudiant()

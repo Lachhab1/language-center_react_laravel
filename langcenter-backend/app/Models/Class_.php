@@ -21,20 +21,20 @@ class Class_ extends Model
     ];
 
 
-    public function etudiants()
-    {
-        return $this->belongsToMany(Etudiant::class, 'inscrire_classes')
-            ->using(InscrireClass::class)
-            ->withPivot('inscription_date', 'inscription_frais');
-    }
+    // public function etudiant()
+    // {
+    //     return $this->belongsToMany(Etudiant::class, 'inscrire_classes')
+    //         ->using(InscrireClass::class)
+    //         ->withPivot('inscription_date', 'frais_paid');
+    // }
     public function inscrireClasses()
     {
-        return $this->hasMany(InscrireClass::class);
+        return $this->hasMany(InscrireClass::class, 'class_id', 'id');
     }
-    public function cours()
-    {
-        return $this->belongsToMany(Cours::class, 'inscrire_classes')
-            ->using(InscrireClass::class)
-            ->withPivot('inscription_date', 'inscription_frais');
-    }
+    // public function cours()
+    // {
+    //     return $this->belongsToMany(Cours::class, 'inscrire_classes')
+    //         ->using(InscrireClass::class)
+    //         ->withPivot('inscription_date', 'frais_paid');
+    // }
 }

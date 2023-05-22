@@ -15,13 +15,13 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('parent_id')->nullable();
             $table->string('nom');
-            // $table->string('prenom');
-            // $table->date('date_naissance');
-            // $table->string('sexe');
-            // $table->string('email');
-            // $table->string('adresse');
-            // $table->string('telephone');
-            // $table->boolean('isActive')->default(true);
+            $table->string('prenom');
+            $table->date('date_naissance');
+            $table->string('sexe');
+            $table->string('email');
+            $table->string('adresse');
+            $table->string('telephone');
+            $table->boolean('isActive')->default(true);
             $table->foreign('parent_id')->references('id')->on('parents')->onUpdate('cascade')->onDelete('cascade');
         });
     }

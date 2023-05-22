@@ -34,6 +34,6 @@ class Etudiant extends Model
     }
     public function inscrireClasses()
     {
-        return $this->hasMany(InscrireClass::class);
+        return $this->hasMany(InscrireClass::class, 'etudiant_id', 'id');
     }
 }

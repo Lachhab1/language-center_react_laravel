@@ -22,26 +22,25 @@ class DatabaseSeeder extends Seeder
         \App\Models\Parent_::create(
             [
                 'nom' => 'Test User',
-                // 'prenom' => 'Test User',
+                'prenom' => 'Test User',
                 'cin' => 'bv1895',
-                // 'date_naissance' => '2002-01-01',
-                // 'sexe' => 'male',
-                // 'email' => 'parent@parent.com',
-                // 'adresse' => 'test',
-                // 'telephone' => '0687439035',
-                // 'isActive' => true,
-                // 'nbenfants' => 1,
+                'sexe' => 'male',
+                'date_naissance' => '2002-01-01',
+                'email' => 'parent@parent.com',
+                'adresse' => 'test',
+                'telephone' => '0687439035',
+                'nbenfants' => 1,
             ]
         );
         \App\Models\Etudiant::create([
             'nom' => 'Test User',
-            // 'prenom' => 'Test User',
-            // 'date_naissance' => '2002-01-01',
-            // 'sexe' => 'male',
-            // 'email' => 'test@test.com',
-            // 'adresse' => 'test',
-            // 'telephone' => '0687439035',
-            // 'isActive' => true,
+            'prenom' => 'Test User',
+            'date_naissance' => '2002-01-01',
+            'sexe' => 'male',
+            'email' => 'test@test.com',
+            'adresse' => 'test',
+            'telephone' => '0687439035',
+            'isActive' => true,
             'parent_id' => 1,
         ]);
         \App\Models\Class_::create([

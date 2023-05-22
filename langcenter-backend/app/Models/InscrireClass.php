@@ -13,11 +13,15 @@ class InscrireClass extends Model
     use HasFactory;
 
     protected $table = 'inscrire_classes'; // Corrected table name to match the migration
-    protected $primaryKey = null; // Removed primaryKey property since composite primary key is used
-    public $incrementing = false;
     public $timestamps = false;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
     protected $fillable = [
-        'etudiant_id',
+        'etudiant_id', // Corrected column name to match the migration
         'class_id',
         'cours_id',
         'inscription_date',
@@ -39,5 +43,4 @@ class InscrireClass extends Model
     {
         return $this->belongsTo(Cours::class, 'cours_id');
     }
-
 }
