@@ -7,20 +7,17 @@ use Illuminate\Http\Request;
 use App\Http\Resources\InscrireClassRessource;
 use App\Models\Etudiant;
 use App\Models\Parent_;
+use App\Models\Classe;
+use App\Models\Cour;
+
 
 class InscrireClassController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        $inscrireClasses = InscrireClass::orderBy('id', 'desc')->paginate(10);
+        $inscrireClasses = InscrireClass::orderBy('id', 'asc')->paginate(10);
         return InscrireClassRessource::collection($inscrireClasses);
     }
-
-
-
     /**
      * Store a newly created resource in storage.
      */
@@ -91,14 +88,12 @@ class InscrireClassController extends Controller
             return response()->json(['message' => $e->getMessage()], 500);
         }
     }
-
-
     /**
      * Display the specified resource.
      */
     public function show(InscrireClass $inscrireClass)
     {
-        //
+        return new InscrireClassRessource($inscrireClass);
     }
 
     /**
@@ -106,7 +101,6 @@ class InscrireClassController extends Controller
      */
     public function update(Request $request, InscrireClass $inscrireClass)
     {
-        //
     }
 
     /**
@@ -114,6 +108,19 @@ class InscrireClassController extends Controller
      */
     public function destroy(InscrireClass $inscrireClass)
     {
-        //
+        // Delete the inscrireClass
+        $etudiant = $inscrireClass->etudiant;
+        $etudiant->load('inscrireClasses');
+
+
+        $etudiant->inscrireClasses->each(function ($inscrireClass) {
+            $inscrireClass->delete();
+        });
+        
+        // Delete the etudiant
+        $etudiant->parent_->delete();
+        $etudiant->delete();
+    
+        return response()->json(null, 204);
     }
 }

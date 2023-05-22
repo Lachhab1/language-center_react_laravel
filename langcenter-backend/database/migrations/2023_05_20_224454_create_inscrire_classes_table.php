@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('etudiant_id');
             $table->unsignedBigInteger('class_id');
             $table->unsignedBigInteger('cours_id');
-            $table->foreign('etudiant_id')->references('id')->on('etudiants')->onDelete('cascade');
+            $table->foreign('etudiant_id')->references('id')->on('etudiants')->onDelete('restrict');
             $table->foreign('class_id')->references('id')->on('classes')->onDelete('cascade');
             $table->foreign('cours_id')->references('id')->on('cours')->onDelete('cascade');
             $table->date('inscription_date');
