@@ -1,24 +1,60 @@
 import Image from 'react-bootstrap/Image'
 import imgStudent from "../../images/photo-profile.png"
+import { useEffect,useState } from "react";
+import { UseStateContext } from "../../context/ContextProvider";
+import {Form,Col,Row} from "react-bootstrap";
+import axios from "../../api/axios";
+import { Spinner } from 'react-awesome-spinners'
+import { useParams } from "react-router-dom";
 
 export default function StudentsDetails() {
+const {id} = useParams();
+const [pending, setPending] = useState(true);
+const [data,setData]=useState([]);
+const {setNotification,setVariant} = UseStateContext();
+useEffect(() => {
+    const timeout = setTimeout(async() => {
+        const response = await axios.get("/api/inscrire-classes");
+        console.log(response.data.data);
+        response.data.data.map((datar) => {
+            if(datar.etudiant.id==id)
+            {
 
+                setData((prev)=>
+                (
+                        {
+                            id:datar.etudiant.id,
+                            prenom: datar.etudiant.prenom,
+                            nom:datar.etudiant.nom,
+                            email:datar.etudiant.email,
+                            telephone:datar.etudiant.telephone,
+                            DateNaissance:datar.etudiant.date_naissance,
+                            FatherOcupation: "not yet",
+                            DateEnrol:datar.inscription_date,
+                            gender: datar.etudiant.sexe,
+                            class:datar.class.class_nom,
+                            Fathername:datar.parent.prenom+" "+datar.parent.nom,
+                            status:datar.etudiant.isActive,
+                            
+                        })
+                    )
+            }
+        
+        })
+        // setData(response.data.data);
+        setPending(false);
+    }, 200);
+    return () => clearTimeout(timeout);
+}, []);
 
-    const etudiant = {
-        id:'1',
-        nom: 'Wade7',
-        prenom: 'Mzn',
-        gender:'Male',
-        Fathername:'Mawade7ch',
-        Mothername:'Mamzyanch',
-        email: 'wade7mzyan@.com',
-        telephone: '06 12 34 56 78',
-        DateNaissance:'7.7.2020',
-        FatherOcupation:'Walo',
-        DateEnrol:'25.3.2023',
-        class:'2'
-      };
    return(
+    
+        pending ? (
+            <div className="d-flex justify-content-center align-items-center">
+                <Spinner color="danger" size={100} />
+            </div>
+        ) : (
+    
     <div>
         <div className="Container mt-5 w-100">
             <div className="row">
@@ -27,7 +63,7 @@ export default function StudentsDetails() {
                         </Image>
                 </div>
                 <div className="col">
-                    <h5>{etudiant.nom} {etudiant.prenom}</h5>
+                    <h5>{data.nom} {data.prenom}</h5>
                         <p>
                            Descreption
                         </p> 
@@ -37,7 +73,7 @@ export default function StudentsDetails() {
                                  ID Number:
                             </div>
                             <div className="col-6">
-                            {etudiant.id}
+                            {data.id}
                             </div>
                         </div>
                         <br />
@@ -46,7 +82,7 @@ export default function StudentsDetails() {
                                  Last Name:
                             </div>
                             <div className="col-6">
-                            {etudiant.nom}
+                            {data.nom}
                             </div>
                         </div>
                         <br />
@@ -55,7 +91,7 @@ export default function StudentsDetails() {
                                  First Name:
                             </div>
                             <div className="col-6">
-                            {etudiant.prenom}
+                            {data.prenom}
                             </div>
                         </div>
                         <br />
@@ -64,7 +100,7 @@ export default function StudentsDetails() {
                                  Gender:
                             </div>
                             <div className="col-6">
-                            {etudiant.gender}
+                            {data.gender}
                             </div>
                         </div>
                         <br />
@@ -73,16 +109,7 @@ export default function StudentsDetails() {
                                  Father Name:
                             </div>
                             <div className="col-6">
-                            {etudiant.Fathername}
-                            </div>
-                        </div>
-                        <br />
-                        <div className="row">
-                            <div className="col-6">
-                                 Mother Name:
-                            </div>
-                            <div className="col-6">
-                            {etudiant.Mothername}
+                            {data.Fathername}
                             </div>
                         </div>
                         <br />
@@ -91,7 +118,7 @@ export default function StudentsDetails() {
                                  Email:
                             </div>
                             <div className="col-6">
-                            {etudiant.email}
+                            {data.email}
                             </div>
                         </div>
                         <br />
@@ -100,7 +127,7 @@ export default function StudentsDetails() {
                                  Date of birth:
                             </div>
                             <div className="col-6">
-                            {etudiant.DateNaissance}
+                            {data.DateNaissance}
                             </div>
                         </div>
                         <br />
@@ -109,7 +136,7 @@ export default function StudentsDetails() {
                                  Father Ocupation:
                             </div>
                             <div className="col-6">
-                            {etudiant.FatherOcupation}
+                            {data.FatherOcupation}
                             </div>
                         </div>
                         <br />
@@ -118,7 +145,7 @@ export default function StudentsDetails() {
                                  Date of Enr:
                             </div>
                             <div className="col-6">
-                            {etudiant.DateEnrol}
+                            {data.DateEnrol}
                             </div>
                         </div>
                         <br />
@@ -127,7 +154,7 @@ export default function StudentsDetails() {
                                  Class
                             </div>
                             <div className="col-6">
-                            {etudiant.class}
+                            {data.class}
                             </div>
                         </div>
                     
@@ -139,6 +166,7 @@ export default function StudentsDetails() {
       
     </div>
     </div>
+        )
    )
   
    

@@ -1,16 +1,75 @@
-// import { useState } from "react";
 import Button from "../Button"
-
-import { useState } from "react"
+import { useState,useEffect } from "react"
 import DataTable from "react-data-table-component"
-import { Link } from "react-router-dom"
 import { BsFillPencilFill,
     MdDelete,
     BsFillEyeFill}from 'react-icons/all';
+import { Link, Navigate,useNavigate } from "react-router-dom";
+import axios from "../../api/axios";
+import { Ellipsis } from 'react-awesome-spinners'
 
 export default function TableEtud()
 {
+const [pending, setPending] = useState(true);
+const [data,setData]=useState([]);
+useEffect(() => {
+    const timeout = setTimeout(async() => {
+        const response = await axios.get("/api/inscrire-classes");
+        console.log(response.data.data);
+        response.data.data.map((datar) => {
+            setData((prev)=>
+            (
+                [...prev,
+                    {
+                    id:datar.etudiant.id,
+                    name:datar.etudiant.prenom+" "+datar.etudiant.nom,
+                    gender: datar.etudiant.sexe,
+                    class:datar.class.class_nom,
+                    parents:datar.parent.prenom+" "+datar.parent.nom,
+                    status:datar.etudiant.isActive,
+                    }
+                ])
+            )
+        
+        })
+        // setData(response.data.data);
+        setPending(false);
+    }, 200);
+    return () => clearTimeout(timeout);
+}, []);
+
+//     console.log(data);
+// // delete a row
+// const deleteRow = async (id) => {
+//     await axios.delete(`/api/inscrire-classes/${id}`);
+//     setNotification("User deleted successfully");
+//     setVariant("danger");
+//     setTimeout(() => {
+//         setNotification("");
+//     }, 3000);
+//     navigate("/student");
+// };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//define the columns of the table
 const col=[
+    {
+        name:"ID",
+        selector:row => row.id,
+    },
     {
         name:"Name",
         selector:row => row.name,
@@ -33,7 +92,17 @@ const col=[
     {
         name:"Status",
         selector:row => row.status,
-        sortable: true 
+        sortable: true,
+        cell: (row) => (
+            <div style={{ display: 'flex', gap: '0px' }}>
+                <div className="badge badge-pill badge-success px-3 py-2 font-weight-bold"
+                    style={{
+                    color: row.status ? 'green' : 'red',
+                    }}>
+                    {row.status ? 'Active' : 'Inactive'}
+                </div>
+            </div>
+        ),
     },
     {
         name:"Action",
@@ -158,9 +227,13 @@ const Data=[
         </div>
             <DataTable
                     columns={col}
-                    data={records}
+                    data={data}
                     fixedHeader
                     pagination
+                    progressPending={pending}
+                    progressComponent={<Ellipsis  size={64}
+                        color='#D60A0B'
+                        sizeUnit='px' />}
             >
              </DataTable>
                 </div>
