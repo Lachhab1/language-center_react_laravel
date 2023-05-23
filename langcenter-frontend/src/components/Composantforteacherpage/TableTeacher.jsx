@@ -4,11 +4,23 @@ import DataTable from 'react-data-table-component';
 import { BsFillPencilFill } from 'react-icons/bs';
 import { MdDelete } from 'react-icons/md';
 import { FaEye } from 'react-icons/fa';
+import { UseStateContext } from '../../context/ContextProvider';
 
 export default function TableTeacher() {
+  const {user} = UseStateContext()
   const [nameFilter, setNameFilter] = useState('');
   const [classFilter, setClassFilter] = useState('');
-
+    let x = ""
+  if (user && user.role==='admin')
+  {
+      x = ""
+  } else if (user && user.role==='director')
+  {
+      x="/directeur"
+  }
+  else{
+      x="/secretary"
+  }
   const data = [
     { id: '1', name: 'Sopa', gender: 'Male', class: 'C-4', subject: 'Sopa 3owa', status: 'Active', phone: '060000000' },
     { id: '2', name: 'Ayman Kacemi', gender: 'Male', class: 'C-5', subject: 'Mathematics', status: 'Active', phone: '065555555' },
@@ -66,12 +78,12 @@ export default function TableTeacher() {
       selector: (row) => row.action,
       cell: (row) => (
         <div style={{ display: 'flex', gap: '0px' }}>
-          <Link to={`/teacher/details/${row.id}`}>
+          <Link to={`${x}/teacher/details/${row.id}`}>
             <button style={{ border: 'none', background: 'none' }}>
               <FaEye style={{ color: 'lightBlue', fontSize: '16px' }} />
             </button>
           </Link>
-          <Link to={`/teacher/edit/${row.id}`}>
+          <Link to={`${x}/teacher/edit/${row.id}`}>
             <button style={{ border: 'none', background: 'none' }}>
               <BsFillPencilFill style={{ color: 'orange', fontSize: '15px' }} />
             </button>
@@ -101,7 +113,7 @@ export default function TableTeacher() {
           value={classFilter}
           onChange={(e) => setClassFilter(e.target.value)}
         />
-        <Link to="/teacher/add">
+        <Link to={`${x}/teacher/add`}>
           <button className="btn btn-danger">Add Teacher</button>
         </Link>
       </div>

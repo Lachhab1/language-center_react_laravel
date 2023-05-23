@@ -8,6 +8,7 @@ import enseignant from "../../images/icons/enseignant.svg";
 import etudiant from "../../images/icons/etudiant.svg";
 import groupes from "../../images/icons/groupes.svg";
 import presence from "../../images/icons/presence.svg";
+import parents from "../../images/icons/parents.svg";
 import paiements from "../../images/icons/paiements.svg";
 import results from "../../images/icons/results.svg";
 import disco from "../../images/icons/logout.svg";
@@ -38,33 +39,33 @@ export default function SidebarSec() {
         </div>
 
         <div className="Sidebar h-100 fs-6">
-          <Nav className="flex-column" defaultActiveKey="/dashboard">
+          <Nav className="flex-column" defaultActiveKey="/secretary/dashboard">
             <Nav.Item>
-              <NavLink className="a nav-link link-light" to="/dashboard">
+              <NavLink className="a nav-link link-light" to="/secretary/dashboard">
                 <img src={dashboard} alt="Dashboard Icon" />
                 {openSidebar && "Dashboard"}
               </NavLink>
             </Nav.Item>
             <Nav.Item>
-              <NavLink className="a nav-link link-light" to="/teacher">
+              <NavLink className="a nav-link link-light" to="/secretary/teacher">
                 <img src={enseignant} alt="Teacher Icon" />
                 {openSidebar && "Teacher"}
               </NavLink>
             </Nav.Item>
             <Nav.Item>
-              <NavLink className="a nav-link link-light" to="/student">
+              <NavLink className="a nav-link link-light" to="/secretary/student">
                 <img src={etudiant} alt="Student Icon" />
                 {openSidebar && "Student"}
               </NavLink>
             </Nav.Item>
             <Nav.Item>
-              <NavLink className="a nav-link link-light" to="/parent">
-                <img src={groupes} alt="Group Icon" />
+              <NavLink className="a nav-link link-light" to="/secretary/parent">
+                <img src={parents} alt="Group Icon" />
                 {openSidebar && "Parent"}
               </NavLink>
             </Nav.Item>
             <Nav.Item>
-              <NavLink className="a nav-link link-light" to="/class">
+              <NavLink className="a nav-link link-light" to="/secretary/class">
                 <img src={groupes} alt="Group Icon" />
                 {openSidebar && "Group"}
               </NavLink>
@@ -72,8 +73,8 @@ export default function SidebarSec() {
             {openSidebar ? 
                     <Nav.Item className="nav-item link-light"><a className="a nav-link link-light  dropdown-toggle" href="#dropPresence" id="menu" data-bs-toggle="collapse"><img src={presence} />{openSidebar && "Attendance"}</a>
                         <ul className="collapse " id="dropPresence" data-bs-parent="#menu" >
-                            <Nav.Item ><NavLink className="a nav-link link-light" to="/attendance/student">Student</NavLink></Nav.Item>
-                            <Nav.Item ><NavLink className="a nav-link link-light" to="/attendance/teacher">Teacher </NavLink></Nav.Item>
+                            <Nav.Item ><NavLink className="a nav-link link-light" to="/secretary/attendance/student">Student</NavLink></Nav.Item>
+                            <Nav.Item ><NavLink className="a nav-link link-light" to="/secretary/attendance/teacher">Teacher </NavLink></Nav.Item>
                         </ul>
                     </Nav.Item>
                         :
@@ -84,7 +85,7 @@ export default function SidebarSec() {
                     <Nav.Item className="nav-item link-light"><a className="a nav-link link-light  dropdown-toggle" href="#dropFees" id="menu" data-bs-toggle="collapse"><img src={paiements} />{openSidebar && "Paiement"}</a>
                         <ul className="collapse
                         " id="dropFees" data-bs-parent="#menu" >
-                            <Nav.Item ><NavLink className="a nav-link link-light" to="/fees/student">Student fees</NavLink></Nav.Item>
+                            <Nav.Item ><NavLink className="a nav-link link-light" to="/secretary/fees/student">Student fees</NavLink></Nav.Item>
 
                         </ul>
                     </Nav.Item>
@@ -92,18 +93,10 @@ export default function SidebarSec() {
                     <Nav.Item className="nav-item"><a onClick={handleOpen} className="a nav-link link-light dropdown-toggle " href="#dropFees" id="menu" data-bs-toggle="collapse"><img src={paiements} /></a>
                     </Nav.Item>
                     }
-           
-            <Nav.Item>
-              <NavLink className="a nav-link link-light" to="/results">
-                <img src={results} alt="Results Icon" />
-                {openSidebar && "Results"}
-              </NavLink>
-            </Nav.Item>
             <Nav.Link className="a nav-link link-light" onClick={logout}>
               <img src={disco} alt="Logout Icon" />
               {openSidebar && "Logout"}
             </Nav.Link>
-         
           </Nav>
         </div>
       </div>

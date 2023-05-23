@@ -1,13 +1,13 @@
+import React from 'react'
+import SidebarDirecteur from "../../components/SidebarDirecteur"
 import { Navigate, Outlet,useLocation } from "react-router-dom";
-import Sidebar from "../../components/Sidebar";
 import Topbar from "../../components/Topbar";
 import {Card,Alert, Col} from 'react-bootstrap';
 import { UseStateContext } from "../../context/ContextProvider";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
-export default function ContentLayout() {
-  const {token,notification,variant,user} = UseStateContext();
+export default function DirecteurLayout() {
+const {token,notification,variant,user} = UseStateContext();
   const location = useLocation();
   var replaced = location.pathname.slice(1).replace("_", " ").replaceAll("/", " ").replace(/\b\w/g, c => c.toUpperCase());
   replaced = replaced.charAt(0).toUpperCase() + replaced.slice(1).toLowerCase() 
@@ -25,12 +25,11 @@ export default function ContentLayout() {
     backgroundColor: "#F1F1F3"
   }
   const style = location.pathname === "/dashboard" ? dashboardstyle: ""
-  if(!token) return <Navigate to="/auth" />
-  if (user && user.role === "admin")
-  {
-    return (
-      <div className="d-flex flex-row w-100">
-      <Sidebar />
+  if (token && user.role === "director")
+{
+  return (
+          <div className="d-flex flex-row w-100">
+      <SidebarDirecteur />
       <div className="w-100 m-0">
       <Topbar />
       <div className="contents w-100">
@@ -60,6 +59,6 @@ export default function ContentLayout() {
       </div>
   </div>
   </div>
-
-)}
+  )
+}
 }

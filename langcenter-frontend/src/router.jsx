@@ -60,6 +60,9 @@ import EditNote from "./components/ComponentResults/EditNote";
 import AddNote from "./components/ComponentResults/AddNote";
 import AddCourse from "./components/Composantsforcoursepage/AddCourse";
 import EditCourse from "./components/Composantsforcoursepage/EditCourse";
+import SecretaryLayout from "./layouts/secretarylayout/SecretaryLayout";
+import DashboardDirecteur from "./views/DashboardDirecteur";
+import DashbordSec from "./components/DashbordSec/DashbordSec" ;
 
 const router = createBrowserRouter([
         {
@@ -248,23 +251,6 @@ const router = createBrowserRouter([
                 ]
             },
             {
-                path: "/",   
-                children: [
-                    {
-                        path: "/results",
-                        element: <Resultats/>
-                    },
-                    {
-                        path: "/results/add",
-                        element: <AddNote/>
-                    },
-                    {
-                        path: "/results/edit/:id",
-                        element: <EditNote/>
-                    },
-                ]
-                },
-            {
                 path: "/",
                 children:[
                     {
@@ -307,6 +293,140 @@ const router = createBrowserRouter([
                 
             },
         ]
+    },
+    {
+        path: "/",
+        element: <SecretaryLayout/>,
+        children: [
+            {
+                    path: '/secretary',
+                    element: <Navigate to={'/secretary/dashboard'}/>
+            },
+            {
+                path: 'secretary/dashboard',
+                element: <DashboardDirecteur/>
+            },
+            {
+                path:"/",
+                children : [{
+                    path: '/secretary/teacher',
+                    element: <Enseignants/>
+                },
+                {
+                    path: "/secretary/teacher/add",
+                    element: <AddTeacher />
+                },
+                {
+                    path: "/secretary/teacher/edit/:id",
+                    element: <EditTeacher />
+                },
+                {
+                    path: "/secretary/teacher/details/:id",
+                    element: <EnseignantDetails />
+                }
+                ]
+                
+            },
+            {
+                        path: "/secretary/fees",
+                        children: [
+                            {
+                                path: "/secretary/fees/student",
+                                element: <PaiementsEtu/>
+                            },
+                            {
+                                path: "/secretary/fees/student/edit/:id",
+                                element: <EditFees/>
+                            },
+                        ]
+                    },
+                        {
+                path:"/",
+                children:[
+                    {
+                        path: "/secretary/class",
+                        element: <Groupes/>
+                    },
+                    {
+                    path:"/secretary/class/add",
+                    element:<AddGroupe />
+                },{
+                    path:"/secretary/class/edit/:id",
+                    element:<EditGroupe />
+                },{
+                    path:"/secretary/class/details/:id",
+                    element:<ViewGroupe/>
+                }
+            ]
+            },
+            {
+                path: '/',
+                children:[
+                    {
+                        path: '/secretary/student',
+                        element: <Etudiants/>
+                    },
+                    {
+                        path: '/secretary/student/:id',
+                        element: <StudentsDetail/>
+                    },
+                    {
+                        path: '/secretary/student/addStudent',
+                        element: <AddEtudiant/>
+                    },
+                    {
+                        path: '/secretary/student/editStudent/:id',
+                        element: <EditEtudiant/>
+                    }
+                ]
+            },
+            {
+                path: "/",
+                children: [
+                    {
+                        path: '/secretary/parent',
+                        element: <Parents/>
+                    },
+                    {
+                        path: '/secretary/parent/addParent',
+                        element: <AddParent/>
+                    },
+                    {
+                        path: "/secretary/parent/edit/:id",
+                        element: <EditParent/>
+                    },
+                    {
+                        path: "/secretary/parent/:id",
+                        element: <ParentDetails/>
+                    }
+
+                ]
+            },
+            {
+
+            },
+            {
+                path: "/",
+                children: [
+                    {
+                        path: "/secretary/attendance",
+                    },
+                    {
+                        path: "/secretary/attendance/teacher",
+                        element: <PresencesEns/>
+                    },
+                    {
+                        path: "/secretary/attendance/student",
+                        element: <PresencesEtu/>
+                    },
+                ]
+            },
+            {
+                path: "/secretary/settings",
+                element: <Settings/>
+            },
+        ]
+
     },
     {
         path: "/",

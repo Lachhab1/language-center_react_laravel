@@ -6,9 +6,22 @@ import {
     MdDelete
 } from 'react-icons/all';
 import { Link } from 'react-router-dom';
+import { UseStateContext } from '../../context/ContextProvider';
 
 export default function TableParent()
 {
+    const {user} = UseStateContext()
+    let x = ""
+if (user && user.role==='admin')
+{
+    x = ""
+} else if (user && user.role==='director')
+{
+    x="/directeur"
+}
+else{
+    x="/secretary"
+}
     const col=[
         {
             name:"ID",
@@ -43,12 +56,12 @@ export default function TableParent()
             selector: row => row.action,
             cell: (row) => (
                 <div style={{ display: 'flex', gap: '0px' }}>
-                    <Link to={`/parent/${row.id}`}>
+                    <Link to={`${x}/parent/${row.id}`}>
                     <button style={{ border: 'none', background: 'none'}}>
                       <BsFillEyeFill style={{ color: 'green', fontSize: '20px' }} />
                     </button>
                     </Link>
-                        <Link to={`/parent/edit/${row.id}`}>
+                        <Link to={`${x}/parent/edit/${row.id}`}>
                     <button style={{ border: 'none', background: 'none' }}>
                       <BsFillPencilFill style={{ color: 'orange' }} />
                     </button>
@@ -95,7 +108,7 @@ export default function TableParent()
             <div className="col">
                  <input type="text" className="form-control" placeholder="Search by Class" onChange={handlefilterC}/>
             </div>
-            <Link to="/parent/addParent" className="col">
+            <Link to={`${x}/parent/addParent`} className="col">
                     <Button className="" variant="danger" isDisabled={false} size="md" value="add Parent" handleSmthg={() => console.log("chibakiya")}/>
             </Link>
         </div>

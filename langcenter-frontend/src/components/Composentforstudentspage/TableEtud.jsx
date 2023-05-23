@@ -7,11 +7,14 @@ import { BsFillPencilFill,
 import { Link, Navigate,useNavigate } from "react-router-dom";
 import axios from "../../api/axios";
 import { Ellipsis } from 'react-awesome-spinners'
+import { UseStateContext } from "../../context/ContextProvider";
 
 export default function TableEtud()
 {
+const {user} = UseStateContext()
 const [pending, setPending] = useState(true);
 const [data,setData]=useState([]);
+
 useEffect(() => {
     const timeout = setTimeout(async() => {
         const response = await axios.get("/api/inscrire-classes");
@@ -49,8 +52,17 @@ useEffect(() => {
 //     }, 3000);
 //     navigate("/student");
 // };
-
-
+let x = ""
+if (user && user.role==='admin')
+{
+    x = ""
+} else if (user && user.role==='director')
+{
+    x="/directeur"
+}
+else{
+    x="/secretary"
+}
 
 
 
@@ -109,12 +121,12 @@ const col=[
         selector:row => row.action,
         cell: (row) => (
         <div style={{ display: 'flex', gap: '0px' }}>
-            <Link to={`/student/${row.id}`}>
+            <Link to={`${x}/student/${row.id}`}>
             <button style={{ border: 'none', background: 'none'}}>
               <BsFillEyeFill style={{ color: 'green', fontSize: '20px' }} />
             </button>
             </Link>
-                <Link to={`/student/editStudent/${row.id}`}>
+                <Link to={`${x}/student/editStudent/${row.id}`}>
             <button style={{ border: 'none', background: 'none' }}>
               <BsFillPencilFill style={{ color: 'orange' }} />
             </button>
@@ -127,6 +139,7 @@ const col=[
     },
    
 ]
+
 const Data=[
 
     {
@@ -211,6 +224,7 @@ const Data=[
             }) 
             setRecords(NewData)
         }
+        
     return(
 
     <div>
@@ -221,7 +235,7 @@ const Data=[
             <div className="col">
                  <input type="text" className="form-control" placeholder="Search by Class" onChange={handlefilterC}/>
             </div>
-            <Link to="/student/addStudent" className="col">
+            <Link to={`${x}/student/addStudent`} className="col">
                     <Button className="" variant="danger" isDisabled={false} size="md" value="add Student" handleSmthg={() => console.log("chibakiya")}/>
             </Link>
         </div>

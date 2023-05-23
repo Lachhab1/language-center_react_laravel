@@ -82,7 +82,6 @@ export default function Sidebar() {
                     </Nav.Item>
                     }
                     
-                    <Nav.Item><NavLink className="a nav-link link-light" to="/results"><img src={results} />{openSidebar &&"Results"}</NavLink></Nav.Item>
                     <Nav.Item><NavLink className="a nav-link link-light" to="/classroom"><img src={salles} />{openSidebar && "Classroom"}</NavLink></Nav.Item>
                     <Nav.Item><NavLink className="a nav-link link-light" to="/schedule"><img src={empTemps} />{openSidebar && "Schedule"}</NavLink></Nav.Item>
                     <Nav.Item><NavLink className="a nav-link link-light" to="/users"><img src={users} />{openSidebar && "Users"}</NavLink></Nav.Item>

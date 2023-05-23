@@ -4,11 +4,24 @@ import DataTable from 'react-data-table-component';
 import { BsFillPencilFill } from 'react-icons/bs';
 import { MdDelete } from 'react-icons/md';
 import { FaEye } from 'react-icons/fa';
+import { UseStateContext } from '../../context/ContextProvider';
 
 
 export default function ClassPage() {
+  const {user} = UseStateContext()
   const [nameFilter, setNameFilter] = useState('');
   const [courseFilter, setCourseFilter] = useState('');
+  let x = ""
+if (user && user.role==='admin')
+{
+    x = ""
+} else if (user && user.role==='director')
+{
+    x="/directeur"
+}
+else{
+    x="/secretary"
+}
 
   // Replace this with fetching data from the database
   const data = [
@@ -54,12 +67,12 @@ export default function ClassPage() {
       selector: (row) => row.action,
       cell: (row) => (
         <div style={{ display: 'flex', gap: '0px' }}>
-          <Link to={`/class/details/${row.id}`}>
+          <Link to={`${x}/class/details/${row.id}`}>
             <button style={{ border: 'none', background: 'none' }}>
               <FaEye style={{ color: 'lightBlue', fontSize: '16px' }} />
             </button>
           </Link>
-          <Link to={`/class/edit/${row.id}`}>
+          <Link to={`${x}/class/edit/${row.id}`}>
             <button style={{ border: 'none', background: 'none' }}>
               <BsFillPencilFill style={{ color: 'orange', fontSize: '15px' }} />
             </button>
@@ -95,7 +108,7 @@ export default function ClassPage() {
           value={courseFilter}
           onChange={(e) => setCourseFilter(e.target.value)}
           />
-          <Link to="/class/add">
+          <Link to={`${x}/class/add`}>
           <button className="btn btn-danger">Add Class</button>
           </Link>
           </div>
