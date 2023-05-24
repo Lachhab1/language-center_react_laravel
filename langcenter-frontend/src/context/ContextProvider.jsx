@@ -40,8 +40,8 @@ export const ContextProvider = ({children}) => {
                         const {response} = error;
                         if(response && response.status === 422)
                         {
-                                setErrors(response.data.errors);
-                                setErrors([{'email':response.data.errors}]);
+                                setErrors([{'email':response.data.errors.email}]);
+                                debugger;
                         }else if (response && response.status === 401) {
                             setErrors([{'email':response.data.message}]);
                         }

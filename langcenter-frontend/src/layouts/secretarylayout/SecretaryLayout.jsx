@@ -42,7 +42,7 @@ const {token,notification,variant,user} = UseStateContext();
         <div style={{fontFamily: "regular",fontSize: "18px"}} className="text-secondary me-2">Home</div>
           {
             location.pathname === "/dashboard" ? "" : 
-          <div className="text-danger me-2 fw-semibold"><span className="ms-2 fw-bold">{second}</span></div>
+          <div className="text-danger me-2 fw-semibold"><span className="fw-bold">{second}</span></div>
           }
         </div>
         {

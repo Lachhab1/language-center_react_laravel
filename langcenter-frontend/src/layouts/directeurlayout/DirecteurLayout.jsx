@@ -11,13 +11,13 @@ const {token,notification,variant,user} = UseStateContext();
   const location = useLocation();
   var replaced = location.pathname.slice(1).replace("_", " ").replaceAll("/", " ").replace(/\b\w/g, c => c.toUpperCase());
   replaced = replaced.charAt(0).toUpperCase() + replaced.slice(1).toLowerCase() 
-  var second = location.pathname.slice(1).replace("_", " ").replaceAll("/", " ").replaceAll(" "," > ").replace(/\b\w/g, c => c.toUpperCase());
+  var second = location.pathname.slice(1).replace("_", " ").replace("director","").replaceAll("/", " ").replaceAll(" "," > ").replace(/\b\w/g, c => c.toUpperCase());
   const words = replaced.split(" ");
   let result = "";
   if (variant === "success") toast.success(notification);
   if (variant === "danger") toast.error(notification);
   if  (variant === "warning") toast.warn(notification);
-  for (let i = 0; i < 1 && i < words.length; i++) {
+  for (let i = 1; i < 2 && i < words.length; i++) {
     result += words[i] + " ";
   }
 
@@ -41,7 +41,7 @@ const {token,notification,variant,user} = UseStateContext();
         <div style={{fontFamily: "regular",fontSize: "18px"}} className="text-secondary me-2">Home</div>
           {
             location.pathname === "/dashboard" ? "" : 
-          <div className="text-danger me-2 fw-semibold">&gt;<span className="ms-2 fw-bold">{second}</span></div>
+          <div className="text-danger me-2 fw-semibold"><span className="fw-bold">{second}</span></div>
           }
         </div>
         {
