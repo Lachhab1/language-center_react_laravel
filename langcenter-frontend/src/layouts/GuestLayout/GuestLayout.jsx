@@ -3,7 +3,7 @@ import { Navigate, Outlet } from 'react-router-dom'
 import { UseStateContext } from '../../context/ContextProvider'
 
 export default function GuestLayout() {
-  const {token,user} = UseStateContext();
+  const {token,user,errors} = UseStateContext();
   if(token && user.role === "admin")
   {
     return(
