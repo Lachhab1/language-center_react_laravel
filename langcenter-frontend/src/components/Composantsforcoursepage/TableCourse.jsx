@@ -7,8 +7,23 @@ import { BsFillPencilFill } from 'react-icons/bs';
 import { MdDelete } from 'react-icons/md';
 import AddCourse from "./AddCourse";
 import { useParams } from "react-router-dom";
+import { UseStateContext } from "../../context/ContextProvider";
+
+
 export default function TableCourse()
 {
+        const {user} = UseStateContext()
+            let x = ""
+        if (user && user.role==='admin')
+        {
+            x = ""
+        } else if (user && user.role==='director')
+        {
+            x="/director"
+        }
+        else{
+            x="/secretary"
+        }
     const {id} = useParams();
     const col=[
         {
@@ -40,7 +55,7 @@ export default function TableCourse()
             selector:row => row.action,
             cell: (row) => (
                 <div style={{ display: 'flex', gap: '0px' }}>
-                  <Link to={`/course/edit/${row.id}`}>
+                  <Link to={`${x}/course/edit/${row.id}`}>
                     <button style={{ border: 'none', background: 'none' }}>
                       <BsFillPencilFill style={{ color: 'orange' }} />
                     </button>
@@ -86,7 +101,7 @@ export default function TableCourse()
             </div>
             <div className="col">
 
-                <Link to="/course/add">
+                <Link to={`${x}/course/add`}>
                     <Button
                     className=""
                     variant="danger"

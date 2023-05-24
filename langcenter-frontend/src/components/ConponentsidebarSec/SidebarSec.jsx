@@ -67,7 +67,7 @@ export default function SidebarSec() {
             <Nav.Item>
               <NavLink className="a nav-link link-light" to="/secretary/class">
                 <img src={groupes} alt="Group Icon" />
-                {openSidebar && "Group"}
+                {openSidebar && "Class"}
               </NavLink>
             </Nav.Item>
             {openSidebar ? 

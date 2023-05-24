@@ -17,7 +17,7 @@ if (user && user.role==='admin')
     x = ""
 } else if (user && user.role==='director')
 {
-    x="/directeur"
+    x="/director"
 }
 else{
     x="/secretary"

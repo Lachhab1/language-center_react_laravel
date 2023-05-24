@@ -63,6 +63,7 @@ import EditCourse from "./components/Composantsforcoursepage/EditCourse";
 import SecretaryLayout from "./layouts/secretarylayout/SecretaryLayout";
 import DashboardDirecteur from "./views/DashboardDirecteur";
 import DashbordSec from "./components/DashbordSec/DashbordSec" ;
+import DirecteurLayout from "./layouts/directeurlayout/DirecteurLayout";
 
 const router = createBrowserRouter([
         {
@@ -423,6 +424,230 @@ const router = createBrowserRouter([
             },
             {
                 path: "/secretary/settings",
+                element: <Settings/>
+            },
+        ]
+
+    },
+    {
+        path: "/",
+        element: <DirecteurLayout/>,
+        children: [
+            {
+                    path: '/director',
+                    element: <Navigate to={'/director/dashboard'}/>
+            },
+            {
+                path: '/director/dashboard',
+                element: <DashboardDirecteur/>
+            },
+            {
+                path:"/",
+                children : [{
+                    path: '/director/teacher',
+                    element: <Enseignants/>
+                },
+                {
+                    path: "/director/teacher/add",
+                    element: <AddTeacher />
+                },
+                {
+                    path: "/director/teacher/edit/:id",
+                    element: <EditTeacher />
+                },
+                {
+                    path: "/director/teacher/details/:id",
+                    element: <EnseignantDetails />
+                }
+                ]
+                
+            },
+            {
+                        path: "/director/fees",
+                        children: [
+                            {
+                                path: "/director/fees/student",
+                                element: <PaiementsEtu/>
+                            },
+                            {
+                                path: "/director/fees/student/edit/:id",
+                                element: <EditFees/>
+                            },
+                                                {
+                            path: "/director/fees/teacher",
+                            children: [
+                            {
+                                path: "/director/fees/teacher",
+                                element: <TableFeesTeacher/>
+                            },
+                            {
+                                path: "/director/fees/teacher/edit/:id",
+                                element: <EditFeesT/>
+                            },
+                        ]
+                        
+                    },
+                        ]
+                    },
+                        {
+                path:"/",
+                children:[
+                    {
+                        path: "/director/class",
+                        element: <Groupes/>
+                    },
+                    {
+                    path:"/director/class/add",
+                    element:<AddGroupe />
+                },{
+                    path:"/director/class/edit/:id",
+                    element:<EditGroupe />
+                },{
+                    path:"/director/class/details/:id",
+                    element:<ViewGroupe/>
+                }
+            ]
+            },
+            {
+                path: '/',
+                children:[
+                    {
+                        path: '/director/student',
+                        element: <Etudiants/>
+                    },
+                    {
+                        path: '/director/student/:id',
+                        element: <StudentsDetail/>
+                    },
+                    {
+                        path: '/director/student/addStudent',
+                        element: <AddEtudiant/>
+                    },
+                    {
+                        path: '/director/student/editStudent/:id',
+                        element: <EditEtudiant/>
+                    }
+                ]
+            },
+            {
+                path: "/",
+                children: [
+                    {
+                        path: '/director/parent',
+                        element: <Parents/>
+                    },
+                    {
+                        path: '/director/parent/addParent',
+                        element: <AddParent/>
+                    },
+                    {
+                        path: "/director/parent/edit/:id",
+                        element: <EditParent/>
+                    },
+                    {
+                        path: "/director/parent/:id",
+                        element: <ParentDetails/>
+                    }
+
+                ]
+            },
+            {
+
+            },
+            {
+                path: "/",
+                children: [
+                    {
+                        path: "/director/attendance",
+                    },
+                    {
+                        path: "/director/attendance/teacher",
+                        element: <PresencesEns/>
+                    },
+                    {
+                        path: "/director/attendance/student",
+                        element: <PresencesEtu/>
+                    },
+                ]
+            },
+            {  
+
+                path: "/",
+                children:[
+                    {
+                        path:'/director/classroom',
+                        element: <Salles/>
+                    },
+                    {
+                        path:"/director/classroom/add",
+                        element:<AddSalle/>
+                    },
+                    {
+                        path:'/director/classroom/edit/:id',
+                        element : <EditSalle/>
+                    },
+                    {
+                        path:'/director/classroom/details/:id',
+                        element : <ViewSalleDetails/>
+                    }
+                ]
+
+            },
+                        {
+                path:"/",
+                children:[
+                    {
+                        path: "/director/class",
+                        element: <Groupes/>
+                    },
+                    {
+                    path:"/director/class/add",
+                    element:<AddGroupe />
+                },{
+                    path:"/director/class/edit/:id",
+                    element:<EditGroupe />
+                },{
+                    path:"/director/class/details/:id",
+                    element:<ViewGroupe/>
+                }
+            ]
+            },
+            {
+                path: '/',
+                children: [
+                    {
+                    path: '/director/course',
+                    element: <Cours />     
+                    },
+                    {
+                        path: '/director/course/add',
+                        element: <AddCourse/>
+                    },
+                    {
+                        path: '/director/course/edit/:id',
+                        element: <EditCourse/>
+                    }
+            ]
+        },
+{
+                path:"/",
+                children : [{
+                    path: "/director/schedule",
+                    element: <EmploiTemps/>
+                },
+                {
+                    path: "/director/schedule/AddSchedule",
+                    element: <AddSchedule/>
+                },
+                {
+                    path: "/director/schedule/EditSchedule/:id",
+                    element: <EditSchedule />
+                }
+                ]
+                
+            },
+            {
+                path: "/director/settings",
                 element: <Settings/>
             },
         ]

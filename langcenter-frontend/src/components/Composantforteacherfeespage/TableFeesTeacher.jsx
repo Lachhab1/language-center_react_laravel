@@ -4,10 +4,22 @@ import DataTable from 'react-data-table-component';
 import { BsFillPencilFill } from 'react-icons/bs';
 import { MdDelete } from 'react-icons/md';
 import EditfeesT from './EditfeesT';
-
+import { UseStateContext } from '../../context/ContextProvider';
 
 export default function TableFeesTeacher()
 {
+          const {user} = UseStateContext()
+        let x = ""
+    if (user && user.role==='admin')
+    {
+        x = ""
+    } else if (user && user.role==='director')
+    {
+        x="/director"
+    }
+    else{
+        x="/secretary"
+    }
     const col=[
         {
             name:"ID",
@@ -42,7 +54,7 @@ export default function TableFeesTeacher()
             selector:row => row.action,
             cell: (row) => (
         <div style={{ display: 'flex', gap: '0px' }}>
-          <Link to={`/fees/teacher/edit/${row.id}`}>
+          <Link to={`${x}/fees/teacher/edit/${row.id}`}>
             <button style={{ border: 'none', background: 'none' }}>
               <BsFillPencilFill style={{ color: 'orange' }} />
             </button>

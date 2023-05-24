@@ -4,9 +4,22 @@ import DataTable from 'react-data-table-component';
 import Button from '../Button';
 import { BsFillPencilFill } from 'react-icons/bs';
 import { MdDelete } from 'react-icons/md';
+import { UseStateContext } from '../../context/ContextProvider';
 
 
 export default function ScheduleTable({ data, handleDelete }) {
+      const {user} = UseStateContext()
+        let x = ""
+    if (user && user.role==='admin')
+    {
+        x = ""
+    } else if (user && user.role==='director')
+    {
+        x="/director"
+    }
+    else{
+        x="/secretary"
+    }
   const [groupFilter, setGroupFilter] = useState('');
   const [courseNameFilter, setCourseNameFilter] = useState('');
 
@@ -40,7 +53,7 @@ export default function ScheduleTable({ data, handleDelete }) {
       name: 'Action',
       cell: (row) => (
         <div style={{ display: 'flex', gap: '0px' }}>
-          <Link to={`/schedule/EditSchedule/${row.id}`}>
+          <Link to={`${x}/schedule/EditSchedule/${row.id}`}>
             <button style={{ border: 'none', background: 'none' }} title="Edit">
               <BsFillPencilFill style={{ color: 'orange', fontSize: '16px'  }} />
             </button>

@@ -19,10 +19,9 @@ export default function GuestLayout() {
   if(token && user.role === "director")
   {
     return(
-      <Navigate to="/directeur/dashboard" />
+      <Navigate to="/director/dashboard" />
       );
   }
-    
   return (
     <div>
       <Outlet/>

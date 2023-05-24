@@ -16,7 +16,7 @@ export default function TableTeacher() {
       x = ""
   } else if (user && user.role==='director')
   {
-      x="/directeur"
+      x="/director"
   }
   else{
       x="/secretary"

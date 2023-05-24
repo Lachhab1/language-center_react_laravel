@@ -5,11 +5,23 @@ import { BsFillPencilFill } from 'react-icons/bs';
 import { MdDelete } from 'react-icons/md';
 import EditFees from './EditFees';
 import { useEffect } from 'react';
+import { UseStateContext } from '../../context/ContextProvider';
 
 
 export default function TableFeesEtud()
 {
- 
+     const {user} = UseStateContext()
+    let x = ""
+if (user && user.role==='admin')
+{
+    x = ""
+} else if (user && user.role==='director')
+{
+    x="/director"
+}
+else{
+    x="/secretary"
+}
   
       const deleteRow = (id) => {
     // Perform delete operation here
@@ -57,7 +69,7 @@ export default function TableFeesEtud()
             selector:row => row.action,
             cell: (row) => (
         <div style={{ display: 'flex', gap: '0px' }}>
-          <Link to={`/fees/student/edit/${row.id}`}>
+          <Link to={`${x}/fees/student/edit/${row.id}`}>
             <button style={{ border: 'none', background: 'none' }}>
               <BsFillPencilFill style={{ color: 'orange' }} />
             </button>

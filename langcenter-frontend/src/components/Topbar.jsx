@@ -47,5 +47,24 @@ export default function Topbar() {
                     </Container>
             </Navbar>  
         )
+    } else if (user && user.role === 'director')
+    {
+        return (
+            <Navbar style={{height: "60px"}}  className="Topbar order-3" >
+                <Container  className="w-100 d-flex justify-content-end align-items-center">
+                    <Nav className="">
+                        <Nav.Link as={Link} to="/director/dashboard"> <EnvelopeIcon width={25} className="text-danger" /></Nav.Link>
+                        <Nav.Link as={Link} to="/director/dashboard"><BellIcon width={25} className="text-danger"/></Nav.Link>
+                        <Nav.Link className="profile-photoContainer">
+                            <img src={photo_profile} className="pPhoto" />
+                        </Nav.Link>
+                        <NavDropdown drop={"down-centered"} align={ "end" }  title={user && user.username} id="nav-dropdown">
+                                <NavDropdown.Item as={Link} to="/director/settings">Settings</NavDropdown.Item>
+                                <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
+                            </NavDropdown>
+                    </Nav>
+                    </Container>
+            </Navbar>
+        )
     }
 }
