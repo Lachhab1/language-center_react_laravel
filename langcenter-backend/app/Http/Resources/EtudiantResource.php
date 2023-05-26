@@ -25,6 +25,7 @@ class EtudiantResource extends JsonResource
             'telephone' => $this->telephone,
             'isActive' => $this->isActive,
             'parent' => $this->parent_,
+
         ];
     }
 }

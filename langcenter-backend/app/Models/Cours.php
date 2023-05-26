@@ -14,12 +14,12 @@ class Cours extends Model
     protected $fillable = ['title', 'description', 'duration', 'price'];
     public $timestamps = false;
 
-    // public function class_()
-    // {
-    //     return $this->belongsToMany(Class_::class, 'inscrire_classes')
-    //         ->using(InscrireClass::class)
-    //         ->withPivot('inscription_date', 'frais_paid');
-    // }
+    public function class_()
+    {
+        return $this->belongsToMany(Class_::class, 'inscrire_classes')
+            ->using(InscrireClass::class)
+            ->withPivot('inscription_date', 'frais_paid');
+    }
 
     public function inscrireClasses()
     {

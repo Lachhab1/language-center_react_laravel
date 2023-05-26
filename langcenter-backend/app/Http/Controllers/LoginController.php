@@ -11,12 +11,7 @@ class LoginController extends Controller
 {
     public function login(LoginRequest $request)
     {
-        $credentials = $request->validate(
-            [
-                'email' => 'required|email|exists:users,email',
-                'password' => 'required|string'
-            ]
-        );
+        $credentials = $request->validated();
 
         if (!Auth::attempt($credentials)) {
             return response(
