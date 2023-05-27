@@ -41,16 +41,16 @@ class EtudiantController extends Controller
             // 'parent_nbenfants' => 'integer|max:254'
         ]);
         $etudiant = new Etudiant();
-        $etudiant->nom = $request->nom;
-        // $etudiant->prenom = $request->prenom;
-        // $etudiant->date_naissance = $request->date_naissance;
-        // $etudiant->sexe = $request->sexe;
-        // $etudiant->email = $request->email;
-        // $etudiant->adresse = $request->adresse;
-        // $etudiant->telephone = $request->telephone;
-        // $etudiant->isActive = $request->isActive;
-        if ($request->has('underAge') && $request->underAge == true)
-        {
+        $etudiant->nom = $data['nom'];
+        $etudiant->prenom = $data['prenom'];
+        $etudiant->date_naissance = $data['date_naissance'];
+        $etudiant->sexe = $data['sexe'];
+        $etudiant->email = $data['email'];
+        $etudiant->adresse = $data['adresse'];
+        $etudiant->telephone = $data['telephone'];
+        $etudiant->isActive = $data['isActive'];
+        if ($request->has('underAge') && $request->underAge == true) {
+
             $parent = Parent_::where('cin', $request->parent_cin)->first();
             if ($parent) {
                 // If the parent exists, associate it with the etudiant
@@ -59,23 +59,25 @@ class EtudiantController extends Controller
                 // If the parent does not exist, create a new parent and associate it
                 $newParent = new Parent_();
                 $newParent->nom = $request->parent_nom;
-                // $newParent->prenom = $request->parent_prenom;
+                $newParent->prenom = $request->parent_prenom;
+                $newParent->sexe = $request->parent_sexe;
                 $newParent->cin = $request->parent_cin;
-                // $newParent->email = $request->parent_email;
-                // $newParent->adresse = $request->parent_adresse;
-                // $newParent->telephone = $request->parent_telephone;
-                // $newParent->nbenfants = $request->parent_nbenfants;
+                $newParent->email = $request->parent_email;
+                $newParent->adresse = $request->parent_adresse;
+                $newParent->telephone = $request->parent_telephone;
+                $newParent->nbenfants = $request->parent_nbenfants;
+                $newParent->date_naissance = $request->parent_date_naissance;
                 $newParent->save();
                 $etudiant->parent_()->associate($newParent);
             }
-        }else {
-            $etudiant->parent_id = null;
+        } else {
+            $etudiant->parent_()->associate(null);
         }
         $etudiant->save();
         return response()->json(['message' => 'Etudiant created successfully'], 201);
     }
-        
-        /**
+
+    /**
      * Display the specified resource.
      */
     public function show(Etudiant $etudiant)
@@ -102,8 +104,7 @@ class EtudiantController extends Controller
             // 'isActive' => 'required|boolean',
             // 'parent_id' => 'required|integer',
         ]);
-        if ($request->has('underAge') && $request->underAge == true)
-        {
+        if ($request->has('underAge') && $request->underAge == true) {
             $parent = Parent_::where('cin', $request->parent_cin)->first();
             $etudiant->parent_()->associate($parent);
         }
@@ -116,7 +117,20 @@ class EtudiantController extends Controller
      */
     public function destroy(Etudiant $etudiant)
     {
-               $etudiant->delete();
-               return response()->json(['message' => 'Etudiant deleted successfully']);
+        // Delete the inscrireClass
+        $etudiant->load('inscrireClasses');
+
+
+        $etudiant->inscrireClasses->each(function ($inscrireClass) {
+            $inscrireClass->delete();
+        });
+
+        // Delete the etudiant
+        if ($etudiant->parent_ && $etudiant->parent_->etudiant->count() == 1) {
+            $etudiant->parent_->delete();
+        }
+        $etudiant->delete();
+
+        return response()->json(null, 204);
     }
 }

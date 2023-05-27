@@ -7,8 +7,6 @@ use Illuminate\Http\Request;
 use App\Http\Resources\InscrireClassRessource;
 use App\Models\Etudiant;
 use App\Models\Parent_;
-use App\Models\Classe;
-use App\Models\Cour;
 
 
 class InscrireClassController extends Controller
@@ -32,8 +30,7 @@ class InscrireClassController extends Controller
                 'email' => 'required|email|unique:etudiants',
                 'adresse' => 'required|string',
                 'telephone' => 'required|string|max:13|regex:/^([0-9\s\-\+\(\)]*)$/|min:10|unique:etudiants',
-                'isActive' => 'boolean',
-                'parent_cin' => 'required|string',
+                'parent_cin' => 'string',
                 'parent_nom' => 'string',
                 'parent_prenom' => 'string',
                 'parent_sexe' => 'string',
@@ -44,7 +41,6 @@ class InscrireClassController extends Controller
                 'parent_nbenfants' => 'integer',
                 'class_id' => 'required|integer',
                 'cours_id' => 'required|integer',
-                'inscription_date' => 'required|date',
                 'frais_paid' => 'required|integer',
             ]);
             $etudiant = new Etudiant();
@@ -56,31 +52,36 @@ class InscrireClassController extends Controller
             $etudiant->adresse = $data['adresse'];
             $etudiant->telephone = $data['telephone'];
             $etudiant->isActive = $data['isActive'];
-            $parent = Parent_::where('cin', $request->parent_cin)->first();
-            if ($parent) {
-                // If the parent exists, associate it with the etudiant
-                $etudiant->parent_()->associate($parent);
+            if ($request->has('underAge') && $request->underAge == true) {
+
+                $parent = Parent_::where('cin', $request->parent_cin)->first();
+                if ($parent) {
+                    // If the parent exists, associate it with the etudiant
+                    $etudiant->parent_()->associate($parent);
+                } else {
+                    // If the parent does not exist, create a new parent and associate it
+                    $newParent = new Parent_();
+                    $newParent->nom = $request->parent_nom;
+                    $newParent->prenom = $request->parent_prenom;
+                    $newParent->sexe = $request->parent_sexe;
+                    $newParent->cin = $request->parent_cin;
+                    $newParent->email = $request->parent_email;
+                    $newParent->adresse = $request->parent_adresse;
+                    $newParent->telephone = $request->parent_telephone;
+                    $newParent->nbenfants = $request->parent_nbenfants;
+                    $newParent->date_naissance = $request->parent_date_naissance;
+                    $newParent->save();
+                    $etudiant->parent_()->associate($newParent);
+                }
             } else {
-                // If the parent does not exist, create a new parent and associate it
-                $newParent = new Parent_();
-                $newParent->nom = $request->parent_nom;
-                $newParent->prenom = $request->parent_prenom;
-                $newParent->sexe = $request->parent_sexe;
-                $newParent->cin = $request->parent_cin;
-                $newParent->email = $request->parent_email;
-                $newParent->adresse = $request->parent_adresse;
-                $newParent->telephone = $request->parent_telephone;
-                $newParent->nbenfants = $request->parent_nbenfants;
-                $newParent->date_naissance = $request->parent_date_naissance;
-                $newParent->save();
-                $etudiant->parent_()->associate($newParent);
+                $etudiant->parent_()->associate(null);
             }
             $etudiant->save();
             $inscrireClass = new InscrireClass();
             $inscrireClass->etudiant()->associate($etudiant);
             $inscrireClass->class_()->associate($request->class_id);
             $inscrireClass->cours()->associate($request->cours_id);
-            $inscrireClass->inscription_date = $request->inscription_date;
+            $inscrireClass->inscription_date = now();
             $inscrireClass->frais_paid = $request->frais_paid;
             $inscrireClass->save();
             return response(new InscrireClassRessource($inscrireClass), 201);
@@ -101,6 +102,7 @@ class InscrireClassController extends Controller
      */
     public function update(Request $request, InscrireClass $inscrireClass)
     {
+        
     }
 
     /**
@@ -116,11 +118,13 @@ class InscrireClassController extends Controller
         $etudiant->inscrireClasses->each(function ($inscrireClass) {
             $inscrireClass->delete();
         });
-        
+
         // Delete the etudiant
-        $etudiant->parent_->delete();
+        if ($etudiant->parent_ && $etudiant->parent_->etudiant->count() == 1) {
+            $etudiant->parent_->delete();
+        }
         $etudiant->delete();
-    
+
         return response()->json(null, 204);
     }
 }

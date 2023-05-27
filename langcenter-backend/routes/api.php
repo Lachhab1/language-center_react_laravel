@@ -17,11 +17,7 @@ Route::middleware('auth:sanctum')->group(
         });
         Route::post('/logout', [LoginController::class, 'logout']);
         Route::apiResource('users', UserController::class);
-        Route::apiResource('etudiants', App\Http\Controllers\EtudiantController::class);
-        Route::apiResource('inscrire-classes', App\Http\Controllers\InscrireClassController::class);
-        // Route::post('/etudiant/add', [App\Http\Controllers\ApiController::class, 'createEtudiant']);
-        // Route::get('/etudiants', [App\Http\Controllers\ApiController::class, 'getEtudiants']);
-        // Route::post('/parent/add', [App\Http\Controllers\ApiController::class, 'createParent']);
-        // Route::get('/parents', [App\Http\Controllers\ApiController::class, 'getParents']);
     }
 );
+Route::apiResource('etudiants', App\Http\Controllers\EtudiantController::class);
+Route::apiResource('inscrire-classes', App\Http\Controllers\InscrireClassController::class);

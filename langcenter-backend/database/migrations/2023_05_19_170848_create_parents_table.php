@@ -21,8 +21,6 @@ return new class extends Migration
             $table->string('email', 254);
             $table->string('adresse', 254);
             $table->string('telephone', 254);
-            // $table->boolean('isActive');
-            $table->integer('nbenfants');
         });
     }
 
