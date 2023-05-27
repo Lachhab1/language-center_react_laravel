@@ -25,7 +25,12 @@ class EtudiantResource extends JsonResource
             'telephone' => $this->telephone,
             'isActive' => $this->isActive,
             'parent' => $this->parent_,
-
+            'classes' => $this->inscrireClasses->map(function ($inscrireClass) {
+                return $inscrireClass->class_;
+            }),
+            'cours' => $this->inscrireClasses->map(function ($inscrireClass) {
+                return $inscrireClass->cours;
+            }),
         ];
     }
 }

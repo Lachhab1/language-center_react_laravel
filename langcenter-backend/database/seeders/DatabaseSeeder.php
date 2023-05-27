@@ -29,7 +29,6 @@ class DatabaseSeeder extends Seeder
                 'email' => 'parent@parent.com',
                 'adresse' => 'test',
                 'telephone' => '0687439035',
-                'nbenfants' => 1,
             ]
         );
         \App\Models\Etudiant::create([
@@ -40,7 +39,6 @@ class DatabaseSeeder extends Seeder
             'email' => 'test@test.com',
             'adresse' => 'test',
             'telephone' => '0687439035',
-            'isActive' => true,
             'parent_id' => 1,
         ]);
         \App\Models\Class_::create([

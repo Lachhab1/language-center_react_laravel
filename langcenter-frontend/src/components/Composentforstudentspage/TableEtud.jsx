@@ -17,19 +17,20 @@ const [data,setData]=useState([]);
 
 useEffect(() => {
     const timeout = setTimeout(async() => {
-        const response = await axios.get("/api/inscrire-classes");
-        console.log(response.data.data);
+        const response = await axios.get("/api/etudiants");
         response.data.data.map((datar) => {
+            const classes = datar?.classes.map((item) => item.class_nom) || [];
+            const classesString = classes.length > 0 ? classes.join(', ') : 'No class';
             setData((prev)=>
             (
                 [...prev,
                     {
-                    id:datar.etudiant.id,
-                    name:datar.etudiant.prenom+" "+datar.etudiant.nom,
-                    gender: datar.etudiant.sexe,
-                    class:datar.class.class_nom,
-                    parents:datar.parent.prenom+" "+datar.parent.nom,
-                    status:datar.etudiant.isActive,
+                    id:datar.id,
+                    name:datar.prenom+" "+datar.nom,
+                    gender: datar.sexe,
+                    class:  classesString,
+                    parents:datar.parent?  (datar.parent?.nom+" "+datar.parent?.prenom) : "No parent",
+                    status:true,
                     }
                 ])
             )
@@ -41,7 +42,7 @@ useEffect(() => {
     return () => clearTimeout(timeout);
 }, []);
 
-//     console.log(data);
+    console.log(data);
 // // delete a row
 // const deleteRow = async (id) => {
 //     await axios.delete(`/api/inscrire-classes/${id}`);
@@ -138,88 +139,19 @@ const col=[
       ),
     },
    
-]
-
-const Data=[
-
-    {
-        id:1,
-        name:"youssef",
-        class:"5"
-        
-    },
-    {
-        id:2,
-        name:"mohammed",
-        class:"7"
-    },
-    {
-        id:3,
-        name:"othmane",
-        class:"8"
-    },
-    {
-        id:4,
-        name:"aziz",
-        class:"5"
-        
-    },
-    {
-        id:5,
-        name:"kamal",
-        class:"7"
-    },
-    {
-        id:6,
-        name:"aymen",
-        class:"8"
-    },
-    {
-        id:7,
-        name:"messi",
-        class:"5"
-        
-    },
-    {
-        id:8,
-        name:"walid",
-        class:"7"
-    },
-    {
-        id:9,
-        name:"ronaldo",
-        class:"8"
-    },
-    {
-        id:10,
-        name:"ayoube",
-        class:"5"
-        
-    },
-    {
-        id:11,
-        name:"zakaria",
-        class:"7"
-    },
-    {
-        id:12,
-        name:"mountasir",
-        class:"8"
-    }
-
-]
-        const [records,setRecords]=useState(Data);
-        const [recordsC,setRecordsC]=useState(Data);
+]       
+        const [NewData,setNewData]=useState(data);
+        const [records,setRecords]=useState(data);
         function handlefilter(event)
         {
-            const NewData = Data.filter(row => {
+            const NewData = data.filter(row => {
                 return row.name.toLowerCase().includes(event.target.value.toLowerCase())
             }) 
             setRecords(NewData)
         }
         function handlefilterC(event)
         {
-            const NewData = Data.filter(row => {
+            const NewData = data.filter(row => {
                 return row.class.toLowerCase().includes(event.target.value.toLowerCase())
             }) 
             setRecords(NewData)
@@ -241,7 +173,7 @@ const Data=[
         </div>
             <DataTable
                     columns={col}
-                    data={data}
+                    data={records}
                     fixedHeader
                     pagination
                     progressPending={pending}
