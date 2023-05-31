@@ -2,7 +2,7 @@ import SelectAttandanceTeachers from "../components/AttenanceCompo/SelectAttanda
 export default function PresencesEns(){
     return(
         <div>
-            <h1>Presences Enseignants Page </h1>
+            <h1>Teachers attendance</h1>
             <SelectAttandanceTeachers/>
         </div>
     )

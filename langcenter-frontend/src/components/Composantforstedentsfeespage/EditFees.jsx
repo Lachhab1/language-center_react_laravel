@@ -6,7 +6,7 @@ export default function EditFees()
     
      
       const [formData, setFormData] = useState({
-        id:"1",name:"sopa",gender:"male",class:"4",amount:"1000",status:"paid",date:"07-05-2022",
+        id:"1",name:"sopa",gender:"male",class:"4",status:"unpaid",iamount:"1000",aamount:"800",pamount:"500",ramount:"300",date:"07-05-2022",
       });
       const handleChange = (event) => {
         setFormData({
@@ -52,10 +52,6 @@ export default function EditFees()
                     <input className="form-control"type="text" name="class" value={formData.class}  />
                 </div>
                 <div className='col-4'>
-                    <label>Amount</label>
-                    <input className="form-control"type="number" name="amount" value={formData.amount} onChange={handleChange} />
-                </div>
-                <div className='col-4'>
                     <label>Status</label>
                     <select className="form-control" name="status" value={formData.status}  onChange={handleChange}>
                          <option value="paid">Paid</option>
@@ -63,8 +59,25 @@ export default function EditFees()
                     </select>
                     <br />
                 </div>
-                
                 <div className='col-4'>
+                    <label>Amount</label>
+                    <input className="form-control"type="number" name="iamount" value={formData.iamount} onChange={handleChange} />
+                </div>
+                <div className='col-4'>
+                    <label>Agreed</label>
+                    <input className="form-control"type="number" name="aamount" value={formData.aamount} onChange={handleChange} />
+                </div>
+                <div className='col-4'>
+                    <label>Paid</label>
+                    <input className="form-control"type="number" name="pamount" value={formData.pamount} onChange={handleChange} />
+                </div>
+                <div className='col-4'>
+                    <label>Remaining</label>
+                    <input className="form-control"type="number" name="ramount" value={formData.ramount} onChange={handleChange} />
+                </div>
+              
+                <div className='col-4'>
+                  <br />
                     <label>Date</label>
                     <input className="form-control"type="date" name="date" value={formData.date} onChange={handleChange} />
                 </div>
