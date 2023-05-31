@@ -14,6 +14,7 @@ export default function TableEtud()
 const {user} = UseStateContext()
 const [pending, setPending] = useState(true);
 const [data,setData]=useState([]);
+const [records,setRecords]=useState([]);
 
 useEffect(() => {
     const timeout = setTimeout(async() => {
@@ -140,21 +141,24 @@ const col=[
     },
    
 ]       
-        const [NewData,setNewData]=useState(data);
-        const [records,setRecords]=useState(data);
-        function handlefilter(event)
-        {
-            const NewData = data.filter(row => {
-                return row.name.toLowerCase().includes(event.target.value.toLowerCase())
-            }) 
-            setRecords(NewData)
-        }
+
+
+        // function  handlefilter(event)
+        // {
+        //     setRecords(
+        //            data.filter(row => {
+        //         return row.name.toLowerCase().includes(event.target.value.toLowerCase())
+        //     }) 
+        //     )
+        // }
+        const [filterC,setFilterC]=useState("")
         function handlefilterC(event)
         {
-            const NewData = data.filter(row => {
-                return row.class.toLowerCase().includes(event.target.value.toLowerCase())
-            }) 
-            setRecords(NewData)
+            setFilterC(
+                data.filter(row => {
+                    return row.class.toLowerCase().includes(event.target.value.toLowerCase())
+                })
+            )
         }
         
     return(
@@ -162,7 +166,7 @@ const col=[
     <div>
         <div className="row offset-1">
             <div className="col">
-                 <input type="text" className="form-control" placeholder="Search by Name" onChange={handlefilter}/>
+                 <input type="text" className="form-control" placeholder="Search by Name" />
             </div>
             <div className="col">
                  <input type="text" className="form-control" placeholder="Search by Class" onChange={handlefilterC}/>
@@ -173,7 +177,7 @@ const col=[
         </div>
             <DataTable
                     columns={col}
-                    data={records}
+                    data={data}
                     fixedHeader
                     pagination
                     progressPending={pending}
