@@ -6,21 +6,19 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Etudiant;
 use App\Models\InscrireClass;
-
+use App\Models\Cours;
 
 class Class_ extends Model
 {
     use HasFactory;
-    protected $table = 'classes';
     public $timestamps = false;
+    protected $table = "classes";
     protected $fillable = [
-        'title',
-        'anneeScolaire',
+        'name',
+        'school_year',
         'description',
-        'frais',
+        'capacity',
     ];
-
-
     public function etudiant()
     {
         return $this->belongsToMany(Etudiant::class, 'inscrire_classes')
@@ -37,4 +35,8 @@ class Class_ extends Model
             ->using(InscrireClass::class)
             ->withPivot('inscription_date', 'frais_paid');
     }
+    public function getRouteKeyName()
+{
+    return 'id';
+}
 }

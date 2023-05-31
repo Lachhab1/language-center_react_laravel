@@ -42,9 +42,10 @@ class DatabaseSeeder extends Seeder
             'parent_id' => 1,
         ]);
         \App\Models\Class_::create([
-            'class_nom' => 'Test User',
-            'anneeScolaire' => '2021-2022',
+            'name' => 'A-1',
+            'school_year' => '2021-2022',
             'description' => 'Test User',
+            'capacity' => 30,
         ]);
         \App\Models\Cours::create([
             'title' => 'Test User',

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cours;
 use Illuminate\Http\Request;
+use App\Http\Resources\CoursResource;
 
 class CoursController extends Controller
 {
@@ -13,7 +14,7 @@ class CoursController extends Controller
     public function index()
     {
         $cours = Cours::orderBy('id', 'desc')->paginate(10);
-        return $cours;
+        return response(CoursResource::collection($cours), 200);
     }
 
 
@@ -25,12 +26,12 @@ class CoursController extends Controller
     {
         $data = $request->validate([
             'title' => 'required|string|max:254',
-            'description' => 'string',
-            'duration' => 'required|integer',
-            'price' => 'required|decimal',
+            'description' => 'string|max:254|nullable',
+            'duration' => 'required|string|max:254',
+            'price' => 'required|integer',
         ]);
         $cours = Cours::create($data);
-        return response($cours, 201);
+        return response(new CoursResource($cours), 201);
     }
 
     /**
@@ -38,7 +39,7 @@ class CoursController extends Controller
      */
     public function show(Cours $cours)
     {
-        //
+        return new CoursResource($cours);
     }
 
     /**
@@ -46,7 +47,18 @@ class CoursController extends Controller
      */
     public function update(Request $request, Cours $cours)
     {
-        //
+        $data = $request->validate([
+            'title' => 'required|string|max:254',
+            'description' => 'string',
+            'duration' => 'required|string',
+            'price' => 'required|integer',
+        ]);
+        $cours->title = $data['title'];
+        $cours->description = $data['description'];
+        $cours->duration = $data['duration'];
+        $cours->price = $data['price'];
+        $cours->save();
+        return response(new CoursResource($cours), 200);
     }
 
     /**
@@ -54,6 +66,7 @@ class CoursController extends Controller
      */
     public function destroy(Cours $cours)
     {
-        //
+        $cours->delete();
+        return response(null, 204);
     }
 }

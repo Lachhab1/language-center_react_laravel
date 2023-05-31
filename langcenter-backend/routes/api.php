@@ -21,3 +21,15 @@ Route::middleware('auth:sanctum')->group(
 );
 Route::apiResource('etudiants', App\Http\Controllers\EtudiantController::class);
 Route::apiResource('inscrire-classes', App\Http\Controllers\InscrireClassController::class);
+// Route::apiResource('classes', App\Http\Controllers\ClassController::class);
+Route::put('/classes/{class_}', 'App\Http\Controllers\ClassController@update');
+Route::get('/classes', 'App\Http\Controllers\ClassController@index');
+Route::post('/classes', 'App\Http\Controllers\ClassController@store');
+Route::get('/classes/{class_}', 'App\Http\Controllers\ClassController@show');
+Route::delete('/classes/{class_}', 'App\Http\Controllers\ClassController@destroy');
+// Route::apiResource('cours', App\Http\Controllers\CoursController::class);    
+Route::put('/cours/{cours}', 'App\Http\Controllers\CoursController@update');
+Route::get('/cours', 'App\Http\Controllers\CoursController@index');
+Route::post('/cours', 'App\Http\Controllers\CoursController@store');
+Route::get('/cours/{cours}', 'App\Http\Controllers\CoursController@show');
+Route::delete('/cours/{cours}', 'App\Http\Controllers\CoursController@destroy');
