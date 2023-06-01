@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\CoursResource;
 
 class ClassRessource extends JsonResource
 {
@@ -20,6 +21,11 @@ class ClassRessource extends JsonResource
             'school_year' => $this->school_year,
             'description' => $this->description,
             'capacity' => $this->capacity,
+            'start_date' => $this->start_date,
+            'end_date' => $this->end_date,
+            'level' => $this->level,
+            'nb_etudiants' => $this->etudiant()->count(),
+            'cours' => CoursResource::collection($this->cours()->get()),
         ];
     }
 }

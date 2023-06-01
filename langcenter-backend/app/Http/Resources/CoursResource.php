@@ -20,6 +20,7 @@ class CoursResource extends JsonResource
             'duration' => $this->duration,
             'price' => $this->price,
             'description' => $this->description,
+            'class_id' => $this->class__id,
         ];
     }
 }

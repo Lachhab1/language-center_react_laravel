@@ -23,7 +23,6 @@ class InscrireClass extends Model
     protected $fillable = [
         'etudiant_id', // Corrected column name to match the migration
         'class_id',
-        'cours_id',
         'inscription_date',
         'frais_paid',
     ];
@@ -36,11 +35,6 @@ class InscrireClass extends Model
 
     public function class_()
     {
-        return $this->belongsTo(Class_::class, 'class_id');
-    }
-
-    public function cours()
-    {
-        return $this->belongsTo(Cours::class, 'cours_id');
+        return $this->belongsTo(Class_::class, 'class__id', 'id');
     }
 }

@@ -1,8 +1,11 @@
 <?php
+
 namespace App\Http\Controllers;
+
 use App\Models\Class_;
 use Illuminate\Http\Request;
 use App\Http\Resources\ClassRessource;
+use App\Models\Cours;
 
 class ClassController extends Controller
 {
@@ -22,12 +25,15 @@ class ClassController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'name' => 'required|string|max:254',
+            'name' => 'required|string|max:254|unique:classes',
             'school_year' => 'required|string|max:254',
             'description' => 'string|nullable',
             'capacity' => 'required|integer',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after:start_date',
+            'level' => 'required|string|max:254',
         ]);
-        $class_ = Class_::create($data);
+        $class_ = Class_::create($request->all());
         return new ClassRessource($class_);
     }
 
@@ -43,19 +49,18 @@ class ClassController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request,Class_ $class_)
+    public function update(Request $request, Class_ $class_)
     {
         $data = $request->validate([
-            'name' => 'required|string|max:254',
+            'name' => 'required|string|max:254|unique:classes,name,' . $class_->id,
             'school_year' => 'required|string|max:254',
             'description' => 'string|nullable',
             'capacity' => 'required|integer',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after:start_date',
+            'level' => 'required|string|max:254',
         ]);
-        $class_->name = $data['name'];
-        $class_->school_year = $data['school_year'];
-        $class_->description = $data['description'];
-        $class_->capacity = $data['capacity'];
-        $class_->save();
+        $class_->update($data);
         return new ClassRessource($class_);
     }
 

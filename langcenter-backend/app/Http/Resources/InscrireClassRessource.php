@@ -19,7 +19,7 @@ class InscrireClassRessource extends JsonResource
             'etudiant' => $this->etudiant,
             'parent' => $this->etudiant->parent_,
             'class' => $this->class_,
-            'cours' => $this->cours,
+            'cours' => $this->class_->cours,
             'inscription_date' => $this->inscription_date,
             'frais_paid' => $this->frais_paid,
         ];

@@ -24,14 +24,12 @@ class InscrireClassController extends Controller
             $data = $request->validate([
                 'etudiant_id' => 'required|integer',
                 'class_id' => 'required|integer',
-                'cours_id' => 'required|integer',
                 'frais_paid' => 'required|integer',
             ]);
             $inscrireClass = new InscrireClass();
             $etudiant = Etudiant::findOrFail($request->etudiant_id);
             $inscrireClass->etudiant()->associate($etudiant);
             $inscrireClass->class_()->associate($request->class_id);
-            $inscrireClass->cours()->associate($request->cours_id);
             $inscrireClass->inscription_date = now();
             $inscrireClass->frais_paid = $request->frais_paid;
             $inscrireClass->save();

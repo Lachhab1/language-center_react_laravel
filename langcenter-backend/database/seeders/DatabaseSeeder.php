@@ -46,17 +46,20 @@ class DatabaseSeeder extends Seeder
             'school_year' => '2021-2022',
             'description' => 'Test User',
             'capacity' => 30,
+            'start_date' => '2021-01-01',
+            'end_date' => '2022-01-01',
+            'level' => 'A',
         ]);
         \App\Models\Cours::create([
             'title' => 'Test User',
             'description' => 'Test User',
             'duration' => '4 hours',
             'price' => 1000,
+            'class__id' => 1,
         ]);
         \App\Models\InscrireClass::create([
-            'class_id' => 1,
+            'class__id' => 1,
             'etudiant_id' => 1,
-            'cours_id' => 1,
             'inscription_date' => '2021-01-01',
             'frais_paid' => 1000,
         ]);

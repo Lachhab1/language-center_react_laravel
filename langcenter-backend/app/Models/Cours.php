@@ -11,18 +11,11 @@ class Cours extends Model
 {
     use HasFactory;
     public $table = 'cours';
-    protected $fillable = ['title', 'description', 'duration', 'price'];
+    protected $fillable = ['title', 'description', 'duration', 'price', 'class__id'];
     public $timestamps = false;
 
     public function class_()
     {
-        return $this->belongsToMany(Class_::class, 'inscrire_classes')
-            ->using(InscrireClass::class)
-            ->withPivot('inscription_date', 'frais_paid');
-    }
-
-    public function inscrireClasses()
-    {
-        return $this->hasMany(InscrireClass::class, 'cours_id', 'id');
+        return $this->belongsTo(Class_::class);
     }
 }
