@@ -20,7 +20,7 @@ useEffect(() => {
     const timeout = setTimeout(async() => {
         const response = await axios.get("/api/etudiants");
         response.data.data.map((datar) => {
-            const classes = datar?.classes.map((item) => item.class_nom) || [];
+            const classes = datar?.classes.map((item) => item.name) || [];
             const classesString = classes.length > 0 ? classes.join(', ') : 'No class';
             setData((prev)=>
             (
@@ -141,24 +141,28 @@ const col=[
     },
    
 ]       
+        useEffect
+        (
+            () => {
+                setRecords(data)
+            },[data]
+        )
 
-
-        // function  handlefilter(event)
-        // {
-        //     setRecords(
-        //            data.filter(row => {
-        //         return row.name.toLowerCase().includes(event.target.value.toLowerCase())
-        //     }) 
-        //     )
-        // }
+        function  handlefilter(event)
+        {
+                 const newData = data.filter(row => {
+                return row.name.toLowerCase().includes(event.target.value.toLowerCase())
+                  }
+            )
+            setRecords(newData)
+        }
         const [filterC,setFilterC]=useState("")
         function handlefilterC(event)
         {
-            setFilterC(
-                data.filter(row => {
+                const newData = data.filter(row => {
                     return row.class.toLowerCase().includes(event.target.value.toLowerCase())
                 })
-            )
+                setRecords(newData);
         }
         
     return(
@@ -166,7 +170,7 @@ const col=[
     <div>
         <div className="row offset-1">
             <div className="col">
-                 <input type="text" className="form-control" placeholder="Search by Name" />
+                 <input type="text" className="form-control" placeholder="Search by Name" onChange={handlefilter}/>
             </div>
             <div className="col">
                  <input type="text" className="form-control" placeholder="Search by Class" onChange={handlefilterC}/>
@@ -177,7 +181,7 @@ const col=[
         </div>
             <DataTable
                     columns={col}
-                    data={data}
+                    data={records}
                     fixedHeader
                     pagination
                     progressPending={pending}
