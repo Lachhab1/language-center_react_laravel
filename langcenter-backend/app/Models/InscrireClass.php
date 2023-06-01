@@ -24,7 +24,7 @@ class InscrireClass extends Model
         'etudiant_id', // Corrected column name to match the migration
         'class_id',
         'inscription_date',
-        'frais_paid',
+        'negotiated_price',
     ];
 
     // Define the relationships with other models
@@ -36,5 +36,9 @@ class InscrireClass extends Model
     public function class_()
     {
         return $this->belongsTo(Class_::class, 'class__id', 'id');
+    }
+    public function payment()
+    {
+        return $this->hasOne(Payment::class);
     }
 }

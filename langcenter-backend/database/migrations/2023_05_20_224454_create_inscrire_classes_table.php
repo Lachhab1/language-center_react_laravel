@@ -18,7 +18,8 @@ return new class extends Migration
             $table->foreign('etudiant_id')->references('id')->on('etudiants')->onDelete('cascade');
             $table->foreign('class__id')->references('id')->on('classes')->onDelete('cascade');
             $table->date('inscription_date');
-            $table->decimal('frais_paid', 8, 2);
+            $table->string('payment_status')->default('Unpaid');
+            $table->decimal('negotiated_price', 8, 2)->nullable();
         });
     }
 

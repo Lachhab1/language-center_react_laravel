@@ -33,3 +33,6 @@ Route::get('/cours', 'App\Http\Controllers\CoursController@index');
 Route::post('/cours', 'App\Http\Controllers\CoursController@store');
 Route::get('/cours/{cours}', 'App\Http\Controllers\CoursController@show');
 Route::delete('/cours/{cours}', 'App\Http\Controllers\CoursController@destroy');
+
+//the payment
+Route::post('/inscrires/{id}/register-payment', [InscrireClassController::class, 'registerPayment']);

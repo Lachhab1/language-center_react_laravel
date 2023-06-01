@@ -61,7 +61,8 @@ class DatabaseSeeder extends Seeder
             'class__id' => 1,
             'etudiant_id' => 1,
             'inscription_date' => '2021-01-01',
-            'frais_paid' => 1000,
+            'negotiated_price' => 1000,
+            'payment_status' => 'paid',
         ]);
     }
 }
