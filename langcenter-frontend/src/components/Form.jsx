@@ -5,9 +5,9 @@ import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import * as yup from 'yup';
+import axios from '../api/axios';
 
-function FormC({firstName,lastName,gender,classe,dateofBirth,adress,adult,email,phone,guardfName,guardLName,guardOcup,guardEmail,guardPhone,courseName,courseFeesPaid}) {
-  console.log("first Name "+firstName);
+function FormC() {
   const formik = useFormik({
         initialValues:{
         firstName: ``,
@@ -27,6 +27,7 @@ function FormC({firstName,lastName,gender,classe,dateofBirth,adress,adult,email,
         guardPhone: ``,
         courseName: ``,
         courseFeesPaid: ``,
+        negotiatedPrice: ``,
         file: '',
       },
     validationSchema: yup.object().shape({
@@ -54,9 +55,23 @@ function FormC({firstName,lastName,gender,classe,dateofBirth,adress,adult,email,
       guardPhone: yup.string().min(9,'to short to be a valid phone number'),
       courseName: yup.string().oneOf(['english','talks']).required('required'),
       courseFeesPaid: yup.number().required('required'),
+      negotiatedPrice: yup.number().required('required'),
       file: yup.mixed(),
   }),
-  onSubmit: values => {console.log(values)},
+  onSubmit: values => {
+    const etudiantData = {
+      prenom: values.firstName,
+      nom: values.lastName,
+      date_naissance: values.dateofBirth,
+      sexe: values.gender,
+      email: values.email,
+      telephone: values.phone,
+      adresse: values.adress,
+      underAge: false,
+    }
+    const response = axios.post('/api/etudiants',etudiantData);
+    console.log(response);
+  },
 });
   const [underAge,setUnderAge] = useState(false);
 
@@ -118,7 +133,7 @@ function FormC({firstName,lastName,gender,classe,dateofBirth,adress,adult,email,
               isInvalid={formik.touched.class && formik.errors.class}
               >
               <option value=''>Chose Class</option>
-              <option value='1'>1</option>
+              <option value='A-1'>A-1</option>
               <option value='2'>2</option>
               <option  value='3'>3</option>
               </Form.Select>
@@ -360,6 +375,23 @@ function FormC({firstName,lastName,gender,classe,dateofBirth,adress,adult,email,
                 isInvalid={formik.touched.courseFeesPaid && formik.errors.courseFeesPaid}
                 />
               <Form.Control.Feedback className='' type="invalid" tooltip>{formik.errors.courseFeesPaid}</Form.Control.Feedback>
+          </Form.Group>
+           <Form.Group
+              as={Col}
+              md={3}
+              sm={6}
+              xs={7}
+              className="position-relative"
+              >
+              <Form.Label>Negotiated Fees</Form.Label>
+              <Form.Control
+              type="text"
+              name="negotiatedPrice"
+              placeholder="negotiated Fees Paid"
+                {...formik.getFieldProps('negotiatedPrice')}
+                isInvalid={formik.touched.negotiatedPrice && formik.errors.negotiatedPrice}
+              />
+              <Form.Control.Feedback className='' type="invalid" tooltip>{formik.errors.negotiatedPrice}</Form.Control.Feedback>
           </Form.Group>
         </Row>
         <Row className='mb-3'>

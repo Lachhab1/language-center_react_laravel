@@ -41,7 +41,6 @@ export const ContextProvider = ({children}) => {
                         if(response && response.status === 422)
                         {
                                 setErrors([{'email':response.data.errors.email}]);
-                                debugger;
                         }else if (response && response.status === 401) {
                             setErrors([{'email':response.data.message}]);
                         }
@@ -70,7 +69,7 @@ export const ContextProvider = ({children}) => {
     }
     useEffect(() => {
         getUser();
-    },[]);
+    },[token]);
         return(
             <stateContext.Provider value={{
             user,

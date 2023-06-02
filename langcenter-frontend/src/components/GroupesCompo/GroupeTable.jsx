@@ -5,12 +5,50 @@ import { BsFillPencilFill } from 'react-icons/bs';
 import { MdDelete } from 'react-icons/md';
 import { FaEye } from 'react-icons/fa';
 import { UseStateContext } from '../../context/ContextProvider';
-
+import { useEffect } from 'react';
+import axios from '../../api/axios';
+import { Ellipsis } from 'react-awesome-spinners'
 
 export default function ClassPage() {
   const {user} = UseStateContext()
   const [nameFilter, setNameFilter] = useState('');
   const [courseFilter, setCourseFilter] = useState('');
+  const [classData,setClassData]=useState([]);
+  const [pending, setPending] = useState(true);
+
+//data from api
+useEffect(() => {
+    const timeout = setTimeout(async() => {
+        const response = await axios.get("/api/classes");
+        console.log(response.data)
+        response.data.map((datar) => {
+            setClassData((prev)=>
+            (
+                [...prev,
+                    {
+                    id:datar.id,
+                    name:datar.name,
+                    schoolYear: datar.school_year,
+                    capacity:datar.capacity,
+                    level:datar.level,
+                    startDate:datar.start_date,
+                    endDate:datar.end_date,
+                    students: datar.nb_etudiants,
+                    course: datar.cours[0].title,
+                    teacher: "not assigned yet",
+                    }
+                  ])
+            )
+                })
+                console.log(classData)
+        setPending(false);
+    }, 200);
+    return () => clearTimeout(timeout);
+}, []);
+
+
+
+
   let x = ""
 if (user && user.role==='admin')
 {
@@ -23,18 +61,12 @@ else{
     x="/secretary"
 }
 
-  // Replace this with fetching data from the database
-  const data = [
-    { id: '1', name: 'Class A', teacher: 'John Doe', course: 'Mathematics', level: 'A2', students: 30 },
-    { id: '2', name: 'Class B', teacher: 'Jane Smith', course: 'Science', level: 'B1', students: 25 },
-    // Add more data objects here
-  ];
 
-  const filteredData = data.filter((item) => {
-    const nameMatch = item.name.toLowerCase().includes(nameFilter.toLowerCase());
-    const courseMatch = item.course.toLowerCase().includes(courseFilter.toLowerCase());
-    return nameMatch && courseMatch;
-  });
+  // const filteredData = data.filter((item) => {
+  //   const nameMatch = item.name.toLowerCase().includes(nameFilter.toLowerCase());
+  //   const courseMatch = item.course.toLowerCase().includes(courseFilter.toLowerCase());
+  //   return nameMatch && courseMatch;
+  // });
 
   const columns = [
     {
@@ -112,7 +144,14 @@ else{
           <button className="btn btn-danger">Add Class</button>
           </Link>
           </div>
-          <DataTable columns={columns} data={filteredData} fixedHeader pagination />
+          <DataTable columns={columns} data={classData}
+          fixedHeader
+                    pagination
+                    progressPending={pending}
+                    progressComponent={<Ellipsis  size={64}
+                        color='#D60A0B'
+                        sizeUnit='px' />}
+          />
           </div>
           );
           } 

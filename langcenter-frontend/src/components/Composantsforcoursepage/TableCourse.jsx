@@ -1,13 +1,15 @@
 import DataTable from "react-data-table-component"
 import Button from '../Button';
 import EditCourse from "./EditCourse";
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { BsFillPencilFill } from 'react-icons/bs';
 import { MdDelete } from 'react-icons/md';
 import AddCourse from "./AddCourse";
 import { useParams } from "react-router-dom";
 import { UseStateContext } from "../../context/ContextProvider";
+import axios from "../../api/axios";
+import { Ellipsis } from 'react-awesome-spinners'
 
 
 export default function TableCourse()
@@ -25,14 +27,42 @@ export default function TableCourse()
             x="/secretary"
         }
     const {id} = useParams();
+    const [coursData,setCoursData]=useState([]);
+    const [pending, setPending] = useState(true);
+    useEffect(() => {
+    const timeout = setTimeout(async() => {
+        const response = await axios.get("/api/cours");
+        console.log(response.data)
+        response.data.map((datar) => {
+            setCoursData((prev)=>
+            (
+                [...prev,
+                    {
+                    id:datar.id,
+                    course_name: datar.title,
+                    duration:datar.duration,
+                    price:datar.price,
+                    description:datar.description,
+                    class:datar.class.name
+                    }
+                  ])
+            )
+                })
+                console.log(coursData)
+        setPending(false);
+    }, 200);
+    return () => clearTimeout(timeout);
+}, []);
+
+
+
+
+
+
     const col=[
         {
             name: 'ID',
             selector: (row) => row.id,
-        },
-        {
-            name:"Course Code",
-            selector:row => row.course_code
         },
         {
             name:"Course Name",
@@ -43,12 +73,16 @@ export default function TableCourse()
             selector:row => row.duration
         },
         {
-            name:"Subject Name",
-            selector:row => row.subject_name
+            name: "Price",
+            selector:row => row.price
         },
         {
-            name:"Teacher",
-            selector:row => row.teacher
+            name: "Description",
+            selector:row => row.description
+        },
+        {
+            name: "Class",
+            selector:row => row.class
         },
         {
             name:"Action",
@@ -115,9 +149,13 @@ export default function TableCourse()
             </div>
             <DataTable
                     columns={col}
-                    data={records}
+                    data={coursData}
                     fixedHeader
                     pagination
+                    progressPending={pending}
+                    progressComponent={<Ellipsis  size={64}
+                        color='#D60A0B'
+                        sizeUnit='px' />}
             >
              </DataTable>
            

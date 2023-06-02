@@ -18,7 +18,7 @@ class InscrireClassRessource extends JsonResource
             'id' => $this->id,
             'etudiant' => $this->etudiant,
             'parent' => $this->etudiant->parent,
-            'cours' => $this->class_->cours,
+            // 'cours' => $this->class_->cours,
             'class' => $this->class_,
             'inscription_date' => $this->inscription_date,
             'negotiated_price' => $this->negotiated_price,

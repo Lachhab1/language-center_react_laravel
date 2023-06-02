@@ -14,28 +14,31 @@ const [data,setData]=useState([]);
 const {setNotification,setVariant} = UseStateContext();
 useEffect(() => {
     const timeout = setTimeout(async() => {
-        const response = await axios.get("/api/inscrire-classes");
+        const response = await axios.get("/api/etudiants");
         console.log(response.data.data);
         response.data.data.map((datar) => {
-            if(datar.etudiant.id==id)
+            if(datar.id==id)
             {
 
                 setData((prev)=>
                 (
                         {
-                            id:datar.etudiant.id,
-                            prenom: datar.etudiant.prenom,
-                            nom:datar.etudiant.nom,
-                            email:datar.etudiant.email,
-                            telephone:datar.etudiant.telephone,
-                            DateNaissance:datar.etudiant.date_naissance,
+                            id:datar.id,
+                            prenom: datar.prenom,
+                            nom:datar.nom,
+                            email:datar.email,
+                            telephone:datar.telephone,
+                            DateNaissance:datar.date_naissance,
                             FatherOcupation: "not yet",
-                            DateEnrol:datar.inscription_date,
-                            gender: datar.etudiant.sexe,
-                            class:datar.class.class_nom,
+                            // DateEnrol:datar.inscription_date,
+                            gender: datar.sexe,
+                            classes: datar.classes,
                             Fathername:datar.parent.prenom+" "+datar.parent.nom,
-                            status:datar.etudiant.isActive,
-                            
+                            Fatheremail:datar.parent.email,
+                            Fatherphone:datar.parent.telephone,
+                            FatherAddress:datar.parent.adresse,
+                            FatherDateNaissance:datar.parent.date_naissance,
+                            FatherGender:datar.parent.sexe,
                         })
                     )
             }
@@ -140,21 +143,18 @@ useEffect(() => {
                             </div>
                         </div>
                         <br />
-                        <div className="row">
-                            <div className="col-6">
-                                 Date of Enr:
-                            </div>
-                            <div className="col-6">
-                            {data.DateEnrol}
-                            </div>
-                        </div>
                         <br />
                         <div className="row">
                             <div className="col-6">
-                                 Class
+                                 Classes
                             </div>
                             <div className="col-6">
-                            {data.class}
+                            {data.classes.map((classe,key)=>
+                            (
+                                <div key={key}>
+                                    Name: {classe.name}<br/> level:  {classe.level}<br/> school year: {classe.school_year}<br/> class Capacity {classe.capacity} <hr/>
+                                </div>
+                            ))}
                             </div>
                         </div>
                     

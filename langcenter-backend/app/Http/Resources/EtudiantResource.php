@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\CoursResource;
 
 class EtudiantResource extends JsonResource
 {
@@ -29,7 +30,7 @@ class EtudiantResource extends JsonResource
                 return $inscrireClass->class_;
             }),
             'cours' => $this->inscrireClasses->map(function ($inscrireClass) {
-                return $inscrireClass->cours;
+                return $inscrireClass->class_->cours;
             }),
         ];
     }
