@@ -6,6 +6,9 @@ import { MdDelete } from 'react-icons/md';
 import EditFees from './EditFees';
 import { useEffect } from 'react';
 import { UseStateContext } from '../../context/ContextProvider';
+import Inscription from '../InscStudDash/Inscription';
+import AddfeesE from './AddFeesE';
+import AddFeesT from '../Composantforteacherfeespage/AddFeesT';
 
 
 export default function TableFeesEtud()
@@ -52,14 +55,27 @@ else{
             name:"Class",
             selector:row => row.class
         },
-        {
-            name:"Amount",
-            selector:row => row.amount
-        },
+        
         {
             name:"Status",
             selector:row => row.status 
         },
+        {
+          name:"Amount",
+          selector:row => row.iamount
+      },
+      {
+          name:"Agreed ",
+          selector:row => row.aamount
+      },
+      {
+          name:"Paid ",
+          selector:row => row.pamount
+      },
+      {
+          name:"Remaining ",
+          selector:row => row.ramount
+      },
         {
             name:"Date",
             selector:row => row.date
@@ -81,9 +97,9 @@ else{
       ),
         }
     ]
-    const Data=[ {id:"1",name:"sopa",gender:"male",class:"4",amount:"1000",status:"paid",date:"07-05-2022",action: ""},
-    {id:"2",name:"sopa1",gender:"male",class:"5",amount:"1000",status:"paid",date:"07-05-2022",action: ""},
-    {id:"3",name:"sopa2",gender:"male",class:"4",amount:"1000",status:"unpaid",date:"07-05-2022",action: ""},
+    const Data=[ {id:"1",name:"sopa",gender:"male",class:"4",status:"unpaid",iamount:"1000",aamount:"800",pamount:"500",ramount:"300",date:"07-05-2022",action: ""},
+    {id:"2",name:"sopa1",gender:"male",class:"5",status:"paid",iamount:"1000",aamount:"900",pamount:"900",ramount:"0",date:"07-05-2022",action: ""},
+    ,
   ]
 
     const [Namefilter,setNamefilter]=useState(Data)

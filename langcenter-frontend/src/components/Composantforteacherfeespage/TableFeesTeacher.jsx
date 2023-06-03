@@ -104,6 +104,7 @@ export default function TableFeesTeacher()
         
             
             <div>
+            <h2>Teachers fees</h2>
             
             <div className="row offset-1">
               <div className='col'>
