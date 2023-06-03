@@ -11,10 +11,11 @@ import { UseStateContext } from "../../context/ContextProvider";
 
 export default function TableEtud()
 {
-const {user} = UseStateContext()
+const {user,setNotification,setVariant} = UseStateContext()
 const [pending, setPending] = useState(true);
 const [data,setData]=useState([]);
 const [records,setRecords]=useState([]);
+const navigate = useNavigate();
 
 useEffect(() => {
     const timeout = setTimeout(async() => {
@@ -44,16 +45,17 @@ useEffect(() => {
 }, []);
 
     console.log(data);
-// // delete a row
-// const deleteRow = async (id) => {
-//     await axios.delete(`/api/inscrire-classes/${id}`);
-//     setNotification("User deleted successfully");
-//     setVariant("danger");
-//     setTimeout(() => {
-//         setNotification("");
-//     }, 3000);
-//     navigate("/student");
-// };
+// delete a row
+const deleteRow = async (id) => {
+    await axios.delete(`/api/etudiants/${id}`);
+    setNotification("Etudiant deleted successfully");
+    setVariant("danger");
+    setTimeout(() => {
+        setNotification("");
+        setVariant("");
+    }, 3000);
+    navigate("/student");
+};
 let x = ""
 if (user && user.role==='admin')
 {

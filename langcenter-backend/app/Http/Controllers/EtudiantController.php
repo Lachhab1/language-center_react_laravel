@@ -71,7 +71,7 @@ class EtudiantController extends Controller
             $etudiant->parent_()->associate(null);
         }
         $etudiant->save();
-        return response()->json(['message' => 'Etudiant created successfully'], 201);
+        return new EtudiantResource($etudiant);
     }
 
     /**
@@ -97,7 +97,7 @@ class EtudiantController extends Controller
             'sexe' => 'required|string',
             'email' => 'required|email|unique:etudiants,email,' . $etudiant->id,
             'adresse' => 'required|string',
-            'telephone' => 'required|string|max:13|regex:/^([0-9\s\-\+\(\)]*)$/|min:10|unique:etudiants,telephone,'. $etudiant->id,
+            'telephone' => 'required|string|max:13|regex:/^([0-9\s\-\+\(\)]*)$/|min:10|unique:etudiants,telephone,' . $etudiant->id,
             'parent_cin' => 'string',
         ]);
         if ($request->has('underAge') && $request->underAge == true) {
@@ -119,7 +119,7 @@ class EtudiantController extends Controller
                 $newParent->save();
                 $etudiant->parent_()->associate($newParent);
             }
-        }else {
+        } else {
             $etudiant->parent_()->associate(null);
         }
         $etudiant->nom = $request->nom;
@@ -130,7 +130,7 @@ class EtudiantController extends Controller
         $etudiant->adresse = $request->adresse;
         $etudiant->telephone = $request->telephone;
         $etudiant->save();
-        return response()->json(['message' => 'Etudiant updated successfully'], 200);
+        return new EtudiantResource($etudiant);
     }
 
     /**

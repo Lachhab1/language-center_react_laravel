@@ -1,13 +1,36 @@
 import { useFormik } from 'formik';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { Form } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import * as yup from 'yup';
 import axios from '../api/axios';
+import {useNavigate} from 'react-router-dom';
+import { UseStateContext } from '../context/ContextProvider';
 
 function FormC() {
+  const navigate = useNavigate();
+  const {user,setNotification,setVariant} = UseStateContext();
+  let x = ""
+  if (user && user.role==='admin')
+  {
+    x = ""
+  } else if (user && user.role==='director')
+  {
+    x="/director"
+  }else {
+    x="/secretary"
+  }
+  const [classData, setClassData] = useState([]);
+    // Fetch available courses and levels from the database
+  // Replace this with your actual API call to fetch data
+  useEffect(() => {
+    axios.get('/api/classes').then((res) => {
+      setClassData(res.data);
+    });
+
+  }, []);
   const formik = useFormik({
         initialValues:{
         firstName: ``,
@@ -39,9 +62,7 @@ function FormC() {
     .min(3, "Too short")
     .max(50, 'Too Long!')
     .required('required'),
-    class: yup.string().oneOf(
-      ['1', '2', '3'],
-      'Invalid class').required("required"),
+    class: yup.string().required("required"),
       gender: yup.string().oneOf(['female','male']).required('required'),
       adress: yup.string().required('required'),
       dateofBirth: yup.date().required('required'),
@@ -58,27 +79,79 @@ function FormC() {
       negotiatedPrice: yup.number().required('required'),
       file: yup.mixed(),
   }),
-  onSubmit: values => {
-    const etudiantData = {
-      prenom: values.firstName,
-      nom: values.lastName,
-      date_naissance: values.dateofBirth,
-      sexe: values.gender,
-      email: values.email,
-      telephone: values.phone,
-      adresse: values.adress,
-      underAge: false,
-    }
-    const response = axios.post('/api/etudiants',etudiantData);
-    console.log(response);
-  },
+  onSubmit: (values) => {
+    console.log("wewe are here");
+
+}
 });
   const [underAge,setUnderAge] = useState(false);
+  const findCoursFees = (classId) => {
+    const classFees = classData.find((c) => c.id == classId);
+    if (classFees){
 
+      return classFees.cours.price;
+    }else {
+      return 0;
+    }
+  }
+  const handleSubmit = async(e) => {
+    e.preventDefault();
+    let response = [];
+    let response2 = [];
+    let response3 = [];
+    console.log(formik.values);
+        const etudiantData = {
+      prenom: formik.values.firstName,
+      nom: formik.values.lastName,
+      date_naissance: formik.values.dateofBirth,
+      sexe: formik.values.gender,
+      email: formik.values.email,
+      telephone: formik.values.phone,
+      adresse: formik.values.adress,
+      underAge: false,
+    }
+    try{
 
+      response = await axios.post('/api/etudiants',etudiantData);
+    } catch (error) {
+      console.log(error);
+    }
+    console.log(response.data.data.id);
+    const etudiantId = response.data.data.id;
+    const inscriptionData = {
+      etudiant_id: etudiantId,
+      class_id: formik.values.class,
+      negotiated_price: formik.values.negotiatedPrice,
+  }
+    try{
 
+      response2 = await axios.post('/api/inscrire-classes',inscriptionData);
+      console.log(response2);
+    }catch (error) {
+      console.log(error);
+    }
+    
+    const inscriptionId = response2.data.id;
+    const paymentData = {
+     payment_amount: formik.values.courseFeesPaid,
+    }
+    try{
+
+      response3 = await axios.post(`/api/inscrires/${inscriptionId}/register-payment`,paymentData);
+    } catch (error) {
+      console.log(error);
+    }
+    console.log(response3);
+    setNotification("Student added successfully");
+    setVariant("success");
+    setTimeout(() => {
+      setNotification("");
+      setVariant("");
+    }, 3000);
+    navigate(`${x}/student`);
+  }
   return (
-        <Form className='' noValidate onSubmit={formik.handleSubmit}>
+        <Form noValidate onSubmit={handleSubmit}>
           <Row className='mb-3'>
             <h3>Student</h3>
               <Form.Group
@@ -117,28 +190,7 @@ function FormC() {
                 />
               <Form.Control.Feedback className='' type="invalid" tooltip>{formik.errors.lastName}</Form.Control.Feedback>
             </Form.Group>
-            <Form.Group
-              as={Col}
-              md={3}
-              sm={6}
-              xs={7}
-              className="position-relative"
-              >
-              <Form.Label>Class*</Form.Label>
-              <Form.Select
-              component="select"
-              id="class"
-              name="class"
-              {...formik.getFieldProps('class')}
-              isInvalid={formik.touched.class && formik.errors.class}
-              >
-              <option value=''>Chose Class</option>
-              <option value='A-1'>A-1</option>
-              <option value='2'>2</option>
-              <option  value='3'>3</option>
-              </Form.Select>
-              <Form.Control.Feedback type="invalid" tooltip>{formik.errors.class}</Form.Control.Feedback>
-              </Form.Group>
+            
               <Form.Group
               as={Col}
               md={3}
@@ -329,19 +381,22 @@ function FormC() {
               xs={7}
               className="position-relative"
               >
-              <Form.Label>Course Name*</Form.Label>
+              <Form.Label>Class Name*</Form.Label>
               <Form.Select
               component="select"
-              id="courseName"
-              name="courseName"
-              {...formik.getFieldProps('courseName')}
-              isInvalid={formik.touched.courseName && formik.errors.courseName}
+              id="class"
+              name="class"
+              {...formik.getFieldProps('class')}
+              isInvalid={formik.touched.class && formik.errors.class}
               >
-              <option value=''>Choose Course</option>
-              <option value='english'>english</option>
-              <option value='talks'>Talks</option>
+              <option value=''>Chose Class</option>
+                {classData.map((classe) => (
+                  <option key={classe.id} value={classe.id}>
+                    {classe.name}
+                  </option>
+                ))}
               </Form.Select>
-              <Form.Control.Feedback type="invalid" tooltip>{formik.errors.courseName}</Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid" tooltip>{formik.errors.class}</Form.Control.Feedback>
               </Form.Group>
               <Form.Group
               as={Col}
@@ -354,7 +409,7 @@ function FormC() {
               <Form.Control
               type="text"
               name="courseFees"
-              value={"1000dh"}
+              value={findCoursFees(formik.values.class)}
               readOnly
               />
                 </Form.Group>
@@ -383,11 +438,11 @@ function FormC() {
               xs={7}
               className="position-relative"
               >
-              <Form.Label>Negotiated Fees</Form.Label>
+              <Form.Label>Negotiated Price</Form.Label>
               <Form.Control
               type="text"
               name="negotiatedPrice"
-              placeholder="negotiated Fees Paid"
+              placeholder="negotiated Price Paid"
                 {...formik.getFieldProps('negotiatedPrice')}
                 isInvalid={formik.touched.negotiatedPrice && formik.errors.negotiatedPrice}
               />
@@ -415,7 +470,7 @@ function FormC() {
             </Form.Control.Feedback>
           </Form.Group>
         </Row>
-          <Button type="submit">Submit form</Button>
+          <Button type="submit" onClick={()=>console.log("hi")}>Submit form</Button>
         </Form>
   );
 }
