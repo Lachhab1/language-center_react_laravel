@@ -47,7 +47,6 @@ export default function  Inscription()
                     data={Data}
                     fixedHeader
                     pagination
-                   
             >
              </DataTable>
         </div>

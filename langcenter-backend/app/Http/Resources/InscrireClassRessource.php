@@ -17,11 +17,11 @@ class InscrireClassRessource extends JsonResource
         return [
             'id' => $this->id,
             'etudiant' => $this->etudiant,
-            'parent' => $this->etudiant->parent,
             // 'cours' => $this->class_->cours,
-            'class' => $this->class_,
             'inscription_date' => $this->inscription_date,
             'negotiated_price' => $this->negotiated_price,
+            'status' => $this->payment_status,
+            'payment' => $this->payment,
         ];
     }
 }

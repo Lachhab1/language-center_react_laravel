@@ -5,7 +5,7 @@ const axiosCleint= axios.create({
         // "Accept": "application/json",
         "Accept": "application/json",
         "Content-Type": "application/json",
-        "X-Requested-With": "XMLHttpRequest",
+        // "X-Requested-With": "XMLHttpRequest",
     },
 });
 axiosCleint.interceptors.request.use((config) => {
