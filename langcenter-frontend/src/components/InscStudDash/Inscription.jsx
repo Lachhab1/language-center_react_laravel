@@ -1,11 +1,35 @@
 
 import React, { useState } from 'react';
+import { useEffect } from 'react';
+import axios from '../../api/axios';
 
 import DataTable from 'react-data-table-component';
 
 
 export default function  Inscription()
 {
+
+    //fetch data from api
+    const [data,setData]=useState([]);
+    useEffect(()=>{
+       axios.get('/api/inscrire-classes').then((response)=>{
+        console.log(response.data.data);
+        setData(
+            response.data.data.map((row)=>({
+                id:row.id,
+                name:row.etudiant.nom + " " + row.etudiant.prenom,
+                status:row.status,
+                iamount:row.cours.price,
+                aamount:row.negotiated_price,
+                pamount:row.payment.amount,
+                ramount: row.negotiated_price - row.payment.amount > 0 ? row.negotiated_price - row.payment.amount : 0
+            }))
+
+        );
+        
+        })
+        
+    },[])
     const col=[
         {
             name:"ID inscription",
@@ -37,16 +61,28 @@ export default function  Inscription()
         }
     ]
 
-    const Data=[ {id:"1",name:"sopa",status:"unpaid",iamount:"1000",aamount:"800",pamount:"500",ramount:"300"}
-                ,{id:"2",name:"sopa2",status:"paid",iamount:"1000",aamount:"900",pamount:"900",ramount:"0"}
-]
     return(
         <div>
               <DataTable
                     columns={col}
-                    data={Data}
+                    data={data}
                     fixedHeader
                     pagination
+                    selectableRows
+                    highlightOnHover
+                    responsive
+                    noDataComponent="No data found"
+                    paginationComponentOptions={{
+                        rowsPerPageText: 'Rows per page:',
+                        rangeSeparatorText: 'of',
+                        noRowsPerPage: false,
+                        selectAllRowsItem: false,
+                        selectAllRowsItemText: 'All'
+                    }}
+                    paginationPerPage={5}
+                    paginationRowsPerPageOptions={[5, 10, 15, 20, 25, 30]}
+                    dense
+
             >
              </DataTable>
         </div>

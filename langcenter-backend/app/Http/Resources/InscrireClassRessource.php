@@ -17,7 +17,7 @@ class InscrireClassRessource extends JsonResource
         return [
             'id' => $this->id,
             'etudiant' => $this->etudiant,
-            // 'cours' => $this->class_->cours,
+            'cours' => $this->class_->cours,
             'inscription_date' => $this->inscription_date,
             'negotiated_price' => $this->negotiated_price,
             'status' => $this->payment_status,

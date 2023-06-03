@@ -51,7 +51,9 @@ const DashboardDirecteur = () => {
         </div>
       </div>
       <div className='col-12 mx-auto mb-4 card'>
-      <Button variant='danger' className='mb-4 me-4 ms-auto'>Add Inscription</Button>
+      <Button variant='danger' className='my-3 me-4 ms-auto'>
+        Add Inscription
+        </Button>
         <InscriptionTable/>
       </div>
       <div className='col-12 mx-auto mb-4 Charts'>
