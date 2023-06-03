@@ -21,6 +21,7 @@ class Class_ extends Model
         'start_date',
         'end_date',
         'level',
+        'course_id'
     ];
     public function etudiant()
     {
@@ -34,6 +35,6 @@ class Class_ extends Model
     }
     public function cours()
     {
-        return $this->hasOne(Cours::class);
+        return $this->belongsTo(Cours::class, 'cours_id', 'id');
     }
 }

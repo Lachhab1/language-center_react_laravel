@@ -25,7 +25,7 @@ class ClassRessource extends JsonResource
             'end_date' => $this->end_date,
             'level' => $this->level,
             'nb_etudiants' => $this->etudiant()->count(),
-            'cours' => CoursResource::collection($this->cours()->get()),
+            'cours' => new CoursResource($this->cours),
         ];
     }
 }

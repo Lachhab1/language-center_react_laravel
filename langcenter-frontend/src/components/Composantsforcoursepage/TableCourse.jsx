@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { BsFillPencilFill } from 'react-icons/bs';
 import { MdDelete } from 'react-icons/md';
 import AddCourse from "./AddCourse";
-import { useParams } from "react-router-dom";
+import { useParams,useNavigate } from "react-router-dom";
 import { UseStateContext } from "../../context/ContextProvider";
 import axios from "../../api/axios";
 import { Ellipsis } from 'react-awesome-spinners'
@@ -14,7 +14,7 @@ import { Ellipsis } from 'react-awesome-spinners'
 
 export default function TableCourse()
 {
-        const {user} = UseStateContext()
+        const {user,setNotification,setVariant} = UseStateContext()
             let x = ""
         if (user && user.role==='admin')
         {
@@ -26,13 +26,12 @@ export default function TableCourse()
         else{
             x="/secretary"
         }
-    const {id} = useParams();
     const [coursData,setCoursData]=useState([]);
     const [pending, setPending] = useState(true);
+    const navigate = useNavigate();
     useEffect(() => {
     const timeout = setTimeout(async() => {
         const response = await axios.get("/api/cours");
-        console.log(response.data)
         response.data.map((datar) => {
             setCoursData((prev)=>
             (
@@ -43,16 +42,26 @@ export default function TableCourse()
                     duration:datar.duration,
                     price:datar.price,
                     description:datar.description,
-                    class:datar.class.name
                     }
                   ])
             )
                 })
-                console.log(coursData)
         setPending(false);
     }, 200);
     return () => clearTimeout(timeout);
 }, []);
+//delete row
+const deleteRow = async (id) => {
+    await axios.delete(`/api/cours/${id}`);
+    setNotification("Cours deleted successfully");
+    setVariant("danger");
+     setTimeout(() => {
+        setNotification("");
+    }, 3000);
+    navigate(`${x}/course`);
+    };
+
+
 
 
 
@@ -81,10 +90,6 @@ export default function TableCourse()
             selector:row => row.description
         },
         {
-            name: "Class",
-            selector:row => row.class
-        },
-        {
             name:"Action",
             selector:row => row.action,
             cell: (row) => (
@@ -94,7 +99,7 @@ export default function TableCourse()
                       <BsFillPencilFill style={{ color: 'orange' }} />
                     </button>
                   </Link>
-                  <button style={{ border: 'none', background: 'none' }} onClick={() => deleteRow(row.course_code)}>
+                  <button style={{ border: 'none', background: 'none' }} onClick={() => deleteRow(row.id)}>
                     <MdDelete style={{ color: 'red', fontSize: '20px' }} />
                   </button>
                 </div>

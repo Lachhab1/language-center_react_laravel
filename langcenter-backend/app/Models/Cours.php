@@ -11,11 +11,11 @@ class Cours extends Model
 {
     use HasFactory;
     public $table = 'cours';
-    protected $fillable = ['title', 'description', 'duration', 'price', 'class__id'];
+    protected $fillable = ['title', 'description', 'duration', 'price'];
     public $timestamps = false;
 
     public function class_()
     {
-        return $this->belongsTo(Class_::class);
+        return $this->hasOne(Class_::class, 'cours_id', 'id');
     }
 }

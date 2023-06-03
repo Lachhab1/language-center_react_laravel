@@ -3,7 +3,7 @@ export default function Groupes(){
     return(
         <div>
             <h1>Classes</h1>
-            <GroupeTable    />
+            <GroupeTable/>
         </div>
     )
 }

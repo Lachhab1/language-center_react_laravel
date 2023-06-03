@@ -32,8 +32,18 @@ class ClassController extends Controller
             'start_date' => 'required|date',
             'end_date' => 'required|date|after:start_date',
             'level' => 'required|string|max:254',
+            'cours_id' => 'required|integer|exists:cours,id'
         ]);
-        $class_ = Class_::create($request->all());
+        $class_ = new Class_();
+        $class_->name = $data['name'];
+        $class_->school_year = $data['school_year'];
+        $class_->description = $data['description'];
+        $class_->capacity = $data['capacity'];
+        $class_->start_date = $data['start_date'];
+        $class_->end_date = $data['end_date'];
+        $class_->level = $data['level'];
+        $class_->cours_id = $data['cours_id'];
+        $class_->save();
         return new ClassRessource($class_);
     }
 
@@ -59,8 +69,17 @@ class ClassController extends Controller
             'start_date' => 'required|date',
             'end_date' => 'required|date|after:start_date',
             'level' => 'required|string|max:254',
+            'cours_id' => 'required|integer|exists:cours,id'
         ]);
-        $class_->update($data);
+        $class_->name = $data['name'];
+        $class_->school_year = $data['school_year'];
+        $class_->description = $data['description'];
+        $class_->capacity = $data['capacity'];
+        $class_->start_date = $data['start_date'];
+        $class_->end_date = $data['end_date'];
+        $class_->level = $data['level'];
+        $class_->cours_id = $data['cours_id'];
+        $class_->save();
         return new ClassRessource($class_);
     }
 

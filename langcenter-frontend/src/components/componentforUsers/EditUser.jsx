@@ -4,7 +4,6 @@ import AvatarEdit from "../ProfileCompo/AvatarEdit";
 import * as Yup from 'yup';
 import { Form,Button,Row,Col } from 'react-bootstrap';
 import axios from '../../api/axios';
-import qs from 'qs';
 import { useParams,useNavigate } from 'react-router-dom';
 import { UseStateContext } from '../../context/ContextProvider';
 

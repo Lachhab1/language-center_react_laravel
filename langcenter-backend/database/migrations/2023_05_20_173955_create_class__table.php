@@ -20,6 +20,8 @@ return new class extends Migration
             $table->date('start_date');
             $table->date('end_date');
             $table->string('level');
+            $table->unsignedBigInteger('cours_id');
+            $table->foreign('cours_id')->references('id')->on('cours')->onDelete('cascade');
         });
     }
 

@@ -1,26 +1,56 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import axios from "../../api/axios";
+import { useNavigate } from 'react-router-dom';
+import { UseStateContext } from "../../context/ContextProvider";
 
 export default function AddCourse() {
+  const {user,setNotification,setVariant} = UseStateContext()
+  let x = ""
+  const navigate = useNavigate();
+  if (user && user.role==='admin')
+  {
+
+      x = ""
+  } else if (user && user.role==='director')
+  {
+      x="/director"
+  }
+  else{
+
+
+      x="/secretary"
+  }
   const formik = useFormik({
     initialValues: {
-        course_code: '',
       course_name: '',
       duration: '',
-      subject_name: '',
-      teacher: '',
+      description: '',
+      price: '',
     },
     validationSchema: Yup.object({
-      course_code: Yup.string().required('Course code is required'),
       course_name: Yup.string().required('Course Name is required'),
-      duration: Yup.number().required('Duration is required'),
-      subject_name: Yup.string().required('Subject Name is required'),
-      teacher: Yup.string().required('Teacher is required'),
+      duration: Yup.string().required('Duration is required'),
+      description: Yup.string(),
+      price: Yup.number().required('Price is required'),
     }),
     onSubmit: (values) => {
-      // Handle form submission and add course
-      console.log(values);
+      const data = {
+        title: values.course_name,
+        duration: values.duration,
+        description: values.description,
+        price: values.price,
+      };
+      axios.post('/api/cours', data).then((res) => {
+        setNotification('Cours added successfully');
+                setVariant('success');
+                setTimeout(() => {
+                    setNotification('');
+                }, 3000);
+      navigate(`${x}/course`);
+      });
+      
     },
   });
 
@@ -29,20 +59,6 @@ export default function AddCourse() {
       <form onSubmit={formik.handleSubmit} className='addCourse'>
         <h1>Add Course</h1>
 
-        <div className='mb-3 col-4'>
-          <label htmlFor='course_code' className='form-label'>
-            Course code*
-          </label>
-          <input
-            type='text'
-            id='course_code'
-            className={`form-control ${formik.errors.course_code ? 'is-invalid' : ''}`}
-            {...formik.getFieldProps('course_code')}
-          />
-          {formik.touched.course_code && formik.errors.course_code && (
-            <div className='invalid-feedback'>{formik.errors.course_code}</div>
-          )}
-        </div>
 
         <div className='mb-3 col-4'>
           <label htmlFor='course_name' className='form-label'>
@@ -64,7 +80,7 @@ export default function AddCourse() {
             Duration*
           </label>
           <input
-            type='number'
+            type='text'
             id='duration'
             className={`form-control ${formik.errors.duration ? 'is-invalid' : ''}`}
             {...formik.getFieldProps('duration')}
@@ -76,31 +92,31 @@ export default function AddCourse() {
 
         <div className='mb-3 col-4'>
           <label htmlFor='subject_name' className='form-label'>
-            Subject Name*
+            Description
           </label>
           <input
             type='text'
             id='subject_name'
-            className={`form-control ${formik.errors.subject_name ? 'is-invalid' : ''}`}
-            {...formik.getFieldProps('subject_name')}
+            className={`form-control ${formik.errors.description ? 'is-invalid' : ''}`}
+            {...formik.getFieldProps('description')}
           />
-          {formik.touched.subject_name && formik.errors.subject_name && (
-            <div className='invalid-feedback'>{formik.errors.subject_name}</div>
+          {formik.touched.description && formik.errors.description && (
+            <div className='invalid-feedback'>{formik.errors.description}</div>
           )}
         </div>
-
         <div className='mb-3 col-4'>
-          <label htmlFor='teacher' className='form-label'>
-            Teacher*
+          <label htmlFor='price' className='form-label'>
+            Price*
           </label>
           <input
-            type='text'
-            id='teacher'
-            className={`form-control ${formik.errors.teacher ? 'is-invalid' : ''}`}
-            {...formik.getFieldProps('teacher')}
+
+            type='number'
+            id='price'
+            className={`form-control ${formik.errors.price ? 'is-invalid' : ''}`}
+            {...formik.getFieldProps('price')}
           />
-          {formik.touched.teacher && formik.errors.teacher && (
-            <div className='invalid-feedback'>{formik.errors.teacher}</div>
+          {formik.touched.price && formik.errors.price && (
+            <div className='invalid-feedback'>{formik.errors.price}</div>
           )}
         </div>
 

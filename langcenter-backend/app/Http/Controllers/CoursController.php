@@ -31,8 +31,7 @@ class CoursController extends Controller
             'duration' => 'required|string|max:254',
             'price' => 'required|integer',
         ]);
-        $class = Class_::find($request->class_id);
-        $cours = $class->cours()->create($data);
+        $cours = Cours::create($data);
         return response(new CoursResource($cours), 201);
     }
 
@@ -59,7 +58,6 @@ class CoursController extends Controller
         $cours->description = $data['description'];
         $cours->duration = $data['duration'];
         $cours->price = $data['price'];
-        $cours->class__id = $request->class_id;
         $cours->save();
         return response(new CoursResource($cours), 200);
     }

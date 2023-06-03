@@ -10,7 +10,7 @@ import axios from '../../api/axios';
 import { Ellipsis } from 'react-awesome-spinners'
 
 export default function ClassPage() {
-  const {user} = UseStateContext()
+  const {user,setNotification,setVariant} = UseStateContext()
   const [nameFilter, setNameFilter] = useState('');
   const [courseFilter, setCourseFilter] = useState('');
   const [classData,setClassData]=useState([]);
@@ -34,7 +34,7 @@ useEffect(() => {
                     startDate:datar.start_date,
                     endDate:datar.end_date,
                     students: datar.nb_etudiants,
-                    course: datar.cours[0].title,
+                    course: datar.cours.title,
                     teacher: "not assigned yet",
                     }
                   ])
@@ -45,6 +45,8 @@ useEffect(() => {
     }, 200);
     return () => clearTimeout(timeout);
 }, []);
+
+//delete row
 
 
 
@@ -118,9 +120,15 @@ else{
   ];
 
   // Function to delete a row
-  const deleteRow = (id) => {
+  const deleteRow = async(id) => {
     // Implement the delete functionality here
-    console.log(`Delete row with ID: ${id}`);
+    await axios.delete(`/api/classes/${id}`);
+     setNotification("Class deleted successfully");
+    setVariant("danger");
+     setTimeout(() => {
+        setNotification("");
+    }, 3000);
+    navigate(`${x}/class`);
   };
 
   return (

@@ -41,6 +41,12 @@ class DatabaseSeeder extends Seeder
             'telephone' => '0687439035',
             'parent_id' => 1,
         ]);
+        \App\Models\Cours::create([
+            'title' => 'Test User',
+            'description' => 'Test User',
+            'duration' => '4 hours',
+            'price' => 1000,
+        ]);
         \App\Models\Class_::create([
             'name' => 'A-1',
             'school_year' => '2021-2022',
@@ -49,13 +55,7 @@ class DatabaseSeeder extends Seeder
             'start_date' => '2021-01-01',
             'end_date' => '2022-01-01',
             'level' => 'A',
-        ]);
-        \App\Models\Cours::create([
-            'title' => 'Test User',
-            'description' => 'Test User',
-            'duration' => '4 hours',
-            'price' => 1000,
-            'class__id' => 1,
+            'cours_id' => 1,
         ]);
         \App\Models\InscrireClass::create([
             'class__id' => 1,
