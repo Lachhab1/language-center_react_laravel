@@ -110,4 +110,72 @@ class InscrireClassController extends Controller
             'payment' => $payment,
         ]);
     }
+    public function updatePayment(Request $request, $id)
+    {
+        $inscrire = InscrireClass::find($id);
+        $request->validate([
+            'payment_amount' => 'required|integer',
+            'negotiated_price' => 'required|integer',
+        ]);
+        $paymentAmount = $request->payment_amount;
+        $paymentDate = now();
+
+        // Retrieve the existing payment record 
+        $payment = $inscrire->payment;
+
+        if (!$payment) {
+            // If no payment record exists, create a new one
+            $payment = new Payment();
+        }
+
+        // Update the payment record with the new amount and date
+        $payment->amount = $paymentAmount;
+        $payment->payment_date = $paymentDate;
+        $payment->save();
+
+        $negotiatedPrice = $request->negotiated_price;
+
+        // Update the payment status based on the payment amount and negotiated price
+        if ($paymentAmount >= $negotiatedPrice) {
+            $paymentStatus = 'Paid';
+        } elseif ($paymentAmount > 0) {
+            $paymentStatus = 'Partial Payment';
+        } else {
+            $paymentStatus = 'Unpaid';
+        }
+
+        // Update the payment status and negotiated price in the inscription
+        $inscrire->payment_status = $paymentStatus;
+        $inscrire->negotiated_price = $negotiatedPrice;
+        // Associate the payment with the inscription
+        $inscrire->save();
+
+        return response()->json([
+            'message' => 'Payment updated successfully.',
+            'inscrire' => $inscrire,
+            'payment' => $payment,
+        ]);
+    }
+    public function deletePayment($id)
+    {
+        $inscrire = InscrireClass::find($id);
+
+        if (!$inscrire) {
+            return response()->json(['message' => 'Inscrire not found.'], 404);
+        }
+
+        // Retrieve the associated payment record
+        $payment = $inscrire->payment;
+
+        if (!$payment) {
+            return response()->json(['message' => 'Payment not found.'], 404);
+        }
+        // Delete the payment record
+        $payment->delete();
+        $inscrire->delete();
+        // Update the payment status and negotiated price in the inscription
+
+
+        return response()->json(['message' => 'Payment deleted successfully.']);
+    }
 }
