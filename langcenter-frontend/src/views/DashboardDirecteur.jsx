@@ -11,8 +11,13 @@ import TimetableScheduler from '../components/DashboardCardsCompo/TimetableSched
 import '../components/DashboardCardsCompo/charts.css';
 import InscriptionTable from '../components/InscStudDash/Inscription';
 import { Button } from 'react-bootstrap';
+import Inscription from '../components/InscStudDash/AddInscription';
 
 const DashboardDirecteur = () => {
+  const [showModal, setShowModal] = useState(false);
+  const handleModalToggle = () => {
+  setShowModal(!showModal);
+  };
   const maleCount = 30;
   const femaleCount = 20;
 
@@ -51,9 +56,10 @@ const DashboardDirecteur = () => {
         </div>
       </div>
       <div className='col-12 mx-auto mb-4 card'>
-      <Button variant='danger' className='my-3 me-4 ms-auto'>
+      <Button variant='danger' className='my-3 me-4 ms-auto' onClick={handleModalToggle}>
         Add Inscription
         </Button>
+        <Inscription show={showModal} onHide={handleModalToggle} />
         <InscriptionTable/>
       </div>
       <div className='col-12 mx-auto mb-4 Charts'>

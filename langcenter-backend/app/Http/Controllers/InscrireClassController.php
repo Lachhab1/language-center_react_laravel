@@ -13,7 +13,7 @@ class InscrireClassController extends Controller
 {
     public function index()
     {
-        $inscrireClasses = InscrireClass::orderBy('id', 'asc')->paginate(10);
+        $inscrireClasses = InscrireClass::orderBy('id', 'desc')->paginate(10);
         return InscrireClassRessource::collection($inscrireClasses);
     }
     /**
