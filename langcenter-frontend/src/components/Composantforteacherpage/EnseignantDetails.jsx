@@ -1,23 +1,53 @@
 import { useParams } from 'react-router-dom';
+import { useState,useEffect } from 'react';
+import axios from '../../api/axios'
 
 export default function EnseignantDetails()
 {
+    const [teacherData, setTeacherDate] = useState([]);
     const {id} = useParams();
+    useEffect(() => {
+        axios.get(`/api/teachers/${id}`)
+        .then((res) => {
+            console.log(res.data.data);
+        setTeacherDate(
+          {
+            id: res.data.data.id,
+            nom: res.data.data.last_name,
+            prenom: res.data.data.first_name,
+            name: res.data.data.first_name + ' ' + res.data.data.last_name,
+            gender: res.data.data.gender,
+            class: res.data.data.classes.length > 0 ? res.data.data.classes.map((cls) => cls.name).join(', ') : 'No class',
+            subject: res.data.data.speciality,
+            status: "active",
+            phone: res.data.data.phone,
+            birthday: res.data.data.birthday,
+            email: res.data.data.email,
+            address: res.data.data.address,
+            date_admission: res.data.data.hiredate,
+            degree: res.data.data.diploma,
+          }
+        )
+            // setTeacherDate(res.data.data)
+            console.log(teacherData);
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+    }, [])
+
     
     const Prof = {
-        id:id,
-        nom: 'Wade7',
-        prenom: 'Mzn',
-        gender:'Male',
-        Fathername:'Mawade7ch',
-        Mothername:'Mamzyanch',
-        Digree:'IT PHD',
-        email: 'wade7mzyan@.com',
-        telephone: '06 12 34 56 78',
-        DateNaissance:'7.7.2020',
-        FatherOcupation:'Walo',
-        DateAdmission:'25.3.2023',
-        class:'2'
+        id: teacherData.id,
+        nom: teacherData.nom,
+        prenom: teacherData.prenom,
+        gender:teacherData.gender,
+        Digree:teacherData.degree,
+        email: teacherData.email,
+        telephone: teacherData.phone,
+        DateNaissance:teacherData.birthday,
+        DateAdmission:teacherData.date_admission,
+        class:teacherData.class,
       };
    return(
     <div>
@@ -72,24 +102,6 @@ export default function EnseignantDetails()
                         <br />
                         <div className="row">
                             <div className="col-6">
-                                 Father Name:
-                            </div>
-                            <div className="col-6">
-                            {Prof.Fathername}
-                            </div>
-                        </div>
-                        <br />
-                        <div className="row">
-                            <div className="col-6">
-                                 Mother Name:
-                            </div>
-                            <div className="col-6">
-                            {Prof.Mothername}
-                            </div>
-                        </div>
-                        <br />
-                        <div className="row">
-                            <div className="col-6">
                                  Email:
                             </div>
                             <div className="col-6">
@@ -112,15 +124,6 @@ export default function EnseignantDetails()
                             </div>
                             <div className="col-6">
                             {Prof.Digree}
-                            </div>
-                        </div>
-                        <br />
-                        <div className="row">
-                            <div className="col-6">
-                                 Father Ocupation:
-                            </div>
-                            <div className="col-6">
-                            {Prof.FatherOcupation}
                             </div>
                         </div>
                         <br />

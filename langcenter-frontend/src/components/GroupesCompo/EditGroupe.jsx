@@ -12,6 +12,7 @@ import { useParams } from 'react-router-dom';
 const EditGroup = () => {
   const [selectedCourse, setSelectedCourse] = useState('');
   const [selectedLevel, setSelectedLevel] = useState('');
+  const [teacherData, setTeacherData] = useState([]);
   const [coursData, setCourseData] = useState([]);
   const {user,setNotification, setVariant } = UseStateContext();
   const navigate = useNavigate();
@@ -66,6 +67,7 @@ const EditGroup = () => {
         end_date: res.data.data.end_date,
         description: res.data.data.description,
         capacity: res.data.data.capacity,
+        teacher: res.data.data.teacher.id,
       });
     });
   }, []);
@@ -84,6 +86,7 @@ const EditGroup = () => {
       description: values.description,
       capacity: values.capacity,
       level: values.level,
+      teacher_id: values.teacher,
   };
   axios.put(`/api/classes/${id}`, sendData).then((res) => {
     console.log(res.data);
@@ -116,13 +119,20 @@ const EditGroup = () => {
     { id: '3', name: 'Level 3' },
     // Add more levels as needed
   ];
-  const availableTeachers = [
-    { id: '1', name: 'Teacher 1' },
-    { id: '2', name: 'Teacher 2' },
-    { id: '3', name: 'Teacher 3' },
-    // Add more levels as needed
-  ];
-    
+  //get data from api
+  useEffect(() => {
+    axios.get('/api/teachers').then((res) => {
+      // console.log(res.data);
+      setTeacherData(
+        res.data.data.map((teacher) => {
+          return {
+            id: teacher.id,
+            name: teacher.first_name + ' ' + teacher.last_name,
+          };
+        })
+        );
+    });
+  }, []);
 
   const handleCourseChange = (e) => {
     const courseId = e.target.value;
@@ -281,7 +291,7 @@ const EditGroup = () => {
                     }
                   >
                     <option value="">Select teacher</option>
-                    {availableTeachers.map((teacher) => (
+                    {teacherData.map((teacher) => (
                       <option key={teacher.id} value={teacher.id}>
                         {teacher.name}
                       </option>

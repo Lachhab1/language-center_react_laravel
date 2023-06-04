@@ -35,7 +35,7 @@ useEffect(() => {
                     endDate:datar.end_date,
                     students: datar.nb_etudiants,
                     course: datar.cours.title,
-                    teacher: "not assigned yet",
+                    teacher: datar.teacher.first_name + " " + datar.teacher.last_name,
                     }
                   ])
             )

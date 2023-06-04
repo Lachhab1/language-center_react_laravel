@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { Form, Button, Row, Col } from 'react-bootstrap';
-import { useEffect } from 'react';
 import axios from '../../api/axios';
 import { useNavigate } from 'react-router-dom';
 import { UseStateContext } from '../../context/ContextProvider';
@@ -15,6 +14,7 @@ const AddGroup = () => {
   const [selectedLevel, setSelectedLevel] = useState('');
   const [coursData, setCourseData] = useState([]);
   const {user,setNotification, setVariant } = UseStateContext();
+  const [teacherData, setTeacherDate] = useState([]);
   const navigate = useNavigate();
    let x = ""
         if (user && user.role==='admin')
@@ -60,6 +60,7 @@ const AddGroup = () => {
       description: values.description,
       capacity: values.capacity,
       level: values.level,
+      teacher_id: values.teacher,
   };
   axios.post('/api/classes', sendData).then((res) => {
     console.log(res.data);
@@ -90,12 +91,20 @@ const AddGroup = () => {
     { id: '3', name: 'Level 3' },
     // Add more levels as needed
   ];
-  const availableTeachers = [
-    { id: '1', name: 'Teacher 1' },
-    { id: '2', name: 'Teacher 2' },
-    { id: '3', name: 'Teacher 3' },
-    // Add more levels as needed
-  ];
+  //get data from api
+  useEffect(() => {
+    axios.get('/api/teachers').then((res) => {
+      // console.log(res.data);
+      setTeacherDate(
+        res.data.data.map((teacher) => {
+          return {
+            id: teacher.id,
+            name: teacher.first_name + ' ' + teacher.last_name,
+          };
+        })
+        );
+    });
+  }, []);
     
 
   const handleCourseChange = (e) => {
@@ -262,7 +271,7 @@ const AddGroup = () => {
                     }
                   >
                     <option value="">Select teacher</option>
-                    {availableTeachers.map((teacher) => (
+                    {teacherData.map((teacher) => (
                       <option key={teacher.id} value={teacher.id}>
                         {teacher.name}
                       </option>

@@ -4,8 +4,8 @@ use App\Http\Controllers\LoginController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\EtudiantController;
 use App\Http\Controllers\InscrireClassController;
+use App\Http\Controllers\TeacherController;
 
 Route::post('/login', [LoginController::class, 'login']);
 
@@ -36,3 +36,5 @@ Route::delete('/cours/{cours}', 'App\Http\Controllers\CoursController@destroy');
 
 //the payment
 Route::post('/inscrires/{id}/register-payment', [InscrireClassController::class, 'registerPayment']);
+//teacher api
+Route::apiResource('teachers', TeacherController::class);

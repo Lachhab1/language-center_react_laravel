@@ -32,7 +32,8 @@ class ClassController extends Controller
             'start_date' => 'required|date',
             'end_date' => 'required|date|after:start_date',
             'level' => 'required|string|max:254',
-            'cours_id' => 'required|integer|exists:cours,id'
+            'cours_id' => 'required|integer|exists:cours,id',
+            'teacher_id' => 'required|integer|exists:teachers,id'
         ]);
         $class_ = new Class_();
         $class_->name = $data['name'];
@@ -43,6 +44,7 @@ class ClassController extends Controller
         $class_->end_date = $data['end_date'];
         $class_->level = $data['level'];
         $class_->cours_id = $data['cours_id'];
+        $class_->teacher_id = $data['teacher_id'];
         $class_->save();
         return new ClassRessource($class_);
     }
@@ -69,7 +71,8 @@ class ClassController extends Controller
             'start_date' => 'required|date',
             'end_date' => 'required|date|after:start_date',
             'level' => 'required|string|max:254',
-            'cours_id' => 'required|integer|exists:cours,id'
+            'cours_id' => 'required|integer|exists:cours,id',
+            'teacher_id' => 'required|integer|exists:teachers,id'
         ]);
         $class_->name = $data['name'];
         $class_->school_year = $data['school_year'];
@@ -79,6 +82,7 @@ class ClassController extends Controller
         $class_->end_date = $data['end_date'];
         $class_->level = $data['level'];
         $class_->cours_id = $data['cours_id'];
+        $class_->teacher_id = $data['teacher_id'];
         $class_->save();
         return new ClassRessource($class_);
     }
