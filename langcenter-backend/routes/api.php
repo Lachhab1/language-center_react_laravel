@@ -38,3 +38,7 @@ Route::delete('/cours/{cours}', 'App\Http\Controllers\CoursController@destroy');
 Route::post('/inscrires/{id}/register-payment', [InscrireClassController::class, 'registerPayment']);
 //teacher api
 Route::apiResource('teachers', TeacherController::class);
+Route::get('/parents', 'App\Http\Controllers\ParentController@index');
+Route::put('parents/{parent_}', 'App\Http\Controllers\ParentController@update');
+Route::get('/parents/{parent_}','App\Http\Controllers\ParentController@show');
+
