@@ -9,7 +9,7 @@ export default function EmploiTemps() {
 
   return (
     <div>
-      <h1>Emploi du Temps Page</h1>
+      <h1>Schedules</h1>
       <ScheduleTable data={data} />
     </div>
   );

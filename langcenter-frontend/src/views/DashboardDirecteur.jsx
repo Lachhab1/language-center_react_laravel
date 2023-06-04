@@ -9,6 +9,8 @@ import LineChart from '../components/DashboardCardsCompo/LineChart';
 import BarChart from '../components/DashboardCardsCompo/BarChart';
 import TimetableScheduler from '../components/DashboardCardsCompo/TimetableScheduler';
 import '../components/DashboardCardsCompo/charts.css';
+import InscriptionTable from '../components/InscStudDash/Inscription';
+import { Button } from 'react-bootstrap';
 
 const DashboardDirecteur = () => {
   const maleCount = 30;
@@ -48,13 +50,11 @@ const DashboardDirecteur = () => {
           <Card title='Parents' icon={parents} />
         </div>
       </div>
-      <div className='row justify-content-center'>
-        <div className='col-12 col-md-5 mb-4 Charts'>
-          <DoughnutChart maleCount={maleCount} femaleCount={femaleCount} />
-        </div>
-        <div className='col-12 col-md-6 mb-4 ms-3 Charts'>
-          <BarChart data={chartData.courses} />
-        </div>
+      <div className='col-12 mx-auto mb-4 card'>
+      <Button variant='danger' className='my-3 me-4 ms-auto'>
+        Add Inscription
+        </Button>
+        <InscriptionTable/>
       </div>
       <div className='col-12 mx-auto mb-4 Charts'>
         <TimetableScheduler data={timetableData} />
