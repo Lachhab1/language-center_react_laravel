@@ -19,12 +19,13 @@ class ParentResource extends JsonResource
             'nom' => $this->nom,
             'prenom' => $this->prenom,
             'cin' => $this->cin,
-            'sexe'=> $this->sexe,
-            'date_naissance' => $this->date_naissance,
+            'sexe' => $this->sexe,
+            'date_naissance' => date('Y-m-d', strtotime($this->date_naissance)),
             'email' => $this->email,
             'adresse' => $this->adresse,
             'telephone' => $this->telephone,
-            'nb_enfant_inscrit' => $this->etudiant()->count()
+            'nb_enfant_inscrit' => $this->etudiant()->count(),
+            'enfants' => $this->etudiant()->get(),
         ];
     }
 }
