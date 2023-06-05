@@ -5,7 +5,7 @@ import Button from '../Button';
 import { BsFillPencilFill } from 'react-icons/bs';
 import { MdDelete } from 'react-icons/md';
 import { UseStateContext } from '../../context/ContextProvider';
-import axios from 'axios';
+import axios from '../../api/axios';
 
 export default function ScheduleTable({ handleDelete }) {
   const { user } = UseStateContext();
@@ -28,9 +28,9 @@ export default function ScheduleTable({ handleDelete }) {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('http://127.0.0.1:8000/api/timeTable');
+      const response = await axios.get('/api/timeTable');
       const fetchedData = response.data;
-
+      console.log('11', ...fetchedData);
       // Fetch additional data for each row
       const processedData = await Promise.all(
         fetchedData.map(async (row) => {
@@ -38,26 +38,36 @@ export default function ScheduleTable({ handleDelete }) {
           const classId = row.class_id;
           const classroomId = row.classroom_id;
 
-          const [courseResponse, classResponse, classroomResponse] = await Promise.all([
-            axios.get(`http://127.0.0.1:8000/api/cours/${courseId}`),
-            axios.get(`http://127.0.0.1:8000/api/classes/${classId}`),
-            axios.get(`http://127.0.0.1:8000/api/classroom/${classroomId}`),
-          ]);
+          try {
+            const [courseResponse, classResponse, classroomResponse] = await Promise.all([
+              axios.get(`/api/cours/${courseId}`),
+              axios.get(`/api/classes/${classId}`),
+              axios.get(`/api/classroom/${classroomId}`),
+            ]);
 
-          const courseTitle = courseResponse.data.title;
-          const className = classResponse.data.name;
-          const classroomTitle = classroomResponse.data.name;
+            const courseTitle = courseResponse.data.title;
+            const className = classResponse.data.name;
+            const classroomTitle = classroomResponse.data.name;
 
-          return {
-            ...row,
-            courseTitle,
-            className,
-            classroomTitle,
-          };
+            return {
+              ...row,
+              courseTitle,
+              className,
+              classroomTitle,
+            };
+          } catch (error) {
+            // Handle error for individual request
+            console.error(error);
+            // Return a placeholder row or skip this row if necessary
+            return null;
+          }
         })
       );
 
-      setData(processedData);
+      // Remove any null values from processedData array
+      const filteredData = processedData.filter((row) => row !== null);
+
+      setData(filteredData);
     } catch (error) {
       console.error(error);
     }
@@ -125,13 +135,13 @@ export default function ScheduleTable({ handleDelete }) {
         </Link>
       </div>
       <DataTable
-      columns={columns}
-      data={filteredData}
-      pagination
-      highlightOnHover
-      striped
-      noDataComponent="No matching records found."
-    />
+        columns={columns}
+        data={filteredData}
+        pagination
+        highlightOnHover
+        striped
+        noDataComponent="No matching records found."
+      />
     </div>
   );
 }

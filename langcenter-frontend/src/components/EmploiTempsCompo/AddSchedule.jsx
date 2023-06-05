@@ -4,7 +4,7 @@ import * as Yup from 'yup';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { UseStateContext } from '../../context/ContextProvider';
-import axios from 'axios';
+import axios from '../../api/axios';
 
 export default function AddSchedule() {
   const [selectedCoursId, setSelectedCoursId] = useState(0);
@@ -56,7 +56,7 @@ export default function AddSchedule() {
       };
       console.log(sendData.days);
     
-      axios.post('http://127.0.0.1:8000/api/timeTable', sendData)
+      axios.post('/api/timeTable', sendData)
         .then((res) => {
           console.log(res.data);
           setNotification('Timetable added successfully');
@@ -105,7 +105,7 @@ export default function AddSchedule() {
     }
   };
   useEffect(() => {
-    axios.get('http://127.0.0.1:8000/api/cours').then((res) => {
+    axios.get('/api/cours').then((res) => {
 
       setCourseData(res.data);
     });
@@ -115,7 +115,7 @@ export default function AddSchedule() {
   useEffect(() => {
     // Fetch classes data based on selected cours_id
     if (selectedCoursId) {
-      axios.get(`http://127.0.0.1:8000/api/classes?cours_id=${selectedCoursId}`)
+      axios.get(`/api/classes?cours_id=${selectedCoursId}`)
         .then((res) => {
           setGroupesData(res.data);
         })
@@ -129,7 +129,7 @@ export default function AddSchedule() {
   }, [selectedCoursId]);
 
   useEffect(() => {
-    axios.get('http://127.0.0.1:8000/api/classroom').then((res) => {
+    axios.get('/api/classroom').then((res) => {
 
 
       setClassroomsData(res.data);
