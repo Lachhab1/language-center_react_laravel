@@ -9,34 +9,40 @@ use App\Http\Controllers\TeacherController;
 
 
 
+use App\Http\Controllers\TimeTableController;
+use App\Models\TimeTable;
+
+use App\Http\Controllers\ClassroomController;
+use App\Models\Classroom;
+
 Route::post('/login', [LoginController::class, 'login']);
 
 
-Route::middleware('auth:sanctum')->group(
-    function () {
-        Route::get('/user', function (Request $request) {
-            return $request->user();
-        });
-        Route::post('/logout', [LoginController::class, 'logout']);
-        Route::apiResource('users', UserController::class);
-    }
-);
-Route::apiResource('etudiants', App\Http\Controllers\EtudiantController::class);
-Route::apiResource('inscrire-classes', App\Http\Controllers\InscrireClassController::class);
-// Route::apiResource('classes', App\Http\Controllers\ClassController::class);
+Route::post('/login', [LoginController::class, 'login']);
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+    Route::post('/logout', [LoginController::class, 'logout']);
+    Route::apiResource('users', UserController::class);
+});
+
+Route::apiResource('etudiants', EtudiantController::class);
+Route::apiResource('inscrire-classes', InscrireClassController::class);
+
 Route::put('/classes/{class_}', 'App\Http\Controllers\ClassController@update');
 Route::get('/classes', 'App\Http\Controllers\ClassController@index');
 Route::post('/classes', 'App\Http\Controllers\ClassController@store');
 Route::get('/classes/{class_}', 'App\Http\Controllers\ClassController@show');
 Route::delete('/classes/{class_}', 'App\Http\Controllers\ClassController@destroy');
-// Route::apiResource('cours', App\Http\Controllers\CoursController::class);    
+
 Route::put('/cours/{cours}', 'App\Http\Controllers\CoursController@update');
 Route::get('/cours', 'App\Http\Controllers\CoursController@index');
 Route::post('/cours', 'App\Http\Controllers\CoursController@store');
 Route::get('/cours/{cours}', 'App\Http\Controllers\CoursController@show');
 Route::delete('/cours/{cours}', 'App\Http\Controllers\CoursController@destroy');
 
-//the payment
 Route::post('/inscrires/{id}/register-payment', [InscrireClassController::class, 'registerPayment']);
 Route::put('/update-payment/{id}', [InscrireClassController::class, 'updatePayment']);
 Route::delete('/delete-payment/{id}/', [InscrireClassController::class, 'deletePayment']);
@@ -45,3 +51,15 @@ Route::apiResource('teachers', TeacherController::class);
 Route::get('/parents', 'App\Http\Controllers\ParentController@index');
 Route::put('parents/{parent_}', 'App\Http\Controllers\ParentController@update');
 Route::get('/parents/{parent_}', 'App\Http\Controllers\ParentController@show');
+
+
+// Timetable routes
+Route::post('/timeTable', 'App\Http\Controllers\TimeTableController@store');
+Route::get('/timeTable', 'App\Http\Controllers\TimeTableController@index');
+Route::get('/timeTable/{id}', 'App\Http\Controllers\TimeTableController@show');
+Route::put('/timeTable/{timeTable}', 'App\Http\Controllers\TimeTableController@update');
+Route::delete('/timeTable/{timeTable}', 'App\Http\Controllers\TimeTableController@destroy');
+
+// Classroom routes
+Route::resource('/classroom', ClassroomController::class);
+Route::get('/classroom/{id}', 'App\Http\Controllers\ClassroomController@show');
