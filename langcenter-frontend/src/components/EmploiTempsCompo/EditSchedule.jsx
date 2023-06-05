@@ -12,7 +12,6 @@ export default function EditSchedule() {
     const fetchedSchedule = {
       id: id,
       courseName: 'Math',
-      courseLevel: 'Intermediate',
       group: 'Group 1',
       classroom: 'Room 101',
       day: ['Monday', 'Wednesday', 'Friday'],
@@ -77,10 +76,9 @@ export default function EditSchedule() {
       <h1 className="mb-4">Edit Schedule</h1>
       <p>ID: {schedule.id}</p>
       <p>Course Name: {schedule.courseName}</p>
-      <p>Course Level: {schedule.courseLevel}</p>
       <p>Group: {schedule.group}</p>
       <p>Classroom: {schedule.classroom}</p>
-      <p>Day: {schedule.day.join(', ')}</p>
+      <p>Day(s): {schedule.day.join(', ')}</p>
       <p>Start Time: {schedule.startTime}</p>
       <p>Finish Time: {schedule.finishTime}</p>
       <form  className='editSchedule'> 
