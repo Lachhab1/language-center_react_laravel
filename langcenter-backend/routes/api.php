@@ -7,6 +7,12 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\EtudiantController;
 use App\Http\Controllers\InscrireClassController;
 
+use App\Http\Controllers\TimeTableController;
+use App\Models\TimeTable;
+
+use App\Http\Controllers\ClassroomController;
+use App\Models\classroom;
+
 Route::post('/login', [LoginController::class, 'login']);
 
 
@@ -36,3 +42,11 @@ Route::delete('/cours/{cours}', 'App\Http\Controllers\CoursController@destroy');
 
 //the payment
 Route::post('/inscrires/{id}/register-payment', [InscrireClassController::class, 'registerPayment']);
+
+//timetable ak
+Route::post('/timeTable', 'App\Http\Controllers\TimeTableController@store');
+Route::get('/timeTable', 'App\Http\Controllers\TimeTableController@store');
+Route::resource('/timeTable', TimeTableController::class);
+
+//classroom ak
+Route::resource('/classroom', ClassroomController::class);
