@@ -70,14 +70,15 @@ class TimeTableController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(TimeTable $timeTable)
+    public function show($id)
     {
+        $timeTable = TimeTable::findOrFail($id);
+    
         return response()->json([
-            'timeTable' => $timeTable 
+            'timeTable' => $timeTable
         ]);
-        //
     }
-
+    
     /**
      * Show the form for editing the specified resource.
      */
@@ -89,21 +90,24 @@ class TimeTableController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, TimeTable $timeTable)
-    {
-        $request->validate([ 
-            'classroom'=> 'required',
-            'startTime'=>'required',
-            'FinishTime'=>'required',
-            'days'=>'required'
-        ]);
+public function update(Request $request, TimeTable $timeTable)
+{
+    $data = $request->validate([
+        'course_id' => 'required',
+        'class_id' => 'required',
+        'classroom_id' => 'required',
+        'startTime' => 'required',
+        'FinishTime' => 'required',
+        'days' => 'required',
+    ]);
 
-        $timeTable->fill($request->post())->update();
-        $timeTable -> save();
-        return response()->json([
-            'message'=>'Timetable updated successfully'
-        ]);
-    }
+    // Decode the JSON string back to an array
+
+    $timeTable->fill($data);
+    $timeTable->save();
+
+    return new TimeTableResource($timeTable);
+}
 
     /**
      * Remove the specified resource from storage.

@@ -17,20 +17,13 @@ class ClassController extends Controller
      //   $classes = Class_::all();
      //   return response(ClassRessource::collection($classes), 200);
     //}
-
     public function index(Request $request)
-    {
-        // Retrieve classes based on cours_id
-        if ($request->has('cours_id')) {
-            $classes = Class_::where('cours_id', $request->input('cours_id'))->get();
-        } else {
-    
-             $classes = Class_::all();
-            return response(ClassRessource::collection($classes), 200);
-        }
-    
-        return response()->json($classes);
-    }
+{
+    $coursId = $request->input('cours_id');
+    $classes = Class_::where('cours_id', $coursId)->get();
+    return response(ClassRessource::collection($classes), 200);
+}
+
     
 
 

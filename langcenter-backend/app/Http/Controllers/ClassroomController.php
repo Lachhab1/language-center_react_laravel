@@ -48,14 +48,15 @@ class ClassroomController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(classroom $classroom)
+    public function show($id)
     {
+        $classroom = Classroom::findOrFail($id);
+    
         return response()->json([
-            'classroom' => $classroom 
+            'classroom' => $classroom
         ]);
-
-        //
     }
+    
 
     /**
      * Show the form for editing the specified resource.
