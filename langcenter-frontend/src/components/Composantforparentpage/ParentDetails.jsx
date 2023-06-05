@@ -1,9 +1,36 @@
 import Image from 'react-bootstrap/Image'
+import ListGroup from 'react-bootstrap/ListGroup';
 import imgStudent from "../../images/photo-profile.png"
-
+import { useState,useEffect } from 'react';
+import { UseStateContext } from '../../context/ContextProvider';
+import axios from '../../api/axios';
+import { useParams } from 'react-router-dom';
 export default function ParentDetails() {
-
-
+    const { user } = UseStateContext();
+    const [parent, setParent] = useState([]);
+    const { id } = useParams();
+    useEffect(() => {
+        axios.get(`api/parents/${id}`).then((response) => {
+            console.log(response.data.data);
+            setParent({
+                        id: response.data.data.id,
+                        nom: response.data.data.nom,
+                        prenom: response.data.data.prenom,
+                        cin: response.data.data.cin,
+                        date_naissance: response.data.data.date_naissance,
+                        email: response.data.data.email,
+                        sexe: response.data.data.sexe,
+                        adresse: response.data.data.adresse,
+                        telephone: response.data.data.telephone,
+                        nb_enfant_inscrit: response.data.data.nb_enfant_inscrit,
+                        enfants: response.data.data.enfants,
+                    }
+            );
+        }
+        ).catch((error) => {
+            console.log(error);
+        });
+    }, []);
     const etudiant = {
         id:'1',
         nom: 'Wade7',
@@ -14,7 +41,6 @@ export default function ParentDetails() {
         email: 'wade7mzyan@.com',
         telephone: '06 12 34 56 78',
         DateNaissance:'7.7.2020',
-        FatherOcupation:'Walo',
         DateEnrol:'25.3.2023',
         class:'2'
       };
@@ -27,7 +53,7 @@ export default function ParentDetails() {
                         </Image>
                 </div>
                 <div className="col">
-                    <h5>{etudiant.nom} {etudiant.prenom}</h5>
+                    <h5>{parent.nom} {parent.prenom}</h5>
                         <p>
                            Descreption
                         </p> 
@@ -37,7 +63,7 @@ export default function ParentDetails() {
                                  ID Number:
                             </div>
                             <div className="col-6">
-                            {etudiant.id}
+                            {parent.id}
                             </div>
                         </div>
                         <br />
@@ -46,7 +72,7 @@ export default function ParentDetails() {
                                  Last Name:
                             </div>
                             <div className="col-6">
-                            {etudiant.nom}
+                            {parent.nom}
                             </div>
                         </div>
                         <br />
@@ -55,7 +81,7 @@ export default function ParentDetails() {
                                  First Name:
                             </div>
                             <div className="col-6">
-                            {etudiant.prenom}
+                            {parent.prenom}
                             </div>
                         </div>
                         <br />
@@ -64,34 +90,15 @@ export default function ParentDetails() {
                                  Gender:
                             </div>
                             <div className="col-6">
-                            {etudiant.gender}
+                            {parent.sexe}
                             </div>
                         </div>
-                        <br />
-                        <div className="row">
-                            <div className="col-6">
-                                 Father Name:
-                            </div>
-                            <div className="col-6">
-                            {etudiant.Fathername}
-                            </div>
-                        </div>
-                        <br />
-                        <div className="row">
-                            <div className="col-6">
-                                 Mother Name:
-                            </div>
-                            <div className="col-6">
-                            {etudiant.Mothername}
-                            </div>
-                        </div>
-                        <br />
                         <div className="row">
                             <div className="col-6">
                                  Email:
                             </div>
                             <div className="col-6">
-                            {etudiant.email}
+                            {parent.email}
                             </div>
                         </div>
                         <br />
@@ -100,37 +107,53 @@ export default function ParentDetails() {
                                  Date of birth:
                             </div>
                             <div className="col-6">
-                            {etudiant.DateNaissance}
+                            {parent.date_naissance}
                             </div>
                         </div>
                         <br />
                         <div className="row">
                             <div className="col-6">
-                                 Father Ocupation:
-                            </div>
+                                    Address:
+                                    </div>
                             <div className="col-6">
-                            {etudiant.FatherOcupation}
+                            {parent.adresse}
                             </div>
                         </div>
-                        <br />
+                            <br/>
                         <div className="row">
                             <div className="col-6">
-                                 Date of Enr:
+                                    Phone Number:
                             </div>
                             <div className="col-6">
-                            {etudiant.DateEnrol}
+                            {parent.telephone}
                             </div>
                         </div>
-                        <br />
+                        <br/>
                         <div className="row">
                             <div className="col-6">
-                                 Class
+                                    Number of children enrolled:
                             </div>
                             <div className="col-6">
-                            {etudiant.class}
+                            {parent.nb_enfant_inscrit}
                             </div>
-                        </div>
-                    
+                            </div>
+                            <br/>
+                        <div className="row">
+                            <div className="col-6">
+                                    enfants:
+                            </div>
+                            <div className="col-6">
+                            <ListGroup>
+                                {parent.enfants?.map((enfant) => (
+                                    <ListGroup.Item key={enfant.id}>
+                                        {enfant.nom} {enfant.prenom}
+                                    </ListGroup.Item>
+                                ))}
+                            </ListGroup>
+                            </div>
+                            </div>
+
+
                 </div>
             </div>
 

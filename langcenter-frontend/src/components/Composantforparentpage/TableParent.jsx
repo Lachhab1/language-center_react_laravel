@@ -1,14 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import DataTable from 'react-data-table-component';
-import Button from "../Button"
+import Button from "../Button";
+import axios from '../../api/axios';
 import {
   BsFillEyeFill, BsFillPencilFill,
   MdDelete
 } from 'react-icons/all';
 import { Link } from 'react-router-dom';
 import { UseStateContext } from '../../context/ContextProvider';
-
+import { Ellipsis } from 'react-awesome-spinners';
 export default function TableParent() {
+   const [pending, setPending] = useState(true);
+  const [parentData, setParentData] = useState([]);
   const { user } = UseStateContext();
   let x = "";
   if (user && user.role === 'admin') {
@@ -19,6 +22,34 @@ export default function TableParent() {
   else {
     x = "/secretary";
   }
+  useEffect(() => {
+    const fetchData = async() =>axios.get('api/parents').then((response) => {
+      console.log(response.data.data);
+      setParentData(
+        response.data.data.map((item) => {
+          return {
+            id: item.id,
+            name: item.nom + " " + item.prenom,
+            cin: item.cin,
+            date_naissance: item.date_naissance,
+            email: item.email,
+            gender: item.sexe,
+            address: item.adresse,
+            phone: item.telephone,
+            nb_enfants: item.nb_enfant_inscrit,
+          }
+        })
+      );
+    }
+    ).catch((error) => {
+      console.log(error);
+    });
+    setTimeout(async() => {
+      await fetchData();
+      setPending(false);
+    }
+      , 200);
+  }, []);
   const col = [
     {
       name: "ID",
@@ -33,10 +64,6 @@ export default function TableParent() {
       selector: row => row.gender
     },
     {
-      name: "Occupation",
-      selector: row => row.occupation
-    },
-    {
       name: "Address",
       selector: row => row.address
     },
@@ -47,6 +74,10 @@ export default function TableParent() {
     {
       name: "Phone",
       selector: row => row.phone
+    },
+    {
+      name: "Nombre d'enfants",
+      selector: row => row.nb_enfants
     },
     {
       name: "Action",
@@ -63,9 +94,6 @@ export default function TableParent() {
               <BsFillPencilFill style={{ color: 'orange' }} />
             </button>
           </Link>
-          <button style={{ border: 'none', background: 'none' }} onClick={() => deleteRow(row.id)}>
-            <MdDelete style={{ color: 'red', fontSize: '20px' }} />
-          </button>
         </div>
       ),
     }
@@ -90,25 +118,19 @@ export default function TableParent() {
 
   return (
     <div>
-      <div className="row offset-1">
-        <div className="col">
+      <div className="ms-2 w-25">
           <input type="text" className="form-control" placeholder="Search by Name" onChange={handleFilter} />
-        </div>
-        <div className="col">
-          {/* Search by Class input field */}
-        </div>
-        <div className="col text-end me-5">
-          <Link to={`${x}/parent/addParent`}>
-            <Button className=" me-5" variant="danger" isDisabled={false} size="md" value="Add Parent" handleSmthg={() => console.log("chibakiya")} />
-          </Link>
-        </div>
       </div>
 
       <DataTable
         columns={col}
-        data={records}
+        data={parentData}
         fixedHeader
-        pagination
+                    pagination
+                    progressPending={pending}
+                    progressComponent={<Ellipsis  size={64}
+                    color='#D60A0B'
+                    sizeUnit='px' />} 
       />
     </div>
   );

@@ -1,57 +1,95 @@
 import { useFormik } from 'formik';
 import { Form } from 'react-bootstrap';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import * as yup from 'yup';
+import axios from '../../api/axios';
+import { useParams,useNavigate } from 'react-router-dom';
+import { UseStateContext } from '../../context/ContextProvider';
 
 function EditParent() {
+  const { id } = useParams();
+  const { user,setNotification,setVariant } = UseStateContext();
+  const navigate = useNavigate();
+  let x = "";
+  if (user && user.role === 'admin') {
+    x = "";
+  } else if (user && user.role === 'director') {
+    x = "/director";
+  }
+  else {
+    x = "/secretary";
+  }
 
-  const [formData, setFormData] = useState({
-    guardfName: "",
-    guardLName: "",
-    guardOcup: "",
-    guardEmail: "",
-    guardPhone: "",
-    guardCIN: "",
-    guardGender: "",
-    guardBirthday: ""
-  });
-
-   // const fetchData = async() => {
-    //     await Axios.get("/parent/data")
-    //     setFormData(
-    //         JSON.parse(res.data)
-    //         )
-    //     }
-    // }
     
   const formik = useFormik({
     initialValues: {
-      guardfName: formData.guardfName,
-      guardLName: formData.guardLName,
-      guardOcup: formData.guardOcup,
-      guardEmail: formData.guardEmail,
-      guardPhone: formData.guardPhone,
-      guardCIN: formData.guardCIN,
-      guardGender: formData.guardGender,
-      guardBirthday: formData.guardBirthday
+      guardfName: '',
+      guardLName: '',
+      guardEmail: '',
+      guardPhone: '',
+      guardCIN: '',
+      guardGender: '',
+      guardBirthday: '',
+      guardAddress: '',
     },
     validationSchema: yup.object().shape({
       guardfName: yup.string().required('First name is required'),
       guardLName: yup.string().required('Last name is required'),
-      guardOcup: yup.string().required('Occupation is required'),
       guardEmail: yup.string().email('Invalid Email').required('Email is required'),
       guardPhone: yup.string().min(9, 'Phone number must be at least 9 characters').required('Phone number is required'),
       guardCIN: yup.string().required('CIN is required'),
       guardGender: yup.string().required('Gender is required'),
-      guardBirthday: yup.date().required('Birthday is required')
+      guardBirthday: yup.date().required('Birthday is required'),
+      guardAddress: yup.string().required('Address is required'),
     }),
     onSubmit: values => {
-      console.log(values);
+      const sendParent = {
+        nom: values.guardfName,
+        prenom: values.guardLName,
+        email: values.guardEmail,
+        telephone: values.guardPhone,
+        cin: values.guardCIN,
+        sexe: values.guardGender,
+        date_naissance: values.guardBirthday,
+        adresse: values.guardAddress,
+      };
+      axios.put(`/api/parents/${id}`, sendParent).then((response) => {
+      }
+      ).catch((error) => {
+        console.log(error);
+      }
+      );
+      setNotification("Parent updated successfully");
+      setVariant("warning");
+      setTimeout(() => {
+        setNotification("");
+        setVariant("");
+        navigate(`${x}/parent`); 
+      }, 3000);
+
     }
   });
+  useEffect(() => {
+      axios.get(`/api/parents/${id}`).then((response) => {
+      formik.setValues({
+        guardfName: response.data.data.nom,
+        guardLName: response.data.data.prenom,
+        guardEmail: response.data.data.email,
+        guardPhone: response.data.data.telephone,
+        guardCIN: response.data.data.cin,
+        guardGender: response.data.data.sexe,
+        guardBirthday: response.data.data.date_naissance,
+        guardAddress: response.data.data.adresse,
+      });
+    }
+    ).catch((error) => {
+      console.log(error);
+    }
+    );
+  }, []);
 
   return (
     <Form onSubmit={formik.handleSubmit}>
@@ -81,19 +119,6 @@ function EditParent() {
           />
           <Form.Control.Feedback className='' type="invalid" tooltip>
             {formik.errors.guardLName}
-          </Form.Control.Feedback>
-        </Form.Group>
-        <Form.Group as={Col} md="3" sm="6" xs="12" className="position-relative">
-          <Form.Label>Occupation</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Occupation"
-            name="guardOcup"
-            {...formik.getFieldProps('guardOcup')}
-            isInvalid={formik.touched.guardOcup && formik.errors.guardOcup}
-          />
-          <Form.Control.Feedback type="invalid" tooltip>
-            {formik.errors.guardOcup}
           </Form.Control.Feedback>
         </Form.Group>
         <Form.Group as={Col} md="3" sm="6" xs="12" className="position-relative">
@@ -163,6 +188,21 @@ function EditParent() {
             {formik.errors.guardBirthday}
           </Form.Control.Feedback>
         </Form.Group>
+        <Form.Group as={Col} md="3" sm="6" xs="12" className="position-relative">
+          <Form.Label>address</Form.Label>
+          <Form.Control
+
+            type="text"
+            name="guardAddress"
+            placeholder="address"
+            {...formik.getFieldProps('guardAddress')}
+            isInvalid={formik.touched.guardAddress && formik.errors.guardAddress}
+          />
+          <Form.Control.Feedback className='' type="invalid" tooltip>
+            {formik.errors.guardAddress}
+          </Form.Control.Feedback>
+        </Form.Group>
+
       </Row>
       <Button type="submit">Modify</Button>
     </Form>

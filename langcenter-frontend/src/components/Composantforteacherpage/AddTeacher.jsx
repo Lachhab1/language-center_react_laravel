@@ -1,11 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { useFormik } from 'formik';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import * as Yup from 'yup';
 import AvatarEdit from '../ProfileCompo/AvatarEdit';
+import axios from "../../api/axios";
+import { UseStateContext } from "../../context/ContextProvider";
+import { useNavigate } from 'react-router-dom';
 
 export default function AddTeacher() {
-  const [selectedClasses, setSelectedClasses] = useState([]);
+  const {user,setNotification,setVariant} = UseStateContext();
+  const navigate = useNavigate();
+  let x = ""
+  if (user && user.role==='admin')
+  {
+      x = ""
+  } else if (user && user.role==='director')
+  {
+      x="/director"
+  } else{
+    x = "/secretary"
+  }
+  // const [selectedClasses, setSelectedClasses] = useState([]);
+  //   const [classData, setClassData] = useState([]);
+  //   // Fetch available courses and levels from the database
+  // // Replace this with your actual API call to fetch data
+  // useEffect(() => {
+  //   axios.get('/api/classes').then((res) => {
+  //     setClassData(res.data);
+  //   });
+  // }, []);
   const formik = useFormik({
     initialValues: {
       firstName: '',
@@ -16,10 +39,10 @@ export default function AddTeacher() {
       email: '',
       address: '',
       phone: '',
-      isActive: false,
       diploma: '',
-      hireDate: '',
+      hourly_rate: '',
       speciality: '',
+      // class: [],
     },
     validationSchema: Yup.object({
       firstName: Yup.string().required('First name is required'),
@@ -30,24 +53,43 @@ export default function AddTeacher() {
       email: Yup.string().email('Invalid email address').required('Email is required'),
       address: Yup.string().required('Address is required'),
       phone: Yup.string().required('Phone number is required'),
-      isActive: Yup.boolean().required('Status is required'),
       diploma: Yup.string().required('Diploma is required'),
-      hireDate: Yup.date().required('Hire date is required'),
+      hourly_rate: Yup.number().required('Hourly rate is required'),
       speciality: Yup.string().required('Speciality is required'),
+      // class: Yup.array().required('Class is required'),
     }),
     onSubmit: (values) => {
       // Handle form submission and add teacher
-      console.log(values);
+      const postData = {
+        first_name: values.firstName,
+        last_name: values.lastName,
+        cin: values.cin,
+        birthday: values.birthday,
+        gender: values.gender,
+        email: values.email,
+        address: values.address,
+        phone: values.phone,
+        diploma: values.diploma,
+        hourly_rate: values.hourly_rate,
+        speciality: values.speciality,
+      }
+      axios.post('/api/teachers', postData).then((res) => {
+        console.log(res.data);
+      }).catch((err) => {
+        console.log(err);
+      }
+      );
+    setNotification("Student added successfully");
+    setVariant("success");
+    setTimeout(() => {
+      setNotification("");
+      setVariant("");
+    }, 3000);
+    navigate(`${x}/teacher`);
     },
   });
 
-  // Available classes from the database (dynamic data)
-  const availableClasses = [
-    { id: '1', name: 'Class A' },
-    { id: '2', name: 'Class B' },
-    { id: '3', name: 'Class C' },
-    // Add more classes as needed
-  ];
+
 
   return (
     <Form onSubmit={formik.handleSubmit} className='addTeacher'>
@@ -192,62 +234,46 @@ export default function AddTeacher() {
         </Col>
 
         <Col md={3} className='mb-3'>
-          <Form.Label htmlFor='hireDate'>Hire Date*</Form.Label>
+          <Form.Label htmlFor='hireDate'>Hourly rate*</Form.Label>
           <Form.Control
-            id='hireDate'
-            type='date'
-            className={`form-control ${formik.errors.hireDate  && formik.touched.hireDate ? 'is-invalid' : ''}`}
-            {...formik.getFieldProps('hireDate')}
+            id='hourlyRate'
+            type='number'
+            className={`form-control ${formik.errors.hourly_rate  && formik.touched.hourly_rate ? 'is-invalid' : ''}`}
+            {...formik.getFieldProps('hourly_rate')}
           />
-          {formik.touched.hireDate && formik.errors.hireDate && (
-            <div className='invalid-feedback'>{formik.errors.hireDate}</div>
+          {formik.touched.hourly_rate && formik.errors.hourly_rate && (
+            <div className='invalid-feedback'>{formik.errors.hourly_rate}</div>
           )}
-        </Col>
-
-        <Col md={3} className='mb-3 d-flex justify-content-center align-items-end'>
-          <Form.Check
-            id='isActive'
-            type='checkbox'
-            className='form-check-input'
-            checked={formik.values.isActive}
-            {...formik.getFieldProps('isActive')}
-          />
-          <Form.Label htmlFor='isActive' className='form-check-label'>
-            Active
-          </Form.Label>
         </Col>
       </Row>
 
       <Row>
-        <Col md={3} className='mb-3'>
-          <Form.Label htmlFor='selectedClasses'>Class(es)*</Form.Label>
+        {/* <Col md={3} className='mb-3'>
+          <Form.Label htmlFor='class'>Class(es)*</Form.Label>
           <Form.Select
-            id='selectedClasses'
-            className={`form-select ${formik.errors.selectedClasses  && formik.touched.selectedClasses ? 'is-invalid' : ''}`}
+            id='class'
+            className={`form-select ${formik.errors.class  && formik.touched.class ? 'is-invalid' : ''}`}
             multiple
-            value={selectedClasses}
-            onChange={(e) =>
-              setSelectedClasses(Array.from(e.target.selectedOptions, (option) => option.value))
-            }
+            {...formik.getFieldProps('class')}
           >
-            {availableClasses.map((classItem) => (
+            {classData.map((classItem) => (
               <option key={classItem.id} value={classItem.id}>
                 {classItem.name}
               </option>
             ))}
           </Form.Select>
-          {formik.touched.selectedClasses && formik.errors.selectedClasses && (
-            <div className='invalid-feedback'>{formik.errors.selectedClasses}</div>
+          {formik.touched.class && formik.errors.class && (
+            <div className='invalid-feedback'>{formik.errors.class}</div>
           )}
           <div className='form-text text-muted' style={{ fontSize: 'small', color: 'lightgray' }}>
-            (Ctrl + click) or (⌘ + click) to select multiple classes
+            (Ctrl + click) or (⌘ + click) to select multiple classes  
           </div>
-        </Col>
+        </Col> */}
         <AvatarEdit button='Add Teacher profile photo' />
       </Row>
 
       <Button type='submit' className='btn btn-primary'>
-        Add Teacher
+        update Teacher
       </Button>
     </Form>
   );

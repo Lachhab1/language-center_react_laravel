@@ -5,6 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\CoursResource;
+use App\Http\Resources\TeacherResource;
 
 class ClassRessource extends JsonResource
 {
@@ -26,6 +27,7 @@ class ClassRessource extends JsonResource
             'level' => $this->level,
             'nb_etudiants' => $this->etudiant()->count(),
             'cours' => new CoursResource($this->cours),
+            'teacher' => new TeacherResource($this->teacher),
         ];
     }
 }

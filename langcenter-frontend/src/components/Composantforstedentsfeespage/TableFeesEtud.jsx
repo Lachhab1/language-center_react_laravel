@@ -7,33 +7,67 @@ import EditFees from './EditFees';
 import { useEffect } from 'react';
 import { UseStateContext } from '../../context/ContextProvider';
 import Inscription from '../InscStudDash/Inscription';
-import AddfeesE from './AddFeesE';
-import AddFeesT from '../Composantforteacherfeespage/AddFeesT';
+import axios from '../../api/axios';
+import { Ellipsis } from 'react-awesome-spinners'
 
 
 export default function TableFeesEtud()
-{
-     const {user} = UseStateContext()
-    let x = ""
-if (user && user.role==='admin')
-{
-    x = ""
-} else if (user && user.role==='director')
-{
-    x="/director"
-}
-else{
-    x="/secretary"
-}
+{ 
+    const {user,setNotification,setVariant} = UseStateContext()
+    const [data,setData]=useState([]);
+    const [pending, setPending] = useState(true);
+        let x = ""
+      if (user && user.role==='admin')
+      {
+          x = ""
+      } else if (user && user.role==='director')
+      {
+          x="/director"
+      }
+      else{
+          x="/secretary"
+      }
+    useEffect(()=>{
+      
+       const fetchData = async() => axios.get('/api/inscrire-classes').then((response)=>{
+          console.log(response.data.data);
+          setData(
+              response.data.data.map((row)=>({
+                  id:row.id,
+                  name:row.etudiant.nom + " " + row.etudiant.prenom,
+                  status:row.status,
+                  iamount:row.cours.price,
+                  aamount:row.negotiated_price,
+                  pamount:row.payment.amount,
+                  ramount: row.negotiated_price - row.payment.amount > 0 ? row.negotiated_price - row.payment.amount : 0,
+                  class:row.class.name,
+                  date:row.updated_at,
+              }))
+          );
+            })
+        .catch((error)=>console.log(error));
+        setTimeout(async() => {
+        await fetchData();
+        setPending(false);
+      }, 200);
+    },[])
+
+
   
       const deleteRow = (id) => {
-    // Perform delete operation here
-    // Example API call: deleteSchedule(id)
-    // After successful deletion, update the state or fetch the updated data from the server
-
-    // Call the handleDelete function passed from the parent component
-    handleDelete(id);
-  };
+        axios.delete(`/api/delete-payment/${id}`)
+        .then((response)=>{
+          console.log(response.data.data);
+          setNotification("Student deleted successfully");
+          setVariant("danger");
+          setTimeout(() => {
+              setNotification("");
+              setVariant("");
+              window.location.reload();
+          }, 2000);
+        })
+        .catch((error)=>console.log(error));
+      }
 
 
     
@@ -48,17 +82,19 @@ else{
             selector:row => row.name
         },
         {
-            name:"Gender",
-            selector:row => row.gender
-        },
-        {
             name:"Class",
             selector:row => row.class
         },
         
         {
             name:"Status",
-            selector:row => row.status 
+            selector:row => row.status,
+            cell: (row) => (
+        <div style={{ display: 'flex', gap: '0px' }}>
+          <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: row.status === 'Paid' ? 'green' : 'red' }} />
+          <p style={{ marginLeft: '5px' }}>{row.status}</p>
+        </div>
+      ),
         },
         {
           name:"Amount",
@@ -159,16 +195,16 @@ else{
             </div>
             <DataTable
                     columns={col}
-                    data={Namefilter}
+                    data={data}
                     fixedHeader
                     pagination
-                   
+                    progressPending={pending}
+                    progressComponent={<Ellipsis  size={64}
+                    color='#D60A0B'
+                    sizeUnit='px' />} 
             >
-             </DataTable>
-             
-             
-         </div>
-       
+              </DataTable>
+          </div>
     )
 }
 
