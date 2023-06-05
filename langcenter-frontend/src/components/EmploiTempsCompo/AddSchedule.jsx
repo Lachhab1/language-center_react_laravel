@@ -1,13 +1,33 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Form, Button, Row, Col } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import { UseStateContext } from '../../context/ContextProvider';
+import axios from '../../api/axios';
 
 export default function AddSchedule() {
+  const [selectedCoursId, setSelectedCoursId] = useState(0);
+  const [coursData, setCourseData] = useState([]);
+  const [classroomsData, setClassroomsData] = useState([]);
+  const [groupesData, setGroupesData] = useState([]);
+  const {user,setNotification, setVariant } = UseStateContext();
+  const navigate = useNavigate();
+   let x = ""
+        if (user && user.role==='admin')
+        {
+            x = ""
+        } else if (user && user.role==='director')
+        {
+            x="/director"
+        }
+        else{
+            x="/secretary"
+        }
+
   const formik = useFormik({
     initialValues: {
       course: '',
-      level: '',
       group: '',
       day: [],
       startTime: '',
@@ -16,17 +36,59 @@ export default function AddSchedule() {
     },
     validationSchema: Yup.object({
       course: Yup.string().required('Course is required'),
-      level: Yup.string().required('Level is required'),
       group: Yup.string().required('Group is required'),
       day: Yup.array().of(Yup.string()).min(1, 'Select at least one day').required('Day is required'),
       startTime: Yup.string().required('Start time is required'),
       finishTime: Yup.string().required('Finish time is required'),
       classroom: Yup.string().required('Classroom is required'),
     }),
+    
+    
     onSubmit: (values) => {
       // Handle form submission and add schedule
-      console.log(values);
-    },
+      const sendData = {
+        course_id: values.course,
+        class_id: values.group,
+        classroom_id: values.classroom,
+        startTime: values.startTime,
+        FinishTime: values.finishTime,
+        days: values.day,
+      };
+      console.log(sendData.days);
+    
+      axios.post('/api/timeTable', sendData)
+        .then((res) => {
+          console.log(res.data);
+          setNotification('Timetable added successfully');
+          setVariant('success');
+          setTimeout(() => {
+            setNotification('');
+          }, 3000);
+          navigate(`/schedule`);
+        })
+        .catch((error) => {
+          if (error.response && error.response.status === 422) {
+            // Handle specific error status code (422)
+            console.log(error.response.data); // Log the error response data
+            // Display an error message to the user
+            setNotification('Error: Invalid data');
+            setVariant('danger');
+            setTimeout(() => {
+              setNotification('');
+            }, 3000);
+          } else {
+            // Handle other errors
+            console.error(error);
+            // Display a generic error message to the user
+            setNotification('An error occurred');
+            setVariant('danger');
+            setTimeout(() => {
+              setNotification('');
+            }, 3000);
+          }
+        });
+    }
+    
   });
 
   const handleDayChange = (e) => {
@@ -42,6 +104,48 @@ export default function AddSchedule() {
       formik.setFieldValue('day', [...formik.values.day, selectedDay]);
     }
   };
+  useEffect(() => {
+    axios.get('/api/cours').then((res) => {
+
+      setCourseData(res.data);
+    });
+
+  }, []);
+
+  useEffect(() => {
+    // Fetch classes data based on selected cours_id
+    if (selectedCoursId) {
+      axios.get(`/api/classes?cours_id=${selectedCoursId}`)
+        .then((res) => {
+          setGroupesData(res.data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    } else {
+      // If no cours_id is selected, clear the classes data
+      setGroupesData([]);
+    }
+  }, [selectedCoursId]);
+
+  useEffect(() => {
+    axios.get('/api/classroom').then((res) => {
+
+
+      setClassroomsData(res.data);
+    });
+
+  }, []);
+
+  const handleCoursChange = (e) => {
+    const courseId = e.target.value;
+    setSelectedCoursId(courseId);
+  };
+
+  useEffect(() => {
+    console.log(selectedCoursId);
+  }, [selectedCoursId]);
+
 
   return (
     <Form onSubmit={formik.handleSubmit} className='addSchedule'>
@@ -49,46 +153,50 @@ export default function AddSchedule() {
 
       <Row>
         <Col md={4} className='mb-3'>
-          <Form.Group controlId='course'>
-            <Form.Label>Course*</Form.Label>
-            <Form.Select
-              className={`form-select ${formik.errors.course && formik.touched.course ? 'is-invalid' : ''}`}
-              {...formik.getFieldProps('course')}
-            >
-              <option value=''>Select a course</option>
-              {/* Add options for all courses */}
-            </Form.Select>
-            {formik.touched.course && formik.errors.course && (
-              <Form.Control.Feedback type='invalid'>{formik.errors.course}</Form.Control.Feedback>
-            )}
-          </Form.Group>
+        <Form.Group controlId='course'>
+  <Form.Label>Course*</Form.Label>
+  <Form.Select
+    className={`form-select ${formik.errors.course && formik.touched.course ? 'is-invalid' : ''}`}
+    value={formik.values.course}
+    onChange={(e) => {
+      formik.handleChange(e);
+      handleCoursChange(e);
+    }}
+  >
+    <option value=''>Select a course</option>
+    {/* Add options for all courses */}
+    {coursData.map((course) => (
+      <option key={course.id} value={course.id}>
+        {course.title}
+      </option>
+    ))}
+  </Form.Select>
+  {formik.touched.course && formik.errors.course && (
+    <div className='invalid-feedback'>{formik.errors.course}</div>
+  )}
+</Form.Group>
+
+
+
         </Col>
 
-        <Col md={4} className='mb-3'>
-          <Form.Group controlId='level'>
-            <Form.Label>Level*</Form.Label>
-            <Form.Select
-              className={`form-select ${formik.errors.level && formik.touched.level ? 'is-invalid' : ''}`}
-              {...formik.getFieldProps('level')}
-            >
-              <option value=''>Select a level</option>
-              {/* Add options for levels based on selected course */}
-            </Form.Select>
-            {formik.touched.level && formik.errors.level && (
-              <Form.Control.Feedback type='invalid'>{formik.errors.level}</Form.Control.Feedback>
-            )}
-          </Form.Group>
-        </Col>
 
         <Col md={4} className='mb-3'>
           <Form.Group controlId='group'>
-            <Form.Label>Group*</Form.Label>
+            <Form.Label>Class*</Form.Label>
             <Form.Select
               className={`form-select ${formik.errors.group && formik.touched.group ? 'is-invalid' : ''}`}
               {...formik.getFieldProps('group')}
+
             >
-              <option value=''>Select a group</option>
+              <option value=''>Select a class</option>
               {/* Add options for groups based on selected level */}
+              {groupesData.map((groupe) => (
+
+                <option key={groupe.id} value={groupe.id}>
+                  {groupe.name}
+                </option>
+              ))}
             </Form.Select>
             {formik.touched.group && formik.errors.group && (
               <Form.Control.Feedback type='invalid'>{formik.errors.group}</Form.Control.Feedback>
@@ -107,6 +215,11 @@ export default function AddSchedule() {
             >
               <option value=''>Select a classroom</option>
               {/* Add options for all classrooms */}
+              {classroomsData.map((classroom) => (
+                <option key={classroom.id} value={classroom.id}>
+                  {classroom.name}
+                </option>
+              ))}
             </Form.Select>
             {formik.touched.classroom && formik.errors.classroom && (
               <Form.Control.Feedback type='invalid'>{formik.errors.classroom}</Form.Control.Feedback>
