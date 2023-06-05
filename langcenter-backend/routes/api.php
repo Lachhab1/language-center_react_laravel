@@ -45,7 +45,7 @@ Route::post('/timeTable', 'App\Http\Controllers\TimeTableController@store');
 Route::get('/timeTable', 'App\Http\Controllers\TimeTableController@index');
 Route::get('/timeTable/{id}', 'App\Http\Controllers\TimeTableController@show');
 Route::put('/timeTable/{timeTable}', 'App\Http\Controllers\TimeTableController@update');
-Route::delete('/timeTable/{id}', 'App\Http\Controllers\TimeTableController@destroy');
+Route::delete('/timeTable/{timeTable}', 'App\Http\Controllers\TimeTableController@destroy');
 
 // Classroom routes
 Route::resource('/classroom', ClassroomController::class);

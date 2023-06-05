@@ -6,10 +6,16 @@ import { BsFillPencilFill } from 'react-icons/bs';
 import { MdDelete } from 'react-icons/md';
 import { UseStateContext } from '../../context/ContextProvider';
 import axios from '../../api/axios';
+import { useNavigate } from 'react-router-dom';
+
 import { Ellipsis } from 'react-awesome-spinners'
 export default function ScheduleTable({ handleDelete }) {
+  const navigate = useNavigate();
+
+
+  const {user,setNotification,setVariant} = UseStateContext()
   
-  const { user } = UseStateContext();
+ 
   let x = '';
   if (user && user.role === 'admin') {
     x = '';
@@ -48,10 +54,7 @@ export default function ScheduleTable({ handleDelete }) {
       return groupMatch && courseNameMatch;
     });
   
-    const deleteRow = (id) => {
-      // Call the handleDelete function passed from the parent component
-      handleDelete(id);
-    };
+   
   
     // Define the columns for the DataTable
     const columns = [
@@ -86,6 +89,22 @@ export default function ScheduleTable({ handleDelete }) {
         ),
       },
     ];
+    const deleteRow = async (id) => {
+      try {
+        await axios.delete(`/api/timeTable/${id}`);
+        setNotification("Timetable deleted successfully");
+        setVariant("danger");
+        setTimeout(() => {
+          setNotification("");
+        }, 3000);
+        
+        // Remove the deleted row from the data array
+        setData((prevData) => prevData.filter((row) => row.id !== id));
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    
   
     return (
       <div>
