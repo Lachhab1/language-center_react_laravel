@@ -52,16 +52,6 @@ Route::get('/parents', 'App\Http\Controllers\ParentController@index');
 Route::put('parents/{parent_}', 'App\Http\Controllers\ParentController@update');
 Route::get('/parents/{parent_}', 'App\Http\Controllers\ParentController@show');
 
-// Timetable routes
-Route::post('/timeTable', 'App\Http\Controllers\TimeTableController@store');
-Route::get('/timeTable', 'App\Http\Controllers\TimeTableController@index');
-Route::get('/timeTable/{id}', 'App\Http\Controllers\TimeTableController@show');
-Route::put('/timeTable/{timeTable}', 'App\Http\Controllers\TimeTableController@update');
-Route::delete('/timeTable/{timeTable}', 'App\Http\Controllers\TimeTableController@destroy');
-
-// Classroom routes
-Route::resource('/classroom', ClassroomController::class);
-Route::get('/classroom/{id}', 'App\Http\Controllers\ClassroomController@show');
 
 // Timetable routes
 Route::post('/timeTable', 'App\Http\Controllers\TimeTableController@store');
@@ -73,4 +63,3 @@ Route::delete('/timeTable/{timeTable}', 'App\Http\Controllers\TimeTableControlle
 // Classroom routes
 Route::resource('/classroom', ClassroomController::class);
 Route::get('/classroom/{id}', 'App\Http\Controllers\ClassroomController@show');
-
