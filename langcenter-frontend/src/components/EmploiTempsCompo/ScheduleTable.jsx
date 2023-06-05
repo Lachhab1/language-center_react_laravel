@@ -6,8 +6,9 @@ import { BsFillPencilFill } from 'react-icons/bs';
 import { MdDelete } from 'react-icons/md';
 import { UseStateContext } from '../../context/ContextProvider';
 import axios from '../../api/axios';
-
+import { Ellipsis } from 'react-awesome-spinners'
 export default function ScheduleTable({ handleDelete }) {
+  
   const { user } = UseStateContext();
   let x = '';
   if (user && user.role === 'admin') {
@@ -18,130 +19,109 @@ export default function ScheduleTable({ handleDelete }) {
     x = '/secretary';
   }
 
-  const [groupFilter, setGroupFilter] = useState('');
-  const [courseNameFilter, setCourseNameFilter] = useState('');
-  const [data, setData] = useState([]);
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  const fetchData = async () => {
-    try {
-      const response = await axios.get('/api/timeTable');
-      const fetchedData = response.data;
-      console.log('11', ...fetchedData);
-      // Fetch additional data for each row
-      const processedData = await Promise.all(
-        fetchedData.map(async (row) => {
-          const courseId = row.course_id;
-          const classId = row.class_id;
-          const classroomId = row.classroom_id;
-
-          try {
-            const [courseResponse, classResponse, classroomResponse] = await Promise.all([
-              axios.get(`/api/cours/${courseId}`),
-              axios.get(`/api/classes/${classId}`),
-              axios.get(`/api/classroom/${classroomId}`),
-            ]);
-
-            const courseTitle = courseResponse.data.title;
-            const className = classResponse.data.name;
-            const classroomTitle = classroomResponse.data.name;
-
-            return {
-              ...row,
-              courseTitle,
-              className,
-              classroomTitle,
-            };
-          } catch (error) {
-            // Handle error for individual request
-            console.error(error);
-            // Return a placeholder row or skip this row if necessary
-            return null;
-          }
-        })
-      );
-
-      // Remove any null values from processedData array
-      const filteredData = processedData.filter((row) => row !== null);
-
-      setData(filteredData);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  // Filtre les données en fonction du groupe et du nom du cours
-  const filteredData = data.filter((item) => {
-    const groupMatch = item.group && item.group.toLowerCase().includes(groupFilter.toLowerCase());
-    const courseNameMatch = item.courseTitle && item.courseTitle.toLowerCase().includes(courseNameFilter.toLowerCase());
-    return groupMatch && courseNameMatch;
-  });
-
-  const deleteRow = (id) => {
-    // Call the handleDelete function passed from the parent component
-    handleDelete(id);
-  };
-
-  // Define the columns for the DataTable
-  const columns = [
-    { name: 'id', selector: (row) => row.id, sortable: true },
-    { name: 'Course Name', selector: (row) => row.courseTitle, sortable: true },
-    { name: 'Class', selector: (row) => row.className, sortable: true },
-    { name: 'Classroom', selector: (row) => row.classroomTitle, sortable: true },
-    { name: 'Start Time', selector: (row) => row.startTime, sortable: true },
-    { name: 'Finish Time', selector: (row) => row.finishTime, sortable: true },
-    { name: 'Days', selector: (row) => row.days, sortable: true },
-    {
-      name: 'Action',
-      cell: (row) => (
-        <div style={{ display: 'flex', gap: '0px' }}>
-          <Link to={`${x}/schedule/EditSchedule/${row.id}`}>
-            <button style={{ border: 'none', background: 'none' }} title="Edit">
-              <BsFillPencilFill style={{ color: 'orange', fontSize: '16px' }} />
+  const [pending, setPending] = useState(true);
+    const [groupFilter, setGroupFilter] = useState('');
+    const [courseNameFilter, setCourseNameFilter] = useState('');
+    const [data, setData] = useState([]);
+  
+    useEffect(() => {
+      fetchData();
+    }, []);
+  
+    const fetchData = async () => {
+      try {
+        setPending(true); // Set pending to true before fetching data
+        const response = await axios.get('/api/timeTable');
+        const fetchedData = response.data;
+        setData(fetchedData);
+        setPending(false); // Set pending to false after data is fetched
+      } catch (error) {
+        console.error(error);
+        setPending(false); // Set pending to false in case of an error
+      }
+    };
+  
+    // Filter the data based on group and course name
+    const filteredData = data.filter((item) => {
+      const groupMatch = item.class_name && item.class_name.toLowerCase().includes(groupFilter.toLowerCase());
+      const courseNameMatch = item.course_title && item.course_title.toLowerCase().includes(courseNameFilter.toLowerCase());
+      return groupMatch && courseNameMatch;
+    });
+  
+    const deleteRow = (id) => {
+      // Call the handleDelete function passed from the parent component
+      handleDelete(id);
+    };
+  
+    // Define the columns for the DataTable
+    const columns = [
+      { name: 'id', selector: (row) => row.id, sortable: true },
+      { name: 'Course Name', selector: (row) => row.course_title, sortable: true },
+      { name: 'Class', selector: (row) => row.class_name, sortable: true },
+      { name: 'Classroom', selector: (row) => row.classroom_name, sortable: true },
+      { name: 'Start Time', selector: (row) => row.startTime, sortable: true },
+      { name: 'Finish Time', selector: (row) => row.finishTime, sortable: true },
+      {
+        name: 'Days',
+        selector: (row) => {
+          const days = typeof row.days === 'string' ? JSON.parse(row.days) : row.days;
+          return Array.isArray(days) ? days.join(', ') : '';
+        },
+        sortable: true,
+      },
+      
+      {
+        name: 'Action',
+        cell: (row) => (
+          <div style={{ display: 'flex', gap: '0px' }}>
+            <Link to={`${x}/schedule/EditSchedule/${row.id}`}>
+              <button style={{ border: 'none', background: 'none' }} title="Edit">
+                <BsFillPencilFill style={{ color: 'orange', fontSize: '16px' }} />
+              </button>
+            </Link>
+            <button style={{ border: 'none', background: 'none' }} onClick={() => deleteRow(row.id)} title="Delete">
+              <MdDelete style={{ color: 'red', fontSize: '20px' }} />
             </button>
+          </div>
+        ),
+      },
+    ];
+  
+    return (
+      <div>
+        <div className="d-flex justify-content-around">
+          {/* Search field for course name */}
+          <input
+            style={{ backgroundColor: 'rgba(221, 222, 238, 0.5)', border: 'none', borderRadius: '8px' }}
+            type="text"
+            placeholder="Search Course Name"
+            value={courseNameFilter}
+            onChange={(e) => setCourseNameFilter(e.target.value)}
+          />
+          {/* Search field for group */}
+          <input
+            style={{ backgroundColor: 'rgba(221, 222, 238, 0.5)', border: 'none', borderRadius: '8px' }}
+            type="text"
+            placeholder="Search by Class"
+            value={groupFilter}
+            onChange={(e) => setGroupFilter(e.target.value)}
+          />
+          <Link to="/schedule/AddSchedule">
+            <Button className="" variant="danger" isDisabled={false} size="md" value="Add Schedule" handleSmthg={() => console.log('chibakiya')} />
           </Link>
-          <button style={{ border: 'none', background: 'none' }} onClick={() => deleteRow(row.id)} title="Delete">
-            <MdDelete style={{ color: 'red', fontSize: '20px' }} />
-          </button>
         </div>
-      ),
-    },
-  ];
-
-  return (
-    <div>
-      <div className="d-flex justify-content-around">
-        {/* Champ de recherche pour le nom du cours */}
-        <input
-          style={{ backgroundColor: 'rgba(221, 222, 238, 0.5)', border: 'none', borderRadius: '8px' }}
-          type="text"
-          placeholder="Search Course Name"
-          value={courseNameFilter}
-          onChange={(e) => setCourseNameFilter(e.target.value)}
+        <DataTable
+          columns={columns}
+          data={filteredData}
+          progressPending={pending}
+          progressComponent={<Ellipsis  size={64}
+              color='#D60A0B'
+              sizeUnit='px' />}
+          highlightOnHover
+          striped
+          noDataComponent="No matching records found."
         />
-        {/* Champ de recherche pour le groupe */}
-        <input
-          style={{ backgroundColor: 'rgba(221, 222, 238, 0.5)', border: 'none', borderRadius: '8px' }}
-          type="text"
-          placeholder="Search by Class"
-          value={groupFilter}
-          onChange={(e) => setGroupFilter(e.target.value)}
-        />
-        <Link to="/schedule/AddSchedule">
-          <Button className="" variant="danger" isDisabled={false} size="md" value="Add Schedule" handleSmthg={() => console.log('chibakiya')} />
-        </Link>
       </div>
-      <DataTable
-        columns={columns}
-        data={filteredData}
-        pagination
-        highlightOnHover
-        striped
-        noDataComponent="No matching records found."
-      />
-    </div>
-  );
-}
+    );
+  }
+  
