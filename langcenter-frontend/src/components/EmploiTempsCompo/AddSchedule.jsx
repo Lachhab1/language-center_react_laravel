@@ -64,7 +64,7 @@ export default function AddSchedule() {
           setTimeout(() => {
             setNotification('');
           }, 3000);
-          navigate(`/schedule`);
+          navigate(`${x}/schedule`);
         })
         .catch((error) => {
           if (error.response && error.response.status === 422) {
