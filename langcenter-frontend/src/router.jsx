@@ -64,6 +64,7 @@ import SecretaryLayout from "./layouts/secretarylayout/SecretaryLayout";
 import DashboardDirecteur from "./views/DashboardDirecteur";
 import DashbordSec from "./components/DashbordSec/DashbordSec" ;
 import DirecteurLayout from "./layouts/directeurlayout/DirecteurLayout";
+import ScheduleTable from "./components/EmploiTempsCompo/ScheduleTable";
 
 const router = createBrowserRouter([
         {
@@ -633,7 +634,7 @@ const router = createBrowserRouter([
                 path:"/",
                 children : [{
                     path: "/director/schedule",
-                    element: <EmploiTemps/>
+                    element: <ScheduleTable/>
                 },
                 {
                     path: "/director/schedule/AddSchedule",
@@ -649,7 +650,7 @@ const router = createBrowserRouter([
             {
                 path: "/director/settings",
                 element: <Settings/>
-            },
+            }
         ]
 
     },

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import Card from '../components/DashboardCardsCompo/Card';
 import student from '../images/icons/student4dash.png';
 import teacher from '../images/icons/teacher4dash.png';
@@ -10,10 +10,25 @@ import BarChart from '../components/DashboardCardsCompo/BarChart';
 import TimetableScheduler from '../components/DashboardCardsCompo/TimetableScheduler';
 import '../components/DashboardCardsCompo/charts.css';
 import { UseStateContext } from '../context/ContextProvider';
+import axios from "../api/axios"
 
 const Dashboard = () => {
-  const maleCount = 30;
-  const femaleCount = 20;
+  const [femaleCount, setFemaleCount] = useState(0);
+  const [maleCount, setMaleCount] = useState(0);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('/api/number');
+        setFemaleCount(response.data.femaleCount);
+        setMaleCount(response.data.maleCount);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchData();
+  }, []);
+  
+
   const { user,cardsData } = UseStateContext();
 
   const [chartData, setChartData] = useState({
@@ -88,7 +103,7 @@ const Dashboard = () => {
           <BarChart data={chartData.courses} />
         </div>
         <div className='col-11 mx-auto mb-4 Charts'>
-        <TimetableScheduler data={timetableData} />
+        {/* <TimetableScheduler data={timetableData} /> */}
         </div>
         </div>
     </div>

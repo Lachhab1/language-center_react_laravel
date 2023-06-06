@@ -82,7 +82,7 @@ export default function DashboardSec() {
             <BarChart data={chartData.courses} />
           </div>
           <div className='col-11 mx-auto mb-4 Charts'>
-            <TimetableScheduler data={timetableData} />
+            {/* <TimetableScheduler data={timetableData} /> */}
           </div>
         </div>
       </div>

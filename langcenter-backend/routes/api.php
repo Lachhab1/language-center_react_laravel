@@ -64,7 +64,6 @@ Route::put('/timeTable/{timeTable}', 'App\Http\Controllers\TimeTableController@u
 Route::delete('/timeTable/{timeTable}', 'App\Http\Controllers\TimeTableController@destroy');
 
 // Classroom routes
-Route::resource('/classroom', ClassroomController::class);
-Route::get('/classroom/{id}', 'App\Http\Controllers\ClassroomController@show');
+Route::apiResource('/classroom', ClassroomController::class);
 //number for cards
 Route::get('/number', 'App\Http\Controllers\NumberController@index');

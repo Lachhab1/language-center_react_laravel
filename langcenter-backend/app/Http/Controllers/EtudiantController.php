@@ -38,6 +38,7 @@ class EtudiantController extends Controller
             'parent_date_naissance' => 'date',
             'parent_email' => 'email',
             'parent_adresse' => 'string',
+            'parent_telephone' => 'string|max:13|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
         ]);
         $etudiant = new Etudiant();
         $etudiant->nom = $data['nom'];

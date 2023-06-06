@@ -125,7 +125,7 @@ export default function ScheduleTable({ handleDelete }) {
             value={groupFilter}
             onChange={(e) => setGroupFilter(e.target.value)}
           />
-          <Link to="/schedule/AddSchedule">
+          <Link to={`${x}/schedule/AddSchedule`}>
             <Button className="" variant="danger" isDisabled={false} size="md" value="Add Schedule" handleSmthg={() => console.log('chibakiya')} />
           </Link>
         </div>

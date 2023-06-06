@@ -4,15 +4,16 @@ import { useEffect } from 'react';
 import axios from '../../api/axios';
 
 import DataTable from 'react-data-table-component';
-
+import { Ellipsis } from 'react-awesome-spinners';
 
 export default function  Inscription()
 {
 
     //fetch data from api
     const [data,setData]=useState([]);
+    const [pending, setPending] = useState(true);
     useEffect(()=>{
-       axios.get('/api/inscrire-classes').then((response)=>{
+       const fetchData = async() =>axios.get('/api/inscrire-classes').then((response)=>{
         console.log(response.data.data);
         setData(
             response.data.data.map((row)=>({
@@ -26,8 +27,16 @@ export default function  Inscription()
             }))
 
         );
+         }).catch((error)=>{
+            console.log(error);
+        });
+        setTimeout(async() => {
+            await fetchData();
+            setPending(false);
+            }
+                , 200);
         
-        })
+        
         
     },[])
     const col=[
@@ -82,7 +91,8 @@ export default function  Inscription()
                     paginationPerPage={5}
                     paginationRowsPerPageOptions={[5, 10, 15, 20, 25, 30]}
                     dense
-
+                    progressPending={pending}
+                    progressComponent={<Ellipsis />}
             >
              </DataTable>
         </div>

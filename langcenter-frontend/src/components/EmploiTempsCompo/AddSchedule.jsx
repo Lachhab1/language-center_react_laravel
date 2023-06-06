@@ -64,7 +64,7 @@ export default function AddSchedule() {
           setTimeout(() => {
             setNotification('');
           }, 3000);
-          navigate(`/schedule`);
+          navigate(`${x}/schedule`);
         })
         .catch((error) => {
           if (error.response && error.response.status === 422) {
@@ -130,9 +130,12 @@ export default function AddSchedule() {
 
   useEffect(() => {
     axios.get('/api/classroom').then((res) => {
-
-
-      setClassroomsData(res.data);
+      setClassroomsData(
+        res.data.data.map((classroom) => ({
+          id: classroom.id,
+          name: `${classroom.class_room}`,
+        }))
+      );
     });
 
   }, []);
