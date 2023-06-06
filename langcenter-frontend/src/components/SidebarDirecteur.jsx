@@ -54,7 +54,7 @@ export default function SidebarDirecteur() {
                                 <ul className="collapse
                         " id="dropFees" data-bs-parent="#menu" >
                                     <Nav.Item ><NavLink className="a nav-link link-light" to="/director/fees/teacher">Teacher fees </NavLink></Nav.Item>
-                                    <Nav.Item ><NavLink className="a nav-link link-light" to="/director/fees/student">Student fees</NavLink></Nav.Item>
+                                    <Nav.Item ><NavLink className="a nav-link link-light" to="/director/fees/student">Student Earnings</NavLink></Nav.Item>
                                 </ul>
                             </Nav.Item>
                             :

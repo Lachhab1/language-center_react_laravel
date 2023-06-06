@@ -73,7 +73,7 @@ export default function EditFees()
      // console.log(formData.status+' '+formData.date+' '+formData.amount)
       return (
   <div>
-    <h1>Edit Fees</h1>
+    <h1>Edit Income</h1>
 
     <form onSubmit={formik.handleSubmit}>
       <div className="row">

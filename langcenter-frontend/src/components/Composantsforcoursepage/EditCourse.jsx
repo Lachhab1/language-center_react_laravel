@@ -76,7 +76,7 @@ export default function EditCourse() {
   return (
     <div className='row'>
       <form onSubmit={formik.handleSubmit} className='addCourse'>
-        <h1>Add Course</h1>
+        <h1>Edit Course</h1>
 
 
         <div className='mb-3 col-4'>

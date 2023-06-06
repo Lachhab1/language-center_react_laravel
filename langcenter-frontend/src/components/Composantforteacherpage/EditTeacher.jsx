@@ -113,7 +113,7 @@ export default function EditTeacher() {
 
   return (
     <Form onSubmit={formik.handleSubmit} className='addTeacher'>
-      <h1>Add New Teacher</h1>
+      <h1>Edit Teacher</h1>
 
       <Row>
         <Col md={3} className='mb-3'>
