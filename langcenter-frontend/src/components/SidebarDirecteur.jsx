@@ -24,10 +24,6 @@ export default function SidebarDirecteur() {
     const handleOpen = () => {
         setOpenSidebar((prev) => !prev);
     }
-    const handleLocalStorage = () => {
-        localStorage.removeItem('ACCES_TOKEN');
-        window.location.href = '/';
-    }
     return (
         <div style={{ width: openSidebar ? "20%" : "auto" }} className="">
 
@@ -44,6 +40,9 @@ export default function SidebarDirecteur() {
                 <div className="Sidebar h-100 fs-6">
                     <Nav className="flex-column" defaultActiveKey="/director/dashboard" >
                         <Nav.Item><NavLink className="a nav-link link-light" to="/director/dashboard"><img src={dashboard} />{openSidebar && "Dashboard"}</NavLink></Nav.Item>
+                        <Nav.Item><NavLink className="a nav-link link-light" to="/director/student"><img src={etudiant} />{openSidebar && "Student"}</NavLink></Nav.Item>
+                        <Nav.Item><NavLink className="a nav-link link-light" to="/director/parent"><img src={parents} />{openSidebar && "Parent"}</NavLink></Nav.Item>
+                        <Nav.Item><NavLink className="a nav-link link-light" to="/director/class"><img src={groupes} />{openSidebar && "Class"}</NavLink></Nav.Item>
                         <Nav.Item><NavLink className="a nav-link link-light" to="/director/course"><img src={cours} />{openSidebar && "Course"}</NavLink></Nav.Item>
                         <Nav.Item><NavLink className="a nav-link link-light" to="/director/teacher"><img src={enseignant} />{openSidebar && "Teacher"}</NavLink></Nav.Item>
                         <Nav.Item><NavLink className="a nav-link link-light" to="/director/classroom"><img src={salles} />{openSidebar && "Classroom"}</NavLink></Nav.Item>
@@ -55,7 +54,7 @@ export default function SidebarDirecteur() {
                                 <ul className="collapse
                         " id="dropFees" data-bs-parent="#menu" >
                                     <Nav.Item ><NavLink className="a nav-link link-light" to="/director/fees/teacher">Teacher fees </NavLink></Nav.Item>
-                                    <Nav.Item ><NavLink className="a nav-link link-light" to="/director/fees/student">Student fees</NavLink></Nav.Item>
+                                    <Nav.Item ><NavLink className="a nav-link link-light" to="/director/fees/student">Student Earnings</NavLink></Nav.Item>
                                 </ul>
                             </Nav.Item>
                             :
@@ -65,10 +64,7 @@ export default function SidebarDirecteur() {
 
     
 
-                        <Nav.Item><NavLink className="a nav-link link-light" to="/director/student"><img src={etudiant} />{openSidebar && "Student"}</NavLink></Nav.Item>
-                        <Nav.Item><NavLink className="a nav-link link-light" to="/director/parent"><img src={parents} />{openSidebar && "Parent"}</NavLink></Nav.Item>
-                        <Nav.Item><NavLink className="a nav-link link-light" to="/director/class"><img src={groupes} />{openSidebar && "Class"}</NavLink></Nav.Item>
-
+                        
                         {/* Presences le span pour cacher ces elements a fin de remplacer le collapse avec dropdown dans les petits ecrans */}
 
                         {openSidebar ?

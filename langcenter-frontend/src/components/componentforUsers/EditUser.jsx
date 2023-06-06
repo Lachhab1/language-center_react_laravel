@@ -110,7 +110,7 @@ export default function EditUser() {
   return (
     <div>
          <Form onSubmit={formik.handleSubmit} noValidate className='addTeacher'>
-            <h1>Add New User</h1>
+            <h1>Edit User</h1>
             <Row>
                 < Form.Group
               as={Col}

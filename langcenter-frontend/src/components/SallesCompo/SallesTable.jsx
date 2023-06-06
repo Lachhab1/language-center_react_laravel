@@ -1,13 +1,37 @@
-import React ,{useState}from "react";
+import React ,{useState,useEffect}from "react";
 import  {Link} from 'react-router-dom'
 import DataTable from "react-data-table-component";
 import { BsFillPencilFill } from 'react-icons/bs';
 import { MdDelete } from 'react-icons/md';
 import { FaEye } from 'react-icons/fa';
 import { UseStateContext } from "../../context/ContextProvider";
+import axios from "../../api/axios";
+import { Ellipsis } from 'react-awesome-spinners';
+
 
 export default function SallesTable() {
-        const {user} = UseStateContext()
+        const {user} = UseStateContext();
+        const [pending, setPending] = useState(true);
+        const [classrooms, setClassrooms] = useState([]);
+        useEffect(() => {
+            const fetchData = async() => axios.get("/api/classroom").then((res) => {
+                console.log(res.data.data);
+                setClassrooms(
+                    res.data.data.map((item) => {
+                        return {
+                            id: item.id,
+                            name: item.class_room,
+                            capacity: item.capacity,
+                        }; 
+                    })
+                );
+            });
+            setTimeout(async() => {
+                await fetchData();
+                setPending(false);
+            }
+            , 200);
+        }, []);
             let x = ""
         if (user && user.role==='admin')
         {
@@ -30,9 +54,6 @@ const filteredData = data.filter((item)=>{
     return nameMatch;
 });
 
-function deleteRow(prop){
-    console.log("delete row with id : "+prop);
-}
 const columns = [
     { name: "id", selector: row => row.id, sortable: true },
     { name: "name", selector: row => row.name, sortable: true },
@@ -71,10 +92,13 @@ const columns = [
             </div>
             <DataTable
                 columns={columns}
-                data={filteredData}
+                data={classrooms}
                 fixedHeader 
                 pagination
-                noDataComponent="No data founds"
+                    progressPending={pending}
+                    progressComponent={<Ellipsis  size={64}
+                    color='#D60A0B'
+                    sizeUnit='px' />} 
             />
         </div>
     );

@@ -1,6 +1,8 @@
 import { useParams } from 'react-router-dom';
 import { useState,useEffect } from 'react';
 import axios from '../../api/axios'
+import imgTeacher from "../../images/teacher.png"
+import { Image } from 'react-bootstrap';
 
 export default function EnseignantDetails()
 {
@@ -55,8 +57,9 @@ export default function EnseignantDetails()
 
         <div className="Container">
             <div className="row">
-                <div className="col-5">
-                    place photo
+                    <div className="col-5">
+                    <Image width={"50%"} className="ms-5"  src={imgTeacher} roundedCircle>
+                        </Image>
                 </div>
                 <div className="col">
                     <h5>{Prof.nom} {Prof.prenom}</h5>

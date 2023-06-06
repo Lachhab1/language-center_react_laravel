@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\classroom;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ClassRoomResource;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Storage;
@@ -18,31 +19,32 @@ class ClassroomController extends Controller
     public function index()
     {
         //
-        return classroom::select('id','name','capacity')->get();
+        $classrooms = classroom::all();
+        return ClassRoomResource::collection($classrooms);
     }
 
- 
+
     /**
      * Show the form for creating a new resource.
      */
-//public function create()
-  //  {
-        //
+    //public function create()
+    //  {
+    //
     //}
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {//store
-        $request->validate([ 
-            'name'=> 'required',
+    { //store
+        $request->validate([
+            'name' => 'required',
             'capacity' => 'required',
         ]);
 
         classroom::create($request->post());
         return response()->json([
-            'message'=>'Classroom added successfully'
+            'message' => 'Classroom added successfully'
         ]);
     }
     /**
@@ -51,35 +53,33 @@ class ClassroomController extends Controller
     public function show($id)
     {
         $classroom = Classroom::findOrFail($id);
-    
-        return response()->json([
-            'classroom' => $classroom
-        ]);
+
+        return new ClassRoomResource($classroom);
     }
-    
+
 
     /**
      * Show the form for editing the specified resource.
      */
-  //  public function edit(classroom $classroom)
-  //  {
-        //
-  //  }
+    //  public function edit(classroom $classroom)
+    //  {
+    //
+    //  }
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, classroom $classroom)
     {
-        $request->validate([ 
-            'name'=> 'required',
-            'capacity'=>'required',
+        $request->validate([
+            'name' => 'required',
+            'capacity' => 'required',
         ]);
 
         $classroom->fill($request->post())->update();
-        $classroom -> save();
+        $classroom->save();
         return response()->json([
-            'message'=>'Classroom updated successfully'
+            'message' => 'Classroom updated successfully'
         ]);
     }
 
@@ -90,7 +90,7 @@ class ClassroomController extends Controller
     {
         $classroom->delete();
         return response()->json([
-            'message'=>'Classroom deleted successfully'
+            'message' => 'Classroom deleted successfully'
         ]);
     }
 }

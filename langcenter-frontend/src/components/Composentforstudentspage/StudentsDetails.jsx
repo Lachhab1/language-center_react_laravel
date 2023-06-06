@@ -1,5 +1,5 @@
 import Image from 'react-bootstrap/Image'
-import imgStudent from "../../images/photo-profile.png"
+import imgStudent from "../../images/student.png"
 import { useEffect,useState } from "react";
 import { UseStateContext } from "../../context/ContextProvider";
 import {Form,Col,Row} from "react-bootstrap";

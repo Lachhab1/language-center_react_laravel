@@ -3,7 +3,7 @@ export default function PaiementsEtu(){
     return(
         <div className="Container">
             <div className="row">
-            <h2>Students fees</h2>
+            <h2>Students Earnings</h2>
             <TableFeesEtud />
             </div>
         </div>

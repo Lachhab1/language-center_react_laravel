@@ -133,44 +133,40 @@ export default function TableFeesEtud()
       ),
         }
     ]
-    const Data=[ {id:"1",name:"sopa",gender:"male",class:"4",status:"unpaid",iamount:"1000",aamount:"800",pamount:"500",ramount:"300",date:"07-05-2022",action: ""},
-    {id:"2",name:"sopa1",gender:"male",class:"5",status:"paid",iamount:"1000",aamount:"900",pamount:"900",ramount:"0",date:"07-05-2022",action: ""},
-    ,
-  ]
 
-    const [Namefilter,setNamefilter]=useState(Data)
-    function handelfilterbyname(event)
-    {
-      const newData=Data.filter(row =>{
-        return row.name.toLowerCase().includes(event.target.value.toLowerCase())
-      })
-      setNamefilter(newData)
-    }
-    const [Classfilter,setClassfilter]=useState(Data)
-    function handelfilterbyClass(event)
-    {
-      const newData=Data.filter(row =>{
-        return row.class.toLowerCase().includes(event.target.value.toLowerCase())
-      })
-      setNamefilter(newData)
-    }
+    // const [Namefilter,setNamefilter]=useState(Data)
+    // function handelfilterbyname(event)
+    // {
+    //   const newData=Data.filter(row =>{
+    //     return row.name.toLowerCase().includes(event.target.value.toLowerCase())
+    //   })
+    //   setNamefilter(newData)
+    // }
+    // const [Classfilter,setClassfilter]=useState(Data)
+    // function handelfilterbyClass(event)
+    // {
+    //   const newData=Data.filter(row =>{
+    //     return row.class.toLowerCase().includes(event.target.value.toLowerCase())
+    //   })
+    //   setNamefilter(newData)
+    // }
 
 
-    const [StatusFilter, setStatusFilter] = useState(Data);
+    // const [StatusFilter, setStatusFilter] = useState(Data);
 
-    function handleFilterByStatus(event)
-    {
-      const selectedStatus = event.target.value.toLowerCase();
+    // function handleFilterByStatus(event)
+    // {
+    //   const selectedStatus = event.target.value.toLowerCase();
 
-      if (selectedStatus === 'all') {
-        // Afficher toutes les lignes
-        setNamefilter(Data);
-      } else {
-        // Filtrer les lignes en fonction du statut
-        const newData = Data.filter((row) => row.status.toLowerCase() === selectedStatus);
-        setNamefilter(newData);
-      }
-    }
+    //   if (selectedStatus === 'all') {
+    //     // Afficher toutes les lignes
+    //     setNamefilter(Data);
+    //   } else {
+    //     // Filtrer les lignes en fonction du statut
+    //     const newData = Data.filter((row) => row.status.toLowerCase() === selectedStatus);
+    //     setNamefilter(newData);
+    //   }
+    // }
     
   
 
@@ -178,21 +174,21 @@ export default function TableFeesEtud()
     return(
         <div>
             
-            <div className="row offset-1">
+            {/* <div className="row offset-1">
               <div className='col'>
-              <input type="text" className="form-control" onChange={handelfilterbyname} placeholder="Search by Name"  />
+              <input type="text" className="form-control"  placeholder="Search by Name"  />
               </div>
               <div className='col'>
-              <input type="text" className="form-control" onChange={handelfilterbyClass} placeholder="Search by Class"  />
+              <input type="text" className="form-control"  placeholder="Search by Class"  />
               </div>
               <div className='col'>
-              <select className="form-control" onChange={handleFilterByStatus}>
+              <select className="form-control" >
                             <option value="all">All</option>
                             <option value="paid">Paid</option>
                             <option value="unpaid">Unpaid</option>
               </select>
               </div>
-            </div>
+            </div> */}
             <DataTable
                     columns={col}
                     data={data}

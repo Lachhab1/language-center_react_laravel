@@ -86,9 +86,12 @@ const AddGroup = () => {
   }, []);
 
   const availableLevels = [
-    { id: '1', name: 'Level 1' },
-    { id: '2', name: 'Level 2' },
-    { id: '3', name: 'Level 3' },
+    { id: '1', name: 'A2' },
+    { id: '2', name: 'A1' },
+    { id: '3', name: 'B2' },
+    { id: '4', name: 'B1' },
+    { id: '5', name: 'C2' },
+    { id: '6', name: 'C1' },
     // Add more levels as needed
   ];
   //get data from api

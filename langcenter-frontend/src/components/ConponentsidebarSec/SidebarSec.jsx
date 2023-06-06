@@ -80,7 +80,7 @@ export default function SidebarSec() {
                     <Nav.Item className="nav-item link-light"><a className="a nav-link link-light  dropdown-toggle" href="#dropFees" id="menu" data-bs-toggle="collapse"><img src={paiements} />{openSidebar && "Paiement"}</a>
                         <ul className="collapse
                         " id="dropFees" data-bs-parent="#menu" >
-                            <Nav.Item ><NavLink className="a nav-link link-light" to="/secretary/fees/student">Student fees</NavLink></Nav.Item>
+                            <Nav.Item ><NavLink className="a nav-link link-light" to="/secretary/fees/student">Student Earnings</NavLink></Nav.Item>
 
                         </ul>
                     </Nav.Item>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Avatar from 'react-avatar-edit';
-import photoProfile from '../../images/photo-profile.png'
+import photoProfile from '../../images/user.png'
 
 
 

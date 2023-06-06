@@ -18,6 +18,8 @@ class NumberController extends Controller
         $parents = Parent_::all()->count();
         $total_payment = 0;
         $payments = Payment::all();
+        $femaleCount = Etudiant::where('sexe', 'female')->count();
+        $maleCount = $etudiants - $femaleCount;
         foreach ($payments as $payment) {
             $total_payment += $payment->amount;
         }
@@ -25,7 +27,9 @@ class NumberController extends Controller
             'teachers' => $teachers,
             'etudiants' => $etudiants,
             'parents' => $parents,
-            'total_payment' => $total_payment
+            'total_payment' => $total_payment,
+            'femaleCount' => $femaleCount,
+            'maleCount' => $maleCount,
         ]);
     }
 }

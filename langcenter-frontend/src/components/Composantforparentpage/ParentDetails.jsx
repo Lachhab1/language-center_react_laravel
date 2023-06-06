@@ -1,6 +1,6 @@
 import Image from 'react-bootstrap/Image'
 import ListGroup from 'react-bootstrap/ListGroup';
-import imgStudent from "../../images/photo-profile.png"
+import imgStudent from "../../images/parent.png"
 import { useState,useEffect } from 'react';
 import { UseStateContext } from '../../context/ContextProvider';
 import axios from '../../api/axios';

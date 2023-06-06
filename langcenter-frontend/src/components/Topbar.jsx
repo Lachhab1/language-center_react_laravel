@@ -1,6 +1,6 @@
 import React from "react"
 import { Link } from "react-router-dom" 
-import photo_profile from "../images/photo-profile.png"
+import photo_profile from "../images/user.png"
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { Container, Nav, Navbar } from "react-bootstrap";
 import { EnvelopeIcon,BellIcon } from '@heroicons/react/24/outline'
