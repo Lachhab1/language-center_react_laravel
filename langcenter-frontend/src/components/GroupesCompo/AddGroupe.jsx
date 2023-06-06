@@ -125,11 +125,11 @@ const AddGroup = () => {
     >
       {(formik) => (
         <Form onSubmit={formik.handleSubmit} className="addGroup">
-          <h1>Add Group</h1>
+          <h1>Add Class</h1>
 
           <Row>
             <Col md={6} className="mb-3">
-              <Form.Label htmlFor="groupName">Group Name*</Form.Label>
+              <Form.Label htmlFor="groupName">Class Name*</Form.Label>
               <Form.Control
                 id="groupName"
                 type="text"
@@ -286,7 +286,7 @@ const AddGroup = () => {
 
   
             <Button type="submit" variant="primary">
-              Add Group
+              Add Class
             </Button>
           </Form>
         )}

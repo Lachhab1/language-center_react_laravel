@@ -27,9 +27,9 @@ export default function ViewGroupe() {
 
   return (
     <div>
-      <h1>Group Details</h1>
+      <h1>Class Details</h1>
       <h2>ID: {group.id}</h2>
-      <h2>Group Name: {group.groupName}</h2>
+      <h2>Class Name: {group.groupName}</h2>
       <h2>Course Name: {group.courseName}</h2>
       <h2>Course Level: {group.courseLevel}</h2>
       <h2>Teacher: {group.teacher}</h2>
