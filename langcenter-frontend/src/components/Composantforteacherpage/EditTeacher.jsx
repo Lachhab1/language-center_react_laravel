@@ -293,7 +293,7 @@ export default function EditTeacher() {
       </Row>
 
       <Button type='submit' className='btn btn-primary'>
-        Add Teacher
+        Edit Teacher
       </Button>
     </Form>
   );

@@ -273,7 +273,7 @@ export default function AddTeacher() {
       </Row>
 
       <Button type='submit' className='btn btn-primary'>
-        update Teacher
+        Add Teacher
       </Button>
     </Form>
   );
