@@ -6,6 +6,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\InscrireClassController;
 use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\ParentController;
+use App\Http\Controllers\EtudiantController;
+use App\Http\Controllers\CoursController;
 
 
 
@@ -63,3 +66,5 @@ Route::delete('/timeTable/{timeTable}', 'App\Http\Controllers\TimeTableControlle
 // Classroom routes
 Route::resource('/classroom', ClassroomController::class);
 Route::get('/classroom/{id}', 'App\Http\Controllers\ClassroomController@show');
+//number for cards
+Route::get('/number', 'App\Http\Controllers\NumberController@index');

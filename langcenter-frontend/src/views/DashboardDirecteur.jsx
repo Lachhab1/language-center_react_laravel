@@ -12,8 +12,10 @@ import '../components/DashboardCardsCompo/charts.css';
 import InscriptionTable from '../components/InscStudDash/Inscription';
 import { Button } from 'react-bootstrap';
 import Inscription from '../components/InscStudDash/AddInscription';
+import { UseStateContext } from '../context/ContextProvider';
 
 const DashboardDirecteur = () => {
+  const {user,cardsData} = UseStateContext();
   const [showModal, setShowModal] = useState(false);
   const handleModalToggle = () => {
   setShowModal(!showModal);
@@ -46,13 +48,13 @@ const DashboardDirecteur = () => {
     <div className=''>
       <div className='row justify-content-around mb-4'>
         <div className='col'>
-          <Card title='Students' icon={student} />
+          <Card title='Students' icon={student} data={cardsData.students} />
         </div>
         <div className='col'>
-          <Card title='Teachers' col-md- icon={teacher} />
+          <Card title='Teachers' col-md- icon={teacher} data={cardsData.teachers} />
         </div>
         <div className='col'>
-          <Card title='Parents' icon={parents} />
+          <Card title='Parents' icon={parents} data={cardsData.parents} />
         </div>
       </div>
       <div className='col-12 mx-auto mb-4 card'>

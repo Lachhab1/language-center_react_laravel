@@ -13,9 +13,11 @@ const stateContext = createContext({
     setToken: () => {},
     login: () => {},
     logout: () => {},
-    setErrors: () => {}
+    setErrors: () => {},
+    cardsData: null,
 })
 export const ContextProvider = ({children}) => {
+    const [cardsData,setCardsData] = useState([]);
     const [variant,setVariant] = useState(null);
     const [token,_setToken] = useState(localStorage.getItem("ACCESS_TOKEN") ? localStorage.getItem("ACCESS_TOKEN") : null);
     const [user,setUser] = useState({});
@@ -68,7 +70,26 @@ export const ContextProvider = ({children}) => {
         }
     }
     useEffect(() => {
+        const getCards = async() => {
+        if(token)
+        {
+            const res = await axios.get('/api/number');
+            console.log(res?.data);
+            setCardsData(
+                {
+                    students: res?.data?.etudiants,
+                    teachers: res?.data?.teachers,
+                    parents: res?.data?.parents,
+                    payment: res?.data?.total_payment,
+                }
+            );
+        }
+        }
+        getCards();
+    },[]);
+    useEffect(() => {
         getUser();
+
     },[token]);
         return(
             <stateContext.Provider value={{
@@ -83,7 +104,8 @@ export const ContextProvider = ({children}) => {
             login,
             logout,
             errors,
-            setErrors
+            setErrors,
+            cardsData,
         }}>
             {children}
         </stateContext.Provider>

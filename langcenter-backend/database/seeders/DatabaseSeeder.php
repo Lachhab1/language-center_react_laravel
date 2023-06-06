@@ -64,5 +64,9 @@ class DatabaseSeeder extends Seeder
             'negotiated_price' => 1000,
             'payment_status' => 'paid',
         ]);
+        \App\Models\classroom::create([
+            'name' => 'A-1',
+            'capacity' => 30,
+        ]);
     }
 }

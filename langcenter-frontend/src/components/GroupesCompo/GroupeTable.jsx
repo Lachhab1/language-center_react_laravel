@@ -15,7 +15,6 @@ export default function ClassPage() {
   const [courseFilter, setCourseFilter] = useState('');
   const [classData,setClassData]=useState([]);
   const [pending, setPending] = useState(true);
-
 //data from api
 useEffect(() => {
     const timeout = setTimeout(async() => {
@@ -35,7 +34,7 @@ useEffect(() => {
                     endDate:datar.end_date,
                     students: datar.nb_etudiants,
                     course: datar.cours.title,
-                    teacher: datar.teacher.first_name + " " + datar.teacher.last_name,
+                    teacher: datar.teacher?.first_name + " " + datar.teacher?.last_name,
                     }
                   ])
             )

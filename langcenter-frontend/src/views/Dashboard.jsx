@@ -9,10 +9,12 @@ import LineChart from '../components/DashboardCardsCompo/LineChart';
 import BarChart from '../components/DashboardCardsCompo/BarChart';
 import TimetableScheduler from '../components/DashboardCardsCompo/TimetableScheduler';
 import '../components/DashboardCardsCompo/charts.css';
+import { UseStateContext } from '../context/ContextProvider';
 
 const Dashboard = () => {
   const maleCount = 30;
   const femaleCount = 20;
+  const { user,cardsData } = UseStateContext();
 
   const [chartData, setChartData] = useState({
     year: [
@@ -61,16 +63,16 @@ const Dashboard = () => {
     <div className=''>
       <div className='row justify-content-around'>
         <div className='col  mb-4'>
-          <Card  title='Students' icon={student} />
+          <Card  title='Students' icon={student} data={cardsData.students} />
         </div>
         <div className='col  mb-4'>
-          <Card title='Teachers' col-md- icon={teacher} />
+          <Card title='Teachers' col-md- icon={teacher} data={cardsData.teachers} />
         </div>
         <div className='col  mb-4'>
-          <Card title='Parents' icon={parents} />
+          <Card title='Parents' icon={parents} data={cardsData.parents} />
         </div>
         <div className='col  mb-4'>
-          <Card title='Earnings' icon={money} />
+          <Card title='Earnings' icon={money} data={cardsData.payment} />
         </div>
       </div>
         <div className='row'>

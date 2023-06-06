@@ -24,8 +24,8 @@ export default function Card({ title, icon, data }) {
           </div>
           <div className="mt-4 CardText">
             <h6 className="card-title">{title}</h6>
-            {title === 'Earnings' && <h2>{stat}DH</h2>}
-            {title !== 'Earnings' && <h2>{stat}</h2>}
+            {title === 'Earnings' && <h2>{data}DH</h2>}
+            {title !== 'Earnings' && <h2>{data}</h2>}
           </div>
         </div>
       </div>
