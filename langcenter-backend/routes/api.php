@@ -62,8 +62,14 @@ Route::get('/timeTable', 'App\Http\Controllers\TimeTableController@index');
 Route::get('/timeTable/{id}', 'App\Http\Controllers\TimeTableController@show');
 Route::put('/timeTable/{timeTable}', 'App\Http\Controllers\TimeTableController@update');
 Route::delete('/timeTable/{timeTable}', 'App\Http\Controllers\TimeTableController@destroy');
+Route::get('/timeTable', [TimeTableController::class, 'index']);
 
 // Classroom routes
-Route::apiResource('/classroom', ClassroomController::class);
-//number for cards
+Route::resource('/classroom', ClassroomController::class);
+Route::get('/classroom/', 'App\Http\Controllers\ClassroomController@index');
+Route::get('/classroom/{id}', 'App\Http\Controllers\ClassroomController@show');
+Route::post('/classroom', 'App\Http\Controllers\ClassroomController@store');
+Route::put('/classroom/{classroom}', 'App\Http\Controllers\ClassroomController@update');
+Route::delete('/classroom/{classroom}', 'App\Http\Controllers\ClassroomController@destroy');
+//number countroller
 Route::get('/number', 'App\Http\Controllers\NumberController@index');

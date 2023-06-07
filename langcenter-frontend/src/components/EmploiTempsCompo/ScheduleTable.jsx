@@ -10,9 +10,9 @@ import { useNavigate } from 'react-router-dom';
 
 import { Ellipsis } from 'react-awesome-spinners'
 export default function ScheduleTable({ handleDelete }) {
+  
+  
   const navigate = useNavigate();
-
-
   const {user,setNotification,setVariant} = UseStateContext()
   
  
