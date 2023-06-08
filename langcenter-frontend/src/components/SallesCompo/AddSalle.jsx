@@ -1,6 +1,24 @@
 import React from 'react';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
+import axios from '../../api/axios';
+import { useNavigate } from 'react-router-dom';
+import { UseStateContext } from '../../context/ContextProvider';
+
+export default function AddSalle() {
+const {user,setNotification, setVariant } = UseStateContext();
+const navigate = useNavigate();
+ let x = ""
+      if (user && user.role==='admin')
+      {
+          x = ""
+      } else if (user && user.role==='director')
+      {
+          x="/director"
+      }
+      else{
+          x="/secretary"
+      }
 
 const addSalleScheme = Yup.object().shape({
   name: Yup.string()
@@ -11,28 +29,47 @@ const addSalleScheme = Yup.object().shape({
     .required('Required'),
 });
 
-export default function AddSalle() {
   const handleSubmit = async (values) => {
-    try {
-      const response = await fetch('http://example.com/api/salles', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(values),
-      });
+    console.log("cococ",values)
 
-      if (response.ok) {
-        // La requête a réussi, vous pouvez effectuer des actions supplémentaires ici
-        console.log('Données enregistrées avec succès');
-      } else {
-        // La requête a échoué, gérer les erreurs ici
-        console.log('Erreur lors de l\'enregistrement des données');
-      }
-    } catch (error) {
-      console.log('Erreur lors de la communication avec le serveur', error);
-    }
+    const sendData = {
+      name: values.name,
+      capacity: values.capacity,
+    };
+  
+    axios.post('/api/classroom', sendData)
+      .then((res) => {
+        console.log(res.data);
+        setNotification('Classroom added successfully');
+        setVariant('success');
+        setTimeout(() => {
+          setNotification('');
+        }, 3000);
+        navigate(`${x}/classroom`);
+      })
+      .catch((error) => {
+        if (error.response && error.response.status === 422) {
+          // Handle specific error status code (422)
+          console.log(error.response.data); // Log the error response data
+          // Display an error message to the user
+          setNotification('Error: Invalid data');
+          setVariant('danger');
+          setTimeout(() => {
+            setNotification('');
+          }, 3000);
+        } else {
+          // Handle other errors
+          console.error(error);
+          // Display a generic error message to the user
+          setNotification('An error occurred');
+          setVariant('danger');
+          setTimeout(() => {
+            setNotification('');
+          }, 3000);
+        }
+      });
   };
+  
 
   return (
     <Formik

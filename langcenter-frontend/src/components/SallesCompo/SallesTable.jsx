@@ -10,9 +10,11 @@ import { Ellipsis } from 'react-awesome-spinners';
 
 
 export default function SallesTable() {
-        const {user} = UseStateContext();
+        const [data, setData] = useState([]); //table data
+        const {user,setNotification,setVariant} = UseStateContext();
         const [pending, setPending] = useState(true);
         const [classrooms, setClassrooms] = useState([]);
+        
         useEffect(() => {
             const fetchData = async() => axios.get("/api/classroom").then((res) => {
                 console.log(res.data.data);
@@ -32,6 +34,21 @@ export default function SallesTable() {
             }
             , 200);
         }, []);
+        const deleteRow = async (id) => {
+      try {
+        await axios.delete(`/api/classroom/${id}`);
+        setNotification("Classroom deleted successfully");
+        setVariant("danger");
+        setTimeout(() => {
+          setNotification("");
+        }, 3000);
+        
+        // Remove the deleted row from the data array
+        setData((prevData) => prevData.filter((row) => row.id !== id));
+      } catch (error) {
+        console.error(error);
+      }
+    };
             let x = ""
         if (user && user.role==='admin')
         {
@@ -44,11 +61,6 @@ export default function SallesTable() {
             x="/secretary"
         }
 const [nameFilter , setNameFilter] = useState('');
-const data = [
-    { id: "1", name: "18", capacity: "32" },
-    { id: "2", name: '1', capacity: "24" },
-    { id: "3", name: "r101", capacity: "60" }
-];
 const filteredData = data.filter((item)=>{
     const nameMatch = item.name.toLowerCase().includes(nameFilter.toLowerCase())
     return nameMatch;
@@ -60,23 +72,26 @@ const columns = [
     { name: "capacity", selector: row => row.capacity, sortable: true },
     { name: "actions", 
     cell: row => (
-        <div>
-           <Link to={`${x}/classroom/details/${row.id}`}>
-           <button style={{ border: 'none', background: 'none' }} title="details">
-              <FaEye style={{ color: 'lightBlue', fontSize: '16px' }} />
-            </button>
-           </Link>
+    <div>
+              <Link to={`${x}/classroom/details/${row.id}`}>
+                <button style={{ border: "none", background: "none" }} title="details">
+                  <FaEye style={{ color: "lightBlue", fontSize: "16px" }} />
+                </button>
+              </Link>
 
-           <Link to={`${x}/classroom/edit/${row.id}`}>
-            <button style={{ border: 'none', background: 'none' }} title="edit">
-              <BsFillPencilFill style={{ color: 'orange', fontSize: '15px' }} />
-            </button>
-           </Link>
-           <button style={{ border: 'none', background: 'none' }} onClick={() => deleteRow(row.id)} title="delete">
-            <MdDelete style={{ color: 'red', fontSize: '18px' }} />
-          </button>
-     
-        </div>
+              <Link to={`${x}/classroom/edit/${row.id}`}>
+                <button style={{ border: "none", background: "none" }} title="edit">
+                  <BsFillPencilFill style={{ color: "orange", fontSize: "15px" }} />
+                </button>
+              </Link>
+              <button
+                style={{ border: "none", background: "none" }}
+                onClick={() => deleteRow(row.id)}
+                title="delete"
+              >
+                <MdDelete style={{ color: "red", fontSize: "18px" }} />
+              </button>
+            </div>
     ) },
 ];
 
