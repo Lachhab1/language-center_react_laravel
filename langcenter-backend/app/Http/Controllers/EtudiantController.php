@@ -49,7 +49,6 @@ class EtudiantController extends Controller
         $etudiant->adresse = $data['adresse'];
         $etudiant->telephone = $data['telephone'];
         if ($request->has('underAge') && $request->underAge == true) {
-
             $parent = Parent_::where('cin', $request->parent_cin)->first();
             if ($parent) {
                 // If the parent exists, associate it with the etudiant

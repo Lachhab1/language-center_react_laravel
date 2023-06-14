@@ -45,9 +45,12 @@ function FormC() {
         phone: ``,
         guardfName:``,
         guardLName: ``,
-        guardOcup: ``,
+        guardGender: ``,
+        guardCin: ``,
         guardEmail: ``,
         guardPhone: ``,
+        guardBirthDate: ``,
+        guardAddress: ``,
         courseName: ``,
         courseFeesPaid: ``,
         negotiatedPrice: ``,
@@ -66,14 +69,17 @@ function FormC() {
       gender: yup.string().oneOf(['female','male']).required('required'),
       adress: yup.string().required('required'),
       dateofBirth: yup.date().required('required'),
-      adult: yup.boolean().oneOf[true],
+      adult: yup.boolean().oneOf[true,false],
       email: yup.string().email('Invalid email').required("required"),
       phone: yup.string().min(9,'to short to be a valid phone number').required('required'),
       guardfName: yup.string(),
       guardLName: yup.string(),
-      guardOcup: yup.string(),
+      guardCin: yup.string().min(2,'to short to be a valid CIN').max(8,'to long to be a valid CIN'),
       guardEmail: yup.string().email('invalid Email'),
       guardPhone: yup.string().min(9,'to short to be a valid phone number'),
+      guardGender: yup.string(),
+      guardBirthDate: yup.date(),
+      guardAddress: yup.string(),
       courseName: yup.string().oneOf(['english','talks']).required('required'),
       courseFeesPaid: yup.number().required('required'),
       negotiatedPrice: yup.number().required('required'),
@@ -100,7 +106,7 @@ function FormC() {
     let response2 = [];
     let response3 = [];
     console.log(formik.values);
-        const etudiantData = {
+        const adultData = {
       prenom: formik.values.firstName,
       nom: formik.values.lastName,
       date_naissance: formik.values.dateofBirth,
@@ -108,13 +114,30 @@ function FormC() {
       email: formik.values.email,
       telephone: formik.values.phone,
       adresse: formik.values.adress,
+      adulte: formik.values.adult,
       underAge: false,
+    } 
+    const etudiantData = adultData;
+    if (formik.values.adult === false){
+       etudiantData = {
+      ...adultData,
+      parent_prenom: formik.values.guardfName,
+      parent_nom: formik.values.guardLName,
+      parent_email: formik.values.guardEmail,
+      parent_telephone:formik.values.guardPhone,
+      parent_cin: formik.values.guardCin,
+      parent_sexe :formik.values.guardGender,
+      parent_adresse: formik.values.adress,
+      parent_date_naissance:formik.values.guardBirthDate,
+      underAge:true,
+      }
+      
     }
     try{
-
       response = await axios.post('/api/etudiants',etudiantData);
     } catch (error) {
       console.log(error);
+      formik.setErrors({...error.response.data.errors,phone: error.response.data.errors.telephone,guardPhone: error.response.data.errors.parent_telephone,guardCin: error.response.data.errors.parent_cin,guardEmail: error.response.data.errors.parent_email});
     }
     console.log(response.data.data.id);
     const etudiantId = response.data.data.id;
@@ -323,21 +346,6 @@ function FormC() {
             </Form.Group>
             <Form.Group as={Col} md="3" sm="6" xs="12" 
               className="position-relative">
-            <Form.Label>Occupation</Form.Label>
-            <Form.Control
-            type="text"
-            placeholder="occupation"
-            name="guardOcup"
-            {...formik.getFieldProps('guardOcup')}
-            isInvalid={formik.touched.guardOcup && formik.errors.guardOcup}
-            />
-            <Form.Control.Feedback type="invalid" tooltip>
-            {formik.errors.guardOcup}
-            </Form.Control.Feedback>
-
-            </Form.Group>
-            <Form.Group as={Col} md="3" sm="6" xs="12" 
-              className="position-relative">
             <Form.Label>Email</Form.Label>
             <Form.Control
             type="email"
@@ -364,6 +372,69 @@ function FormC() {
             {formik.errors.guardPhone}
             </Form.Control.Feedback>
             </Form.Group>
+            <Form.Group as={Col} md="3" sm="6" xs="12"
+              className="position-relative">
+            <Form.Label>Address</Form.Label>
+            <Form.Control
+            type="text"
+            placeholder="address"
+            name="guardaddress"
+            {...formik.getFieldProps('guardAddress')}
+            isInvalid={formik.touched.guardAddress && formik.errors.guardAddress}
+            />
+            <Form.Control.Feedback type="invalid" tooltip>
+            {formik.errors.guardAddress}
+            </Form.Control.Feedback>
+
+                
+                </Form.Group>
+                <Form.Group as={Col} md="3" sm="6" xs="12"
+              className="position-relative">
+                <Form.Label>cin*</Form.Label>
+                <Form.Control
+                type="text"
+                placeholder="cin"
+                name="guardcin"
+                {...formik.getFieldProps('guardCin')}
+                isInvalid={formik.touched.guardCin && formik.errors.guardCin}
+                />
+                <Form.Control.Feedback type="invalid" tooltip>
+                {formik.errors.guardCin}
+                </Form.Control.Feedback>
+                </Form.Group>
+                <Form.Group as={Col} md="3" sm="6" xs="12"
+                className="position-relative">
+                <Form.Label>Date of Birth</Form.Label>
+                <Form.Control
+                type="date"
+                placeholder="date of birth"
+                name="guarddob"
+                {...formik.getFieldProps('guardBirthDate')}
+                isInvalid={formik.touched.guardBirthDate && formik.errors.guardBirthDate}
+                />
+                <Form.Control.Feedback type="invalid" tooltip>
+                {formik.errors.guardBirthDate}
+                </Form.Control.Feedback>
+                </Form.Group>
+                <Form.Group as={Col} md="3" sm="6" xs="12"
+                className="position-relative">
+                  <Form.Label>Gender</Form.Label>
+                  <Form.Select
+                  component="select"
+                  id="guardGender"
+                  name="guardGender"
+                  {...formik.getFieldProps('guardGender')}
+                  isInvalid={formik.touched.guardGender && formik.errors.guardGender}
+                  >
+                    <option value=''>Choose Gender</option>
+                    <option value='male'>Male</option>
+                    <option value='female'>Female</option>
+                  </Form.Select>
+                  <Form.Control.Feedback type="invalid" tooltip>
+                  {formik.errors.guardGender}
+                  </Form.Control.Feedback>
+                </Form.Group>
+
           </Row>
           
         :

@@ -34,7 +34,7 @@ class InscrireClassController extends Controller
             $inscrireClass->inscription_date = now();
             $inscrireClass->negotiated_price = $request->negotiated_price;
             $inscrireClass->save();
-            return response(new InscrireClassRessource($inscrireClass), 201);
+            return response($inscrireClass, 201);
         } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage()], 500);
         }
