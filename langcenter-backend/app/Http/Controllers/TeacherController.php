@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Teacher;
 use Illuminate\Http\Request;
 use App\Http\Resources\TeacherResource;
+use Illuminate\Validation\Rule;
 
 class TeacherController extends Controller
 {
@@ -27,9 +28,9 @@ class TeacherController extends Controller
             'first_name' => 'required|string',
             'last_name' => 'required|string',
             'address' => 'required|string',
-            'cin' => 'required|string',
-            'email' => 'required|email',
-            'phone' => 'required|string',
+            'cin' => 'required|string|unique:teachers,cin',
+            'email' => 'required|email|unique:teachers,email',
+            'phone' => 'required|string|unique:teachers,phone',
             'diploma' => 'required|string',
             'speciality' => 'required|string',
             'hourly_rate' => 'required|integer',
@@ -67,20 +68,34 @@ class TeacherController extends Controller
      */
     public function update(Request $request, Teacher $teacher)
     {
-        $request->validate([
+        $data = $request->validate([
             'first_name' => 'required|string',
             'last_name' => 'required|string',
             'address' => 'required|string',
-            'cin' => 'required|string',
-            'email' => 'required|email|unique:teachers,email,' . $teacher->id . ',id',
-            'phone' => 'required|string|unique:teachers,phone,' . $teacher->id . ',id',
+            'cin' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('teachers')->ignore($teacher->id),
+            ],
+            'email' => [
+                'required',
+                'email',
+                Rule::unique('teachers')->ignore($teacher->id),
+            ],
+            'phone' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('teachers')->ignore($teacher->id),
+            ],
             'diploma' => 'required|string',
             'speciality' => 'required|string',
             'hourly_rate' => 'required|integer',
             'birthday' => 'required|date',
             'gender' => 'required|string'
         ]);
-        $teacher->update($request->all());
+        $teacher->update($data);
 
         return new TeacherResource($teacher);
     }

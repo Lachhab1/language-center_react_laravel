@@ -50,7 +50,13 @@ Route::post('/inscrires/{id}/register-payment', [InscrireClassController::class,
 Route::put('/update-payment/{id}', [InscrireClassController::class, 'updatePayment']);
 Route::delete('/delete-payment/{id}/', [InscrireClassController::class, 'deletePayment']);
 //teacher api
-Route::apiResource('teachers', TeacherController::class);
+// Route::apiResource('teachers', TeacherController::class);
+Route::get('/teachers', 'App\Http\Controllers\TeacherController@index');
+Route::post('/teachers', 'App\Http\Controllers\TeacherController@store');
+Route::get('/teachers/{teacher}', 'App\Http\Controllers\TeacherController@show');
+Route::put('/teachers/{teacher}', 'App\Http\Controllers\TeacherController@update');
+Route::delete('/teachers/{teacher}', 'App\Http\Controllers\TeacherController@destroy');
+//parent api
 Route::get('/parents', 'App\Http\Controllers\ParentController@index');
 Route::put('parents/{parent_}', 'App\Http\Controllers\ParentController@update');
 Route::get('/parents/{parent_}', 'App\Http\Controllers\ParentController@show');

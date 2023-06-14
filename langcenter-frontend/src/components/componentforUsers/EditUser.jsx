@@ -94,6 +94,7 @@ export default function EditUser() {
                 setVariant('warning');
                 setTimeout(() => {
                     setNotification('');
+                    setVariant('');
                 }, 3000);
                 navigate('/users');
                 
@@ -101,7 +102,7 @@ export default function EditUser() {
             .catch (error => {
                 if(error.response &&error.response.status === 422)
                 {
-                    console.log(error.response.data.errors);
+                    formik.setErrors(error.response.data.errors);
                 }
             })
     },

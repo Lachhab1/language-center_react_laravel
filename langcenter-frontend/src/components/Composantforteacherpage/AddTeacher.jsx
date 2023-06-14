@@ -74,18 +74,19 @@ export default function AddTeacher() {
         speciality: values.speciality,
       }
       axios.post('/api/teachers', postData).then((res) => {
-        console.log(res.data);
-      }).catch((err) => {
-        console.log(err);
+            setNotification("Student added successfully");
+            setVariant("success");
+            setTimeout(() => {
+              setNotification("");
+              setVariant("");
+            }, 3000);
+            navigate(`${x}/teacher`);
+      }).catch((error) => {
+        if (error.response && error.response.status === 422) {
+          formik.setErrors(error.response.data.errors);
+        }
       }
       );
-    setNotification("Student added successfully");
-    setVariant("success");
-    setTimeout(() => {
-      setNotification("");
-      setVariant("");
-    }, 3000);
-    navigate(`${x}/teacher`);
     },
   });
 

@@ -36,6 +36,7 @@ const deleteRow = async (id) => {
     setVariant("danger");
     setTimeout(() => {
         setNotification("");
+        setVariant("");
     }, 3000);
     navigate("/users");
 };

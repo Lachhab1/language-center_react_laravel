@@ -59,7 +59,7 @@ function EditParent() {
       axios.put(`/api/parents/${id}`, sendParent).then((response) => {
       }
       ).catch((error) => {
-        console.log(error);
+        formik.setErrors({ guardEmail: "Email already exists" ,guardPhone:"Phone number already exists",guardCIN:"CIN already exists"});
       }
       );
       setNotification("Parent updated successfully");

@@ -86,7 +86,7 @@ export const ContextProvider = ({children}) => {
         }
         }
         getCards();
-    },[]);
+    },[token]);
     useEffect(() => {
         getUser();
 

@@ -75,19 +75,22 @@ export default function EditTeacher() {
         hourly_rate: values.hourly_rate,
         speciality: values.speciality,
       }
-      axios.post('/api/teachers', postData).then((res) => {
-        console.log(res.data);
-      }).catch((err) => {
-        console.log(err);
-      }
-      );
-    setNotification("Student added successfully");
-    setVariant("success");
+      axios.put('/api/teachers/'+ id, postData).then((res) => {
+    setNotification("Student has been edited successfully");
+    setVariant("warning");
     setTimeout(() => {
       setNotification("");
       setVariant("");
     }, 3000);
     navigate(`${x}/teacher`);
+      })
+      .catch((error) => {
+        if (error.response && error.response.status === 422)
+        {
+          formik.setErrors(error.response.data.errors);
+        }
+      }
+      );
     },
   });
   useEffect(() => {
@@ -291,9 +294,8 @@ export default function EditTeacher() {
         </Col> */}
         <AvatarEdit button='Add Teacher profile photo' />
       </Row>
-
       <Button type='submit' className='btn btn-primary'>
-        Add Teacher
+        Edit Teacher
       </Button>
     </Form>
   );

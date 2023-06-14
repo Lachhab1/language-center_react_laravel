@@ -65,13 +65,14 @@ export default function AddUser() {
                 setVariant('success');
                 setTimeout(() => {
                     setNotification('');
+                    setVariant('');
                 }, 3000);
                 navigate('/users');
             })
             .catch (error => {
                 if(error.response &&error.response.status === 422)
                 {
-                    console.log(error.response.data.errors);
+                    formik.setErrors(error.response.data.errors);
                 }
             })
     },
