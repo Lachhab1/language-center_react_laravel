@@ -21,7 +21,7 @@ class InscrireClassRessource extends JsonResource
             'inscription_date' => $this->inscription_date,
             'negotiated_price' => $this->negotiated_price,
             'status' => $this->payment_status,
-            'payment' => $this->payment == null ? $this->payment : null,
+            'payment' => $this->payment == null ?  null : $this->payment,
             'class' => $this->class_,
             'created_at' => $this->payment->created_at == null ? "" : $this->payment->created_at,
             'updated_at' => $this->payment->updated_at == null ? "" : $this->payment->updated_at,

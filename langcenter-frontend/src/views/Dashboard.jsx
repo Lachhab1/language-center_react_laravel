@@ -11,25 +11,38 @@ import TimetableScheduler from '../components/DashboardCardsCompo/TimetableSched
 import '../components/DashboardCardsCompo/charts.css';
 import { UseStateContext } from '../context/ContextProvider';
 import axios from "../api/axios"
+import { Navigate } from 'react-router-dom';
 
 const Dashboard = () => {
   const [femaleCount, setFemaleCount] = useState(0);
   const [maleCount, setMaleCount] = useState(0);
+  const [cardsData, setCardsData] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get('/api/number');
         setFemaleCount(response.data.femaleCount);
         setMaleCount(response.data.maleCount);
+        setCardsData({
+          students: response.data.etudiants,
+          teachers: response.data.teachers,
+          parents: response.data.parents,
+          courses: response.data.courses,
+        });
       } catch (error) {
         console.error(error);
       }
     };
     fetchData();
-  }, []);
+  }, [token]);
   
-
-  const { user,cardsData } = UseStateContext();
+  const { user,token } = UseStateContext();
+  if (!token){
+    return (<Navigate to="/auth" replace={true} />)
+  }
+  if (!user) {
+    return <div>Loading...</div>;
+  }
 
   const [chartData, setChartData] = useState({
     year: [

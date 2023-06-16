@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import Card from '../components/DashboardCardsCompo/Card';
 import student from '../images/icons/student4dash.png';
 import teacher from '../images/icons/teacher4dash.png';
@@ -13,16 +13,41 @@ import InscriptionTable from '../components/InscStudDash/Inscription';
 import { Button } from 'react-bootstrap';
 import Inscription from '../components/InscStudDash/AddInscription';
 import { UseStateContext } from '../context/ContextProvider';
+import { Navigate } from 'react-router-dom';
+import axios from "../api/axios"
 
 const DashboardDirecteur = () => {
-  const {user,cardsData} = UseStateContext();
+  const {user,token} = UseStateContext();
   const [showModal, setShowModal] = useState(false);
+  const [cardsData, setCardsData] = useState([]);
+
   const handleModalToggle = () => {
   setShowModal(!showModal);
   };
   const maleCount = 30;
   const femaleCount = 20;
-
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('/api/number');
+        console.log(response.data);
+        setCardsData({
+          students: response.data.etudiants,
+          teachers: response.data.teachers,
+          parents: response.data.parents,
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchData();
+  }, []);
+  if (!token){
+    return (<Navigate to="/auth" replace={true} />)
+  }
+  if (!user) {
+    return <div>Loading...</div>;
+  }
   const [chartData, setChartData] = useState({
     courses: [
       { course: 'English', students: 45 },
