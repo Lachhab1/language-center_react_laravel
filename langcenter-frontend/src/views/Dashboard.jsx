@@ -28,13 +28,14 @@ const Dashboard = () => {
           teachers: response.data.teachers,
           parents: response.data.parents,
           courses: response.data.courses,
+          payments: response.data.total_payment,
         });
       } catch (error) {
         console.error(error);
       }
     };
     fetchData();
-  }, [token]);
+  }, []);
   
   const { user,token } = UseStateContext();
   if (!token){
@@ -100,7 +101,7 @@ const Dashboard = () => {
           <Card title='Parents' icon={parents} data={cardsData.parents} />
         </div>
         <div className='col  mb-4'>
-          <Card title='Earnings' icon={money} data={cardsData.payment} />
+          <Card title='Earnings' icon={money} data={cardsData.payments} />
         </div>
       </div>
         <div className='row'>
