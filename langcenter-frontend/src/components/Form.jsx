@@ -106,7 +106,7 @@ function FormC() {
     let response2 = [];
     let response3 = [];
     console.log(formik.values);
-        const adultData = {
+        let adultData = {
       prenom: formik.values.firstName,
       nom: formik.values.lastName,
       date_naissance: formik.values.dateofBirth,
@@ -117,8 +117,8 @@ function FormC() {
       adulte: formik.values.adult,
       underAge: false,
     } 
-    const etudiantData = adultData;
-    if (formik.values.adult === false){
+    let etudiantData = adultData;
+    if (underAge === true){
        etudiantData = {
       ...adultData,
       parent_prenom: formik.values.guardfName,
