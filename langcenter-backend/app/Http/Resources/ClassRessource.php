@@ -28,6 +28,8 @@ class ClassRessource extends JsonResource
             'nb_etudiants' => $this->etudiant()->count(),
             'cours' => new CoursResource($this->cours),
             'teacher' => new TeacherResource($this->teacher),
+            'event_color' => $this->event_color,
+            
         ];
     }
 }

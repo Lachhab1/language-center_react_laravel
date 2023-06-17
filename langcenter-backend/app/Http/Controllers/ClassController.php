@@ -6,6 +6,7 @@ use App\Models\Class_;
 use Illuminate\Http\Request;
 use App\Http\Resources\ClassRessource;
 use App\Models\Cours;
+use Illuminate\Support\Facades\Log;
 
 class ClassController extends Controller
 {
@@ -46,7 +47,8 @@ class ClassController extends Controller
             'end_date' => 'required|date|after:start_date',
             'level' => 'required|string|max:254',
             'cours_id' => 'required|integer|exists:cours,id',
-            'teacher_id' => 'required|integer|exists:teachers,id'
+            'teacher_id' => 'required|integer|exists:teachers,id',
+            'event_color' => 'string',
         ]);
         $class_ = new Class_();
         $class_->name = $data['name'];
@@ -58,7 +60,10 @@ class ClassController extends Controller
         $class_->level = $data['level'];
         $class_->cours_id = $data['cours_id'];
         $class_->teacher_id = $data['teacher_id'];
+        $class_->event_color = $data['event_color'];
         $class_->save();
+
+        Log::info($data);
         return new ClassRessource($class_);
     }
 
@@ -85,7 +90,8 @@ class ClassController extends Controller
             'end_date' => 'required|date|after:start_date',
             'level' => 'required|string|max:254',
             'cours_id' => 'required|integer|exists:cours,id',
-            'teacher_id' => 'required|integer|exists:teachers,id'
+            'teacher_id' => 'required|integer|exists:teachers,id',
+            'event_color' => 'string',
         ]);
         $class_->name = $data['name'];
         $class_->school_year = $data['school_year'];
@@ -96,6 +102,7 @@ class ClassController extends Controller
         $class_->level = $data['level'];
         $class_->cours_id = $data['cours_id'];
         $class_->teacher_id = $data['teacher_id'];
+        $class_->event_color = $data['event_color'];
         $class_->save();
         return new ClassRessource($class_);
     }

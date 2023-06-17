@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\TimeTable;
+use App\Models\time_tables;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\TimeTableResource;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 
-class TimeTableController extends Controller
+class TimeTablesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,18 +21,24 @@ class TimeTableController extends Controller
 
         if ($request->query('classroom_id')) {
             $classroomId = $request->query('classroom_id');
-            $query = TimeTable::select(
+            $query = time_tables::select(
+                
                 'time_tables.id',
                 'cours.title as course_title',
                 'classes.name as class_name',
                 'classrooms.name as classroom_name',
                 'time_tables.startTime',
                 'time_tables.finishTime',
-                'time_tables.days'
+                'time_tables.day_id',
+                 'classes.event_color as event_color' ,
+                 'classes.start_date as start_date',
+                 'classes.end_date as end_date',
+
             )
                 ->join('cours', 'cours.id', '=', 'time_tables.course_id')
                 ->join('classes', 'classes.id', '=', 'time_tables.class_id')
-                ->join('classrooms', 'classrooms.id', '=', 'time_tables.classroom_id');
+                ->join('classrooms', 'classrooms.id', '=', 'time_tables.classroom_id')
+                ->join('days', 'days.id', '=', 'time_tables.day_id');
 
             if ($classroomId) {
                 $query->where('time_tables.classroom_id', $classroomId);
@@ -42,19 +49,54 @@ class TimeTableController extends Controller
             return response()->json([
                 'timetable' => $timeTables
             ]);
-        } else {
-            $timeTables = TimeTable::select(
+        } else if($request->query('class_id')){
+            $class_id = $request->query('class_id');
+            $query = time_tables::select(
                 'time_tables.id',
                 'cours.title as course_title',
                 'classes.name as class_name',
                 'classrooms.name as classroom_name',
                 'time_tables.startTime',
                 'time_tables.finishTime',
-                'time_tables.days'
+                'time_tables.day_id',
+                'classes.start_date as start_date',
+                'classes.end_date as end_date',
             )
                 ->join('cours', 'cours.id', '=', 'time_tables.course_id')
                 ->join('classes', 'classes.id', '=', 'time_tables.class_id')
                 ->join('classrooms', 'classrooms.id', '=', 'time_tables.classroom_id')
+                ->join('days', 'days.id', '=', 'time_tables.day_id');
+
+            
+            if ($class_id) {
+                $query->where('time_tables.class_id', $class_id);
+            }
+            
+            $timeTables = $query->get();
+
+            return response()->json([
+                'timetable' => $timeTables
+            ]);
+
+        } else{
+            $timeTables = time_tables::select(
+                'time_tables.id',
+                'cours.title as course_title',
+                'classes.name as class_name',
+                'classrooms.name as classroom_name',
+                'time_tables.startTime',
+                'time_tables.finishTime',
+                'days.name',
+                'classes.start_date as start_date',
+                'classes.end_date as end_date',
+                'day_id',
+                'classes.event_color as event_color'
+
+            )
+                ->join('cours', 'cours.id', '=', 'time_tables.course_id')
+                ->join('classes', 'classes.id', '=', 'time_tables.class_id')
+                ->join('classrooms', 'classrooms.id', '=', 'time_tables.classroom_id')
+                ->join('days', 'days.id', '=', 'time_tables.day_id')
                 ->get();
 
             return response()->json($timeTables);
@@ -78,18 +120,35 @@ class TimeTableController extends Controller
             'course_id' => 'required',
             'class_id' => 'required',
             'classroom_id' => 'required',
-            'startTime' => 'required',
-            'FinishTime' => 'required',
-            'days' => 'required',
+            'days.*.name' => 'required',
+            'days.*.startTime' => 'required',
+            'days.*.FinishTime' => 'required',
         ]);
-
-        $data['days'] = json_encode($data['days']);
-
-        $timeTable = TimeTable::create($data);
-
-        return response(new TimeTableResource($timeTable), 201);
+    
+        Log::info("test show data: ",$data);
+        
+        $timeTables = [];
+        
+        foreach ($data['days'] as $day) {
+            $timeTable = time_tables::create([
+                'course_id' => $data['course_id'],
+                'class_id' => $data['class_id'],
+                'classroom_id' => $data['classroom_id'],
+                'startTime' => $day['startTime'],
+                'FinishTime' => $day['FinishTime'],
+                'day_id' => $day['name'],
+            ]);
+    
+            $timeTables[] = $timeTable;
+        }
+    
+        return response()->json(['timeTables' => $timeTables], 201);
     }
+    
+    
 
+    
+    
 
 
 
@@ -99,7 +158,7 @@ class TimeTableController extends Controller
      */
     public function show($id)
     {
-        $timeTable = TimeTable::findOrFail($id);
+        $timeTable = time_tables::findOrFail($id);
 
         return response()->json([
             'timeTable' => $timeTable
@@ -117,7 +176,7 @@ class TimeTableController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, TimeTable $timeTable)
+    public function update(Request $request, time_tables $timeTable)
     {
         $data = $request->validate([
             'course_id' => 'required',
@@ -125,7 +184,7 @@ class TimeTableController extends Controller
             'classroom_id' => 'required',
             'startTime' => 'required',
             'FinishTime' => 'required',
-            'days' => 'required',
+            'day_id' => 'required',
         ]);
 
         // Decode the JSON string back to an array
@@ -139,7 +198,7 @@ class TimeTableController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(TimeTable $timeTable)
+    public function destroy(time_tables $timeTable)
     {
         //
         $timeTable->delete();

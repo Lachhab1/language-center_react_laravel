@@ -10,10 +10,10 @@ use App\Http\Controllers\ParentController;
 use App\Http\Controllers\EtudiantController;
 use App\Http\Controllers\CoursController;
 
+use App\Http\Controllers\DaysController;
 
-
-use App\Http\Controllers\TimeTableController;
-use App\Models\TimeTable;
+use App\Http\Controllers\TimeTablesController;
+use App\Models\time_tables;
 
 use App\Http\Controllers\ClassroomController;
 use App\Models\Classroom;
@@ -57,16 +57,20 @@ Route::get('/parents/{parent_}', 'App\Http\Controllers\ParentController@show');
 
 
 // Timetable routes
-Route::post('/timeTable', 'App\Http\Controllers\TimeTableController@store');
-Route::get('/timeTable', 'App\Http\Controllers\TimeTableController@index');
-Route::get('/timeTable/{id}', 'App\Http\Controllers\TimeTableController@show');
-Route::put('/timeTable/{timeTable}', 'App\Http\Controllers\TimeTableController@update');
-Route::delete('/timeTable/{timeTable}', 'App\Http\Controllers\TimeTableController@destroy');
-Route::get('/timeTable', [TimeTableController::class, 'index']);
+Route::post('/timeTable', 'App\Http\Controllers\TimeTablesController@store');
+Route::get('/timeTable', 'App\Http\Controllers\TimeTablesController@index');
+Route::get('/timeTable/{id}', 'App\Http\Controllers\TimeTablesController@show');
+Route::put('/timeTable/{timeTable}', 'App\Http\Controllers\TimeTablesController@update');
+Route::delete('/timeTable/{timeTable}', 'App\Http\Controllers\TimeTablesController@destroy');
+//Route::get('/timeTable', [TimeTableController::class, 'index']);
+
+//days
+Route::get('/days', 'App\Http\Controllers\DaysController@index');
+Route::get('/days/{id}', 'App\Http\Controllers\DaysController@show');
 
 // Classroom routes
 Route::resource('/classroom', ClassroomController::class);
-Route::get('/classroom/', 'App\Http\Controllers\ClassroomController@index');
+Route::get('/classroom', 'App\Http\Controllers\ClassroomController@index');
 Route::get('/classroom/{id}', 'App\Http\Controllers\ClassroomController@show');
 Route::post('/classroom', 'App\Http\Controllers\ClassroomController@store');
 Route::put('/classroom/{classroom}', 'App\Http\Controllers\ClassroomController@update');

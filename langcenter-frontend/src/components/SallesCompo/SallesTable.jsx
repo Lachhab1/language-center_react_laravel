@@ -17,7 +17,7 @@ export default function SallesTable() {
         
         useEffect(() => {
             const fetchData = async() => axios.get("/api/classroom").then((res) => {
-                console.log(res.data.data);
+                
                 setClassrooms(
                     res.data.data.map((item) => {
                         return {

@@ -19,7 +19,7 @@ export default function ClassPage() {
 useEffect(() => {
     const timeout = setTimeout(async() => {
         const response = await axios.get("/api/classes");
-        console.log(response.data)
+     
         response.data.map((datar) => {
             setClassData((prev)=>
             (
@@ -39,7 +39,7 @@ useEffect(() => {
                   ])
             )
                 })
-                console.log(classData)
+                
         setPending(false);
     }, 200);
     return () => clearTimeout(timeout);

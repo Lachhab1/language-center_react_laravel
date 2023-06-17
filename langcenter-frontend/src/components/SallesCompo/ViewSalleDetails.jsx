@@ -21,11 +21,9 @@ export default function ViewSalleDetails() {
         // Fetch timetable data for the classroom
         const timetableResponse = await axios.get(`/api/timeTable?classroom_id=${id}`);
         const timetableData = timetableResponse.data.timetable;
-        console.log("timetableData:", timetableData);
-        
+
         // Generate events from the timetable data if it exists
         const events = timetableData ? generateEventsFromTimetable(timetableData) : [];
-        console.log("events:", events);
         setEvents(events);
       } catch (error) {
         console.log('Error fetching classroom details:', error);
@@ -37,34 +35,63 @@ export default function ViewSalleDetails() {
 
   const generateEventsFromTimetable = (timetableData) => {
     const events = timetableData.flatMap((entry) => {
-      const days = JSON.parse(entry.days); // Parse the days string into an array
-  
-      return days.map((day) => {
-        const startDateTime = moment().day(day).set({
-          hour: entry.startTime.split(':')[0],
-          minute: entry.startTime.split(':')[1],
-          second: entry.startTime.split(':')[2],
-        });
-  
-        const endDateTime = moment().day(day).set({
-          hour: entry.finishTime.split(':')[0],
-          minute: entry.finishTime.split(':')[1],
-          second: entry.finishTime.split(':')[2],
-        });
-  
-        return {
-          id: entry.id,
-          title: entry.course_title,
-          start: startDateTime.toDate(),
-          end: endDateTime.toDate(),
-        };
+      const recurringEvents = [];
+      const startDateTime = moment().isoWeekday(entry.day_id).set({
+        hour: entry.startTime.split(':')[0],
+        minute: entry.startTime.split(':')[1],
+        second: entry.startTime.split(':')[2],
       });
+  
+      const endDateTime = moment().isoWeekday(entry.day_id).set({
+        hour: entry.finishTime.split(':')[0],
+        minute: entry.finishTime.split(':')[1],
+        second: entry.finishTime.split(':')[2],
+      });
+  
+      let currentDateTime = moment(startDateTime);
+  
+      while (currentDateTime.isSameOrBefore(moment(entry.end_date).startOf('week'))) {
+        if (currentDateTime.isSameOrAfter(moment(entry.start_date).startOf('week'))) {
+          const start = currentDateTime.toDate();
+          const end = moment(endDateTime)
+            .add(currentDateTime.diff(startDateTime))
+            .toDate();
+  
+          recurringEvents.push({
+            id: entry.id,
+            title: `${entry.course_title} ${entry.class_name} (classroom: ${entry.classroom_name})`,
+            start,
+            end,
+            event_color: entry.event_color,
+          });
+        }
+  
+        currentDateTime = currentDateTime.add(1, 'week');
+      }
+  
+      return recurringEvents;
     });
   
     return events;
   };
   
   
+  
+
+  const getEventStyle = (event) => {
+    const style = {
+      backgroundColor: event.event_color,
+      borderRadius: '5px',
+      opacity: 0.8,
+      color: 'white',
+      border: 'none',
+      display: 'block',
+    };
+
+    return {
+      style,
+    };
+  };
 
   if (!classroom) {
     return <div>Loading...</div>;
@@ -72,13 +99,14 @@ export default function ViewSalleDetails() {
 
   return (
     <div>
-      <h5>Classroom ID: <span style={{color:"red"}}>{classroom.id}</span></h5>
-      <h5>Name: <span style={{color:"red"}}>{classroom.name}</span></h5>
-      <h5>Capacity: <span style={{color:"red"}}>{classroom.capacity}</span></h5>
+      <h5>Classroom ID: <span style={{ color: "red" }}>{classroom.id}</span></h5>
+      <h5>Name: <span style={{ color: "red" }}>{classroom.name}</span></h5>
+      <h5>Capacity: <span style={{ color: "red" }}>{classroom.capacity}</span></h5>
       <h3>Calendar:</h3>
       <Calendar
         localizer={localizer}
         events={events}
+        eventPropGetter={getEventStyle}
         startAccessor="start"
         endAccessor="end"
         style={{ height: 500 }}

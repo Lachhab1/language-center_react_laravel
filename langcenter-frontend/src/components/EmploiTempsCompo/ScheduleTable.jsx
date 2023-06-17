@@ -65,14 +65,8 @@ export default function ScheduleTable({ handleDelete }) {
       { name: 'Start Time', selector: (row) => row.startTime, sortable: true },
       { name: 'Finish Time', selector: (row) => row.finishTime, sortable: true },
       {
-        name: 'Days',
-        selector: (row) => {
-          const days = typeof row.days === 'string' ? JSON.parse(row.days) : row.days;
-          return Array.isArray(days) ? days.join(', ') : '';
-        },
-        sortable: true,
-      },
-      
+        name: 'Day',
+        selector: (row) => row.name, sortable: true },
       {
         name: 'Action',
         cell: (row) => (
@@ -126,7 +120,7 @@ export default function ScheduleTable({ handleDelete }) {
             onChange={(e) => setGroupFilter(e.target.value)}
           />
           <Link to={`${x}/schedule/AddSchedule`}>
-            <Button className="" variant="danger" isDisabled={false} size="md" value="Add Schedule" handleSmthg={() => console.log('chibakiya')} />
+            <Button className="" variant="danger" isDisabled={false} size="md" value="Add Schedule" handleSmthg={() => console.log('')} />
           </Link>
         </div>
         <DataTable

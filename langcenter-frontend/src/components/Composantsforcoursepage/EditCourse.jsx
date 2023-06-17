@@ -140,7 +140,7 @@ export default function EditCourse() {
         </div>
 
         <button type='submit' className='btn btn-primary'>
-          Add
+          Edit
         </button>
         </form>
         </div>
