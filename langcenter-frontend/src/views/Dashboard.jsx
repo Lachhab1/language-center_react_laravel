@@ -11,16 +11,25 @@ import TimetableScheduler from '../components/DashboardCardsCompo/TimetableSched
 import '../components/DashboardCardsCompo/charts.css';
 import { UseStateContext } from '../context/ContextProvider';
 import axios from "../api/axios"
+import { Navigate } from 'react-router-dom';
 
 const Dashboard = () => {
   const [femaleCount, setFemaleCount] = useState(0);
   const [maleCount, setMaleCount] = useState(0);
+  const [cardsData, setCardsData] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get('/api/number');
         setFemaleCount(response.data.femaleCount);
         setMaleCount(response.data.maleCount);
+        setCardsData({
+          students: response.data.etudiants,
+          teachers: response.data.teachers,
+          parents: response.data.parents,
+          courses: response.data.courses,
+          payments: response.data.total_payment,
+        });
       } catch (error) {
         console.error(error);
       }
@@ -28,8 +37,13 @@ const Dashboard = () => {
     fetchData();
   }, []);
   
-
-  const { user,cardsData } = UseStateContext();
+  const { user,token } = UseStateContext();
+  if (!token){
+    return (<Navigate to="/auth" replace={true} />)
+  }
+  if (!user) {
+    return <div>Loading...</div>;
+  }
 
   const [chartData, setChartData] = useState({
     year: [
@@ -87,7 +101,7 @@ const Dashboard = () => {
           <Card title='Parents' icon={parents} data={cardsData.parents} />
         </div>
         <div className='col  mb-4'>
-          <Card title='Earnings' icon={money} data={cardsData.payment} />
+          <Card title='Earnings' icon={money} data={cardsData.payments} />
         </div>
       </div>
         <div className='row'>

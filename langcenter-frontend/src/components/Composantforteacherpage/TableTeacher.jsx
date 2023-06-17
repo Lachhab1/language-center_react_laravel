@@ -20,7 +20,6 @@ export default function TableTeacher() {
   useEffect(() => {
     const fetchTeacher = async () => {
       const res = await axios.get("api/teachers");
-      console.log(res.data.data);
       setTeacherDate(
         res.data.data.map((item) => (
           {

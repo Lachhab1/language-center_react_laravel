@@ -33,12 +33,12 @@ useEffect(() => {
                             // DateEnrol:datar.inscription_date,
                             gender: datar.sexe,
                             classes: datar.classes,
-                            Fathername:datar.parent.prenom+" "+datar.parent.nom,
-                            Fatheremail:datar.parent.email,
-                            Fatherphone:datar.parent.telephone,
-                            FatherAddress:datar.parent.adresse,
-                            FatherDateNaissance:datar.parent.date_naissance,
-                            FatherGender:datar.parent.sexe,
+                            Fathername:datar?.parent?.prenom+" "+datar?.parent?.nom,
+                            Fatheremail:datar?.parent?.email,
+                            Fatherphone:datar?.parent?.telephone,
+                            FatherAddress:datar?.parent?.adresse,
+                            FatherDateNaissance:datar?.parent?.date_naissance,
+                            FatherGender:datar?.parent?.sexe,
                         })
                     )
             }
@@ -107,6 +107,9 @@ useEffect(() => {
                             </div>
                         </div>
                         <br />
+                        {
+                            data.fathername ? (
+                                <div>
                         <div className="row">
                             <div className="col-6">
                                  Father Name:
@@ -116,6 +119,11 @@ useEffect(() => {
                             </div>
                         </div>
                         <br />
+                                </div>
+                            ) : (
+                                <div></div>
+                            )
+                        }
                         <div className="row">
                             <div className="col-6">
                                  Email:
@@ -131,15 +139,6 @@ useEffect(() => {
                             </div>
                             <div className="col-6">
                             {data.DateNaissance}
-                            </div>
-                        </div>
-                        <br />
-                        <div className="row">
-                            <div className="col-6">
-                                 Father Ocupation:
-                            </div>
-                            <div className="col-6">
-                            {data.FatherOcupation}
                             </div>
                         </div>
                         <br />

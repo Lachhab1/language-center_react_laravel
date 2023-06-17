@@ -9,6 +9,7 @@ import {
 import { Link } from 'react-router-dom';
 import { UseStateContext } from '../../context/ContextProvider';
 import { Ellipsis } from 'react-awesome-spinners';
+import { Formik } from 'formik';
 export default function TableParent() {
    const [pending, setPending] = useState(true);
   const [parentData, setParentData] = useState([]);
@@ -42,7 +43,7 @@ export default function TableParent() {
       );
     }
     ).catch((error) => {
-      console.log(error);
+      Formik.setErrors(error.response.data.errors);
     });
     setTimeout(async() => {
       await fetchData();

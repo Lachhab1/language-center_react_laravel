@@ -20,10 +20,10 @@ export default function  Inscription()
                 id:row.id,
                 name:row.etudiant.nom + " " + row.etudiant.prenom,
                 status:row.status,
-                iamount:row.cours.price,
-                aamount:row.negotiated_price,
-                pamount:row.payment.amount,
-                ramount: row.negotiated_price - row.payment.amount > 0 ? row.negotiated_price - row.payment.amount : 0
+                iamount:row?.cours?.price,
+                aamount:row?.negotiated_price,
+                pamount:row?.payment?.amount,
+                ramount: row?.negotiated_price - row?.payment?.amount > 0 ? row?.negotiated_price - row?.payment.amount : 0
             }))
 
         );
