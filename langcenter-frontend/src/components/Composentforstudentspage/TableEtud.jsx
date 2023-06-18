@@ -1,7 +1,8 @@
 import Button from "../Button"
 import { useState,useEffect } from "react"
 import DataTable from "react-data-table-component"
-import { BsFillEyeFill, BsFillPencilFill, MdDelete } from 'react-icons';
+import { BsFillEyeFill, BsFillPencilFill } from 'react-icons/bs';
+import { MdDelete } from 'react-icons/md';
 import { Link, Navigate,useNavigate } from "react-router-dom";
 import axios from "../../api/axios";
 import { Ellipsis } from 'react-awesome-spinners'
