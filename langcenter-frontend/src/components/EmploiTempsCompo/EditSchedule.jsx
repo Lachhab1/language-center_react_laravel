@@ -128,6 +128,7 @@ export default function EditSchedule() {
       setVariant('success');
       setTimeout(() => {
         setNotification('');
+        setVariant('');
       }, 3000);
       navigate(`${x}/schedule`);
     })
@@ -138,6 +139,7 @@ export default function EditSchedule() {
       setVariant('danger');
       setTimeout(() => {
         setNotification('');
+        setVariant('');
       }, 3000);
     });
 };

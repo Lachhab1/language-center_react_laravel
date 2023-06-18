@@ -94,6 +94,7 @@ export default function EditUser() {
                 setVariant('warning');
                 setTimeout(() => {
                     setNotification('');
+                    setVariant('');
                 }, 3000);
                 navigate('/users');
                 

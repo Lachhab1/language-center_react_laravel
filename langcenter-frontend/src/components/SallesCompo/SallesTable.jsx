@@ -41,6 +41,7 @@ export default function SallesTable() {
         setVariant("danger");
         setTimeout(() => {
           setNotification("");
+          setVariant("");
         }, 3000);
         
         // Remove the deleted row from the data array

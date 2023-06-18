@@ -95,6 +95,7 @@ const EditGroup = () => {
       setVariant('warning');
       setTimeout(() => {
         setNotification('');
+        setVariant('success');
       }, 3000);
       navigate(`${x}/class`);
     });

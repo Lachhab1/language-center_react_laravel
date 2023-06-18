@@ -31,10 +31,7 @@ export default function ScheduleTable({ handleDelete }) {
     const [data, setData] = useState([]);
   
     useEffect(() => {
-      fetchData();
-    }, []);
-  
-    const fetchData = async () => {
+        const fetchData = async () => {
       try {
         setPending(true); // Set pending to true before fetching data
         const response = await axios.get('/api/timeTable');
@@ -46,6 +43,10 @@ export default function ScheduleTable({ handleDelete }) {
         setPending(false); // Set pending to false in case of an error
       }
     };
+      fetchData();
+    }, []);
+  
+
   
     // Filter the data based on group and course name
     const filteredData = data.filter((item) => {
@@ -90,6 +91,7 @@ export default function ScheduleTable({ handleDelete }) {
         setVariant("danger");
         setTimeout(() => {
           setNotification("");
+          setVariant("");
         }, 3000);
         
         // Remove the deleted row from the data array

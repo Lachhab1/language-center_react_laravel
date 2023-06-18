@@ -69,6 +69,7 @@ const AddGroup = () => {
       setVariant('success');
       setTimeout(() => {
         setNotification('');
+        setVariant('');
       }, 3000);
       navigate(`${x}/class`);
     });

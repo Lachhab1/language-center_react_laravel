@@ -65,6 +65,7 @@ export default function AddUser() {
                 setVariant('success');
                 setTimeout(() => {
                     setNotification('');
+                    setVariant('');
                 }, 3000);
                 navigate('/users');
             })

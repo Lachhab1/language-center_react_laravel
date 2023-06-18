@@ -65,6 +65,7 @@ export default function EditCourse() {
                 setVariant('warning');
                 setTimeout(() => {
                     setNotification('');
+                    setVariant('');
                 }, 3000);
       navigate(`${x}/course`);
       });
