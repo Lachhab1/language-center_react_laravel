@@ -3,9 +3,8 @@ import Button from "../Button"
 import DataTable from "react-data-table-component"
 import { Ellipsis } from 'react-awesome-spinners'
 import { Link, Navigate,useNavigate } from "react-router-dom"
-import { BsFillPencilFill,
-    MdDelete,
-    BsFillEyeFill}from 'react-icons/all';
+import { BsFillEyeFill, BsFillPencilFill } from 'react-icons/bs';
+import { MdDelete } from 'react-icons/md';
 import { useEffect,useState } from "react";
 import { UseStateContext } from "../../context/ContextProvider";
 import {Form,Col,Row} from "react-bootstrap";

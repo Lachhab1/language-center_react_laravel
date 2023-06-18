@@ -2,10 +2,8 @@ import React, { useState,useEffect } from 'react';
 import DataTable from 'react-data-table-component';
 import Button from "../Button";
 import axios from '../../api/axios';
-import {
-  BsFillEyeFill, BsFillPencilFill,
-  MdDelete
-} from 'react-icons/all';
+import { BsFillEyeFill, BsFillPencilFill } from 'react-icons/bs';
+import { MdDelete } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import { UseStateContext } from '../../context/ContextProvider';
 import { Ellipsis } from 'react-awesome-spinners';

@@ -1,4 +1,4 @@
-import TableUser from '../components/componentforUsers/tableUser';
+import TableUser from '../components/componentforUsers/TableUser';
 export default function Utlisateurs(){
     return(
         <div>
