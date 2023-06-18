@@ -23,6 +23,7 @@ class Class_ extends Model
         'level',
         'course_id',
         'teacher_id',
+        'event_color',
     ];
     public function etudiant()
     {

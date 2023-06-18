@@ -92,6 +92,7 @@ const DashboardDirecteur = () => {
       {/* <div className='col-12 mx-auto mb-4 Charts'>
         <TimetableScheduler data={timetableData} />
       </div> */}
+      <TimetableScheduler/>
     </div>
   );
   

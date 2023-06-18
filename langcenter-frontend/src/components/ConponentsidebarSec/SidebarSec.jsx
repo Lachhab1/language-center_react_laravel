@@ -46,12 +46,7 @@ export default function SidebarSec() {
                 {openSidebar && "Dashboard"}
               </NavLink>
             </Nav.Item>
-            <Nav.Item>
-              <NavLink className="a nav-link link-light" to="/secretary/teacher">
-                <img src={enseignant} alt="Teacher Icon" />
-                {openSidebar && "Teacher"}
-              </NavLink>
-            </Nav.Item>
+           
             <Nav.Item>
               <NavLink className="a nav-link link-light" to="/secretary/student">
                 <img src={etudiant} alt="Student Icon" />

@@ -44,6 +44,7 @@ const addSalleScheme = Yup.object().shape({
         setVariant('success');
         setTimeout(() => {
           setNotification('');
+          setVariant('');
         }, 3000);
         navigate(`${x}/classroom`);
       })

@@ -11,75 +11,120 @@ export default function AddSchedule() {
   const [coursData, setCourseData] = useState([]);
   const [classroomsData, setClassroomsData] = useState([]);
   const [groupesData, setGroupesData] = useState([]);
-  const {user,setNotification, setVariant } = UseStateContext();
+  const [days, setDays] = useState([]);
+  const { user, setNotification, setVariant } = UseStateContext();
   const navigate = useNavigate();
-   let x = ""
-        if (user && user.role==='admin')
-        {
-            x = ""
-        } else if (user && user.role==='director')
-        {
-            x="/director"
-        }
-        else{
-            x="/secretary"
-        }
+  let x = ""
+  if (user && user.role === 'admin') {
+    x = ""
+  } else if (user && user.role === 'director') {
+    x = "/director"
+  }
+  else {
+    x = "/secretary"
+  }
 
   const formik = useFormik({
     initialValues: {
       course: '',
       group: '',
-      day: [],
-      startTime: '',
-      finishTime: '',
+      startTime_Monday: '',
+      finishTime_Monday: '',
+      startTime_Tuesday: '',
+      finishTime_Tuesday: '',
+      startTime_Wednesday: '',
+      finishTime_Wednesday: '',
+      startTime_Thursday: '',
+      finishTime_Thursday: '',
+      startTime_Friday: '',
+      finishTime_Friday: '',
+      startTime_Saturday: '',
+      finishTime_Saturday: '',
+      startTime_Sunday: '',
+      finishTime_Sunday: '',
       classroom: '',
     },
     validationSchema: Yup.object({
       course: Yup.string().required('Course is required'),
       group: Yup.string().required('Group is required'),
-      day: Yup.array().of(Yup.string()).min(1, 'Select at least one day').required('Day is required'),
-      startTime: Yup.string().required('Start time is required'),
-      finishTime: Yup.string().required('Finish time is required'),
+      startTime_Monday: Yup.string(),
+      finishTime_Monday: Yup.string(),
+      startTime_Tuesday: Yup.string(),
+      finishTime_Tuesday: Yup.string(),
+      startTime_Wednesday: Yup.string(),
+      finishTime_Wednesday: Yup.string(),
+      startTime_Thursday: Yup.string(),
+      finishTime_Thursday: Yup.string(),
+      startTime_Friday: Yup.string(),
+      finishTime_Friday: Yup.string(),
+      startTime_Saturday: Yup.string(),
+      finishTime_Saturday: Yup.string(),
+      startTime_Sunday: Yup.string(),
+      finishTime_Sunday: Yup.string(),
       classroom: Yup.string().required('Classroom is required'),
     }),
-    
-    
+
+
     onSubmit: (values) => {
-      // Handle form submission and add schedule
+      const dayData = [
+        { name: 'Monday', startTime: values.startTime_Monday, endTime: values.finishTime_Monday },
+        { name: 'Tuesday', startTime: values.startTime_Tuesday, endTime: values.finishTime_Tuesday },
+        { name: 'Wednesday', startTime: values.startTime_Wednesday, endTime: values.finishTime_Wednesday },
+        { name: 'Thursday', startTime: values.startTime_Thursday, endTime: values.finishTime_Thursday },
+        { name: 'Friday', startTime: values.startTime_Friday, endTime: values.finishTime_Friday },
+        { name: 'Saturday', startTime: values.startTime_Saturday, endTime: values.finishTime_Saturday },
+        { name: 'Sunday', startTime: values.startTime_Sunday, endTime: values.finishTime_Sunday }
+      ];
+    
+      const getId = (value) => {
+        switch (value) {
+          case "Monday": return 1; break;
+          case "Tuesday": return 2; break;
+          case "Wednesday": return 3; break;
+          case "Thursday": return 4; break;
+          case "Friday": return 5; break;
+          case "Saturday": return 6; break;
+          case "Sunday": return 7; break;
+        }
+      }
+    
+      const test = dayData
+        .filter((e) => e.startTime !== '' || e.endTime !== '')
+        .map((e) => ({
+          name: getId(e.name),
+          startTime: e.startTime,
+          FinishTime: e.endTime,
+        }));
+        
       const sendData = {
         course_id: values.course,
         class_id: values.group,
         classroom_id: values.classroom,
-        startTime: values.startTime,
-        FinishTime: values.finishTime,
-        days: values.day,
+        days: test,
       };
-      console.log(sendData.days);
+     
     
       axios.post('/api/timeTable', sendData)
         .then((res) => {
-          console.log(res.data);
+         
           setNotification('Timetable added successfully');
           setVariant('success');
           setTimeout(() => {
             setNotification('');
+            setVariant('');
           }, 3000);
           navigate(`${x}/schedule`);
         })
         .catch((error) => {
           if (error.response && error.response.status === 422) {
-            // Handle specific error status code (422)
-            console.log(error.response.data); // Log the error response data
-            // Display an error message to the user
+            console.log(error.response.data);
             setNotification('Error: Invalid data');
             setVariant('danger');
             setTimeout(() => {
               setNotification('');
             }, 3000);
           } else {
-            // Handle other errors
             console.error(error);
-            // Display a generic error message to the user
             setNotification('An error occurred');
             setVariant('danger');
             setTimeout(() => {
@@ -89,6 +134,7 @@ export default function AddSchedule() {
         });
     }
     
+
   });
 
   const handleDayChange = (e) => {
@@ -146,7 +192,7 @@ export default function AddSchedule() {
   };
 
   useEffect(() => {
-    console.log(selectedCoursId);
+   
   }, [selectedCoursId]);
 
 
@@ -156,28 +202,28 @@ export default function AddSchedule() {
 
       <Row>
         <Col md={4} className='mb-3'>
-        <Form.Group controlId='course'>
-  <Form.Label>Course*</Form.Label>
-  <Form.Select
-    className={`form-select ${formik.errors.course && formik.touched.course ? 'is-invalid' : ''}`}
-    value={formik.values.course}
-    onChange={(e) => {
-      formik.handleChange(e);
-      handleCoursChange(e);
-    }}
-  >
-    <option value=''>Select a course</option>
-    {/* Add options for all courses */}
-    {coursData.map((course) => (
-      <option key={course.id} value={course.id}>
-        {course.title}
-      </option>
-    ))}
-  </Form.Select>
-  {formik.touched.course && formik.errors.course && (
-    <div className='invalid-feedback'>{formik.errors.course}</div>
-  )}
-</Form.Group>
+          <Form.Group controlId='course'>
+            <Form.Label>Course*</Form.Label>
+            <Form.Select
+              className={`form-select ${formik.errors.course && formik.touched.course ? 'is-invalid' : ''}`}
+              value={formik.values.course}
+              onChange={(e) => {
+                formik.handleChange(e);
+                handleCoursChange(e);
+              }}
+            >
+              <option value=''>Select a course</option>
+              {/* Add options for all courses */}
+              {coursData.map((course) => (
+                <option key={course.id} value={course.id}>
+                  {course.title}
+                </option>
+              ))}
+            </Form.Select>
+            {formik.touched.course && formik.errors.course && (
+              <div className='invalid-feedback'>{formik.errors.course}</div>
+            )}
+          </Form.Group>
 
 
 
@@ -206,9 +252,6 @@ export default function AddSchedule() {
             )}
           </Form.Group>
         </Col>
-      </Row>
-
-      <Row>
         <Col md={4} className='mb-3'>
           <Form.Group controlId='classroom'>
             <Form.Label>Classroom*</Form.Label>
@@ -229,56 +272,54 @@ export default function AddSchedule() {
             )}
           </Form.Group>
         </Col>
-        <Col md={4} className='mb-3'>
-          <Form.Group controlId='startTime'>
-            <Form.Label>Start Time*</Form.Label>
-            <Form.Control
-              type='time'
-              className={`form-control ${formik.errors.startTime && formik.touched.startTime ? 'is-invalid' : ''}`}
-              {...formik.getFieldProps('startTime')}
-            />
-            {formik.touched.startTime && formik.errors.startTime && (
-              <Form.Control.Feedback type='invalid'>{formik.errors.startTime}</Form.Control.Feedback>
-            )}
-          </Form.Group>
-        </Col>
-
-        <Col md={4} className='mb-3'>
-          <Form.Group controlId='finishTime'>
-            <Form.Label>Finish Time*</Form.Label>
-            <Form.Control
-              type='time'
-              className={`form-control ${formik.errors.finishTime && formik.touched.finishTime ? 'is-invalid' : ''}`}
-              {...formik.getFieldProps('finishTime')}
-            />
-            {formik.touched.finishTime && formik.errors.finishTime && (
-              <Form.Control.Feedback type='invalid'>{formik.errors.finishTime}</Form.Control.Feedback>
-            )}
-          </Form.Group>
-        </Col>
       </Row>
 
-      <Form.Group controlId='day'>
-        <Form.Label>Day*</Form.Label>
-        <div>
-          {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map((day) => (
-            <Form.Check
-              key={day}
-              inline
-              label={day}
-              type='checkbox'
-              id={day}
-              value={day}
-              checked={formik.values.day.includes(day)}
-              onChange={handleDayChange}
-            />
-          ))}
-        </div>
-        {formik.touched.day && formik.errors.day && (
-          <div className='invalid-feedback'>{formik.errors.day}</div>
-        )}
-      </Form.Group>
 
+
+
+      <table>
+        <thead>
+
+          <tr>
+            <th>Days</th><th>Start Time</th><th>Finish Time</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map((day) => (
+
+            <tr key={day}>
+              <td>{day} </td>
+              <td><Form.Group controlId={`startTime_${day}`}>
+
+                <Form.Control
+                  type='time'
+                  className={`form-control ${formik.errors[`startTime_${day}`] && formik.touched[`{startTime_${day}}`] ? 'is-invalid' : ''}`}
+                  {...formik.getFieldProps(`startTime_${day}`)}
+
+                />
+                {formik.touched[`{startTime_${day}}`] && formik.errors[`{startTime_${day}}`] && (
+                  <Form.Control.Feedback type='invalid'>{formik.errors.startTime}</Form.Control.Feedback>
+                )}
+              </Form.Group></td>
+              <td><Form.Group controlId={`finishTime_${day}`}>
+
+                <Form.Control
+                  type='time'
+                  className={`form-control ${formik.errors[`finishTime_${day}`] && formik.touched[`finishTime_${day}`] ? 'is-invalid' : ''}`}
+                  {...formik.getFieldProps(`finishTime_${day}`)}
+                />
+                {formik.touched[`finishTime_${day}`] && formik.errors[`finishTime_${day}`] && (
+                  <Form.Control.Feedback type='invalid'>{formik.errors.finishTime}</Form.Control.Feedback>
+                )}
+              </Form.Group>
+              </td>
+
+            </tr>
+          ))}
+        </tbody>
+      </table>
+                 
       <Button type='submit' variant='primary'>
         Add Schedule
       </Button>
