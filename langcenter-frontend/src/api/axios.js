@@ -1,6 +1,6 @@
 import axios from "axios";
 const axiosCleint= axios.create({
-    baseURL: "https://laravel-azure-web.azurewebsites.net",
+    baseURL: "http://localhost:8000",
     headers: {
         // "Accept": "application/json",
         "Accept": "application/json",
