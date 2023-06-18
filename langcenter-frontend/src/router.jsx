@@ -48,8 +48,8 @@ import AddSalle from "./components/SallesCompo/AddSalle";
 import EditSalle from "./components/SallesCompo/EditSalle";
 import ViewSalleDetails from "./components/SallesCompo/ViewSalleDetails";
 
-import EditUser from "./components/componentforUsers/editUser";
-import AddUser from "./components/componentforUsers/addUser";
+import EditUser from "./components/componentforUsers/EditUser";
+import AddUser from "./components/componentforUsers/AddUser";
 import User from "./components/componentforUsers/User";
 
 import Groupes from './views/Groupes';
