@@ -18,12 +18,11 @@ return new class extends Migration
             $table->unsignedBigInteger('classroom_id');
             $table->time('startTime');
             $table->time('FinishTime');
-            $table->json('days');
-            $table->timestamps();
+            $table->unsignedBigInteger('day_id');
             $table->foreign('course_id')->references('id')->on('cours')->onDelete('cascade');
             $table->foreign('class_id')->references('id')->on('classes')->onDelete('cascade');
             $table->foreign('classroom_id')->references('id')->on('classrooms')->onDelete('cascade');
-           
+            $table->foreign('day_id')->references('id')->on('days');
         });
     }
 

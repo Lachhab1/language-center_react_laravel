@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('level');
             $table->unsignedBigInteger('cours_id');
             $table->foreign('cours_id')->references('id')->on('cours')->onDelete('cascade');
+            $table->string('event_color');
         });
     }
 

@@ -31,10 +31,7 @@ export default function ScheduleTable({ handleDelete }) {
     const [data, setData] = useState([]);
   
     useEffect(() => {
-      fetchData();
-    }, []);
-  
-    const fetchData = async () => {
+        const fetchData = async () => {
       try {
         setPending(true); // Set pending to true before fetching data
         const response = await axios.get('/api/timeTable');
@@ -46,6 +43,10 @@ export default function ScheduleTable({ handleDelete }) {
         setPending(false); // Set pending to false in case of an error
       }
     };
+      fetchData();
+    }, []);
+  
+
   
     // Filter the data based on group and course name
     const filteredData = data.filter((item) => {
@@ -65,14 +66,8 @@ export default function ScheduleTable({ handleDelete }) {
       { name: 'Start Time', selector: (row) => row.startTime, sortable: true },
       { name: 'Finish Time', selector: (row) => row.finishTime, sortable: true },
       {
-        name: 'Days',
-        selector: (row) => {
-          const days = typeof row.days === 'string' ? JSON.parse(row.days) : row.days;
-          return Array.isArray(days) ? days.join(', ') : '';
-        },
-        sortable: true,
-      },
-      
+        name: 'Day',
+        selector: (row) => row.name, sortable: true },
       {
         name: 'Action',
         cell: (row) => (
@@ -96,6 +91,7 @@ export default function ScheduleTable({ handleDelete }) {
         setVariant("danger");
         setTimeout(() => {
           setNotification("");
+          setVariant("");
         }, 3000);
         
         // Remove the deleted row from the data array
@@ -126,7 +122,7 @@ export default function ScheduleTable({ handleDelete }) {
             onChange={(e) => setGroupFilter(e.target.value)}
           />
           <Link to={`${x}/schedule/AddSchedule`}>
-            <Button className="" variant="danger" isDisabled={false} size="md" value="Add Schedule" handleSmthg={() => console.log('chibakiya')} />
+            <Button className="" variant="danger" isDisabled={false} size="md" value="Add Schedule" handleSmthg={() => console.log('')} />
           </Link>
         </div>
         <DataTable

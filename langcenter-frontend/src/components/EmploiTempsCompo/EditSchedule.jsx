@@ -11,6 +11,7 @@ export default function EditSchedule() {
   const [course, setCourse] = useState(null);
   const [group, setGroup] = useState(null);
   const [classroom, setClassroom] = useState(null);
+  const [day, setDay] = useState(null);
   const [classroomsList, setClassroomsList] = useState([]);
   const navigate = useNavigate();
 
@@ -31,16 +32,17 @@ export default function EditSchedule() {
     const fetchData = async () => {
       try {
         const scheduleResponse = await axios.get(`/api/timeTable/${id}`);
-        const { course_id, class_id, classroom_id } = scheduleResponse.data.timeTable;
-    
+        const { course_id, class_id, classroom_id,day_id } = scheduleResponse.data.timeTable;
         const courseResponse = await axios.get(`/api/cours/${course_id}`);
         const groupResponse = await axios.get(`/api/classes/${class_id}`);
         const classroomResponse = await axios.get(`/api/classroom/${classroom_id}`);
-    
+        const dayResponse = await axios.get(`/api/days/${day_id}`);
+
         setSchedule(scheduleResponse.data.timeTable);
         setCourse(courseResponse.data.data);
         setGroup(groupResponse.data.data);
         setClassroom(classroomResponse.data.classroom);
+        setDay(dayResponse.data.day.name);
       } catch (error) {
         console.log(error);
       }
@@ -49,12 +51,15 @@ export default function EditSchedule() {
     fetchData();
   }, [id]);
 
+
+
   useEffect(() => {
     const fetchClassrooms = async () => {
       try {
         const response = await axios.get('/api/classroom');
      
-        setClassroomsList(response.data);
+        setClassroomsList(response.data.data);
+        console.log("fdf",classroomsList)
       } catch (error) {
         console.log(error);
       }
@@ -63,28 +68,7 @@ export default function EditSchedule() {
     fetchClassrooms();
   }, []);
 
-  const handleDayChange = (e) => {
-    const selectedDay = e.target.value;
-    const isDaySelected = schedule.days.includes(selectedDay);
-  
-    let updatedDays;
-    if (Array.isArray(schedule.days)) {
-      if (isDaySelected) {
-        updatedDays = schedule.days.filter((day) => day !== selectedDay);
-      } else {
-        updatedDays = [...schedule.days, selectedDay];
-      }
-    } else {
-      updatedDays = [selectedDay];
-    }
-  
-    setSchedule((prevSchedule) => ({
-      ...prevSchedule,
-      days: updatedDays,
-    }));
-    console.log('sssss',schedule);
-  };
-  
+
 
   const handleStartTimeChange = (e) => {
     const newStartTime = e.target.value;
@@ -131,7 +115,7 @@ export default function EditSchedule() {
     classroom_id: schedule.classroom_id,
     startTime: schedule.startTime,
     FinishTime: schedule.FinishTime,
-    days: schedule.days, // Pass the days array directly
+    day_id: schedule.day_id, // Pass the days array directly
   };
 
   console.log(sendData.days);
@@ -144,6 +128,7 @@ export default function EditSchedule() {
       setVariant('success');
       setTimeout(() => {
         setNotification('');
+        setVariant('');
       }, 3000);
       navigate(`${x}/schedule`);
     })
@@ -154,6 +139,7 @@ export default function EditSchedule() {
       setVariant('danger');
       setTimeout(() => {
         setNotification('');
+        setVariant('');
       }, 3000);
     });
 };
@@ -174,23 +160,9 @@ export default function EditSchedule() {
       <form className="editSchedule">
         <div className="mb-3">
           <label htmlFor="days" className="form-label">
-            Day(s):
+            Day: {day}
           </label>
-          {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map((day) => (
-            <div className="form-check form-check-inline" key={day}>
-              <input
-                type="checkbox"
-                className="form-check-input"
-                id={day}
-                value={day}
-                checked={schedule.days.includes(day)}
-                onChange={handleDayChange}
-              />
-              <label className="form-check-label" htmlFor={day}>
-                {day}
-              </label>
-            </div>
-          ))}
+          
         </div>
         <div className="mb-3">
           <label htmlFor="startTime" className="form-label">
@@ -226,9 +198,10 @@ export default function EditSchedule() {
             value={schedule.classroom_id}
             onChange={handleClassroomChange}
           >
+           
             {classroomsList.map((classroom) => (
               <option key={classroom.id} value={classroom.id}>
-                {classroom.name}
+                {classroom.class_room}
               </option>
             ))}
           </select>

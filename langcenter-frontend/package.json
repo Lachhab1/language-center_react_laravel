@@ -25,6 +25,7 @@
     "react-big-calendar": "^1.6.9",
     "react-bootstrap": "^2.7.4",
     "react-chartjs-2": "^5.2.0",
+    "react-color": "^2.19.3",
     "react-data-table-component": "^7.5.3",
     "react-dom": "^18.2.0",
     "react-icons": "^4.8.0",

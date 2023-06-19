@@ -65,6 +65,7 @@ export default function EditCourse() {
                 setVariant('warning');
                 setTimeout(() => {
                     setNotification('');
+                    setVariant('');
                 }, 3000);
       navigate(`${x}/course`);
       });
@@ -140,7 +141,7 @@ export default function EditCourse() {
         </div>
 
         <button type='submit' className='btn btn-primary'>
-          Add
+          Edit
         </button>
         </form>
         </div>

@@ -47,6 +47,7 @@ export default function AddCourse() {
                 setVariant('success');
                 setTimeout(() => {
                     setNotification('');
+                    setVariant('');
                 }, 3000);
       navigate(`${x}/course`);
       });

@@ -18,7 +18,7 @@ class TimeTableResource extends JsonResource
             'classroom_id' => $this->classroom_id,
             'startTime' => $this->startTime,
             'FinishTime' => $this->finishTime,
-            'days' => $this->days,
+            'day_id' => $this->day_id,
             // Add more attributes as needed
         ];
     }

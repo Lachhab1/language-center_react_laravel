@@ -85,6 +85,7 @@ export default function DashboardSec() {
             {/* <TimetableScheduler data={timetableData} /> */}
           </div>
         </div>
+        <TimetableScheduler/>
       </div>
     );
   };

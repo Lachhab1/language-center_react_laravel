@@ -56,6 +56,7 @@ class DatabaseSeeder extends Seeder
             'end_date' => '2022-01-01',
             'level' => 'A',
             'cours_id' => 1,
+            'event_color' => '#265985',
         ]);
         \App\Models\InscrireClass::create([
             'class__id' => 1,

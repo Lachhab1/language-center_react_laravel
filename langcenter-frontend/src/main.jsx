@@ -5,7 +5,7 @@ import router from './router';
 import "bootstrap/dist/css/bootstrap.min.css";
 import 'bootstrap/dist/js/bootstrap.min.js';
 import {ContextProvider} from "./context/ContextProvider"
-import "./app.css";
+import "./App.css";
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <ContextProvider>

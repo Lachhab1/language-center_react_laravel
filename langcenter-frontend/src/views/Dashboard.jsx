@@ -13,7 +13,14 @@ import { UseStateContext } from '../context/ContextProvider';
 import axios from "../api/axios"
 import { Navigate } from 'react-router-dom';
 
+
+import 'react-big-calendar/lib/css/react-big-calendar.css';
+
+
+import 'react-big-calendar/lib/css/react-big-calendar.css';
+
 const Dashboard = () => {
+
   const [femaleCount, setFemaleCount] = useState(0);
   const [maleCount, setMaleCount] = useState(0);
   const [cardsData, setCardsData] = useState([]);
@@ -79,15 +86,10 @@ const Dashboard = () => {
     setInterval(value);
   };
 
-  const timetableData = [
-    { groupName: 'Group 1', courseName: 'English', salle: 'A101', dateStart: new Date(2023, 4, 1, 9, 0), dateEnd: new Date(2023, 4, 1, 10, 30) },
-    { groupName: 'Group 2', courseName: 'French', salle: 'B202', dateStart: new Date(2023, 4, 1, 11, 0), dateEnd: new Date(2023, 4, 1, 12, 30) },
-    { groupName: 'Group 3', courseName: 'Spanish', salle: 'C303', dateStart: new Date(2023, 4, 1, 13, 0), dateEnd: new Date(2023, 4, 1, 14, 30) },
-    { groupName: 'Group 1', courseName: 'English', salle: 'A101', dateStart: new Date(2023, 4, 6, 9, 0), dateEnd: new Date(2023, 4, 6, 10, 30) },
-    { groupName: 'Group 2', courseName: 'French', salle: 'B202', dateStart: new Date(2023, 4, 6, 11, 0), dateEnd: new Date(2023, 4, 6, 12, 30) },
-    { groupName: 'Group 3', courseName: 'Spanish', salle: 'C303', dateStart: new Date(2023, 4, 6, 13, 0), dateEnd: new Date(2023, 4, 6, 14, 30) }
-    // Add more timetable data as needed
-  ];
+
+
+
+  
   return (
     <div className=''>
       <div className='row justify-content-around'>
@@ -120,6 +122,9 @@ const Dashboard = () => {
         {/* <TimetableScheduler data={timetableData} /> */}
         </div>
         </div>
+
+      
+      <TimetableScheduler/>
     </div>
   );
 };
