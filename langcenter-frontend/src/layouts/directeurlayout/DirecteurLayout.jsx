@@ -1,4 +1,4 @@
-import React from 'react'
+import {useState} from 'react'
 import SidebarDirecteur from "../../components/SidebarDirecteur"
 import { Navigate, Outlet,useLocation } from "react-router-dom";
 import Topbar from "../../components/Topbar";
@@ -20,20 +20,12 @@ const {token,notification,variant,user} = UseStateContext();
   for (let i = 1; i < 2 && i < words.length; i++) {
     result += words[i] + " ";
   }
-  let x = ''
-  if ( user.role == "admin")
-  {
-    x = ""
-  } else {
-    x = "secretary"
-  }
   const dashboardstyle = {
     backgroundColor: "#F1F1F3"
   }
-  const style = location.pathname === "/dashboard" ? dashboardstyle: ""
+  const style = location.pathname === "/director/dashboard" ? dashboardstyle: ""
   if(!token) return <Navigate to="/auth" />
-  if (token && user && user.role !="director") return <Navigate to={`${x}/dashboard`} />
-  if (token && user.role === "director")
+  if (token && user?.role === "director")
 {
   return (
           <div className="d-flex flex-row w-100">
