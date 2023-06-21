@@ -20,12 +20,24 @@ export default function ContentLayout() {
   for (let i = 0; i < 1 && i < words.length; i++) {
     result += words[i] + " ";
   }
-
+  let x = ''
+  if ( user.role == "admin")
+  {
+    x = ""
+  }
+  else if ( user.role == "director")
+  {
+    x = "director"
+  }
+  else {
+    x = "secretary"
+  }
   const dashboardstyle = {
     backgroundColor: "#F1F1F3"
   }
   const style = location.pathname === "/dashboard" ? dashboardstyle: ""
   if(!token) return <Navigate to="/auth" />
+  if (token && user && user.role !== "admin") return <Navigate to={`${x}/dashboard`} />
   if (user && user.role === "admin")
   {
     return (

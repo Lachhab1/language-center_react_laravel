@@ -25,8 +25,18 @@ const {token,notification,variant,user} = UseStateContext();
   const dashboardstyle = {
     backgroundColor: "#F1F1F3"
   }
+  let x = ''
+  if ( user.role == "admin")
+  {
+    x = ""
+  }
+  else if ( user.role == "director")
+  {
+    x = "director"
+  }
   const style = location.pathname === "/dashboard" ? dashboardstyle: ""
  if(!token) return <Navigate to="/auth" />
+ if (token && user && user.role !== 'secretary') return <Navigate to={`${x}/dashboard`} />
  if (token && user.role == "secretary")
 {
   return (
