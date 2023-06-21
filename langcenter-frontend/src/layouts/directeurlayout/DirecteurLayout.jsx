@@ -20,12 +20,19 @@ const {token,notification,variant,user} = UseStateContext();
   for (let i = 1; i < 2 && i < words.length; i++) {
     result += words[i] + " ";
   }
-
+  let x = ''
+  if ( user.role == "admin")
+  {
+    x = ""
+  } else {
+    x = "secretary"
+  }
   const dashboardstyle = {
     backgroundColor: "#F1F1F3"
   }
-  const style = location.pathname === "/director/dashboard" ? dashboardstyle: ""
+  const style = location.pathname === "/dashboard" ? dashboardstyle: ""
   if(!token) return <Navigate to="/auth" />
+  if (token && user && user.role !="director") return <Navigate to={`${x}/dashboard`} />
   if (token && user.role === "director")
 {
   return (
