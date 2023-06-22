@@ -15,6 +15,7 @@ import Inscription from '../components/InscStudDash/AddInscription';
 import { UseStateContext } from '../context/ContextProvider';
 import { Navigate } from 'react-router-dom';
 import axios from "../api/axios"
+import CardBoostrap from 'react-bootstrap/Card';
 
 const DashboardDirecteur = () => {
   const {user,token} = UseStateContext();
@@ -92,7 +93,9 @@ const DashboardDirecteur = () => {
       {/* <div className='col-12 mx-auto mb-4 Charts'>
         <TimetableScheduler data={timetableData} />
       </div> */}
+      <CardBoostrap className='col-11 mx-auto mb-4 b-4 '>
       <TimetableScheduler/>
+      </CardBoostrap>
     </div>
   );
   
