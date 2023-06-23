@@ -5,6 +5,9 @@ import {Card,Alert, Col} from 'react-bootstrap';
 import { UseStateContext } from "../../context/ContextProvider";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { UserPlusIcon } from "@heroicons/react/24/outline";
+import { useState } from "react";
+import { useEffect } from "react";
 
 export default function ContentLayout() {
   const {token,notification,variant,user} = UseStateContext();
@@ -20,13 +23,13 @@ export default function ContentLayout() {
   for (let i = 0; i < 1 && i < words.length; i++) {
     result += words[i] + " ";
   }
-
+  
   const dashboardstyle = {
     backgroundColor: "#F1F1F3"
   }
   const style = location.pathname === "/dashboard" ? dashboardstyle: ""
   if(!token) return <Navigate to="/auth" />
-  if (user && user.role === "admin")
+  if (token && user && user?.role === "admin")
   {
     return (
       <div className="d-flex flex-row w-100">

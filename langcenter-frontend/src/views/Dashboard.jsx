@@ -12,6 +12,7 @@ import '../components/DashboardCardsCompo/charts.css';
 import { UseStateContext } from '../context/ContextProvider';
 import axios from "../api/axios"
 import { Navigate } from 'react-router-dom';
+import CardBoostrap from 'react-bootstrap/Card';
 
 
 import 'react-big-calendar/lib/css/react-big-calendar.css';
@@ -123,8 +124,9 @@ const Dashboard = () => {
         </div>
         </div>
 
-      
+      <CardBoostrap className='col-11 mx-auto mb-4 b-4 '>
       <TimetableScheduler/>
+      </CardBoostrap>
     </div>
   );
 };
