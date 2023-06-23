@@ -9,7 +9,7 @@ use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\ParentController;
 use App\Http\Controllers\EtudiantController;
 use App\Http\Controllers\CoursController;
-
+use App\Http\Controllers\StudentsAttendanceController;
 use App\Http\Controllers\DaysController;
 
 use App\Http\Controllers\TimeTablesController;
@@ -83,3 +83,15 @@ Route::put('/classroom/{classroom}', 'App\Http\Controllers\ClassroomController@u
 Route::delete('/classroom/{classroom}', 'App\Http\Controllers\ClassroomController@destroy');
 //number countroller
 Route::get('/number', 'App\Http\Controllers\NumberController@index');
+
+//presence Etudiant
+Route::get('/studentsAttendance/{class_id}/{date}','App\Http\Controllers\StudentsAttendanceController@show');
+Route::get('/studentsAttendance','App\Http\Controllers\StudentsAttendanceController@index');
+Route::post('/studentsAttendance/{class_id}/{date}','App\Http\Controllers\StudentsAttendanceController@store');
+Route::put('/studentsAttendance/{class_id}/{date}','App\Http\Controllers\StudentsAttendanceController@update');
+
+//presence Etudiant
+Route::get('/teachersAttendance/{date}','App\Http\Controllers\TeachersAttendanceController@show');
+Route::get('/teachersAttendance','App\Http\Controllers\TeachersAttendanceController@index');
+Route::post('/teachersAttendance/{date}','App\Http\Controllers\TeachersAttendanceController@store');
+Route::put('/teachersAttendance/{date}','App\Http\Controllers\TeachersAttendanceController@update');

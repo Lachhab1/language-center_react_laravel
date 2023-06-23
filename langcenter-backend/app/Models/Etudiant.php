@@ -36,4 +36,5 @@ class Etudiant extends Model
     {
         return $this->hasMany(InscrireClass::class, 'etudiant_id', 'id');
     }
+    
 }
