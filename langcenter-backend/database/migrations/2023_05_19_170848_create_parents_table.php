@@ -16,11 +16,11 @@ return new class extends Migration
             $table->string('nom', 254);
             $table->string('prenom', 254);
             $table->string('cin', 254)->unique();
-            $table->datetime('date_naissance');
-            $table->string('sexe', 254);
-            $table->string('email', 254);
-            $table->string('adresse', 254);
-            $table->string('telephone', 254);
+            $table->datetime('date_naissance')->nullable();
+            $table->string('sexe', 254)->nullable();
+            $table->string('email', 254)->unique()->nullable();
+            $table->string('adresse', 254)->nullable();
+            $table->string('telephone', 254)->nullable();
         });
     }
 

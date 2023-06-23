@@ -36,11 +36,11 @@ export default function TableFeesEtud()
                   id:row.id,
                   name:row.etudiant.nom + " " + row.etudiant.prenom,
                   status:row.status,
-                  iamount:row.cours.price,
+                  iamount:row.cours?.price,
                   aamount:row.negotiated_price,
                   pamount:row.payment.amount,
                   ramount: row.negotiated_price - row.payment.amount > 0 ? row.negotiated_price - row.payment.amount : 0,
-                  class:row.class.name,
+                  class:row.class?.name,
                   date:row.updated_at,
               }))
           );
@@ -97,15 +97,15 @@ export default function TableFeesEtud()
       ),
         },
         {
-          name:"Amount",
+          name:"Cours Price",
           selector:row => row.iamount
       },
       {
-          name:"Agreed ",
+          name:"Total Agreed ",
           selector:row => row.aamount
       },
       {
-          name:"Paid ",
+          name:"Paid",
           selector:row => row.pamount
       },
       {
@@ -113,7 +113,7 @@ export default function TableFeesEtud()
           selector:row => row.ramount
       },
         {
-            name:"Date",
+            name:"Date of Payment",
             selector:row => row.date
         },
         {

@@ -15,13 +15,24 @@ const [pending, setPending] = useState(true);
 const [data,setData]=useState([]);
 const [records,setRecords]=useState([]);
 const navigate = useNavigate();
-
+let x = ""
+if (user && user.role==='admin')
+{
+    x = ""
+} else if (user && user.role==='director')
+{
+    x="/director"
+}
+else{
+    x="/secretary"
+}
 useEffect(() => {
     const timeout = setTimeout(async() => {
         const response = await axios.get("/api/etudiants");
         response.data.data.map((datar) => {
-            const classes = datar?.classes.map((item) => item.name) || [];
-            const classesString = classes.length > 0 ? classes.join(', ') : 'No class';
+            const classes = datar?.classes.map((item) => `${item?.name}`) || [];
+            console.log(classes);
+            const classesString = classes.length > 0 && classes != "undefined" ? classes.join(', ') : 'No class';
             setData((prev)=>
             (
                 [...prev,
@@ -52,20 +63,10 @@ const deleteRow = async (id) => {
     setTimeout(() => {
         setNotification("");
         setVariant("");
-    }, 3000);
-    navigate("/student");
+        window.location.reload();
+    }, 7000);
 };
-let x = ""
-if (user && user.role==='admin')
-{
-    x = ""
-} else if (user && user.role==='director')
-{
-    x="/director"
-}
-else{
-    x="/secretary"
-}
+
 
 
 
@@ -97,7 +98,17 @@ const col=[
     {
         name:"Class",
         selector:row => row.class,
-        sortable: true 
+        sortable: true ,
+        cell: (row) => (
+            <div style={{ display: 'flex', gap: '0px' }}>
+                <div className="badge badge-pill badge-success px-3 py-2 font-weight-bold fs-6"
+                    style={{
+                    color: row.class == "No class" ? 'red' : 'skyblue   ',
+                    }}>
+                    {row.class}
+                </div>
+            </div>
+        ),
     },
     {
         name:"Parents",

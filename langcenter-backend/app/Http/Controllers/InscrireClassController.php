@@ -24,13 +24,18 @@ class InscrireClassController extends Controller
         try {
             $data = $request->validate([
                 'etudiant_id' => 'required|integer',
-                'class_id' => 'required|integer',
+                'class_id' => 'integer',
                 'negotiated_price' => 'required|integer',
             ]);
             $inscrireClass = new InscrireClass();
             $etudiant = Etudiant::findOrFail($request->etudiant_id);
-            $inscrireClass->etudiant()->associate($etudiant);
-            $inscrireClass->class_()->associate($request->class_id);
+            //check if the request has class
+            if ($request->class_id) {
+                $inscrireClass->etudiant()->associate($etudiant);
+                $inscrireClass->class_()->associate($request->class_id);
+            } else {
+                $inscrireClass->etudiant()->associate($etudiant);
+            }
             $inscrireClass->inscription_date = now();
             $inscrireClass->negotiated_price = $request->negotiated_price;
             $inscrireClass->save();

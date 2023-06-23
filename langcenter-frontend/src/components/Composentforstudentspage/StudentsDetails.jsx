@@ -32,7 +32,7 @@ useEffect(() => {
                             FatherOcupation: "not yet",
                             // DateEnrol:datar.inscription_date,
                             gender: datar.sexe,
-                            classes: datar.classes,
+                            classes: datar.classes || [],
                             Fathername:datar?.parent?.prenom+" "+datar?.parent?.nom,
                             Fatheremail:datar?.parent?.email,
                             Fatherphone:datar?.parent?.telephone,
@@ -49,7 +49,6 @@ useEffect(() => {
     }, 200);
     return () => clearTimeout(timeout);
 }, []);
-
    return(
     
         pending ? (
@@ -144,17 +143,25 @@ useEffect(() => {
                         <br />
                         <br />
                         <div className="row">
-                            <div className="col-6">
-                                 Classes
+                                <div className="col-6">
+                                {data.classes[0] ? <div>Classes</div> : <></>}
                             </div>
                             <div className="col-6">
-                            {data.classes.map((classe,key)=>
-                            (
+                            {
+                                data.classes[0]  ? (
+                                    data.classes.map((classe,key)=>
+                                    (
+                                
                                 <div key={key}>
-                                    Name: {classe.name}<br/> level:  {classe.level}<br/> school year: {classe.school_year}<br/> class Capacity {classe.capacity} <hr/>
+                                    Name: {classe?.name}<br/> level:  {classe?.level}<br/> school year: {classe?.school_year} <hr/>
                                 </div>
-                            ))}
-                            </div>
+                            ))
+                     ):
+                        (
+                            <div></div>
+                        )
+                        }
+                        </div>
                         </div>
                     
                 </div>
