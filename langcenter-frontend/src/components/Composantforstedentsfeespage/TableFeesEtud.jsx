@@ -101,7 +101,7 @@ export default function TableFeesEtud()
           selector:row => row.iamount
       },
       {
-          name:"Total Agreed ",
+          name:"Total",
           selector:row => row.aamount
       },
       {
