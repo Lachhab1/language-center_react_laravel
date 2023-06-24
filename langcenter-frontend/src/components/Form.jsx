@@ -260,7 +260,7 @@ function FormC() {
               {...formik.getFieldProps('gender')}
               isInvalid={formik.touched.gender && formik.errors.gender}
               >
-              <option value=''>Chose Gender</option>
+              <option value=''>choose Gender</option>
               <option value='female'>female</option>
               <option value='male'>male</option>
               </Form.Select>
