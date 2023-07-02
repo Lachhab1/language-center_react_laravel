@@ -44,7 +44,7 @@ export default function PaymentClasses_Modal({showModal,handleClose,selectedItem
                                             <td>{data?.amount ? data?.amount : 0}</td>
                                             <td>Cash</td>
                                             <td>{data?.negotiated_price ? data?.negotiated_price : 0}</td>
-                                            <td>{data?.negotiated_price && data?.amount ? data?.negotiated_price > data?.amount ? 0 :  +data?.amount - data?.negotiated_price : 0}</td>
+                                            <td>{data?.negotiated_price && data?.amount ? data?.negotiated_price < data?.amount ? 0 :  +data?.negotiated_price - +data?.amount : 0}</td>
                                             <td>{data?.status}</td>
                                         </tr>
                                 </tbody>

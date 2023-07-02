@@ -4,6 +4,7 @@ import { Form } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
+import { InputGroup } from 'react-bootstrap';
 import * as yup from 'yup';
 import axios from '../api/axios';
 import {useNavigate} from 'react-router-dom';
@@ -54,6 +55,8 @@ function FormC() {
         courseName: ``,
         courseFeesPaid: ``,
         negotiatedPrice: ``,
+        discount: ``,
+        customDiscount: ``,
         insurrance: false,
         course: false,
         testLevel: false,
@@ -87,6 +90,8 @@ function FormC() {
       courseFeesPaid: yup.number().required('required'),
       negotiatedPrice: yup.number().required('required'),
       file: yup.mixed(),
+      discount: yup.string(),
+      customDiscount: yup.number(),
   }),
   onSubmit: (values) => {
     console.log("wewe are here");
@@ -202,8 +207,14 @@ function FormC() {
   setTotal(getTotals());
   },[formik.values.insurrance,formik.values.course,formik.values.testLevel,formik.values.class]);
   useEffect(() => {
-    formik.setFieldValue('negotiatedPrice',total);
-  },[total]);
+    let res = 0;
+    if (formik.values.discount === 'custom'){
+      res = formik.values.customDiscount;
+    } else {
+      res = formik.values.discount;
+    }
+    formik.setFieldValue('negotiatedPrice',+total - res * total / 100);
+  },[total,formik.values.discount,formik.values.customDiscount]);
   return (
         <Form noValidate onSubmit={handleSubmit}>
           <Row className='mb-3'>
@@ -457,9 +468,7 @@ function FormC() {
                 {formik.errors.guardBirthDate}
                 </Form.Control.Feedback>
                 </Form.Group>
-
           </Row>
-          
         :
         <>
 
@@ -566,6 +575,35 @@ function FormC() {
                 disabled
                 />
           </Form.Group>
+          <Form.Group as={Col} md="3" sm="6" xs="12" controlId="validationFormik1" className='position-relative'>
+  <Form.Label>Discount</Form.Label>
+  <InputGroup>
+    <Form.Select
+      name="discount"
+      {...formik.getFieldProps('discount')}
+      isInvalid={formik.touched.discount && formik.errors.discount}
+    >
+      <option value="">Select Discount</option>
+      <option value="10">10%</option>
+      <option value="20">20%</option>
+      <option value="30">30%</option>
+      <option value="custom">Custom</option>
+    </Form.Select>
+    {formik.values.discount === 'custom' && (
+      <Form.Control
+        type="number"
+        name="customDiscount"
+        placeholder="Enter custom discount"
+        {...formik.getFieldProps('customDiscount')}
+        isInvalid={formik.touched.customDiscount && formik.errors.customDiscount}
+      />
+      )}
+      <InputGroup.Text id="basic-addon1">%</InputGroup.Text>
+    <Form.Control.Feedback className='' type="invalid" tooltip>
+      {formik.values.discount === 'custom' ? formik.errors.customDiscount : formik.errors.discount}
+    </Form.Control.Feedback>
+  </InputGroup>
+</Form.Group>
               <Form.Group
               as={Col}
               md={3}
