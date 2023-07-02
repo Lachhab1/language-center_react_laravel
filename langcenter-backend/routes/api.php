@@ -110,3 +110,5 @@ Route::post('/tests', 'App\Http\Controllers\TestsController@store');
 Route::get('/tests/{test}', 'App\Http\Controllers\TestsController@show');
 Route::put('/tests/{test}', 'App\Http\Controllers\TestsController@update');
 Route::delete('/tests/{test}', 'App\Http\Controllers\TestsController@destroy');
+//getPayment for class
+Route::post('/getPayment/{id}', 'App\Http\Controllers\ClassPayment@getPayment');

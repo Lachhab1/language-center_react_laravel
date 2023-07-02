@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Etudiant;
 use App\Models\InscrireClass;
 use App\Models\Cours;
+use App\Models\Payment;
 
 class Class_ extends Model
 {

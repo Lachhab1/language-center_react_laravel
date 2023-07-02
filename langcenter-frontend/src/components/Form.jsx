@@ -148,15 +148,14 @@ function FormC() {
       class_id: formik.values.class,
       negotiated_price: formik.values.negotiatedPrice,
     }
+    if (formik.values.insurrance === true || formik.values.testLevel === true || formik.values.course === true){
     if (formik.values.course === false){
       inscriptionData = {
-        etudiant_id: etudiantId,
+      etudiant_id: etudiantId,
       negotiated_price: formik.values.negotiatedPrice,
       }
     }
-
     try{
-
       response2 = await axios.post('/api/inscrire-classes',inscriptionData);
       console.log(response2);
     }catch (error) {
@@ -172,6 +171,7 @@ function FormC() {
     } catch (error) {
       console.log(error);
     }
+  }
     console.log(response3);
     setNotification("Student added successfully");
     setVariant("success");
