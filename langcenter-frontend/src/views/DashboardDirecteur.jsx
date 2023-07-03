@@ -83,13 +83,6 @@ const DashboardDirecteur = () => {
           <Card title='Parents' icon={parents} data={cardsData.parents} />
         </div>
       </div>
-      <div className='col-12 mx-auto my-5 card'>
-      <Button variant='danger' className='my-3 me-4 ms-auto' onClick={handleModalToggle}>
-        Add Inscription
-        </Button>
-        <Inscription show={showModal} onHide={handleModalToggle} />
-        <InscriptionTable/>
-      </div>
       {/* <div className='col-12 mx-auto mb-4 Charts'>
         <TimetableScheduler data={timetableData} />
       </div> */}

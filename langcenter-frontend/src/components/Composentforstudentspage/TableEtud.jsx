@@ -7,9 +7,18 @@ import { Link, Navigate,useNavigate } from "react-router-dom";
 import axios from "../../api/axios";
 import { Ellipsis } from 'react-awesome-spinners'
 import { UseStateContext } from "../../context/ContextProvider";
+import AddClass from "./addClass";
 
 export default function TableEtud()
 {
+    const [showModal, setShowModal] = useState(false);
+    const [selectedItem, setSelectedItem] = useState(null);
+    //functions to hadnle modal show and close
+    const handleListClick = (item) => {
+        setSelectedItem(item);
+        setShowModal(true);
+    };
+    const handleClose = () => setShowModal(false);
 const {user,setNotification,setVariant} = UseStateContext()
 const [pending, setPending] = useState(true);
 const [data,setData]=useState([]);
@@ -100,13 +109,17 @@ const col=[
         selector:row => row.class,
         sortable: true ,
         cell: (row) => (
-            <div style={{ display: 'flex', gap: '0px' }}>
-                <div className="badge badge-pill badge-success px-3 py-2 font-weight-bold fs-6"
+            <div style={{ display: 'flex',justifyContent: 'space-between',width: '70%'}}>
+                <div className="py-2 fs-6"
                     style={{
-                    color: row.class == "No class" ? 'red' : 'skyblue   ',
+                    color: row.class == "No class" ? 'red' : 'skyblue',
+                    fontWeight: 'bold',
+                    fontFamily: 'monospace',
                     }}>
                     {row.class}
                 </div>
+                <span className="fw-bold fs-4 text-center opacity-25 addClass" onClick={() => handleListClick(row)}>+</span>
+                <AddClass showModal={showModal} handleClose={handleClose} selectedItem={selectedItem} id={row.id}/>           
             </div>
         ),
     },
