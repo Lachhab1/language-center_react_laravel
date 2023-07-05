@@ -96,9 +96,10 @@ class InscrireClassController extends Controller
         $negotiatedPrice = $inscrire->negotiated_price;
 
         // Update the payment status based on the payment amount and negotiated price
-        if ($paymentAmount >= $negotiatedPrice) {
+        $totalPayment = $inscrire->payments->sum('amount');
+        if ($totalPayment >= $negotiatedPrice) {
             $paymentStatus = 'Paid';
-        } elseif ($paymentAmount > 0) {
+        } elseif ($totalPayment > 0) {
             $paymentStatus = 'Partial Payment';
         } else {
             $paymentStatus = 'Unpaid';

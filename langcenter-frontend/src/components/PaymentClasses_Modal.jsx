@@ -1,14 +1,18 @@
 import { useEffect,useState  } from "react"
 import { Modal,Form,Row,Col } from "react-bootstrap"
 import axios from "../api/axios"
+import { Ellipsis } from 'react-awesome-spinners'
 export default function PaymentClasses_Modal({showModal,handleClose,selectedItem,id}) {
     const [data,setData]=useState([]);
+    const [pending, setPending] = useState(true);
+    let totalPaid = 0;
     //fetch payment details for classe
     useEffect (()=>{
         //fetch data
         const fetchData = async () => {
         const response = await axios.post(`/api/getPayment/${selectedItem}`,{etudiantId:id});
         setData(response?.data);
+        setPending(false);
         }
         if (showModal )
         { 
@@ -17,8 +21,19 @@ export default function PaymentClasses_Modal({showModal,handleClose,selectedItem
     },[selectedItem])
 
   return (
-    <Modal show={showModal} onHide={handleClose} size="lg">
-        <Modal.Header closeButton>
+      <Modal show={showModal} onHide={handleClose} size="lg">
+        {pending ? 
+        
+        <div className="mx-auto">
+        <Ellipsis size={64}
+                        color='#D60A0B'
+                        sizeUnit='px' /> 
+        </div>
+        
+        : 
+            (
+                <>
+                    <Modal.Header closeButton>
             <Modal.Title>Payment Classes</Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -39,14 +54,19 @@ export default function PaymentClasses_Modal({showModal,handleClose,selectedItem
                                     </tr>
                                 </thead>
                                 <tbody>
-                                        <tr>
-                                            <td>{data?.payment_date}</td>
-                                            <td>{data?.amount ? data?.amount : 0}</td>
-                                            <td>Cash</td>
-                                            <td>{data?.negotiated_price ? data?.negotiated_price : 0}</td>
-                                            <td>{data?.negotiated_price && data?.amount ? data?.negotiated_price < data?.amount ? 0 :  +data?.negotiated_price - +data?.amount : 0}</td>
-                                            <td>{data?.status}</td>
-                                        </tr>
+                                    {data["payment"]?.map(
+                                        (item,index)=>(
+                                            totalPaid = totalPaid + +item?.amount,
+                                            <tr key={index}>
+                                                <td>{item?.payment_date}</td>
+                                                <td>{item?.amount ? item?.amount : 0}</td>
+                                                <td>cash</td>
+                                                <td>{data?.negotiated_price ? data?.negotiated_price : 0}</td>
+                                                <td>{+data?.negotiated_price - totalPaid}</td>
+                                                <td>{data?.status}</td>
+                                            </tr>
+                                        )
+                                    )}
                                 </tbody>
                             </table>
                         </div>
@@ -57,6 +77,9 @@ export default function PaymentClasses_Modal({showModal,handleClose,selectedItem
         <Modal.Footer>
             <button className="btn btn-secondary" onClick={handleClose}>Close</button>
         </Modal.Footer>
+                </>
+            )
+        }
     </Modal>
   )
 }
