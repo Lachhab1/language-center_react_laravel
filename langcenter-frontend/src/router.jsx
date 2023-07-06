@@ -66,6 +66,12 @@ import DashbordSec from "./components/DashbordSec/DashbordSec" ;
 import DirecteurLayout from "./layouts/directeurlayout/DirecteurLayout";
 import ScheduleTable from "./components/EmploiTempsCompo/ScheduleTable";
 
+//import for tests
+import Test from "./components/TestComponents/index";
+
+//import for levels
+import Levels from "./components/LevelComponents/index";
+
 const router = createBrowserRouter([
         {
             path: '/',
@@ -100,6 +106,24 @@ const router = createBrowserRouter([
                 }
                 ]
                 
+            },
+            {
+                path: "/",
+                children: [
+                    {
+                        path: '/Tests',
+                        element: <Test/>
+                    }
+                ]
+            },
+            {
+                path: "/",
+                children: [
+                    {
+                        path: '/levels',
+                        element: <Levels/>
+                    }
+                ]
             },
             {
                 path: '/',

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\TestResource;
 use App\Models\Tests;
 use Illuminate\Http\Request;
 
@@ -12,8 +13,7 @@ class TestsController extends Controller
      */
     public function index()
     {
-        $tests = Tests::all();
-        return response()->json($tests);
+        return TestResource::collection(Tests::all());
     }
 
 
@@ -22,7 +22,17 @@ class TestsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //store a new test
+        $data = $request->validate([
+            'name' => 'required|string',
+            'description' => 'string|nullable',
+            'price' => 'required|integer',
+            'duration' => 'required|integer',
+            'level_id' => 'required|integer',
+            'isPaid' => 'required|boolean',
+        ]);
+        $test = Tests::create($data);
+        return new TestResource($test);
     }
 
     /**

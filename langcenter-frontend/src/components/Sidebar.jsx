@@ -17,7 +17,10 @@ import presence from "../images/icons/presence.svg";
 import results from "../images/icons/results.svg";
 import salles from "../images/icons/salles.svg";
 import users from "../images/icons/utilisateurs.svg";
+import pass from "../images/icons/pass-fill.svg";
+import level from "../images/icons/icons8-language-skill.svg"
 import { UseStateContext } from '../context/ContextProvider';
+
 
 
 export default function Sidebar() {
@@ -51,6 +54,8 @@ export default function Sidebar() {
                     <Nav.Item><NavLink className="a nav-link link-light" to="/parent"><img src={parents} />{openSidebar && "Parents" }</NavLink></Nav.Item>
                     <Nav.Item><NavLink className="a nav-link link-light" to="/class"><img src={groupes} />{openSidebar && "Classes"}</NavLink></Nav.Item>
                     <Nav.Item><NavLink className="a nav-link link-light" to="/course"><img src={cours} />{openSidebar && "Courses"}</NavLink></Nav.Item>
+                    <Nav.Item><NavLink className={"a nav-link link-light"} to="/tests"><img src={pass} />{openSidebar && "Tests"}</NavLink></Nav.Item>
+                    <Nav.Item><NavLink className={"a nav-link link-light"} to="/levels"><img src={level} />{openSidebar && "Levels"}</NavLink></Nav.Item>
 
                     {/* Presences le span pour cacher ces elements a fin de remplacer le collapse avec dropdown dans les petits ecrans */}
 
