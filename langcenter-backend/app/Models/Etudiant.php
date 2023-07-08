@@ -5,8 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use App\Models\Parent_;
 use App\Models\InscrireClass;
+use App\Models\LanguageLevel;
+
 
 class Etudiant extends Model
 {
@@ -16,6 +19,7 @@ class Etudiant extends Model
      *
      * @var array<int, string>
      */
+    public $table = 'etudiants';
     public $timestamps = false;
     protected $fillable = [
         'nom',
@@ -28,6 +32,7 @@ class Etudiant extends Model
         'isActive',
         'parent_cin',
     ];
+
     public function parent_()
     {
         return $this->belongsTo(Parent_::class, 'parent_id', 'id');
@@ -36,5 +41,8 @@ class Etudiant extends Model
     {
         return $this->hasMany(InscrireClass::class, 'etudiant_id', 'id');
     }
-    
+    public function level()
+    {
+        return $this->hasOne(LanguageLevel::class, 'id', 'level_id');
+    }
 }

@@ -17,6 +17,7 @@ use App\Models\time_tables;
 
 use App\Http\Controllers\ClassroomController;
 use App\Models\Classroom;
+use Illuminate\Support\Facades\Http;
 
 Route::post('/login', [LoginController::class, 'login']);
 
@@ -112,3 +113,8 @@ Route::put('/tests/{test}', 'App\Http\Controllers\TestsController@update');
 Route::delete('/tests/{test}', 'App\Http\Controllers\TestsController@destroy');
 //getPayment for class
 Route::post('/getPayment/{id}', 'App\Http\Controllers\ClassPayment@getPayment');
+
+//assign level to student
+Route::post('/assignLevel', 'App\Http\Controllers\AssignLevel@assignLevel');
+//get level of student
+Route::get('/getLevel/{id}', 'App\Http\Controllers\AssignLevel@getLevel');

@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Models\Etudiant;
+
 
 class LanguageLevel extends Model
 {
@@ -13,4 +16,8 @@ class LanguageLevel extends Model
         'name',
     ];
     public $timestamps = false;
+    public function etudiants()
+    {
+        return $this->hasMany(Etudiant::class, 'level_id', 'id');
+    }
 }
