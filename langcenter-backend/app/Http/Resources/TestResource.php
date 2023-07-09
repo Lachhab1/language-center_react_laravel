@@ -20,7 +20,7 @@ class TestResource extends JsonResource
             'description' => $this->description,
             'price' => $this->price,
             'duration' => $this->duration,
-            'level_id' => $this->level_id,
+            'level' => $this->level->name,
             'isPaid' => $this->isPaid,
         ];
     }

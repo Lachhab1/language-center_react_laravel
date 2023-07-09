@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\Etudiant;
+use App\Models\Tests;
 
 
 class LanguageLevel extends Model
@@ -19,5 +20,9 @@ class LanguageLevel extends Model
     public function etudiants()
     {
         return $this->hasMany(Etudiant::class, 'level_id', 'id');
+    }
+    public function test()
+    {
+        return $this->belongsTo(Tests::class, 'level_id', 'id');
     }
 }

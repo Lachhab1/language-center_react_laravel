@@ -8,17 +8,40 @@ import axios from "../../api/axios";
 import { Ellipsis } from 'react-awesome-spinners'
 import { UseStateContext } from "../../context/ContextProvider";
 import AddClass from "./addClass";
+import male from "../../images/icons/icons8-male (1).svg"
+import female from "../../images/icons/icons8-female (1).svg"
+import Form from 'react-bootstrap/Form';
 
 export default function TableEtud()
 {
+    const tableCustomStyles = {
+    headCells: {
+        style: {
+        fontSize: '20px',
+        fontWeight: 'bold',
+        paddingLeft: '0 8px',
+        justifyContent: 'center',
+        backgroundColor: '#f5f5f5',
+        },
+    },
+    cells: {
+        style: {
+        fontSize: '18px',
+        paddingLeft: '0 8px',
+        justifyContent: 'center',
+        },
+    },
+        }
     const [showModal, setShowModal] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
+    const [selectedOption, setSelectedOption] = useState(null);
     //functions to hadnle modal show and close
     const handleListClick = (item) => {
         setSelectedItem(item);
         setShowModal(true);
     };
     const handleClose = () => setShowModal(false);
+    const [levels,setLevels]=useState([]);
 const {user,setNotification,setVariant} = UseStateContext()
 const [pending, setPending] = useState(true);
 const [data,setData]=useState([]);
@@ -38,9 +61,10 @@ else{
 useEffect(() => {
     const timeout = setTimeout(async() => {
         const response = await axios.get("/api/etudiants");
+        const levels = await axios.get("/api/levels");
+        setLevels(levels.data);
         response.data.data.map((datar) => {
             const classes = datar?.classes.map((item) => `${item?.name}`) || [];
-            console.log(classes);
             const classesString = classes.length > 0 && classes != "undefined" ? classes.join(', ') : 'No class';
             setData((prev)=>
             (
@@ -50,8 +74,9 @@ useEffect(() => {
                     name:datar.prenom+" "+datar.nom,
                     gender: datar.sexe,
                     class:  classesString,
-                    parents:datar.parent?  (datar.parent?.nom+" "+datar.parent?.prenom) : "No parent",
+                    parents:datar.parent?  (datar.parent?.nom+" "+datar.parent?.prenom) : "_________",
                     status:true,
+                    level: datar?.level?.id,
                     }
                 ])
             )
@@ -77,7 +102,14 @@ const deleteRow = async (id) => {
 };
 
 
-
+const handleChange = async (e,id) => {
+    const level = e.target.value;
+    const response = {
+        student_id: id,
+        level_id: level,
+    }
+    await axios.post(`/api/assignLevel`, JSON.stringify(response));
+};
 
 
 
@@ -103,16 +135,33 @@ const col=[
     {
         name:"Gender",
         selector:row => row.gender,
+        sortable: true ,
+        cell: (row) => (
+            <div style={{ display: 'flex', gap: '0px' }}>
+                {row.gender === "male" 
+                    ?
+                        (
+                            <img src={male} width={"30px"}/>
+                        )
+                        :
+                        (
+                        <div>
+                            <img src={female} width={"30px"}/>
+                        </div>
+                        )
+                }
+            </div>
+        ),
     },
     {
         name:"Class",
         selector:row => row.class,
         sortable: true ,
         cell: (row) => (
-            <div style={{ display: 'flex',justifyContent: 'space-between',width: '70%'}}>
+            <div style={{ display: 'flex',justifyContent: 'space-between'}}>
                 <div className="py-2 fs-6"
                     style={{
-                    color: row.class == "No class" ? 'red' : 'skyblue',
+                    color: row.class == "No class" ? 'red' : 'black',
                     fontWeight: 'bold',
                     fontFamily: 'monospace',
                     }}>
@@ -127,6 +176,22 @@ const col=[
         name:"Parents",
         selector:row => row.parents,
         sortable: true 
+    },
+    {
+        name:"Level",
+        selector:row => row.level,
+        sortable: true,
+        cell: (row) => (
+            <Form.Select size="md" onChange={(e) => handleChange(e,row.id)}>
+                <option value="">Select level</option>
+                {levels?.map((level) => (
+                    <>
+                    <option value={level.id} selected={level.id == row.level}>{level.name}</option>
+                    <br />
+                    </>
+                ))}
+            </Form.Select>
+        ),
     },
     {
         name:"Status",
@@ -193,7 +258,7 @@ const col=[
     return(
 
     <div>
-        <div className="row offset-1">
+        <div className="row offset-1 my-2">
             <div className="col">
                  <input type="text" className="form-control" placeholder="Search by Name" onChange={handlefilter}/>
             </div>
@@ -210,6 +275,7 @@ const col=[
                     fixedHeader
                     pagination
                     progressPending={pending}
+                    customStyles={tableCustomStyles}
                     progressComponent={<Ellipsis  size={64}
                         color='#D60A0B'
                         sizeUnit='px' />}
