@@ -24,13 +24,18 @@ class InscrireClassController extends Controller
         try {
             $data = $request->validate([
                 'etudiant_id' => 'required|integer',
-                'class_id' => 'required|integer',
+                'class_id' => 'integer',
                 'negotiated_price' => 'required|integer',
             ]);
             $inscrireClass = new InscrireClass();
             $etudiant = Etudiant::findOrFail($request->etudiant_id);
-            $inscrireClass->etudiant()->associate($etudiant);
-            $inscrireClass->class_()->associate($request->class_id);
+            //check if the request has class
+            if ($request->class_id) {
+                $inscrireClass->etudiant()->associate($etudiant);
+                $inscrireClass->class_()->associate($request->class_id);
+            } else {
+                $inscrireClass->etudiant()->associate($etudiant);
+            }
             $inscrireClass->inscription_date = now();
             $inscrireClass->negotiated_price = $request->negotiated_price;
             $inscrireClass->save();
@@ -91,9 +96,10 @@ class InscrireClassController extends Controller
         $negotiatedPrice = $inscrire->negotiated_price;
 
         // Update the payment status based on the payment amount and negotiated price
-        if ($paymentAmount >= $negotiatedPrice) {
+        $totalPayment = $inscrire->payments->sum('amount');
+        if ($totalPayment >= $negotiatedPrice) {
             $paymentStatus = 'Paid';
-        } elseif ($paymentAmount > 0) {
+        } elseif ($totalPayment > 0) {
             $paymentStatus = 'Partial Payment';
         } else {
             $paymentStatus = 'Unpaid';

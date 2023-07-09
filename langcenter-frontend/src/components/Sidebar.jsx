@@ -17,12 +17,15 @@ import presence from "../images/icons/presence.svg";
 import results from "../images/icons/results.svg";
 import salles from "../images/icons/salles.svg";
 import users from "../images/icons/utilisateurs.svg";
+import pass from "../images/icons/pass-fill.svg";
+import level from "../images/icons/icons8-language-skill.svg"
 import { UseStateContext } from '../context/ContextProvider';
+
 
 
 export default function Sidebar() {
     const {logout} = UseStateContext();
-    const [openSidebar,setOpenSidebar] = useState(false);
+    const [openSidebar,setOpenSidebar] = useState(true);
     const handleOpen = () => {
         setOpenSidebar((prev) => !prev);
     }
@@ -46,19 +49,21 @@ export default function Sidebar() {
             <div className="Sidebar h-100 fs-6">
                 <Nav className="flex-column" defaultActiveKey="/dashboard" >
                     <Nav.Item><NavLink className="a nav-link link-light" to="/dashboard"><img src={dashboard} />{openSidebar && "Dashboard"}</NavLink></Nav.Item>
-                    <Nav.Item><NavLink className="a nav-link link-light" to="/teacher"><img src={enseignant} />{openSidebar &&"Teacher"}</NavLink></Nav.Item>
-                    <Nav.Item><NavLink className="a nav-link link-light" to="/student"><img src={etudiant} />{openSidebar && "Student"}</NavLink></Nav.Item>
-                    <Nav.Item><NavLink className="a nav-link link-light" to="/parent"><img src={parents} />{openSidebar && "Parent" }</NavLink></Nav.Item>
-                    <Nav.Item><NavLink className="a nav-link link-light" to="/class"><img src={groupes} />{openSidebar && "Class"}</NavLink></Nav.Item>
-                    <Nav.Item><NavLink className="a nav-link link-light" to="/course"><img src={cours} />{openSidebar && "Course"}</NavLink></Nav.Item>
+                    <Nav.Item><NavLink className="a nav-link link-light" to="/teacher"><img src={enseignant} />{openSidebar &&"Teachers"}</NavLink></Nav.Item>
+                    <Nav.Item><NavLink className="a nav-link link-light" to="/student"><img src={etudiant} />{openSidebar && "Students"}</NavLink></Nav.Item>
+                    <Nav.Item><NavLink className="a nav-link link-light" to="/parent"><img src={parents} />{openSidebar && "Parents" }</NavLink></Nav.Item>
+                    <Nav.Item><NavLink className="a nav-link link-light" to="/class"><img src={groupes} />{openSidebar && "Classes"}</NavLink></Nav.Item>
+                    <Nav.Item><NavLink className="a nav-link link-light" to="/course"><img src={cours} />{openSidebar && "Courses"}</NavLink></Nav.Item>
+                    <Nav.Item><NavLink className={"a nav-link link-light"} to="/tests"><img src={pass} />{openSidebar && "Tests"}</NavLink></Nav.Item>
+                    <Nav.Item><NavLink className={"a nav-link link-light"} to="/levels"><img src={level} />{openSidebar && "Student Level"}</NavLink></Nav.Item>
 
                     {/* Presences le span pour cacher ces elements a fin de remplacer le collapse avec dropdown dans les petits ecrans */}
 
                     {openSidebar ? 
                     <Nav.Item className="nav-item link-light"><a className="a nav-link link-light  dropdown-toggle" href="#dropPresence" id="menu" data-bs-toggle="collapse"><img src={presence} />{openSidebar && "Attendance"}</a>
                         <ul className="collapse " id="dropPresence" data-bs-parent="#menu" >
-                            <Nav.Item ><NavLink className="a nav-link link-light" to="/attendance/student">Student</NavLink></Nav.Item>
-                            <Nav.Item ><NavLink className="a nav-link link-light" to="/attendance/teacher">Teacher </NavLink></Nav.Item>
+                            <Nav.Item ><NavLink className="a nav-link link-light" to="/attendance/student">Students</NavLink></Nav.Item>
+                            <Nav.Item ><NavLink className="a nav-link link-light" to="/attendance/teacher">Teachers </NavLink></Nav.Item>
                         </ul>
                     </Nav.Item>
                         :
@@ -70,11 +75,11 @@ export default function Sidebar() {
 
                     {/* Paiements: le span pour cacher ces elements a fin de remplacer le collapse avec dropdown dans les petits ecrans */}
                     {openSidebar ? 
-                    <Nav.Item className="nav-item link-light"><a className="a nav-link link-light  dropdown-toggle" href="#dropFees" id="menu" data-bs-toggle="collapse"><img src={paiements} />{openSidebar && "Paiement"}</a>
+                    <Nav.Item className="nav-item link-light"><a className="a nav-link link-light  dropdown-toggle" href="#dropFees" id="menu" data-bs-toggle="collapse"><img src={paiements} />{openSidebar && "Payments"}</a>
                         <ul className="collapse
                         " id="dropFees" data-bs-parent="#menu" >
-                            <Nav.Item ><NavLink className="a nav-link link-light" to="/fees/student">Student earnings</NavLink></Nav.Item>
-                            <Nav.Item ><NavLink className="a nav-link link-light" to="/fees/teacher">Teacher fees</NavLink></Nav.Item>
+                            <Nav.Item ><NavLink className="a nav-link link-light" to="/fees/student">Students payments</NavLink></Nav.Item>
+                            <Nav.Item ><NavLink className="a nav-link link-light" to="/fees/teacher">Teachers fees</NavLink></Nav.Item>
                         </ul>
                     </Nav.Item>
                         :
@@ -82,8 +87,8 @@ export default function Sidebar() {
                     </Nav.Item>
                     }
                     
-                    <Nav.Item><NavLink className="a nav-link link-light" to="/classroom"><img src={salles} />{openSidebar && "Classroom"}</NavLink></Nav.Item>
-                    <Nav.Item><NavLink className="a nav-link link-light" to="/schedule"><img src={empTemps} />{openSidebar && "Schedule"}</NavLink></Nav.Item>
+                    <Nav.Item><NavLink className="a nav-link link-light" to="/classroom"><img src={salles} />{openSidebar && "Classrooms"}</NavLink></Nav.Item>
+                    <Nav.Item><NavLink className="a nav-link link-light" to="/schedule"><img src={empTemps} />{openSidebar && "Schedules"}</NavLink></Nav.Item>
                     <Nav.Item><NavLink className="a nav-link link-light" to="/users"><img src={users} />{openSidebar && "Users"}</NavLink></Nav.Item>
                     <Nav.Link className='a nav-link link-light' onClick={logout}><img src={disco}  />{openSidebar && "Logout"}</Nav.Link>
 

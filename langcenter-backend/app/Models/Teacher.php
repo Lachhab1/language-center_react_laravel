@@ -9,7 +9,6 @@ use App\Models\Class_;
 class Teacher extends Model
 {
     use HasFactory;
-    use HasFactory;
 
     protected $fillable = [
         'first_name',

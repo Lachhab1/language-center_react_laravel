@@ -30,7 +30,7 @@ class EtudiantResource extends JsonResource
                 return $inscrireClass->class_;
             }),
             'cours' => $this->inscrireClasses->map(function ($inscrireClass) {
-                return $inscrireClass->class_->cours;
+                return $inscrireClass->class_ != null ? $inscrireClass->class_->cours : null;
             }),
         ];
     }

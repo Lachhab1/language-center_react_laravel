@@ -18,9 +18,9 @@ return new class extends Migration
             $table->string('prenom');
             $table->date('date_naissance');
             $table->string('sexe');
-            $table->string('email');
+            $table->string('email')->unique()->nullable();
             $table->string('adresse');
-            $table->string('telephone');
+            $table->string('telephone')->unique()->nullable();
             $table->foreign('parent_id')->references('id')->on('parents')->onUpdate('cascade')->onDelete('cascade');
         });
     }

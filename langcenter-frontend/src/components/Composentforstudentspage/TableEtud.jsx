@@ -7,21 +7,41 @@ import { Link, Navigate,useNavigate } from "react-router-dom";
 import axios from "../../api/axios";
 import { Ellipsis } from 'react-awesome-spinners'
 import { UseStateContext } from "../../context/ContextProvider";
+import AddClass from "./addClass";
 
 export default function TableEtud()
 {
+    const [showModal, setShowModal] = useState(false);
+    const [selectedItem, setSelectedItem] = useState(null);
+    //functions to hadnle modal show and close
+    const handleListClick = (item) => {
+        setSelectedItem(item);
+        setShowModal(true);
+    };
+    const handleClose = () => setShowModal(false);
 const {user,setNotification,setVariant} = UseStateContext()
 const [pending, setPending] = useState(true);
 const [data,setData]=useState([]);
 const [records,setRecords]=useState([]);
 const navigate = useNavigate();
-
+let x = ""
+if (user && user.role==='admin')
+{
+    x = ""
+} else if (user && user.role==='director')
+{
+    x="/director"
+}
+else{
+    x="/secretary"
+}
 useEffect(() => {
     const timeout = setTimeout(async() => {
         const response = await axios.get("/api/etudiants");
         response.data.data.map((datar) => {
-            const classes = datar?.classes.map((item) => item.name) || [];
-            const classesString = classes.length > 0 ? classes.join(', ') : 'No class';
+            const classes = datar?.classes.map((item) => `${item?.name}`) || [];
+            console.log(classes);
+            const classesString = classes.length > 0 && classes != "undefined" ? classes.join(', ') : 'No class';
             setData((prev)=>
             (
                 [...prev,
@@ -52,20 +72,10 @@ const deleteRow = async (id) => {
     setTimeout(() => {
         setNotification("");
         setVariant("");
-    }, 3000);
-    navigate("/student");
+        window.location.reload();
+    }, 7000);
 };
-let x = ""
-if (user && user.role==='admin')
-{
-    x = ""
-} else if (user && user.role==='director')
-{
-    x="/director"
-}
-else{
-    x="/secretary"
-}
+
 
 
 
@@ -97,7 +107,21 @@ const col=[
     {
         name:"Class",
         selector:row => row.class,
-        sortable: true 
+        sortable: true ,
+        cell: (row) => (
+            <div style={{ display: 'flex',justifyContent: 'space-between',width: '70%'}}>
+                <div className="py-2 fs-6"
+                    style={{
+                    color: row.class == "No class" ? 'red' : 'skyblue',
+                    fontWeight: 'bold',
+                    fontFamily: 'monospace',
+                    }}>
+                    {row.class}
+                </div>
+                <span className="fw-bold fs-4 text-center opacity-25 addClass" onClick={() => handleListClick(row)}>+</span>
+                <AddClass showModal={showModal} handleClose={handleClose} selectedItem={selectedItem} id={row.id}/>           
+            </div>
+        ),
     },
     {
         name:"Parents",

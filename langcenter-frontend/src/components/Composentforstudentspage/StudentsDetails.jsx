@@ -6,14 +6,23 @@ import {Form,Col,Row} from "react-bootstrap";
 import axios from "../../api/axios";
 import { Spinner } from 'react-awesome-spinners'
 import { useParams } from "react-router-dom";
+import PModal from '../PaymentClasses_Modal';
 
 export default function StudentsDetails() {
-const {id} = useParams();
-const [pending, setPending] = useState(true);
-const [data,setData]=useState([]);
-const {setNotification,setVariant} = UseStateContext();
-useEffect(() => {
-    const timeout = setTimeout(async() => {
+    const [showModal, setShowModal] = useState(false);
+    const [selectedItem, setSelectedItem] = useState(null);
+    //functions to hadnle modal show and close
+    const handleListClick = (item) => {
+        setSelectedItem(item);
+        setShowModal(true);
+    };
+    const handleClose = () => setShowModal(false);
+    const {id} = useParams();
+    const [pending, setPending] = useState(true);
+    const [data,setData]=useState([]);
+    const {setNotification,setVariant} = UseStateContext();
+    useEffect(() => {
+        const timeout = setTimeout(async() => {
         const response = await axios.get("/api/etudiants");
         console.log(response.data.data);
         response.data.data.map((datar) => {
@@ -32,7 +41,7 @@ useEffect(() => {
                             FatherOcupation: "not yet",
                             // DateEnrol:datar.inscription_date,
                             gender: datar.sexe,
-                            classes: datar.classes,
+                            classes: datar.classes || [],
                             Fathername:datar?.parent?.prenom+" "+datar?.parent?.nom,
                             Fatheremail:datar?.parent?.email,
                             Fatherphone:datar?.parent?.telephone,
@@ -49,7 +58,6 @@ useEffect(() => {
     }, 200);
     return () => clearTimeout(timeout);
 }, []);
-
    return(
     
         pending ? (
@@ -59,18 +67,17 @@ useEffect(() => {
         ) : (
     
     <div>
-        <div className="Container mt-5 w-100">
+        <div className="Container mt-5 w-100 fs-4">
             <div className="row">
                 <div className="col-5">
                     <Image width={"50%"} className="ms-5"  src={imgStudent} roundedCircle>
                         </Image>
                 </div>
                 <div className="col">
-                    <h5>{data.nom} {data.prenom}</h5>
-                        <p>
-                           Descreption
-                        </p> 
-                        <br /><br />
+                    <h4 className='text-center w-50 fs-1'>{data.nom} {data.prenom}</h4>
+                        <div className='my-2 fs-3' style={{marginLeft:"-30px"}}>
+                           Details
+                        </div> 
                         <div className="row">
                             <div className="col-6">
                                  ID Number:
@@ -79,7 +86,6 @@ useEffect(() => {
                             {data.id}
                             </div>
                         </div>
-                        <br />
                         <div className="row">
                             <div className="col-6">
                                  Last Name:
@@ -88,7 +94,7 @@ useEffect(() => {
                             {data.nom}
                             </div>
                         </div>
-                        <br />
+                        
                         <div className="row">
                             <div className="col-6">
                                  First Name:
@@ -97,7 +103,7 @@ useEffect(() => {
                             {data.prenom}
                             </div>
                         </div>
-                        <br />
+                        
                         <div className="row">
                             <div className="col-6">
                                  Gender:
@@ -106,7 +112,7 @@ useEffect(() => {
                             {data.gender}
                             </div>
                         </div>
-                        <br />
+                        
                         {
                             data.fathername ? (
                                 <div>
@@ -118,7 +124,7 @@ useEffect(() => {
                             {data.Fathername}
                             </div>
                         </div>
-                        <br />
+                        
                                 </div>
                             ) : (
                                 <div></div>
@@ -132,7 +138,7 @@ useEffect(() => {
                             {data.email}
                             </div>
                         </div>
-                        <br />
+                        
                         <div className="row">
                             <div className="col-6">
                                  Date of birth:
@@ -141,22 +147,23 @@ useEffect(() => {
                             {data.DateNaissance}
                             </div>
                         </div>
-                        <br />
-                        <br />
-                        <div className="row">
-                            <div className="col-6">
-                                 Classes
-                            </div>
-                            <div className="col-6">
-                            {data.classes.map((classe,key)=>
-                            (
-                                <div key={key}>
-                                    Name: {classe.name}<br/> level:  {classe.level}<br/> school year: {classe.school_year}<br/> class Capacity {classe.capacity} <hr/>
+                        <div className="row mt-2">
+                                <div className="col-6">
+                        {data.classes[0] ? (
+                            <div className="list-group">
+                                <div className='fs-3' style={{marginLeft:"-30px"}}>classes</div>
+                            {data.classes.map((classe, key) => (
+                                <div className="list-group-item list-group-item-action" key={key}>
+                                <h5 className="mb-1 text-primary" onClick={() => handleListClick(classe?.id)}>{classe?.name}</h5>
                                 </div>
                             ))}
                             </div>
+                        ) : (
+                            <div></div>
+                        )}
                         </div>
-                    
+                        <PModal showModal={showModal} handleClose={handleClose} selectedItem={selectedItem} id={id} />
+                        </div>
                 </div>
             </div>
 

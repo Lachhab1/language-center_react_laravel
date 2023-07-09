@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('inscrire_classes', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('etudiant_id');
-            $table->unsignedBigInteger('class__id');
+            $table->unsignedBigInteger('class__id')->nullable();
             $table->foreign('etudiant_id')->references('id')->on('etudiants')->onDelete('cascade');
             $table->foreign('class__id')->references('id')->on('classes')->onDelete('cascade');
             $table->date('inscription_date');

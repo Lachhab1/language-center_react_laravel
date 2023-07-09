@@ -9,7 +9,7 @@ use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\ParentController;
 use App\Http\Controllers\EtudiantController;
 use App\Http\Controllers\CoursController;
-
+use App\Http\Controllers\StudentsAttendanceController;
 use App\Http\Controllers\DaysController;
 
 use App\Http\Controllers\TimeTablesController;
@@ -17,6 +17,7 @@ use App\Models\time_tables;
 
 use App\Http\Controllers\ClassroomController;
 use App\Models\Classroom;
+use Illuminate\Support\Facades\Http;
 
 Route::post('/login', [LoginController::class, 'login']);
 
@@ -83,3 +84,37 @@ Route::put('/classroom/{classroom}', 'App\Http\Controllers\ClassroomController@u
 Route::delete('/classroom/{classroom}', 'App\Http\Controllers\ClassroomController@destroy');
 //number countroller
 Route::get('/number', 'App\Http\Controllers\NumberController@index');
+
+//presence Etudiant
+Route::get('/studentsAttendance/{class_id}/{date}', 'App\Http\Controllers\StudentsAttendanceController@show');
+Route::get('/studentsAttendance', 'App\Http\Controllers\StudentsAttendanceController@index');
+Route::post('/studentsAttendance/{class_id}/{date}', 'App\Http\Controllers\StudentsAttendanceController@store');
+Route::put('/studentsAttendance/{class_id}/{date}', 'App\Http\Controllers\StudentsAttendanceController@update');
+
+//presence Etudiant
+Route::get('/teachersAttendance/{date}', 'App\Http\Controllers\TeachersAttendanceController@show');
+Route::get('/teachersAttendance', 'App\Http\Controllers\TeachersAttendanceController@index');
+Route::post('/teachersAttendance/{date}', 'App\Http\Controllers\TeachersAttendanceController@store');
+Route::put('/teachersAttendance/{date}', 'App\Http\Controllers\TeachersAttendanceController@update');
+
+
+//levels api
+Route::get('/levels', 'App\Http\Controllers\LanguageLevelController@index');
+Route::post('/levels', 'App\Http\Controllers\LanguageLevelController@store');
+Route::get('/levels/{level}', 'App\Http\Controllers\LanguageLevelController@show');
+Route::put('/levels/{level}', 'App\Http\Controllers\LanguageLevelController@update');
+Route::delete('/levels/{level}', 'App\Http\Controllers\LanguageLevelController@destroy');
+
+//tests api
+Route::get('/tests', 'App\Http\Controllers\TestsController@index');
+Route::post('/tests', 'App\Http\Controllers\TestsController@store');
+Route::get('/tests/{test}', 'App\Http\Controllers\TestsController@show');
+Route::put('/tests/{test}', 'App\Http\Controllers\TestsController@update');
+Route::delete('/tests/{test}', 'App\Http\Controllers\TestsController@destroy');
+//getPayment for class
+Route::post('/getPayment/{id}', 'App\Http\Controllers\ClassPayment@getPayment');
+
+//assign level to student
+Route::post('/assignLevel', 'App\Http\Controllers\AssignLevel@assignLevel');
+//get level of student
+Route::get('/getLevel/{id}', 'App\Http\Controllers\AssignLevel@getLevel');
