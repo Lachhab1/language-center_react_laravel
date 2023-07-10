@@ -15,8 +15,6 @@ class TestsController extends Controller
     {
         return TestResource::collection(Tests::all());
     }
-
-
     /**
      * Store a newly created resource in storage.
      */
@@ -29,12 +27,10 @@ class TestsController extends Controller
             'price' => 'required|integer',
             'duration' => 'required|integer',
             'level_id' => 'required|integer',
-            'isPaid' => 'required|boolean',
         ]);
         $test = Tests::create($data);
         return new TestResource($test);
     }
-
     /**
      * Display the specified resource.
      */

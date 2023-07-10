@@ -1,11 +1,14 @@
 import React from 'react';
-import { Formik, Form, Field } from 'formik';
+import { Formik, Field,useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from '../../api/axios';
 import { useNavigate } from 'react-router-dom';
 import { UseStateContext } from '../../context/ContextProvider';
+import { Form, Button, Col, Row } from 'react-bootstrap';
+import { useEffect,useState } from 'react';
 
 export default function AddSalle() {
+  const [levels, setLevels] = useState([]);
 const {user,setNotification, setVariant } = UseStateContext();
 const navigate = useNavigate();
  let x = ""
@@ -19,8 +22,7 @@ const navigate = useNavigate();
       else{
           x="/secretary"
       }
-
-const addSalleScheme = Yup.object().shape({
+  const addSalleScheme = Yup.object().shape({
   name: Yup.string()
     .max(50, 'Too Long!')
     .required('Required'),
@@ -35,6 +37,22 @@ const addSalleScheme = Yup.object().shape({
     description : Yup.string()
     .nullable()
 });
+const formik = useFormik({
+  initialValues: {
+    name: '',
+    duration: '',
+    price: '',
+    level: '',
+    description: '',
+  },
+  validationSchema: addSalleScheme,
+  onSubmit: (values) => {
+    handleSubmit(values);
+  },
+});
+
+
+
 
   const handleSubmit = async (values) => {
     console.log("cococ",values)
@@ -47,7 +65,6 @@ const addSalleScheme = Yup.object().shape({
         isPaid: true,
         description: values.description,
     };
-  
     axios.post('/api/tets', sendData)
       .then((res) => {
         console.log(res.data);
@@ -81,84 +98,115 @@ const addSalleScheme = Yup.object().shape({
         }
       });
   };
-  
+  const handleSubmitt = async (values) => {
+    console.log("cococ",values)
+  }
+  useEffect(() => {
+    axios.get('/api/levels')
+      .then((res) => {
+        console.log(res.data);
+        setLevels(res.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
+
 
   return (
-    <Formik
-      initialValues={{
-        name: '',
-        duration: '',
-        price: '',
-        level: '',
-        description: '',
-        isPaid: true,
-      }}
-      validationSchema={addSalleScheme}
-      onSubmit={handleSubmit}
-    >
-      {({ errors, touched }) => (
-        <Form className='add-test-form'>
-          <div className='row'>
-            <div className='form-group col-lg-5 mt-3 mt-lg-0' >
-              <label htmlFor='name'>Name*</label>
-              <Field
-                style={{ backgroundColor: ' rgba(221, 222, 238, 0.5)', border: 'none', borderRadius: '8px' }}
-                type='text'
-                name='name'
-                className={`form-control ${errors.name && touched.name ? 'is-invalid' : ''}`}
-                placeholder='Entrez le nom de la salle' // Placeholder avec commentaire
-              />
-              {errors.name && touched.name && <div className='invalid-feedback'>{errors.name}</div>}
-            </div>
+    <Form noValidate onSubmit={handleSubmit}>
+      <Row className='mb-3'>
 
-            <div className='form-group col-lg-5 mt-3 mt-lg-0'>
-              <label htmlFor='capacity'>duration*</label>
-              <Field
-                style={{ backgroundColor: ' rgba(221, 222, 238, 0.5)', border: 'none', borderRadius: '8px' }}
-                type='number'
-                name='duration'
-                className={`form-control ${errors.duration && touched.duration ? 'is-invalid' : ''}`}
-                placeholder='Enter the test duration' // Placeholder avec commentaire
-              />
-              {errors.duration && touched.duration && (
-                <div className='invalid-feedback'>{errors.duration}</div>
-              )}
-            </div>
+      <Form.Group as={Col}
+          sm={4} controlId="name">
+        <Form.Label column >
+          Name
+        </Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Name"
+            name="name"
+            {...formik.getFieldProps('name')}
+            isInvalid={formik.touched.name && formik.errors.name}
+          />
+          <Form.Control.Feedback type="invalid">
+            {formik.errors.name}
+          </Form.Control.Feedback>
+        
+      </Form.Group>
+      <Form.Group as={Col}
+          sm={4} controlId="duration">
+        <Form.Label column >
+          Duration
+        </Form.Label>
+        
+          <Form.Control
 
-            <div className='form-group col-lg-5 mt-3 mt-lg-0'>
-                <label htmlFor='capacity'>price*</label>
-                <Field
-                    style={{ backgroundColor: ' rgba(221, 222, 238, 0.5)', border: 'none', borderRadius: '8px' }}
-                    type='number'
-                    name='price'
-                    className={`form-control ${errors.price && touched.price ? 'is-invalid' : ''}`}
-                    placeholder='Enter the test price' // Placeholder avec commentaire
-                />
-                {errors.price && touched.price && (
-                    <div className='invalid-feedback'>{errors.price}</div>
-                )}
-            </div>
-            <div className='form-group col-lg-5 mt-3 mt-lg-0'>
-                <label htmlFor='level'>Level*</label>
-                <Field
-                    style={{ backgroundColor: ' rgba(221, 222, 238, 0.5)', border: 'none', borderRadius: '8px' }}
-                    type='text'
-                    name='level'
-                    className={`form-control ${errors.level && touched.level ? 'is-invalid' : ''}`}
-                    placeholder='Enter the test level' // Placeholder avec commentaire
-                />
-                {errors.level && touched.level && (
-                    <div className='invalid-feedback'>{errors.level}</div>
-                )}
-
-            </div>
-          </div>
-
-          <button type='submit' className='btn btn-danger mt-2'>
-            Add Test
-          </button>
-        </Form>
-      )}
-    </Formik>
+            type="text"
+            placeholder="Duration"
+            name="duration"
+            {...formik.getFieldProps('duration')}
+            isInvalid={formik.touched.duration && formik.errors.duration}
+          />
+          <Form.Control.Feedback type="invalid">
+            {formik.errors.duration}
+          </Form.Control.Feedback>
+        
+      </Form.Group>
+      <Form.Group as={Col}
+          sm={4} controlId="price">
+        <Form.Label column >
+          Price
+        </Form.Label>
+        
+          <Form.Control
+            type="text"
+            placeholder="Price"
+            name="price"
+            {...formik.getFieldProps('price')}
+            isInvalid={formik.touched.price && formik.errors.price}
+          />
+          <Form.Control.Feedback type="invalid">
+            {formik.errors.price}
+          </Form.Control.Feedback>
+        
+      </Form.Group>
+      <Form.Group as={Col}
+          sm={4} controlId="level">
+        <Form.Label>
+          Level
+        </Form.Label>
+          <Form.Select>
+            <option value="">Select a level</option>
+            {levels.map((level) => (
+              <option key={level.id} value={level.id}>
+                {level.name}
+              </option>
+            ))}
+          </Form.Select>
+          <Form.Control.Feedback type="invalid">
+            {formik.errors.level}
+          </Form.Control.Feedback>
+      </Form.Group>
+      <Form.Group as={Col}
+          sm={4} controlId="description">
+        <Form.Label column >
+          Description
+        </Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Description"
+            name="description"
+            {...formik.getFieldProps('description')}
+            isInvalid={formik.touched.description && formik.errors.description}
+            />
+          <Form.Control.Feedback type="invalid">
+            {formik.errors.description}
+          </Form.Control.Feedback>
+      </Form.Group>
+      </Row>
+      <Button type="submit" className='my-3 btn-secondary'>Submit</Button>
+    </Form>
   );
 }

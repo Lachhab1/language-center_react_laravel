@@ -17,7 +17,6 @@ class Tests extends Model
         'price',
         'duration',
         'level_id',
-        'isPaid',
     ];
     public $timestamps = false;
 
