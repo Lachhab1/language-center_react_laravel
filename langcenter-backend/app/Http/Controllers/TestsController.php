@@ -34,25 +34,37 @@ class TestsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Tests $tests)
+    public function show(Tests $test)
     {
-        //
+        //show a test
+        return new TestResource($test);
     }
 
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Tests $tests)
+    public function update(Request $request, Tests $test)
     {
-        //
+        //update a test
+        $data = $request->validate([
+            'name' => 'required|string',
+            'description' => 'string|nullable',
+            'price' => 'required|integer',
+            'duration' => 'required|integer',
+            'level_id' => 'required|integer',
+        ]);
+        $test->update($data);
+        return new TestResource($test);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Tests $tests)
+    public function destroy(Tests $test)
     {
-        //
+        //delete a test
+        $test->delete();
+        return response(['message' => 'Test deleted'], 200);
     }
 }

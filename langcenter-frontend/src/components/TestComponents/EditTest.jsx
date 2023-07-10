@@ -2,12 +2,13 @@ import React from 'react';
 import { Formik, Field,useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from '../../api/axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,useParams } from 'react-router-dom';
 import { UseStateContext } from '../../context/ContextProvider';
 import { Form, Button, Col, Row } from 'react-bootstrap';
 import { useEffect,useState } from 'react';
 
-export default function AddTest() {
+export default function EditTest() {
+    const {id} = useParams();
   const [levels, setLevels] = useState([]);
 const {user,setNotification, setVariant } = UseStateContext();
 const navigate = useNavigate();
@@ -22,7 +23,7 @@ const navigate = useNavigate();
       else{
           x="/secretary"
       }
-  const addSalleScheme = Yup.object().shape({
+  const Scheme = Yup.object().shape({
   name: Yup.string()
     .max(50, 'Too Long!')
     .required('Required'),
@@ -45,59 +46,16 @@ const formik = useFormik({
     level: '',
     description: '',
   },
-  validationSchema: addSalleScheme,
-  onSubmit: (values) => {
-    handleSubmit(values);
+  validationSchema: Scheme,
+  onSubmit: (e,values) => {
+    handleSubmitt(e,values);
   },
 });
 
 
 
 
-  const handleSubmit = async (e) => {
-    console.log("cococ",formik.values)
-
-    const sendData = {
-      name: values.name,
-        duration: values.duration,
-        price: values.price,
-        level_id: values.level,
-        description: values.description,
-    };
-    axios.post('/api/tests', sendData)
-      .then((res) => {
-        console.log(res.data);
-        setNotification('Test added successfully');
-        setVariant('success');
-        setTimeout(() => {
-          setNotification('');
-          setVariant('');
-        }, 3000);
-        navigate(`${x}/tests`);
-      })
-      .catch((error) => {
-        if (error.response && error.response.status === 422) {
-          // Handle specific error status code (422)
-          console.log(error.response.data); // Log the error response data
-          // Display an error message to the user
-          setNotification('Error: Invalid data');
-          setVariant('danger');
-          setTimeout(() => {
-            setNotification('');
-          }, 3000);
-        } else {
-          // Handle other errors
-          console.error(error);
-          // Display a generic error message to the user
-          setNotification('An error occurred');
-          setVariant('danger');
-          setTimeout(() => {
-            setNotification('');
-          }, 3000);
-        }
-      });
-  };
-  const handleSubmitt = async (e) => {
+  const handleSubmitt = async (e,values) => {
     e.preventDefault()
     console.log("cococ",formik.values)
 
@@ -108,11 +66,11 @@ const formik = useFormik({
         level_id: formik.values.level,
         description: formik.values.description,
     };
-    axios.post('/api/tests', sendData)
+    axios.put(`/api/tests/${id}`, sendData)
       .then((res) => {
         console.log(res.data);
-        setNotification('Test added successfully');
-        setVariant('success');
+        setNotification('Test edited successfully');
+        setVariant('warning');
         setTimeout(() => {
           setNotification('');
           setVariant('');
@@ -150,6 +108,16 @@ const formik = useFormik({
       .catch((error) => {
         console.error(error);
       });
+    axios.get(`/api/tests/${id}`)
+        .then((res) => {
+            console.log(res.data);
+            formik.setValues(res.data.data);
+            formik.setFieldValue('level', res.data.data.level_id);
+        })
+        .catch((error) => {
+            console.error(error);
+        }
+    );
   }, []);
 
 

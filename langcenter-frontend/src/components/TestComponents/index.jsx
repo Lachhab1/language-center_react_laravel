@@ -48,37 +48,36 @@ export default function index() {
     const col = [
         {
             name: 'ID',
-            selector: 'id',
+            selector: row => row.id,
             sortable: true,
         },
         {
             name: 'Name',
-            selector: 'name',
+            selector: row => row.name,
             sortable: true,
         },
         {
             name: 'duration',
-            selector: 'duration',
+            selector: row => row.duration,
             sortable: true,
         }
         ,
         {
             name: 'Price',
-            selector: 'price',
+            selector: row => row.price,
             sortable: true,
         }
         ,
         {
             name: 'Level',
-            selector: 'level',
+            selector: row => row.level,
             sortable: true,
 
         }
         ,
         {
             name: 'Action',
-            selector: 'action',
-            sortable: true,
+            selector: row => row.action,
             cell: row => (
             <div style={{ display: 'flex', gap: '0px' }}>
                 <Link to={`${x}/tests/${row.id}`}>
@@ -86,7 +85,7 @@ export default function index() {
                         <BsFillEyeFill style={{ color: 'green', fontSize: '20px' }} />
                     </button>
                 </Link>
-                <Link to={`${x}/tests/edit${row.id}`}>
+                <Link to={`${x}/tests/edit/${row.id}`}>
                     <button style={{ border: 'none', background: 'none' }}>
                         <BsFillPencilFill style={{ color: 'orange' }} />
                     </button>
@@ -123,8 +122,21 @@ export default function index() {
             await fetchData();
         }, 1000);
         return () => clearTimeout(timeout);
-    }, []);
-
+    }, [data]);
+    //methodes
+    const deleteRow = async (id) => {
+        try {
+            const response = await axios.delete(`/api/tests/${id}`);
+            console.log(response);
+            setNotification("Test deleted successfully")
+            setVariant("danger")
+            navigate(`${x}/tests`)
+        } catch (err) {
+            console.log(err);
+            setNotification("Test deleted failed")
+            setVariant("danger")
+        }
+    };
 
     return (
             <div>

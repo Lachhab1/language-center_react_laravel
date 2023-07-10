@@ -68,10 +68,11 @@ import ScheduleTable from "./components/EmploiTempsCompo/ScheduleTable";
 
 //import for tests
 import Test from "./components/TestComponents/index";
-import AddTest from "./components/TestComponents/addTest";
+import AddTest from "./components/TestComponents/AddTest";
 
 //import for levels
 import Levels from "./components/LevelComponents/index";
+import EditTest from "./components/TestComponents/editTest";
 
 const router = createBrowserRouter([
         {
@@ -118,6 +119,10 @@ const router = createBrowserRouter([
                     {
                         path: '/tests/add',
                         element: <AddTest/>
+                    },
+                    {
+                        path: '/tests/edit/:id',
+                        element: <EditTest/>
                     }
                 ]
             },
