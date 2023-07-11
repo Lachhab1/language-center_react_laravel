@@ -24,4 +24,8 @@ class Tests extends Model
     {
         return $this->hasOne(LanguageLevel::class, 'id', 'level_id');
     }
+    public function registerTests()
+    {
+        return $this->hasMany(RegisterTest::class, 'test_id', 'id');
+    }
 }

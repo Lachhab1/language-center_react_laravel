@@ -45,4 +45,8 @@ class Etudiant extends Model
     {
         return $this->hasOne(LanguageLevel::class, 'id', 'level_id');
     }
+    public function registerTests()
+    {
+        return $this->hasMany(RegisterTest::class, 'student_id', 'id');
+    }
 }

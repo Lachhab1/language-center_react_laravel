@@ -19,6 +19,9 @@ use App\Http\Controllers\ClassroomController;
 use App\Models\Classroom;
 use Illuminate\Support\Facades\Http;
 
+use App\Http\Controllers\RegisterTestController;
+use App\Http\Controllers\TestPaymentController;
+
 Route::post('/login', [LoginController::class, 'login']);
 
 
@@ -118,3 +121,10 @@ Route::post('/getPayment/{id}', 'App\Http\Controllers\ClassPayment@getPayment');
 Route::post('/assignLevel', 'App\Http\Controllers\AssignLevel@assignLevel');
 //get level of student
 Route::get('/getLevel/{id}', 'App\Http\Controllers\AssignLevel@getLevel');
+
+
+//register student to test
+Route::resource('/register', RegisterTestController::class);
+
+//complet the payment
+Route::resource('/testPayment', TestPaymentController::class);
