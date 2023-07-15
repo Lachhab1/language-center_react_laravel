@@ -79,7 +79,7 @@ export default function index() {
             name: 'Action',
             selector: row => row.action,
             cell: row => (
-            <div style={{ display: 'flex', gap: '0px' }}>
+            <div className="actions" style={{ display: 'flex', gap: '0px' }}>
                 <Link to={`${x}/tests/${row.id}`}>
                     <button style={{ border: 'none', background: 'none'}}>
                         <BsFillEyeFill style={{ color: 'green', fontSize: '20px' }} />

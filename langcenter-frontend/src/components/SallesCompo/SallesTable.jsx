@@ -10,6 +10,24 @@ import { Ellipsis } from 'react-awesome-spinners';
 
 
 export default function SallesTable() {
+        const tableCustomStyles = {
+    headCells: {
+        style: {
+        fontSize: '20px',
+        fontWeight: 'bold',
+        paddingLeft: '0 8px',
+        justifyContent: 'center',
+        backgroundColor: '#f5f5f5',
+        },
+    },
+    cells: {
+        style: {
+        fontSize: '18px',
+        paddingLeft: '0 8px',
+        justifyContent: 'center',
+        },
+    },
+        }
         const [data, setData] = useState([]); //table data
         const {user,setNotification,setVariant} = UseStateContext();
         const [pending, setPending] = useState(true);
@@ -73,7 +91,7 @@ const columns = [
     { name: "capacity", selector: row => row.capacity, sortable: true },
     { name: "actions", 
     cell: row => (
-    <div>
+    <div className="actions">
               <Link to={`${x}/classroom/details/${row.id}`}>
                 <button style={{ border: "none", background: "none" }} title="details">
                   <FaEye style={{ color: "lightBlue", fontSize: "16px" }} />
@@ -107,11 +125,13 @@ const columns = [
             </Link>
             </div>
             <DataTable
+                className="mt-4"
                 columns={columns}
                 data={classrooms}
                 fixedHeader 
                 pagination
                     progressPending={pending}
+                    customStyles={tableCustomStyles}
                     progressComponent={<Ellipsis  size={64}
                     color='#D60A0B'
                     sizeUnit='px' />} 

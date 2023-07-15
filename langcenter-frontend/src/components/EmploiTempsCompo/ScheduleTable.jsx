@@ -10,7 +10,24 @@ import { useNavigate } from 'react-router-dom';
 
 import { Ellipsis } from 'react-awesome-spinners'
 export default function ScheduleTable({ handleDelete }) {
-  
+  const tableCustomStyles = {
+    headCells: {
+        style: {
+        fontSize: '20px',
+        fontWeight: 'bold',
+        paddingLeft: '0 8px',
+        justifyContent: 'center',
+        backgroundColor: '#f5f5f5',
+        },
+    },
+    cells: {
+        style: {
+        fontSize: '18px',
+        paddingLeft: '0 8px',
+        justifyContent: 'center',
+        },
+    },
+        }
   
   const navigate = useNavigate();
   const {user,setNotification,setVariant} = UseStateContext()
@@ -71,7 +88,7 @@ export default function ScheduleTable({ handleDelete }) {
       {
         name: 'Action',
         cell: (row) => (
-          <div style={{ display: 'flex', gap: '0px' }}>
+          <div className="actions" style={{ display: 'flex', gap: '0px' }}>
             <Link to={`${x}/schedule/EditSchedule/${row.id}`}>
               <button style={{ border: 'none', background: 'none' }} title="Edit">
                 <BsFillPencilFill style={{ color: 'orange', fontSize: '16px' }} />
@@ -129,6 +146,8 @@ export default function ScheduleTable({ handleDelete }) {
           columns={columns}
           data={filteredData}
           progressPending={pending}
+          customStyles={tableCustomStyles}
+          className="mt-4"
           progressComponent={<Ellipsis  size={64}
               color='#D60A0B'
               sizeUnit='px' />}

@@ -22,3 +22,10 @@
  width: 2px;
  background-color: red;
 }
+.card {
+    border: none;
+    border-radius: 0;
+}
+.AyCard img {
+    width: 64px;
+}

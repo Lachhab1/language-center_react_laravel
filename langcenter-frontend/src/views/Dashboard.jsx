@@ -4,6 +4,10 @@ import student from '../images/icons/student4dash.png';
 import teacher from '../images/icons/teacher4dash.png';
 import money from '../images/icons/money4dash.png';
 import parents from '../images/icons/parent4dash.png';
+import courses from '../images/icons/courses.svg';
+import classes from '../images/icons/classes.svg';
+import tests from '../images/icons/tests.svg';
+import classrooms from '../images/icons/classroom.svg';
 import DoughnutChart from '../components/DashboardCardsCompo/DoughnutChart';
 import LineChart from '../components/DashboardCardsCompo/LineChart';
 import BarChart from '../components/DashboardCardsCompo/BarChart';
@@ -19,6 +23,7 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 
 import 'react-big-calendar/lib/css/react-big-calendar.css';
+import { Row } from 'react-bootstrap';
 
 const Dashboard = () => {
 
@@ -35,8 +40,11 @@ const Dashboard = () => {
           students: response.data.etudiants,
           teachers: response.data.teachers,
           parents: response.data.parents,
-          courses: response.data.courses,
           payments: response.data.total_payment,
+          courses: response.data.totalCourses,
+          classes: response.data.totalClasses,
+          tests : response.data.totalTests,
+          classrooms: response.data.totalClassrooms,
         });
       } catch (error) {
         console.error(error);
@@ -94,6 +102,8 @@ const Dashboard = () => {
   return (
     <div className=''>
       <div className='row justify-content-around'>
+        <Row>
+
         <div className='col  mb-4'>
           <Card  title='Students' icon={student} data={cardsData.students} />
         </div>
@@ -106,6 +116,22 @@ const Dashboard = () => {
         <div className='col  mb-4'>
           <Card title='Earnings' icon={money} data={cardsData.payments} />
         </div>
+        </Row>
+        <Row>
+
+        <div className='col  mb-4'>
+          <Card title='Courses' icon={courses} data={cardsData.courses} />
+        </div>
+        <div className='col  mb-4'>
+          <Card title='Classes' icon={classes} data={cardsData.classes} />
+        </div>
+        <div className='col  mb-4'>
+          <Card title='Tests' icon={tests} data={cardsData.tests} />
+          </div>
+        <div className='col  mb-4'>
+          <Card title='Classrooms' icon={classrooms} data={cardsData.classrooms} />
+          </div>
+        </Row>
       </div>
         <div className='row'>
         <div className='col-6 mx-auto mb-4 Charts'>
