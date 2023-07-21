@@ -50,8 +50,11 @@ export default function ScheduleTable({ handleDelete }) {
   
     // Filter the data based on group and course name
     const filteredData = data.filter((item) => {
+
+      
       const groupMatch = item.class_name && item.class_name.toLowerCase().includes(groupFilter.toLowerCase());
       const courseNameMatch = item.course_title && item.course_title.toLowerCase().includes(courseNameFilter.toLowerCase());
+  
       return groupMatch && courseNameMatch;
     });
   

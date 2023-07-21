@@ -147,7 +147,7 @@ export default function TableTeacher() {
           <button className="btn btn-danger">Add Teacher</button>
         </Link>
       </div>
-      <DataTable columns={col} data={teacherData} fixedHeader
+      <DataTable columns={col} data={filteredData} fixedHeader
                     pagination
                     progressPending={pending}
                     progressComponent={<Ellipsis  size={64}

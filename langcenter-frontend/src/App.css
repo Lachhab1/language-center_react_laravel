@@ -279,16 +279,7 @@ body,
 
 
 /* photo profile (Avatar) test ayman*/
-.FormContainer {
-  display: flex;
-  margin: 10px;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: white;
-  border-radius: 15px;
-  border: 1px solid black;
-}
+
 
 .EditAvatar {
   margin-left: 25px;
@@ -302,6 +293,11 @@ body,
  .editTeacher input,.editTeacher select,
  .addSchedule input,.addSchedule select,
  .editSchedule input,.editSchedule select{
+  background-color: rgba(221, 222, 238, 0.5);
+}
+
+.inputStyle{
+  color: #656565;
   background-color: rgba(221, 222, 238, 0.5);
 }
 
