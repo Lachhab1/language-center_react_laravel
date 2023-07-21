@@ -14,6 +14,24 @@ import { Ellipsis } from 'react-awesome-spinners'
 
 export default function TableCourse()
 {
+        const tableCustomStyles = {
+    headCells: {
+        style: {
+        fontSize: '20px',
+        fontWeight: 'bold',
+        paddingLeft: '0 8px',
+        justifyContent: 'center',
+        backgroundColor: '#f5f5f5',
+        },
+    },
+    cells: {
+        style: {
+        fontSize: '18px',
+        paddingLeft: '0 8px',
+        justifyContent: 'center',
+        },
+    },
+        }
         const {user,setNotification,setVariant} = UseStateContext()
             let x = ""
         if (user && user.role==='admin')
@@ -94,7 +112,7 @@ const deleteRow = async (id) => {
             name:"Action",
             selector:row => row.action,
             cell: (row) => (
-                <div style={{ display: 'flex', gap: '0px' }}>
+                <div className="actions" style={{ display: 'flex', gap: '0px' }}>
                   <Link to={`${x}/course/edit/${row.id}`}>
                     <button style={{ border: 'none', background: 'none' }}>
                       <BsFillPencilFill style={{ color: 'orange' }} />
@@ -157,7 +175,9 @@ const deleteRow = async (id) => {
                     columns={col}
                     data={coursData}
                     fixedHeader
+                    className="mt-4"
                     pagination
+                    customStyles={tableCustomStyles}
                     progressPending={pending}
                     progressComponent={<Ellipsis  size={64}
                         color='#D60A0B'

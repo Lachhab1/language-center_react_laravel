@@ -8,6 +8,24 @@ import { UseStateContext } from '../../context/ContextProvider';
 
 export default function TableFeesTeacher()
 {
+    const tableCustomStyles = {
+    headCells: {
+        style: {
+        fontSize: '20px',
+        fontWeight: 'bold',
+        paddingLeft: '0 8px',
+        justifyContent: 'center',
+        backgroundColor: '#f5f5f5',
+        },
+    },
+    cells: {
+        style: {
+        fontSize: '18px',
+        paddingLeft: '0 8px',
+        justifyContent: 'center',
+        },
+    },
+        }
           const {user} = UseStateContext()
         let x = ""
     if (user && user.role==='admin')
@@ -53,7 +71,7 @@ export default function TableFeesTeacher()
             name:"Action",
             selector:row => row.action,
             cell: (row) => (
-        <div style={{ display: 'flex', gap: '0px' }}>
+        <div className="actions" style={{ display: 'flex', gap: '0px' }}>
           <Link to={`${x}/fees/teacher/edit/${row.id}`}>
             <button style={{ border: 'none', background: 'none' }}>
               <BsFillPencilFill style={{ color: 'orange' }} />
@@ -123,6 +141,8 @@ export default function TableFeesTeacher()
                     data={Namefilter}
                     fixedHeader
                     pagination
+                    className="mt-4"
+                    customStyles={tableCustomStyles}
             >
              </DataTable>
              

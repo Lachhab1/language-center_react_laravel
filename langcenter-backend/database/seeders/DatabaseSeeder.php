@@ -69,5 +69,13 @@ class DatabaseSeeder extends Seeder
             'name' => 'A-1',
             'capacity' => 30,
         ]);
+        \App\Models\RegisterTest::create([
+            'student_id' => 1,
+            'test_id' => 1,
+            'status' => 'pending',
+            'start_time' => '01:00:00',
+            'end_time' => '02:00:00',
+            'date' => '2021-01-01',
+        ]);
     }
 }

@@ -11,6 +11,24 @@ import {Form,Col,Row} from "react-bootstrap";
 export default function TabUser()
 {
 //fetching data from the database
+const tableCustomStyles = {
+    headCells: {
+        style: {
+        fontSize: '20px',
+        fontWeight: 'bold',
+        paddingLeft: '0 8px',
+        justifyContent: 'center',
+        backgroundColor: '#f5f5f5',
+        },
+    },
+    cells: {
+        style: {
+        fontSize: '18px',
+        paddingLeft: '0 8px',
+        justifyContent: 'center',
+        },
+    },
+        }
 const [pending, setPending] = useState(true);
 const [data,setData]=useState([]);
 const {setNotification,setVariant} = UseStateContext();
@@ -68,7 +86,7 @@ const col=[
         name:"Action",
         selector:row => row.action,
         cell: (row) => (
-        <div style={{ display: 'flex', gap: '0px' }}>
+        <div className="actions" style={{ display: 'flex', gap: '0px' }}>
             <Link to={`/users/${row.id}`}>
             <button style={{ border: 'none', background: 'none'}}>
               <BsFillEyeFill style={{ color: 'green', fontSize: '20px' }} />
@@ -128,8 +146,10 @@ const col=[
             <DataTable
                     columns={col}
                     data={data}
+                    className="mt-4"
                     fixedHeader
                     pagination
+                    customStyles={tableCustomStyles}
                     progressPending={pending}
                     progressComponent={<Ellipsis  size={64}
                         color='#D60A0B'

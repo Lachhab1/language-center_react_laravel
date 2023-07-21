@@ -11,8 +11,24 @@ export default function SelectAttendanceGrp() {
     course: Yup.string().required('Course is required'),
     group: Yup.string().required('Group is required'),
   });
-
- 
+  const tableCustomStyles = {
+    headCells: {
+        style: {
+        fontSize: '20px',
+        fontWeight: 'bold',
+        paddingLeft: '0 8px',
+        justifyContent: 'center',
+        backgroundColor: '#f5f5f5',
+        },
+    },
+    cells: {
+        style: {
+        fontSize: '18px',
+        paddingLeft: '0 8px',
+        justifyContent: 'center',
+        },
+    },
+        }
 
   const initialValues = {
     date: '',
@@ -149,6 +165,7 @@ const grp = document.getElementById("group").value
           type="checkbox"
           checked={row.absent}
           onChange={(e) => handleDataChange(rowIndex, 'absent', e.target.checked)}
+          className="form-check-input"
         />
       ),
       sortable: true,
@@ -161,6 +178,7 @@ const grp = document.getElementById("group").value
           type="text"
           value={row.reason}
           onChange={(e) => handleDataChange(rowIndex, 'reason', e.target.value)}
+          className="form-control"
         />
       ),
       sortable: true,
@@ -301,14 +319,14 @@ const grp = document.getElementById("group").value
 
             <button
               type="submit"
-              className="btn btn-primary"
+              className="btn btn-primary mx-2"
               disabled={Object.keys(errors).length !== 0}
             >
               Add/Modify
             </button>
             <button
               type="button"
-              className={`btn btn-secondary mx-2 `}
+              className={`btn btn-secondary mx-2`}
               onClick={handleViewPresence}
               disabled={!values.date  || !values.group}
             >
@@ -320,15 +338,15 @@ const grp = document.getElementById("group").value
 
       {showTable && (
         <div className="my-4">
-          <DataTable columns={columns} data={tableData} pagination />
-          <button onClick={()=>handleSave(tableData)} className="btn btn-success mt-2">
-            Submit
+          <DataTable columns={columns} data={tableData} pagination customStyles={tableCustomStyles} />
+          <button onClick={()=>handleSave(tableData)} className="btn btn-dark text-light mt-2">
+            Save
           </button>
         </div>
       )}
 
       {isModalOpen && (
-        <div className="modal modal-lg" tabIndex="-1" role="dialog" style={{ display: 'block' }}>
+        <div className="modal modal-xl" tabIndex="-1" role="dialog" style={{ display: 'block' }}>
           <div className="modal-dialog" role="document">
             <div className="modal-content">
               <div className="modal-header">
@@ -337,6 +355,7 @@ const grp = document.getElementById("group").value
               </div>
               <div className="modal-body">
                 <DataTable
+                  customStyles={tableCustomStyles}
                   columns={[
                     { name: 'ID', selector: 'id', sortable: true },
                     { name: 'Full Name', selector: 'fullName', sortable: true },
@@ -356,6 +375,7 @@ const grp = document.getElementById("group").value
                           onChange={(e) =>
                             handleDataChange(rowIndex, 'reason', e.target.value)
                           }
+                          className="form-control"
                           readOnly
                         />
                       ),

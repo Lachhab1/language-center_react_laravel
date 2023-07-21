@@ -13,6 +13,24 @@ import { Ellipsis } from 'react-awesome-spinners'
 
 export default function TableFeesEtud()
 { 
+    const tableCustomStyles = {
+    headCells: {
+        style: {
+        fontSize: '20px',
+        fontWeight: 'bold',
+        paddingLeft: '0 8px',
+        justifyContent: 'center',
+        backgroundColor: '#f5f5f5',
+        },
+    },
+    cells: {
+        style: {
+        fontSize: '18px',
+        paddingLeft: '0 8px',
+        justifyContent: 'center',
+        },
+    },
+        }
     const {user,setNotification,setVariant} = UseStateContext()
     const [data,setData]=useState([]);
     const [pending, setPending] = useState(true);
@@ -120,7 +138,7 @@ export default function TableFeesEtud()
             name:"Action",
             selector:row => row.action,
             cell: (row) => (
-        <div style={{ display: 'flex', gap: '0px' }}>
+        <div className="actions" style={{ display: 'flex', gap: '0px' }}>
           <Link to={`${x}/fees/student/edit/${row.id}`}>
             <button style={{ border: 'none', background: 'none' }}>
               <BsFillPencilFill style={{ color: 'orange' }} />
@@ -194,6 +212,8 @@ export default function TableFeesEtud()
                     data={data}
                     fixedHeader
                     pagination
+                    customStyles={tableCustomStyles}
+                    className="mt-4"
                     progressPending={pending}
                     progressComponent={<Ellipsis  size={64}
                     color='#D60A0B'

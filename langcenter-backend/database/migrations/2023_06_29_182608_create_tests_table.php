@@ -18,7 +18,6 @@ return new class extends Migration
             $table->integer('price');
             $table->integer('duration');
             $table->foreignId('level_id')->constrained('language_levels');
-            $table->boolean('isPaid');
         });
     }
 

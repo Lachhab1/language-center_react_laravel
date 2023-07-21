@@ -13,11 +13,12 @@
 
 
 }
-
-* {
-  font-family: 'Inter', sans-serif;
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Lato', sans-serif;
 }
-
 .contents {
   min-height: calc(100vh - 60px);
 }
@@ -328,4 +329,20 @@ body,
 }
 .modal-backdrop {
   background-color: transparent;
+}
+
+/* actions style */
+.actions {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.actions button > *{
+  margin: 5px;
+}
+.actions button:hover > *{
+  padding: .1em;
+  border-radius: 5px;
+  transition: all .3s ease-in-out;
+
 }

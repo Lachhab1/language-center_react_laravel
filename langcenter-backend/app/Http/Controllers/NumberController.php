@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Class_;
 use Illuminate\Http\Request;
 use App\Models\Teacher;
 use App\Models\Etudiant;
 use App\Models\InscrireClass;
 use App\Models\Parent_;
 use App\Models\Payment;
+use App\Models\Classroom;
+use App\Models\Tests;
+use App\Models\Cours;
 
 class NumberController extends Controller
 {
@@ -20,6 +24,11 @@ class NumberController extends Controller
         $payments = Payment::all();
         $femaleCount = Etudiant::where('sexe', 'female')->count();
         $maleCount = $etudiants - $femaleCount;
+        $totalClasses = Class_::all()->count();
+        $totalClassrooms = Classroom::all()->count();
+        $totalTests = Tests::all()->count();
+        $totalCourses = Cours::all()->count();
+
         foreach ($payments as $payment) {
             $total_payment += $payment->amount;
         }
@@ -30,6 +39,10 @@ class NumberController extends Controller
             'total_payment' => $total_payment,
             'femaleCount' => $femaleCount,
             'maleCount' => $maleCount,
+            'totalClasses' => $totalClasses,
+            'totalClassrooms' => $totalClassrooms,
+            'totalTests' => $totalTests,    
+            'totalCourses' => $totalCourses,
         ]);
     }
 }

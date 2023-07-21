@@ -34,6 +34,11 @@ class AssignLevel extends Controller
                 'message' => 'Student not found',
             ], 404);
         }
+        if (!$etudiant->level) {
+            return response()->json([
+                'message' => 'Level not found',
+            ], 404);
+        }
         return response()->json([
             "level" =>
             $etudiant->level->name,
