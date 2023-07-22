@@ -12,6 +12,9 @@ import axios from '../../api/axios';
 import { Ellipsis } from 'react-awesome-spinners';
 
 export default function TableCourse() {
+    const [coursData, setCoursData] = useState([]);
+  const [records, setRecords] = useState(coursData);
+  const [pending, setPending] = useState(true);
           const tableCustomStyles = {
     headCells: {
         style: {
@@ -39,9 +42,7 @@ export default function TableCourse() {
   } else {
     x = '/secretary';
   }
-  const [records, setRecords] = useState(coursData);
-  const [coursData, setCoursData] = useState([]);
-  const [pending, setPending] = useState(true);
+
   const navigate = useNavigate();
   useEffect(() => {
     const timeout = setTimeout(async () => {
@@ -75,7 +76,7 @@ export default function TableCourse() {
     
 
   const handleSearchChange = (searchQuery) => {
-    const filteredData = coursData.filter((item) =>
+    const filteredData = coursData?.filter((item) =>
       item.course_name.toLowerCase().includes(searchQuery.toLowerCase())
     );
     setRecords(filteredData);
@@ -127,7 +128,7 @@ export default function TableCourse() {
 
     function handlefilter(event)
     {
-        const NewData = Data.filter(row => {
+        const NewData = Data?.filter(row => {
             return row.subject_name.toLowerCase().includes(event.target.value.toLowerCase())
         }) 
         setRecords(NewData)
