@@ -1,6 +1,6 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import DataTable from 'react-data-table-component';
-import Button from "../Button";
+import Button from '../Button';
 import axios from '../../api/axios';
 import { BsFillEyeFill, BsFillPencilFill } from 'react-icons/bs';
 import { MdDelete } from 'react-icons/md';
@@ -8,7 +8,9 @@ import { Link } from 'react-router-dom';
 import { UseStateContext } from '../../context/ContextProvider';
 import { Ellipsis } from 'react-awesome-spinners';
 import { Formik } from 'formik';
+
 export default function TableParent() {
+  const [nameFilter, setNameFilter] = useState('');
   const tableCustomStyles = {
     headCells: {
         style: {
@@ -30,75 +32,77 @@ export default function TableParent() {
    const [pending, setPending] = useState(true);
   const [parentData, setParentData] = useState([]);
   const { user } = UseStateContext();
-  let x = "";
+  let x = '';
   if (user && user.role === 'admin') {
-    x = "";
+    x = '';
   } else if (user && user.role === 'director') {
-    x = "/director";
+    x = '/director';
+  } else {
+    x = '/secretary';
   }
-  else {
-    x = "/secretary";
-  }
+
   useEffect(() => {
-    const fetchData = async() =>axios.get('api/parents').then((response) => {
-      console.log(response.data.data);
-      setParentData(
-        response.data.data.map((item) => {
-          return {
-            id: item.id,
-            name: item.nom + " " + item.prenom,
-            cin: item.cin,
-            date_naissance: item.date_naissance,
-            email: item.email,
-            gender: item.sexe,
-            address: item.adresse,
-            phone: item.telephone,
-            nb_enfants: item.nb_enfant_inscrit,
-          }
+    const fetchData = async () =>
+      axios
+        .get('api/parents')
+        .then((response) => {
+          console.log(response.data.data);
+          setParentData(
+            response.data.data.map((item) => ({
+              id: item.id,
+              name: item.nom + ' ' + item.prenom,
+              cin: item.cin,
+              date_naissance: item.date_naissance,
+              email: item.email,
+              gender: item.sexe,
+              address: item.adresse,
+              phone: item.telephone,
+              nb_enfants: item.nb_enfant_inscrit,
+            }))
+          );
         })
-      );
-    }
-    ).catch((error) => {
-      Formik.setErrors(error.response.data.errors);
-    });
-    setTimeout(async() => {
+        .catch((error) => {
+          Formik.setErrors(error.response.data.errors);
+        });
+
+    setTimeout(async () => {
       await fetchData();
       setPending(false);
-    }
-      , 200);
+    }, 200);
   }, []);
+
   const col = [
     {
-      name: "ID",
-      selector: row => row.id
+      name: 'ID',
+      selector: (row) => row.id,
     },
     {
-      name: "Name",
-      selector: row => row.name
+      name: 'Name',
+      selector: (row) => row.name,
     },
     {
-      name: "Gender",
-      selector: row => row.gender
+      name: 'Gender',
+      selector: (row) => row.gender,
     },
     {
-      name: "Address",
-      selector: row => row.address
+      name: 'Address',
+      selector: (row) => row.address,
     },
     {
-      name: "E-mail",
-      selector: row => row.email
+      name: 'E-mail',
+      selector: (row) => row.email,
     },
     {
-      name: "Phone",
-      selector: row => row.phone
+      name: 'Phone',
+      selector: (row) => row.phone,
     },
     {
       name: "Nombre d'enfants",
-      selector: row => row.nb_enfants
+      selector: (row) => row.nb_enfants,
     },
     {
-      name: "Action",
-      selector: row => row.action,
+      name: 'Action',
+      selector: (row) => row.action,
       cell: (row) => (
         <div className="actions" style={{ display: 'flex', gap: '0px' }}>
           <Link to={`${x}/parent/${row.id}`}>
@@ -113,35 +117,37 @@ export default function TableParent() {
           </Link>
         </div>
       ),
-    }
+    },
   ];
 
-  const Data = [
-    { id: "1", name: "sopa", gender: "male", occupation: "eng teacher", address: "sopa 3owa", email: "6@ma.com", phone: "060000000" },
-    { id: "2", name: "sopa", gender: "male", occupation: "eng teacher", address: "sopa 3owa", email: "6@ma.com", phone: "060000000" },
-    { id: "3", name: "sopa", gender: "male", occupation: "eng teacher", address: "sopa 3owa", email: "6@ma.com", phone: "060000000" }
-  ];
+  const filteredData = parentData.filter((item) => {
+    const nameMatch = item.name.toLowerCase().includes(nameFilter.toLowerCase());
+    return nameMatch;
+  });
 
-  const [formData, setFormData] = useState([...Data]);
+  useEffect(() => {
+    setRecords(filteredData);
+  }, [nameFilter, parentData]);
 
-  const [records, setRecords] = useState(Data);
-
-  function handleFilter(event) {
-    const newData = Data.filter(row => {
-      return row.name.toLowerCase().includes(event.target.value.toLowerCase());
-    });
-    setRecords(newData);
-  }
+  const [records, setRecords] = useState(filteredData);
 
   return (
     <div>
       <div className="ms-2 w-25">
-          <input type="text" className="form-control" placeholder="Search by Name" onChange={handleFilter} />
+        <input
+          type="text"
+          className="form-control"
+          placeholder="Search by Name"
+          value={nameFilter}
+          onChange={(e) => {
+            setNameFilter(e.target.value);
+          }}
+        />
       </div>
 
       <DataTable
         columns={col}
-        data={parentData}
+        data={records}
         fixedHeader
                     pagination
                     customStyles={tableCustomStyles}

@@ -149,6 +149,12 @@ else{
     navigate(`${x}/class`);
   };
 
+  const filteredData = classData.filter((item) => {
+    const nameMatch = item.name.toLowerCase().includes(nameFilter.toLowerCase());
+    const coursMatch = item.course.toLowerCase().includes(courseFilter.toLowerCase());
+    return nameMatch && coursMatch;
+  });
+
   return (
     <div>
       <div className="d-flex justify-content-around">
@@ -170,7 +176,7 @@ else{
           <button className="btn btn-danger">Add Class</button>
           </Link>
           </div>
-          <DataTable columns={columns} data={classData}
+          <DataTable columns={columns} data={filteredData}
           fixedHeader
           className="mt-4"
                     pagination

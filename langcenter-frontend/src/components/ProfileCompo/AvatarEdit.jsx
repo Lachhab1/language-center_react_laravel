@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import Avatar from 'react-avatar-edit';
 import photoProfile from '../../images/user.png'
 
 
 
-function Settings() {
+function AvatarEdit({setImageData}) {
   const [ image , setimage] = useState(photoProfile);
   const [dialogs , setdialogs] = useState(false);
   const [imgCrop , setimgCrop] = useState(false);
@@ -19,17 +19,26 @@ function Settings() {
   }
   const saveImage = () =>{
     setstoreImage([...storeImage , {imgCrop}])
-   
+   setImageData({imgCrop})
 
   }
+  
   const profileImageShow = storeImage.map( item => item.imgCrop)
+
+  useEffect(() => {
+    console.log('storeImage:', storeImage);
+    console.log('hoho :', profileImageShow);
+  }, [storeImage]);
   
   return (
     <div className='EditAvatar'>
-      <img src={profileImageShow.length?profileImageShow :photoProfile} style={{ width: "150px", height: " 150px", borderRadius: "50%" }} />
-      <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+      <div className='d-flex flex-column align-items-center'>
+
+      <img src={profileImageShow.length?profileImageShow :photoProfile} style={{ width: "150px", height: " 150px", borderRadius: "50%" }}  className='mb-3 '/>
+      <button type="button" className="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
         Changer Photo de profile
       </button>
+      </div>
 
 
       <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -72,4 +81,4 @@ function Settings() {
   );
 }
 
-export default Settings;
+export default AvatarEdit;
