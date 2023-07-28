@@ -9,7 +9,6 @@ import { Ellipsis } from 'react-awesome-spinners'
 import { UseStateContext } from "../../context/ContextProvider";
 
 export default function index() {
-    const weww = "weww"
     const tableCustomStyles = {
     headCells: {
         style: {

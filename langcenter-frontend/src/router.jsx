@@ -72,6 +72,8 @@ import AddTest from "./components/TestComponents/AddTest";
 
 //import for levels
 import Levels from "./components/LevelComponents/index";
+import AddLevel from "./components/LevelComponents/add";
+import EditLevel from "./components/LevelComponents/edit";	
 import EditTest from "./components/TestComponents/editTest";
 
 const router = createBrowserRouter([
@@ -132,6 +134,13 @@ const router = createBrowserRouter([
                     {
                         path: '/levels',
                         element: <Levels/>
+                    },
+                    {
+                        path: '/levels/add',
+                        element: <AddLevel/>
+                    },{
+                        path: "/levels/edit",
+                        element: <EditLevel/>
                     }
                 ]
             },
