@@ -182,15 +182,17 @@ const col=[
         selector:row => row.level,
         sortable: true,
         cell: (row) => (
-            <Form.Select size="md" onChange={(e) => handleChange(e,row.id)}>
-                <option value="">Select level</option>
-                {levels?.map((level) => (
+            <>
+            <Form.Select defaultValue={row.level} key={row.level} size="md" onChange={(e) => handleChange(e,row.id)}>
+                <option value="" key={``}>Select level</option>
+                {levels?.map((level,key) => (
                     <>
-                    <option value={level.id} selected={level.id == row.level}>{level.name}</option>
-                    <br />
+                    <option value={level.id} key={key}>{level.name}</option>
                     </>
                 ))}
             </Form.Select>
+                <br />
+                </>
         ),
     },
     {
