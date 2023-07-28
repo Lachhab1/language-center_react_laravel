@@ -140,8 +140,6 @@ class EtudiantController extends Controller
     {
         // Delete the inscrireClass
         $etudiant->load('inscrireClasses');
-
-
         $etudiant->inscrireClasses->each(function ($inscrireClass) {
             $inscrireClass->delete();
         });
@@ -151,7 +149,6 @@ class EtudiantController extends Controller
             $etudiant->parent_->delete();
         }
         $etudiant->delete();
-
         return response()->json(null, 204);
     }
 }

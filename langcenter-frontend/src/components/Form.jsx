@@ -88,10 +88,10 @@ function FormC() {
       guardAddress: yup.string(),
       courseName: yup.string().oneOf(['english','talks']).required('required'),
       courseFeesPaid: yup.number().required('required'),
-      negotiatedPrice: yup.number().required('required'),
+      negotiatedPrice: yup.number().required('required').nonNullable(),
       file: yup.mixed(),
       discount: yup.string(),
-      customDiscount: yup.number(),
+      customDiscount: yup.number().max(100).min(0),
   }),
   onSubmit: (values) => {
     console.log("wewe are here");
@@ -213,8 +213,24 @@ function FormC() {
     } else {
       res = formik.values.discount;
     }
-    formik.setFieldValue('negotiatedPrice',+total - res * total / 100);
+    formik.setFieldValue('negotiatedPrice',Math.round(+total - res * total / 100,2) || 0);
   },[total,formik.values.discount,formik.values.customDiscount]);
+
+  useEffect (() => {
+    let negotiatedPrice = formik.values.negotiatedPrice;
+    let res = (+total - +negotiatedPrice)/(+total) * 100;
+    switch (res) {
+      case 10:
+      case 20:
+      case 30:
+          formik.setFieldValue('discount',+res);
+        break;
+      default:
+          formik.setFieldValue('discount','custom');
+          formik.setFieldValue('customDiscount',+res);
+        break;
+    }
+  },[formik.values.negotiatedPrice])
   return (
         <Form noValidate onSubmit={handleSubmit}>
           <Row className='mb-3'>
