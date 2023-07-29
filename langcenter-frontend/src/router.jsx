@@ -75,6 +75,8 @@ import Levels from "./components/LevelComponents/index";
 import AddLevel from "./components/LevelComponents/add";
 import EditLevel from "./components/LevelComponents/edit";	
 import EditTest from "./components/TestComponents/editTest";
+//import for depenses
+import Depenses from "./components/Depenses/Depenses"
 
 const router = createBrowserRouter([
         {
@@ -278,17 +280,25 @@ const router = createBrowserRouter([
                                 element: <EditFeesT/>
                             },
                         ]
-                        
                     },
                     {
-                        path: "/fees",
+                        path: "/fees/expenses",
                         children: [
                             {
-                                path: "/fees/student",
+                                path: "/fees/expenses",
+                                element: <Depenses/>
+                            },
+                        ]
+                    },
+                    {
+                        path: "/income",
+                        children: [
+                            {
+                                path: "/income/student",
                                 element: <PaiementsEtu/>
                             },
                             {
-                                path: "/fees/student/edit/:id",
+                                path: "/income/student/edit/:id",
                                 element: <EditFees/>
                             },
                         ]

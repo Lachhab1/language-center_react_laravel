@@ -30,19 +30,19 @@ class NumberController extends Controller
         $totalCourses = Cours::all()->count();
 
         foreach ($payments as $payment) {
-            $total_payment += $payment->amount;
+            $total_payment += (float)$payment->amount;
         }
         return response()->json([
-            'teachers' => $teachers,
-            'etudiants' => $etudiants,
-            'parents' => $parents,
-            'total_payment' => $total_payment,
-            'femaleCount' => $femaleCount,
-            'maleCount' => $maleCount,
-            'totalClasses' => $totalClasses,
-            'totalClassrooms' => $totalClassrooms,
-            'totalTests' => $totalTests,    
-            'totalCourses' => $totalCourses,
+            'teachers' => (int) $teachers,
+            'etudiants' => (int) $etudiants,
+            'parents' => (int) $parents,
+            'total_payment' => (float) $total_payment,
+            'femaleCount' => (int) $femaleCount,
+            'maleCount' => (int) $maleCount,
+            'totalClasses' => (int) $totalClasses,
+            'totalClassrooms' => (int) $totalClassrooms,
+            'totalTests' => (int) $totalTests,
+            'totalCourses' => (int) $totalCourses,
         ]);
     }
 }

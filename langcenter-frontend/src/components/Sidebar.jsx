@@ -19,6 +19,7 @@ import salles from "../images/icons/salles.svg";
 import users from "../images/icons/utilisateurs.svg";
 import pass from "../images/icons/pass-fill.svg";
 import level from "../images/icons/icons8-language-skill.svg"
+import income from "../images/icons/icons8-income.svg"
 import { UseStateContext } from '../context/ContextProvider';
 
 
@@ -75,10 +76,10 @@ export default function Sidebar() {
 
                     {/* Paiements: le span pour cacher ces elements a fin de remplacer le collapse avec dropdown dans les petits ecrans */}
                     {openSidebar ? 
-                    <Nav.Item className="nav-item link-light"><a className="a nav-link link-light  dropdown-toggle" href="#dropFees" id="menu" data-bs-toggle="collapse"><img src={paiements} />{openSidebar && "Payments"}</a>
+                    <Nav.Item className="nav-item link-light"><a className="a nav-link link-light  dropdown-toggle" href="#dropFees" id="menu" data-bs-toggle="collapse"><img src={paiements} />{openSidebar && "Exapanses"}</a>
                         <ul className="collapse
                         " id="dropFees" data-bs-parent="#menu" >
-                            <Nav.Item ><NavLink className="a nav-link link-light" to="/fees/student">Students payments</NavLink></Nav.Item>
+                            <Nav.Item ><NavLink className="a nav-link link-light" to="/fees/expenses">Expenses</NavLink></Nav.Item>
                             <Nav.Item ><NavLink className="a nav-link link-light" to="/fees/teacher">Teachers fees</NavLink></Nav.Item>
                         </ul>
                     </Nav.Item>
@@ -86,6 +87,7 @@ export default function Sidebar() {
                     <Nav.Item className="nav-item"><a onClick={handleOpen} className="a nav-link link-light dropdown-toggle " href="#dropFees" id="menu" data-bs-toggle="collapse"><img src={paiements} /></a>
                     </Nav.Item>
                     }
+                    <Nav.Item><NavLink className="a nav-link link-light" to="/income/student"><img src={income} />{openSidebar && "Income"}</NavLink></Nav.Item>
                     <Nav.Item><NavLink className="a nav-link link-light" to="/classroom"><img src={salles} />{openSidebar && "Classrooms"}</NavLink></Nav.Item>
                     <Nav.Item><NavLink className="a nav-link link-light" to="/schedule"><img src={empTemps} />{openSidebar && "Schedules"}</NavLink></Nav.Item>
                     <Nav.Item><NavLink className="a nav-link link-light" to="/users"><img src={users} />{openSidebar && "Users"}</NavLink></Nav.Item>
