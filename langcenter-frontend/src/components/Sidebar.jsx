@@ -76,7 +76,7 @@ export default function Sidebar() {
 
                     {/* Paiements: le span pour cacher ces elements a fin de remplacer le collapse avec dropdown dans les petits ecrans */}
                     {openSidebar ? 
-                    <Nav.Item className="nav-item link-light"><a className="a nav-link link-light  dropdown-toggle" href="#dropFees" id="menu" data-bs-toggle="collapse"><img src={paiements} />{openSidebar && "Exapanses"}</a>
+                    <Nav.Item className="nav-item link-light"><a className="a nav-link link-light  dropdown-toggle" href="#dropFees" id="menu" data-bs-toggle="collapse"><img src={paiements} />{openSidebar && "Expenses"}</a>
                         <ul className="collapse
                         " id="dropFees" data-bs-parent="#menu" >
                             <Nav.Item ><NavLink className="a nav-link link-light" to="/fees/expenses">Expenses</NavLink></Nav.Item>
