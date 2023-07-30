@@ -47,19 +47,19 @@ export default function TableFeesEtud()
       }
     useEffect(()=>{
       
-       const fetchData = async() => axios.get('/api/inscrire-classes').then((response)=>{
+       const fetchData = async() => axios.get('/api/payment').then((response)=>{
           console.log(response.data.data);
           setData(
               response.data.data.map((row)=>({
                   id:row.id,
-                  name:row.etudiant.nom + " " + row.etudiant.prenom,
+                  name:row.etudiant_name,
                   status:row.status,
-                  iamount:row.cours?.price,
+                  iamount:row.cours_fee,
                   aamount:row.negotiated_price,
-                  pamount:row.payment.amount,
-                  ramount: row.negotiated_price - row.payment.amount > 0 ? row.negotiated_price - row.payment.amount : 0,
-                  class:row.class?.name,
-                  date:row.updated_at,
+                  pamount:row.amount,
+                  ramount:Number(row.remaining),
+                  class:row.classe_name,
+                  date:row.payment_date,
               }))
           );
             })
@@ -185,9 +185,6 @@ export default function TableFeesEtud()
     //     setNamefilter(newData);
     //   }
     // }
-    
-  
-
 
     return(
         <div>

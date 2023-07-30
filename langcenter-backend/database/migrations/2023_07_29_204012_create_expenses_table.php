@@ -11,14 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('students_attendances', function (Blueprint $table) {
+        Schema::create('expenses', function (Blueprint $table) {
             $table->id();
-            $table->date("date");
-            $table->boolean("isAbsent");
-            $table->text("reason");
-            $table->unsignedBigInteger("student_id");
+            $table->string('expense_name');
+            $table->decimal('expense_amount', 8, 2);
+            $table->text('expense_description')->nullable();
             $table->timestamps();
-            $table->foreign("student_id")->references("id")->on("etudiants")->onDelete('cascade');
         });
     }
 
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('students_attendances');
+        Schema::dropIfExists('expenses');
     }
 };

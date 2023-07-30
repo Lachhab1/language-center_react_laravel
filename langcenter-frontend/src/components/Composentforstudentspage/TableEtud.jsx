@@ -11,7 +11,6 @@ import AddClass from "./addClass";
 import male from "../../images/icons/icons8-male (1).svg"
 import female from "../../images/icons/icons8-female (1).svg"
 import Form from 'react-bootstrap/Form';
-
 export default function TableEtud()
 {
     const tableCustomStyles = {
@@ -100,8 +99,6 @@ const deleteRow = async (id) => {
         window.location.reload();
     }, 7000);
 };
-
-
 const handleChange = async (e,id) => {
     const level = e.target.value;
     const response = {
@@ -182,15 +179,15 @@ const col=[
         selector:row => row.level,
         sortable: true,
         cell: (row) => (
-            <Form.Select size="md" onChange={(e) => handleChange(e,row.id)}>
+            <>
+                <Form.Select defaultValue={row.level} size="md" onChange={(e) => handleChange(e, row.id)}>
                 <option value="">Select level</option>
                 {levels?.map((level) => (
-                    <>
-                    <option value={level.id} selected={level.id == row.level}>{level.name}</option>
-                    <br />
-                    </>
+                <option key={level.id} value={level.id}>{level.name}</option>
                 ))}
-            </Form.Select>
+                </Form.Select>
+                <br />
+                </>
         ),
     },
     {
@@ -237,7 +234,6 @@ const col=[
                 setRecords(data)
             },[data]
         )
-
         function  handlefilter(event)
         {
                  const newData = data.filter(row => {
@@ -254,9 +250,7 @@ const col=[
                 })
                 setRecords(newData);
         }
-        
     return(
-
     <div>
         <div className="row offset-1 my-2">
             <div className="col">

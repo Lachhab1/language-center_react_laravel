@@ -72,7 +72,13 @@ import AddTest from "./components/TestComponents/AddTest";
 
 //import for levels
 import Levels from "./components/LevelComponents/index";
+import AddLevel from "./components/LevelComponents/add";
+import EditLevel from "./components/LevelComponents/edit";	
 import EditTest from "./components/TestComponents/editTest";
+//import for depenses
+import Depenses from "./components/Depenses/Depenses"
+import AddExpense from "./components/Depenses/Add";
+import EditExpense from "./components/Depenses/Edit";
 
 const router = createBrowserRouter([
         {
@@ -132,6 +138,13 @@ const router = createBrowserRouter([
                     {
                         path: '/levels',
                         element: <Levels/>
+                    },
+                    {
+                        path: '/levels/add',
+                        element: <AddLevel/>
+                    },{
+                        path: "/levels/edit",
+                        element: <EditLevel/>
                     }
                 ]
             },
@@ -269,17 +282,33 @@ const router = createBrowserRouter([
                                 element: <EditFeesT/>
                             },
                         ]
-                        
                     },
                     {
-                        path: "/fees",
+                        path: "/fees/expenses",
                         children: [
                             {
-                                path: "/fees/student",
+                                path: "/fees/expenses",
+                                element: <Depenses/>
+                            },
+                            {
+                                path: "/fees/expenses/edit/:id",
+                                element: <EditExpense/>
+                            },
+                            {
+                                path: "/fees/expenses/add",
+                                element: <AddExpense/>
+                            }
+                        ]
+                    },
+                    {
+                        path: "/income",
+                        children: [
+                            {
+                                path: "/income/student",
                                 element: <PaiementsEtu/>
                             },
                             {
-                                path: "/fees/student/edit/:id",
+                                path: "/income/student/edit/:id",
                                 element: <EditFees/>
                             },
                         ]

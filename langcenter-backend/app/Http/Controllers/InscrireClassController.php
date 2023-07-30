@@ -104,7 +104,6 @@ class InscrireClassController extends Controller
         } else {
             $paymentStatus = 'Unpaid';
         }
-
         // Update the payment status and negotiated price in the inscription
         $inscrire->payment_status = $paymentStatus;
         // Associate the payment with the inscription
@@ -164,7 +163,8 @@ class InscrireClassController extends Controller
     }
     public function deletePayment($id)
     {
-        $inscrire = InscrireClass::find($id);
+        $pay = Payment::find($id);
+        $inscrire = $pay->inscrireClass;
 
         if (!$inscrire) {
             return response()->json(['message' => 'Inscrire not found.'], 404);
@@ -178,7 +178,6 @@ class InscrireClassController extends Controller
         }
         // Delete the payment record
         $payment->delete();
-        $inscrire->delete();
         // Update the payment status and negotiated price in the inscription
 
 

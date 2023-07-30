@@ -21,6 +21,8 @@ use Illuminate\Support\Facades\Http;
 
 use App\Http\Controllers\RegisterTestController;
 use App\Http\Controllers\TestPaymentController;
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\ExpensesController;
 
 Route::post('/login', [LoginController::class, 'login']);
 
@@ -128,3 +130,9 @@ Route::resource('/register', RegisterTestController::class);
 
 //complet the payment
 Route::resource('/testPayment', TestPaymentController::class);
+
+//paymnet
+Route::resource('/payment', PaymentController::class);
+
+//expenses
+Route::resource('/expenses', ExpensesController::class);
