@@ -77,6 +77,8 @@ import EditLevel from "./components/LevelComponents/edit";
 import EditTest from "./components/TestComponents/editTest";
 //import for depenses
 import Depenses from "./components/Depenses/Depenses"
+import AddExpense from "./components/Depenses/Add";
+import EditExpense from "./components/Depenses/Edit";
 
 const router = createBrowserRouter([
         {
@@ -288,6 +290,14 @@ const router = createBrowserRouter([
                                 path: "/fees/expenses",
                                 element: <Depenses/>
                             },
+                            {
+                                path: "/fees/expenses/edit/:id",
+                                element: <EditExpense/>
+                            },
+                            {
+                                path: "/fees/expenses/add",
+                                element: <AddExpense/>
+                            }
                         ]
                     },
                     {
