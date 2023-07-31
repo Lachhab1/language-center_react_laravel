@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\InscrireClass;
+use Ramsey\Uuid\Type\Decimal;
 use Ramsey\Uuid\Type\Integer;
 
 class Payment extends Model
@@ -28,14 +29,6 @@ class Payment extends Model
     {
         $this->attributes['payment_date'] = date('Y-m-d', strtotime($value));
     }
-    public function getAmountAttribute($value)
-    {
-        return number_format($value, 2, ',', ' ');
-    }
-    public function setAmountAttribute($value)
-    {
-        $this->attributes['amount'] = str_replace(',', '.', $value);
-    }
     public function getEtudiantName()
     {
         return $this->inscrireClass->etudiant->prenom . ' ' . $this->inscrireClass->etudiant->nom;
@@ -52,7 +45,7 @@ class Payment extends Model
     {
         return $this->inscrireClass->etudiant->id;
     }
-    public  function getNegotiatedPrice(): int
+    public  function getNegotiatedPrice()
     {
         return $this->inscrireClass->negotiated_price;
     }

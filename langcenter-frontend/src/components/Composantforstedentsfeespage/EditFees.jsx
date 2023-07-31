@@ -44,7 +44,7 @@ export default function EditFees()
       setTimeout(() => {
           setNotification("");
           setVariant("");
-          navigate(`${x}/fees/student`);
+          navigate(`${x}/income/student`);
       }
       , 3000);
     })
