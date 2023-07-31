@@ -13,6 +13,8 @@ import { Ellipsis } from 'react-awesome-spinners'
 
 export default function TableFeesEtud()
 { 
+  const [nameFilter,setNameFilter]= useState('');
+  const [status2,setStatus2]= useState('all');
     const tableCustomStyles = {
     headCells: {
         style: {
@@ -186,9 +188,25 @@ export default function TableFeesEtud()
     //   }
     // }
 
+    const filteredData = data.filter((item)=>item.name.toLowerCase().includes(nameFilter.toLowerCase()) && ( item.status.toLowerCase()===status2.toLowerCase() || status2==='all' ) ) 
+    console.log(status2 , ' aes')
     return(
         <div>
-            
+           
+            <div className='row'>
+              <div className='col'>
+
+                <input type="text" name="name" className="form-control" placeholder='Search by name' value={nameFilter} onChange={(e)=>setNameFilter(e.target.value)}/>
+              </div>
+              <div className='col'>
+
+                <select type="selectStatus" className="form-control" onChange={(e)=>setStatus2(e.target.value)}  >
+                <option value="all">All</option>
+                  <option value="unpaid">Unpaid</option>
+                  <option value="paid">Paid</option>
+                </select>
+              </div>
+            </div>
             {/* <div className="row offset-1">
               <div className='col'>
               <input type="text" className="form-control"  placeholder="Search by Name"  />
@@ -206,7 +224,7 @@ export default function TableFeesEtud()
             </div> */}
             <DataTable
                     columns={col}
-                    data={data}
+                    data={filteredData}
                     fixedHeader
                     pagination
                     customStyles={tableCustomStyles}
