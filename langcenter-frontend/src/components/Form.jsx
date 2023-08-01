@@ -9,9 +9,10 @@ import * as yup from 'yup';
 import axios from '../api/axios';
 import {useNavigate} from 'react-router-dom';
 import { UseStateContext } from '../context/ContextProvider';
-
 function FormC() {
   const navigate = useNavigate();
+  const [testPrice, setTestPrice] = useState(0);
+  const [tests, setTests] = useState([]);
   const {user,setNotification,setVariant} = UseStateContext();
   const [underAge,setUnderAge] = useState(false);
   const [total,setTotal] = useState(0);
@@ -61,6 +62,12 @@ function FormC() {
         course: false,
         testLevel: false,
         file: '',
+        test: ``,
+        testFees: 0,
+        testFeesPaid: 0,
+        testDate: ``,
+        testTime: ``,
+        testEndTime: ``,
       },
     validationSchema: yup.object().shape({
     firstName: yup.string()
@@ -92,7 +99,13 @@ function FormC() {
       file: yup.mixed(),
       discount: yup.string(),
       customDiscount: yup.number().max(100).min(0),
-  }),
+      test: yup.string(),
+      testFees: yup.number(),
+      testFeesPaid: yup.number(),
+      testDate: yup.date(),
+      testTime: yup.string(),
+      testEndTime: yup.string(),
+    }),
   onSubmit: (values) => {
     console.log("wewe are here");
 }
@@ -153,13 +166,14 @@ function FormC() {
       class_id: formik.values.class,
       negotiated_price: formik.values.negotiatedPrice,
     }
-    if (formik.values.insurrance === true || formik.values.testLevel === true || formik.values.course === true){
-    if (formik.values.course === false){
-      inscriptionData = {
-      etudiant_id: etudiantId,
-      negotiated_price: formik.values.negotiatedPrice,
-      }
-    }
+    if (formik.values.insurrance == true || formik.values.testLevel == true || formik.values.course == true){
+    // if (formik.values.course === false){
+    //   inscriptionData = {
+    //   etudiant_id: etudiantId,
+    //   negotiated_price: formik.values.negotiatedPrice,
+    //   }
+    // }
+    if (formik.values.course === true){
     try{
       response2 = await axios.post('/api/inscrire-classes',inscriptionData);
       console.log(response2);
@@ -169,7 +183,7 @@ function FormC() {
     
     const inscriptionId = response2.data.id;
     const paymentData = {
-     payment_amount: formik.values.courseFeesPaid,
+      payment_amount: formik.values.courseFeesPaid,
     }
     try{
       response3 = await axios.post(`/api/inscrires/${inscriptionId}/register-payment`,paymentData);
@@ -177,7 +191,39 @@ function FormC() {
       console.log(error);
     }
   }
-    console.log(response3);
+    
+    if (formik.values.testLevel === true){
+      debugger;
+      let responseTestData = {
+        test_id: formik.values.test,
+        student_id: etudiantId,
+        date: formik.values.testDate,
+        start_time: formik.values.testTime,
+        end_time: formik.values.testEndTime,
+        status: "pending"
+      };
+      let responseTest = [];
+      try {
+        responseTest = await axios.post('/api/register',responseTestData);
+        console.log(responseTest);
+      } catch (error) {
+        console.log(error);
+      }
+      let registerId = responseTest.data.id;
+      const paymentData = {
+        amount : formik.values.testFeesPaid,
+        register_id: registerId,
+        payment_method: "cash",
+    }
+    let responseTestPayment = [];
+    try{
+      responseTestPayment = await axios.post('/api/testPayment',paymentData);
+      console.log(responseTestPayment);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  }
     setNotification("Student added successfully");
     setVariant("success");
     setTimeout(() => {
@@ -186,26 +232,33 @@ function FormC() {
     }, 7000);
     navigate(`${x}/student`);
   }
+  //function to get test price
+  useEffect(() => {
+    tests.map(
+      (test) => {
+        if (test.id == formik.values.test){
+          setTestPrice(+test.price);
+        }
+      }
+    )
+  },[formik.values.test]);
   // calculate the total fees
   useEffect(() => {
   const getTotals = () => {
     let total = 0;
     if (formik.values.insurrance){
-      console.log("insurrance");
       total += 200;
     }
     if (formik.values.course){
-      console.log("course");
       total += +findCoursFees(formik.values.class);
     }
-    if (formik.values.testLevel){
-      console.log("testLevel");
-      total += 150;
+    if (formik.values.testLevel === true){
+      total += testPrice;
     }
     return total;
   }
   setTotal(getTotals());
-  },[formik.values.insurrance,formik.values.course,formik.values.testLevel,formik.values.class]);
+  },[formik.values.insurrance,formik.values.course,formik.values.testLevel,formik.values.class,testPrice]);
   useEffect(() => {
     let res = 0;
     if (formik.values.discount === 'custom'){
@@ -231,6 +284,18 @@ function FormC() {
         break;
     }
   },[formik.values.negotiatedPrice])
+  useEffect(() =>{
+    const getTests = async () => {
+      const res = await axios.get('/api/tests');
+      setTests(res.data.data);
+      console.log(res.data.data);
+    }
+      try{
+        getTests();
+      } catch (error) {
+        console.log(error);
+      }
+  },[]);
   return (
         <Form noValidate onSubmit={handleSubmit}>
           <Row className='mb-3'>
@@ -522,6 +587,148 @@ function FormC() {
               </div>
               </Form.Group>
             {
+              formik.values.testLevel === true ?
+              <>
+              <h3>Test Level</h3>
+              <Form.Group
+              as={Col}
+              md={3}
+              sm={6}
+              xs={7}
+              className="position-relative"
+              >
+              <Form.Label>Test Name<span className='text-danger'>*</span></Form.Label>
+              <Form.Select
+              component="select"
+              id="test"
+              name="test"
+              {...formik.getFieldProps('test')}
+              isInvalid={formik.touched.test && formik.errors.test}
+              >
+              <option value=''>choose Test</option>
+                {tests.map((test) => (
+                  <option key={test.id} value={test.id}>
+                    {test.name}
+                  </option>
+                ))}
+              </Form.Select>
+              <Form.Control.Feedback type="invalid" tooltip>{formik.errors.test}</Form.Control.Feedback>
+              </Form.Group>
+              <Form.Group
+              as={Col}
+              md={3}
+              sm={6}
+              xs={7}
+              className="position-relative"
+              >
+              <Form.Label>Test Fees</Form.Label>
+              <Form.Control
+              type="number"
+              placeholder="test fees"
+              name="testfees"
+              value={testPrice}
+              disabled
+              isInvalid={formik.touched.testFees && formik.errors.testFees}
+              />
+              <Form.Control.Feedback type="invalid" tooltip>
+              {formik.errors.testFees}
+              </Form.Control.Feedback>
+              </Form.Group>
+              {/* add test date */}
+              <Form.Group
+              as={Col}
+              md={3}
+              sm={6}
+              xs={7}
+              className="position-relative"
+              >
+              <Form.Label>Test Date</Form.Label>
+              <Form.Control
+              type="date"
+              placeholder="test date"
+              name="testdate"
+              {...formik.getFieldProps('testDate')}
+              isInvalid={formik.touched.testDate && formik.errors.testDate}
+              />
+              <Form.Control.Feedback type="invalid" tooltip>
+              {formik.errors.testDate}
+              </Form.Control.Feedback>
+              </Form.Group>
+              {/* add test time */}
+              <Form.Group
+              as={Col}
+              md={3}
+              sm={6}
+              xs={7}
+              className="position-relative"
+              >
+              <Form.Label>Start Time</Form.Label>
+              <Form.Control
+              type="time"
+              placeholder="test time"
+              name="testtime"
+              {...formik.getFieldProps('testTime')}
+                  
+              isInvalid={formik.touched.testTime && formik.errors.testTime}
+              />
+              <Form.Control.Feedback type="invalid" tooltip>
+              {formik.errors.testTime}
+              </Form.Control.Feedback>
+              </Form.Group>
+              <Form.Group
+              as={Col}
+              md={3}
+              sm={6}
+              xs={7}
+              className="position-relative"
+              >
+              <Form.Label>End Time</Form.Label>
+              <Form.Control
+              type="time"
+              placeholder="End time"
+              name="endtime"
+              {...formik.getFieldProps('testEndTime')}
+                  
+              isInvalid={formik.touched.testEndTime && formik.errors.testEndTime}
+              />
+              <Form.Control.Feedback type="invalid" tooltip>
+              {formik.errors.testEndTime}
+              </Form.Control.Feedback>
+              </Form.Group>
+              </>
+              :
+              <>
+              </>
+            }
+            {
+                formik.values.testLevel === true ?
+                <>
+                <Row>
+            <Form.Group
+              as={Col}
+              md="3"
+              sm="6"
+              xs="12"
+              controlId="validationFormik1"
+              className='position-relative'
+              >
+              <Form.Label>Fees Paid</Form.Label>
+              <Form.Control
+                type="text"
+                name="testfeespaid"
+                placeholder="Test fees paid"
+                {...formik.getFieldProps('testFeesPaid')}
+                isInvalid={formik.touched.testFeesPaid && formik.errors.testFeesPaid}
+                />
+              <Form.Control.Feedback className='' type="invalid" tooltip>{formik.errors.testFeesPaid}</Form.Control.Feedback>
+          </Form.Group>
+        </Row>
+                </>
+                :
+                <>
+                </>
+              }
+            {
               formik.values.course === true ?
               <>
                 <h3>Course</h3>
@@ -571,26 +778,11 @@ function FormC() {
               </>
             }
               </Row>
-              <Row>
-              <h3>Payment</h3>
-              <Form.Group
-              as={Col}
-              md="3"
-              sm="6"
-              xs="12"
-              controlId="validationFormik1"
-              className='position-relative'
-              >
-              <Form.Label>Total</Form.Label>
-              <Form.Control
-                type="text"
-                name="total"
-                placeholder="total"
-                value={total}
-                disabled
-                />
-          </Form.Group>
-          <Form.Group as={Col} md="3" sm="6" xs="12" controlId="validationFormik1" className='position-relative'>
+              {
+                formik.values.course === true ?
+                <>
+                      <Row>
+  <Form.Group as={Col} md="3" sm="6" xs="12" controlId="validationFormik1" className='position-relative'>
   <Form.Label>Discount</Form.Label>
   <InputGroup>
     <Form.Select
@@ -655,11 +847,32 @@ function FormC() {
               <Form.Control.Feedback className='' type="invalid" tooltip>{formik.errors.courseFeesPaid}</Form.Control.Feedback>
           </Form.Group>
         </Row>
+                </>
+                : 
+                <>
+                </>
+              }
+            <Form.Group
+              as={Col}
+              md="3"
+              sm="6"
+              xs="12"
+              controlId="validationFormik1"
+              className='position-relative'
+              >
+              <Form.Label>Total</Form.Label>
+              <Form.Control
+                type="text"
+                name="total"
+                placeholder="total"
+                value={total * (1-((formik.values.discount == 'custom' ? formik.values.customDiscount : formik.values.discount) /100)) || total}
+                disabled
+                />
+          </Form.Group>
         <Row className='mb-3'>
         </Row>
           <Button type="submit" onClick={()=>console.log("hi")}>Submit form</Button>
         </Form>
   );
 }
-
 export default FormC;

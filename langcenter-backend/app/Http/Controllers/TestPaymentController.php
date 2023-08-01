@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\TestPayment;
 use Illuminate\Http\Request;
+use App\Models\RegisterTest;
 
 class TestPaymentController extends Controller
 {
@@ -21,8 +22,27 @@ class TestPaymentController extends Controller
      */
     public function store(Request $request)
     {
+        $data = $request->validate([
+            'register_id' => 'required',
+            'amount' => 'required',
+            'payment_method' => 'required',
+        ]);
         //store a new test payment
-        $testPayment = TestPayment::create($request->all());
+        $testPayment = new TestPayment();
+        $testPayment->register_id = $request->register_id;
+        $testPayment->amount = $request->amount;
+        $testPayment->payment_method = $request->payment_method;
+        //get the total paid amount for the test
+        $totalPaid = TestPayment::where('register_id', $request->register_id)->sum('amount');
+        //get the total amount for the test
+        $totalAmount = RegisterTest::find($request->register_id)->test->price;
+        //check if the total paid amount is less than the total amount
+        if ($totalPaid >= $totalAmount) {
+            $testPayment->status = 'paid';
+        } else {
+            $testPayment->status = 'unpaid';
+        }
+        $testPayment->save();
         return response()->json($testPayment, 201);
     }
 
