@@ -32,6 +32,7 @@ export default function index() {
     const [pending, setPending] = useState(true);
     const [data,setData]=useState([]);
     const [records,setRecords]=useState([]);
+    const[nameFilter , setNameFilter]= useState('');
     const navigate = useNavigate();
     let x = ""
     if (user && user.role==='admin')
@@ -115,11 +116,13 @@ export default function index() {
         }
     };
 
+    const filteredData = data.filter((item)=>item.name.toLowerCase().includes(nameFilter.toLocaleLowerCase()))
+
     return (
             <div>
         <div className="row offset-1 my-2">
             <div className="col">
-                 <input type="text" className="form-control" placeholder="Search by Name"/>
+                 <input type="text" className="form-control" placeholder="Search by Name" value={nameFilter} onChange={(e)=>{setNameFilter(e.target.value)}}/>
             </div>
             <Link to={`${x}/levels/add`} className="col">
                     <Button className="" variant="danger" isDisabled={false} size="md" value="add Level" handleSmthg={() => console.log("chibakiya")}/>
@@ -127,7 +130,7 @@ export default function index() {
         </div>
             <DataTable
                     columns={col}
-                    data={data}
+                    data={filteredData}
                     fixedHeader
                     pagination
                     progressPending={pending}
