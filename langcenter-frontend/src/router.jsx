@@ -304,11 +304,11 @@ const router = createBrowserRouter([
                         path: "/income",
                         children: [
                             {
-                                path: "/income/student",
+                                path: "/income",
                                 element: <PaiementsEtu/>
                             },
                             {
-                                path: "/income/student/edit/:id",
+                                path: "/income/edit/:id",
                                 element: <EditFees/>
                             },
                         ]
