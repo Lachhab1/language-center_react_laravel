@@ -10,10 +10,10 @@ export default function PaiementsEtu(){
         <div id="tab--nav" className="row w-25 m-3">
         <Nav justify variant="tabs">
                 <Nav.Item className="bg-light">
-                    <Nav.Link className={!selectedTab ? "bg-info text-light" : "text-dark"} onClick={() => setSelectedTab(0)}>Student</Nav.Link>
+                    <Nav.Link className={!selectedTab ? "bg-info text-light" : "text-dark"} onClick={() => setSelectedTab(0)}>Class Inscriptions</Nav.Link>
                 </Nav.Item>
                 <Nav.Item className="bg-light">
-                    <Nav.Link className={selectedTab ? "bg-info text-light" : "text-dark"}  onClick={() => setSelectedTab(1)}>Test</Nav.Link>
+                    <Nav.Link className={selectedTab ? "bg-info text-light" : "text-dark"}  onClick={() => setSelectedTab(1)}>Test Registration</Nav.Link>
                 </Nav.Item>
             </Nav>
         </div>
@@ -24,7 +24,7 @@ export default function PaiementsEtu(){
                 !selectedTab ? <TableFeesEtud /> : <></>
             }
             {
-                selectedTab ? <TableFeesTests /> : <></>
+                selectedTab ? <TableFeesTests selectedTab={selectedTab} setSelectedTab={setSelectedTab} /> : <></>
             }
             
             </div>

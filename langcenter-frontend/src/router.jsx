@@ -79,6 +79,9 @@ import EditTest from "./components/TestComponents/editTest";
 import Depenses from "./components/Depenses/Depenses"
 import AddExpense from "./components/Depenses/Add";
 import EditExpense from "./components/Depenses/Edit";
+//import for test payment
+import TestPayment from "./components/testFees/index";
+import EditTestPayment from "./components/testFees/edit";
 
 const router = createBrowserRouter([
         {
@@ -304,13 +307,31 @@ const router = createBrowserRouter([
                         path: "/income",
                         children: [
                             {
-                                path: "/income",
-                                element: <PaiementsEtu/>
+                                path: "/income/student",
+                                children: [
+                                    {
+                                        path: "/income/student",
+                                        element: <PaiementsEtu/>,
+                                    },
+                                    {
+                                    path: "/income/student/edit/:id",
+                                    element: <EditFees/>
+                                    },
+                                ]
                             },
                             {
-                                path: "/income/edit/:id",
-                                element: <EditFees/>
-                            },
+                                path: "/income/test",
+                                children: [
+                                    {
+                                        path: "/income/test",
+                                        element: <TestPayment/>
+                                    },
+                                    {
+                                        path: "/income/test/edit/:id",
+                                        element: <EditTestPayment/>
+                                    }
+                                ]
+                            }
                         ]
                     },
                 ]
