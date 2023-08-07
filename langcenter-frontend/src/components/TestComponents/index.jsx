@@ -1,177 +1,121 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import DataTable from 'react-data-table-component';
-import { BsFillPencilFill } from 'react-icons/bs';
-import { MdDelete } from 'react-icons/md';
-import { UseStateContext } from '../../context/ContextProvider';
+import React from 'react';
+import { Formik, Field,useFormik } from 'formik';
+import * as Yup from 'yup';
 import axios from '../../api/axios';
-import { Ellipsis } from 'react-awesome-spinners';
-import Button from '../Button';
+import { useNavigate,useParams } from 'react-router-dom';
+import { UseStateContext } from '../../context/ContextProvider';
+import { Form, Button, Col, Row } from 'react-bootstrap';
+import { useEffect,useState } from 'react';
 
-export default function index() {
-  const tableCustomStyles = {
-    headCells: {
-      style: {
-        fontSize: '20px',
-        fontWeight: 'bold',
-        paddingLeft: '0 8px',
-        justifyContent: 'center',
-        backgroundColor: '#f5f5f5',
-      },
-    },
-    cells: {
-      style: {
-        fontSize: '18px',
-        paddingLeft: '0 8px',
-        justifyContent: 'center',
-      },
-    },
-  };
-
-  const { user, setNotification, setVariant } = UseStateContext();
-  const [data, setData] = useState([]);
-  const [pending, setPending] = useState(true);
-  const [nameFilter, setNameFilter] = useState('');
-  const [levelFilter, setLevelFilter] = useState('');
-  const navigate = useNavigate();
-
-  let x = '';
-  if (user && user.role === 'admin') {
-    x = '';
-  } else if (user && user.role === 'director') {
-    x = '/director';
-  } else {
-    x = '/secretary';
-  }
-
-  const col = [
-    {
-      name: 'ID',
-      selector: (row) => row.id,
-      sortable: true,
-    },
-    {
-      name: 'Name',
-      selector: (row) => row.name,
-      sortable: true,
-    },
-    {
-      name: 'Duration',
-      selector: (row) => row.duration,
-      sortable: true,
-    },
-    {
-      name: 'Price',
-      selector: (row) => row.price,
-      sortable: true,
-    },
-    {
-      name: 'Level',
-      selector: (row) => row.level,
-      sortable: true,
-    },
-    {
-      name: 'Action',
-      selector: (row) => row.action,
-      cell: (row) => (
-        <div className="actions" style={{ display: 'flex', gap: '0px' }}>
-          <Link to={`${x}/tests/edit/${row.id}`}>
-            <button style={{ border: 'none', background: 'none' }}>
-              <BsFillPencilFill style={{ color: 'orange' }} />
-            </button>
-          </Link>
-          <button style={{ border: 'none', background: 'none' }} onClick={() => deleteRow(row.id)}>
-            <MdDelete style={{ color: 'red', fontSize: '20px' }} />
-          </button>
-        </div>
-      ),
-    },
-  ];
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get('/api/tests');
-        setData(
-          response.data.data.map((item) => ({
-            id: item.id,
-            name: item.name,
-            duration: item.duration,
-            price: item.price,
-            level: item?.level,
-          }))
-        );
-        setPending(false);
-      } catch (err) {
-        console.log(err);
+export default function EditTest() {
+const {user,setNotification, setVariant } = UseStateContext();
+const navigate = useNavigate();
+ let x = ""
+      if (user && user.role==='admin')
+      {
+          x = ""
+      } else if (user && user.role==='director')
+      {
+          x="/director"
       }
+      else{
+          x="/secretary"
+      }
+  const Scheme = Yup.object().shape({
+    price: Yup.number()
+    .integer("must be an Integer")
+    .required('Required'),
+});
+const formik = useFormik({
+  initialValues: {
+    price: '',
+  },
+  validationSchema: Scheme,
+  onSubmit: (e,values) => {
+    handleSubmitt(e,values);
+  },
+});
+
+
+
+
+  const handleSubmitt = async (e,values) => {
+    e.preventDefault()
+    console.log("cococ",formik.values)
+
+    const sendData = {
+        price: formik.values.price,
     };
-    fetchData();
+    axios.put(`/api/tests/1`, sendData)
+      .then((res) => {
+        console.log(res.data);
+        setNotification('Test price edited successfully');
+        setVariant('warning');
+        setTimeout(() => {
+          setNotification('');
+          setVariant('');
+        }, 3000);
+        navigate(`${x}/tests`);
+      })
+      .catch((error) => {
+        if (error.response && error.response.status === 422) {
+          // Handle specific error status code (422)
+          console.log(error.response.data); // Log the error response data
+          // Display an error message to the user
+          setNotification('Error: Invalid data');
+          setVariant('danger');
+          setTimeout(() => {
+            setNotification('');
+          }, 3000);
+        } else {
+          // Handle other errors
+          console.error(error);
+          // Display a generic error message to the user
+          setNotification('An error occurred');
+          setVariant('danger');
+          setTimeout(() => {
+            setNotification('');
+          }, 3000);
+        }
+      });
+  }
+  useEffect(() => {
+    axios.get(`/api/tests/1`)
+        .then((res) => {
+            console.log(res.data);
+            formik.setValues(res.data.data);
+        })
+        .catch((error) => {
+            console.error(error);
+        }
+    );
   }, []);
 
-  // Filter data based on search criteria
-  const filteredData = data.filter(
-    (item) =>
-      item.name.toLowerCase().includes(nameFilter.toLowerCase()) &&
-      (!levelFilter || item.level?.toLowerCase().includes(levelFilter.toLowerCase()))
-  );
 
-  // Method to delete a row
-  const deleteRow = async (id) => {
-    try {
-      const response = await axios.delete(`/api/tests/${id}`);
-      console.log(response);
-      setNotification('Test deleted successfully');
-      setVariant('danger');
-      navigate(`${x}/tests`);
-    } catch (err) {
-      console.log(err);
-      setNotification('Test deletion failed');
-      setVariant('danger');
-    }
-  };
 
   return (
-    <div>
-      <div className="row offset-1 my-2">
-        <div className="col">
-          <input
+    <Form noValidate onSubmit={handleSubmitt}>
+      <Row className='mb-3'>
+        <h1>Placement Test Price</h1>
+      <Form.Group as={Col}
+          sm={4} controlId="price">
+        <Form.Label column >
+          Price
+        </Form.Label>
+        
+          <Form.Control
             type="text"
-            className="form-control"
-            placeholder="Search by Name"
-            value={nameFilter}
-            onChange={(e) => setNameFilter(e.target.value)}
+            placeholder="Price"
+            name="price"
+            {...formik.getFieldProps('price')}
+            isInvalid={formik.touched.price && formik.errors.price}
           />
-        </div>
-        <div className="col">
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Search by Level"
-            value={levelFilter}
-            onChange={(e) => setLevelFilter(e.target.value)}
-          />
-        </div>
-        <Link to={`${x}/tests/add`} className="col">
-          <Button
-            className=""
-            variant="danger"
-            isDisabled={false}
-            size="md"
-            value="add Test"
-            handleSmthg={() => console.log('chibakiya')}
-          />
-        </Link>
-      </div>
-      <DataTable
-        columns={col}
-        data={filteredData}
-        fixedHeader
-        pagination
-        progressPending={pending}
-        customStyles={tableCustomStyles}
-        progressComponent={<Ellipsis size={64} color="#D60A0B" sizeUnit="px" />}
-      />
-    </div>
+          <Form.Control.Feedback type="invalid">
+            {formik.errors.price}
+          </Form.Control.Feedback>
+      </Form.Group>
+      </Row>
+      <Button type="submit" className='my-3 btn-secondary'>Submit</Button>
+    </Form>
   );
 }

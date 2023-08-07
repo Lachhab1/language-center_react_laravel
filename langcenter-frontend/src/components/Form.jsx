@@ -33,6 +33,14 @@ function FormC() {
       setClassData(res.data);
     });
   }, []);
+  // Fetch available tests from the database
+  useEffect(() => {
+    axios.get('/api/tests').then((res) => {
+      setTests(res.data.data);
+      console.log(res.data.data);
+      setTestPrice(+res.data.data[0].price)
+    });
+  }, []);
   const formik = useFormik({
         initialValues:{
         firstName: ``,
@@ -63,11 +71,8 @@ function FormC() {
         testLevel: false,
         file: '',
         test: ``,
-        testFees: 0,
+        testFees: 100,
         testFeesPaid: 0,
-        testDate: ``,
-        testTime: ``,
-        testEndTime: ``,
       },
     validationSchema: yup.object().shape({
     firstName: yup.string()
@@ -102,9 +107,6 @@ function FormC() {
       test: yup.string(),
       testFees: yup.number(),
       testFeesPaid: yup.number(),
-      testDate: yup.date(),
-      testTime: yup.string(),
-      testEndTime: yup.string(),
     }),
   onSubmit: (values) => {
     console.log("wewe are here");
@@ -167,12 +169,6 @@ function FormC() {
       negotiated_price: formik.values.negotiatedPrice,
     }
     if (formik.values.insurrance == true || formik.values.testLevel == true || formik.values.course == true){
-    // if (formik.values.course === false){
-    //   inscriptionData = {
-    //   etudiant_id: etudiantId,
-    //   negotiated_price: formik.values.negotiatedPrice,
-    //   }
-    // }
     if (formik.values.course === true){
     try{
       response2 = await axios.post('/api/inscrire-classes',inscriptionData);
@@ -195,12 +191,8 @@ function FormC() {
     if (formik.values.testLevel === true){
       debugger;
       let responseTestData = {
-        test_id: formik.values.test,
+        test_id: 1,
         student_id: etudiantId,
-        date: formik.values.testDate,
-        start_time: formik.values.testTime,
-        end_time: formik.values.testEndTime,
-        status: "pending"
       };
       let responseTest = [];
       try {
@@ -232,33 +224,21 @@ function FormC() {
     }, 7000);
     navigate(`${x}/student`);
   }
-  //function to get test price
-  useEffect(() => {
-    tests.map(
-      (test) => {
-        if (test.id == formik.values.test){
-          setTestPrice(+test.price);
-        }
-      }
-    )
-  },[formik.values.test]);
+
   // calculate the total fees
+  //+findCoursFees(formik.values.class) * (1-((formik.values.discount == 'custom' ? formik.values.customDiscount : formik.values.discount) /100))
   useEffect(() => {
-  const getTotals = () => {
-    let total = 0;
-    if (formik.values.insurrance){
-      total += 200;
+    setTotal(0);
+    if (formik.values.insurrance === true){
+      setTotal((prev) => prev + 100);
     }
-    if (formik.values.course){
-      total += +findCoursFees(formik.values.class);
+    if (formik.values.course === true){
+      setTotal((prev) => prev + (+findCoursFees(formik.values.class)  * (1-((formik.values.discount == 'custom' ? formik.values.customDiscount : formik.values.discount) /100)) || prev));
     }
     if (formik.values.testLevel === true){
-      total += testPrice;
+      setTotal((prev) => prev + +testPrice);
     }
-    return total;
-  }
-  setTotal(getTotals());
-  },[formik.values.insurrance,formik.values.course,formik.values.testLevel,formik.values.class,testPrice]);
+  },[formik.values.insurrance,formik.values.course,formik.values.testLevel,formik.values.class,formik.values.discount,formik.values.customDiscount]);
   useEffect(() => {
     let res = 0;
     if (formik.values.discount === 'custom'){
@@ -266,12 +246,13 @@ function FormC() {
     } else {
       res = formik.values.discount;
     }
-    formik.setFieldValue('negotiatedPrice',Math.round(+total - res * total / 100,2) || 0);
+    formik.setFieldValue('negotiatedPrice',+findCoursFees(formik.values.class) - res * +findCoursFees(formik.values.class) / 100 || 0);
   },[total,formik.values.discount,formik.values.customDiscount]);
 
   useEffect (() => {
     let negotiatedPrice = formik.values.negotiatedPrice;
-    let res = (+total - +negotiatedPrice)/(+total) * 100;
+    let res = (+parseFloat(total) - +negotiatedPrice)/(+total) * 100;
+    res = Math.round(res,2);
     switch (res) {
       case 10:
       case 20:
@@ -283,18 +264,6 @@ function FormC() {
           formik.setFieldValue('customDiscount',+res);
         break;
     }
-  },[formik.values.negotiatedPrice])
-  useEffect(() =>{
-    const getTests = async () => {
-      const res = await axios.get('/api/tests');
-      setTests(res.data.data);
-      console.log(res.data.data);
-    }
-      try{
-        getTests();
-      } catch (error) {
-        console.log(error);
-      }
   },[]);
   return (
         <Form noValidate onSubmit={handleSubmit}>
@@ -589,31 +558,7 @@ function FormC() {
             {
               formik.values.testLevel === true ?
               <>
-              <h3>Test Level</h3>
-              <Form.Group
-              as={Col}
-              md={3}
-              sm={6}
-              xs={7}
-              className="position-relative"
-              >
-              <Form.Label>Test Name<span className='text-danger'>*</span></Form.Label>
-              <Form.Select
-              component="select"
-              id="test"
-              name="test"
-              {...formik.getFieldProps('test')}
-              isInvalid={formik.touched.test && formik.errors.test}
-              >
-              <option value=''>choose Test</option>
-                {tests.map((test) => (
-                  <option key={test.id} value={test.id}>
-                    {test.name}
-                  </option>
-                ))}
-              </Form.Select>
-              <Form.Control.Feedback type="invalid" tooltip>{formik.errors.test}</Form.Control.Feedback>
-              </Form.Group>
+              <h3>Placement test</h3>
               <Form.Group
               as={Col}
               md={3}
@@ -632,67 +577,6 @@ function FormC() {
               />
               <Form.Control.Feedback type="invalid" tooltip>
               {formik.errors.testFees}
-              </Form.Control.Feedback>
-              </Form.Group>
-              {/* add test date */}
-              <Form.Group
-              as={Col}
-              md={3}
-              sm={6}
-              xs={7}
-              className="position-relative"
-              >
-              <Form.Label>Test Date</Form.Label>
-              <Form.Control
-              type="date"
-              placeholder="test date"
-              name="testdate"
-              {...formik.getFieldProps('testDate')}
-              isInvalid={formik.touched.testDate && formik.errors.testDate}
-              />
-              <Form.Control.Feedback type="invalid" tooltip>
-              {formik.errors.testDate}
-              </Form.Control.Feedback>
-              </Form.Group>
-              {/* add test time */}
-              <Form.Group
-              as={Col}
-              md={3}
-              sm={6}
-              xs={7}
-              className="position-relative"
-              >
-              <Form.Label>Start Time</Form.Label>
-              <Form.Control
-              type="time"
-              placeholder="test time"
-              name="testtime"
-              {...formik.getFieldProps('testTime')}
-                  
-              isInvalid={formik.touched.testTime && formik.errors.testTime}
-              />
-              <Form.Control.Feedback type="invalid" tooltip>
-              {formik.errors.testTime}
-              </Form.Control.Feedback>
-              </Form.Group>
-              <Form.Group
-              as={Col}
-              md={3}
-              sm={6}
-              xs={7}
-              className="position-relative"
-              >
-              <Form.Label>End Time</Form.Label>
-              <Form.Control
-              type="time"
-              placeholder="End time"
-              name="endtime"
-              {...formik.getFieldProps('testEndTime')}
-                  
-              isInvalid={formik.touched.testEndTime && formik.errors.testEndTime}
-              />
-              <Form.Control.Feedback type="invalid" tooltip>
-              {formik.errors.testEndTime}
               </Form.Control.Feedback>
               </Form.Group>
               </>
@@ -865,7 +749,7 @@ function FormC() {
                 type="text"
                 name="total"
                 placeholder="total"
-                value={total * (1-((formik.values.discount == 'custom' ? formik.values.customDiscount : formik.values.discount) /100)) || total}
+                value={total}
                 disabled
                 />
           </Form.Group>
