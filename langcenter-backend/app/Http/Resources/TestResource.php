@@ -15,13 +15,7 @@ class TestResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'description' => $this->description,
             'price' => $this->price,
-            'duration' => $this->duration,
-            'level' => $this->level->name,
-            'level_id' => $this->level_id,
         ];
     }
 }

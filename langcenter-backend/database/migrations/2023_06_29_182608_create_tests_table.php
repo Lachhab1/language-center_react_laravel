@@ -13,11 +13,7 @@ return new class extends Migration
     {
         Schema::create('tests', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('description');
             $table->integer('price');
-            $table->integer('duration');
-            $table->foreignId('level_id')->constrained('language_levels');
         });
     }
 

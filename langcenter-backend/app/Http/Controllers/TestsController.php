@@ -22,11 +22,7 @@ class TestsController extends Controller
     {
         //store a new test
         $data = $request->validate([
-            'name' => 'required|string',
-            'description' => 'string|nullable',
             'price' => 'required|integer',
-            'duration' => 'required|integer',
-            'level_id' => 'required|integer',
         ]);
         $test = Tests::create($data);
         return new TestResource($test);
@@ -48,11 +44,7 @@ class TestsController extends Controller
     {
         //update a test
         $data = $request->validate([
-            'name' => 'required|string',
-            'description' => 'string|nullable',
             'price' => 'required|integer',
-            'duration' => 'required|integer',
-            'level_id' => 'required|integer',
         ]);
         $test->update($data);
         return new TestResource($test);

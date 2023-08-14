@@ -7,7 +7,8 @@ import { UseStateContext } from '../../context/ContextProvider';
 import { Form, Button, Col, Row } from 'react-bootstrap';
 import { useEffect,useState } from 'react';
 
-export default function EditTest() {
+export default function EditTest({setSelectedTab}) {
+    const {id} = useParams();
 const {user,setNotification, setVariant } = UseStateContext();
 const navigate = useNavigate();
  let x = ""
@@ -22,13 +23,13 @@ const navigate = useNavigate();
           x="/secretary"
       }
   const Scheme = Yup.object().shape({
-    price: Yup.number()
+    amount: Yup.number()
     .integer("must be an Integer")
-    .required('Required'),
+    .required('Required')
 });
 const formik = useFormik({
   initialValues: {
-    price: '',
+    amount: '',
   },
   validationSchema: Scheme,
   onSubmit: (e,values) => {
@@ -41,21 +42,21 @@ const formik = useFormik({
 
   const handleSubmitt = async (e,values) => {
     e.preventDefault()
-    console.log("cococ",formik.values)
 
     const sendData = {
-        price: formik.values.price,
+        register_id: id,
+        amount: formik.values.amount,
     };
-    axios.put(`/api/tests/1`, sendData)
+    axios.put(`/api/testPayment/${id}`, sendData)
       .then((res) => {
         console.log(res.data);
-        setNotification('Test price edited successfully');
+        setNotification('Test payment edited successfully');
         setVariant('warning');
         setTimeout(() => {
           setNotification('');
           setVariant('');
         }, 3000);
-        navigate(`${x}/tests`);
+        navigate(`${x}/income/student`);
       })
       .catch((error) => {
         if (error.response && error.response.status === 422) {
@@ -79,41 +80,25 @@ const formik = useFormik({
         }
       });
   }
-  useEffect(() => {
-    axios.get(`/api/tests/1`)
-        .then((res) => {
-            console.log(res.data);
-            formik.setValues(res.data.data);
-        })
-        .catch((error) => {
-            console.error(error);
-        }
-    );
-  }, []);
 
 
 
   return (
     <Form noValidate onSubmit={handleSubmitt}>
       <Row className='mb-3'>
-        <h1>Placement Test Price</h1>
-      <Form.Group as={Col}
-          sm={4} controlId="price">
-        <Form.Label column >
-          Price
-        </Form.Label>
-        
-          <Form.Control
-            type="text"
-            placeholder="Price"
-            name="price"
-            {...formik.getFieldProps('price')}
-            isInvalid={formik.touched.price && formik.errors.price}
-          />
-          <Form.Control.Feedback type="invalid">
-            {formik.errors.price}
-          </Form.Control.Feedback>
-      </Form.Group>
+        <Form.Group as={Col} md='4' controlId='validationFormik01'>
+            <Form.Label>Amount</Form.Label>
+            <Form.Control
+                type='text'
+                name='amount'
+                value={formik.values.amount}
+                onChange={formik.handleChange}
+                isInvalid={!!formik.errors.amount}
+            />
+            <Form.Control.Feedback type='invalid'>
+                {formik.errors.amount}
+            </Form.Control.Feedback>
+        </Form.Group>
       </Row>
       <Button type="submit" className='my-3 btn-secondary'>Submit</Button>
     </Form>

@@ -26,7 +26,7 @@ class RegisterTest extends Model
     }
     public function test()
     {
-        return $this->belongsTo(Test::class, 'test_id', 'id');
+        return $this->belongsTo(Tests::class, 'test_id', 'id');
     }
     public function testPayments()
     {
