@@ -3,7 +3,11 @@ import Card from '../components/DashboardCardsCompo/Card';
 import student from '../images/icons/student4dash.png';
 import teacher from '../images/icons/teacher4dash.png';
 import money from '../images/icons/money4dash.png';
-import parents from '../images/icons/parent4dash.png';
+import moneyGreen from '../images/icons/icons8-dollar.svg';
+import TotalMoney from '../images/icons/icons8-incomeT.svg';
+import Expense from '../images/icons/icons8-low-price.svg';
+import TotalExpanse from '../images/icons/icons8-expense.svg';
+import Due from '../images/icons/icons8-credit.svg';
 import courses from '../images/icons/courses.svg';
 import classes from '../images/icons/classes.svg';
 import tests from '../images/icons/tests.svg';
@@ -41,10 +45,14 @@ const Dashboard = () => {
           teachers: response.data.teachers,
           parents: response.data.parents,
           payments: response.data.total_payment,
+          paymentsMonth: response.data.total_payment_month,
           courses: response.data.totalCourses,
           classes: response.data.totalClasses,
           tests : response.data.totalTests,
           classrooms: response.data.totalClassrooms,
+          expenses: response.data.total_expanses,
+          expensesMonth: response.data.total_expanses_month,
+          due: response.data.due_payment,
         });
       } catch (error) {
         console.error(error);
@@ -103,19 +111,33 @@ const Dashboard = () => {
     <div className=''>
       <div className='row justify-content-around'>
         <Row>
-
+          <div className='col  mb-4'>
+          <Card title='Total Earnings' icon={TotalMoney} data={cardsData.payments} />
+        </div>
+        <div className='col  mb-4'>
+          <Card title='Total Expenses' icon={TotalExpanse} data={cardsData.expenses} />
+        </div>
+        <div className='col  mb-4'>
+          <Card title='Total Due' icon={Due} data={cardsData.due} />
+        </div>
+        </Row>
+        <Row>
+        <div className='col  mb-4'>
+          <Card title='Earnings' icon={moneyGreen} data={cardsData.paymentsMonth} />
+        </div>
+        <div className='col  mb-4'>
+          <Card title='Expenses' icon={Expense} data={cardsData.expensesMonth} />
+        </div>
+        
+        </Row>
+        <Row>
         <div className='col  mb-4'>
           <Card  title='Students' icon={student} data={cardsData.students} />
         </div>
         <div className='col  mb-4'>
           <Card title='Teachers' col-md- icon={teacher} data={cardsData.teachers} />
         </div>
-        <div className='col  mb-4'>
-          <Card title='Parents' icon={parents} data={cardsData.parents} />
-        </div>
-        <div className='col  mb-4'>
-          <Card title='Earnings' icon={money} data={cardsData.payments} />
-        </div>
+        
         </Row>
         <Row>
 
@@ -125,9 +147,6 @@ const Dashboard = () => {
         <div className='col  mb-4'>
           <Card title='Classes' icon={classes} data={cardsData.classes} />
         </div>
-        <div className='col  mb-4'>
-          <Card title='Tests' icon={tests} data={cardsData.tests} />
-          </div>
         <div className='col  mb-4'>
           <Card title='Classrooms' icon={classrooms} data={cardsData.classrooms} />
           </div>
