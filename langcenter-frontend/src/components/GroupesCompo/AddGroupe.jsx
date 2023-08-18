@@ -35,7 +35,6 @@ const AddGroup = () => {
     start_date: Yup.string().required('Start date is required'),
     end_date: Yup.string().required('End date is required'),
     description: Yup.string(),
-    capacity: Yup.number().required('Capacity is required'),
   });
   const initialValues = {
     groupName: '',
@@ -45,8 +44,6 @@ const AddGroup = () => {
     start_date: '',
     end_date: '',
     description: '',
-    capacity: '',
-
   };
 
   const handleSubmit = (values) => {
@@ -58,7 +55,6 @@ const AddGroup = () => {
       start_date: values.start_date,
       end_date: values.end_date,
       description: values.description,
-      capacity: values.capacity,
       level: values.level,
       teacher_id: values.teacher,
       event_color: selectedColor,
@@ -252,23 +248,8 @@ const AddGroup = () => {
               </Form.Control.Feedback>
             </Col>
             <Col md={6} className="mb-3">
-              <Form.Label htmlFor="capacity">Capacity*</Form.Label>
-              <Form.Control
-                id="capacity"
-                type="number"
-                {...formik.getFieldProps('capacity')}
-                isInvalid={
-                  formik.touched.capacity && formik.errors.capacity
-                }
-              />
-              <Form.Control.Feedback type="invalid">
-                {formik.errors.capacity}
-              </Form.Control.Feedback>
-            </Col>
-            <Col md={6} className="mb-3">
               <Form.Label htmlFor="teacher">Teacher*</Form.Label>
               <Form.Select
-
                 id="teacher"
                 {...formik.getFieldProps('teacher')}
                 isInvalid={
@@ -282,25 +263,20 @@ const AddGroup = () => {
                   </option>
                 ))}
               </Form.Select>
-
               <Form.Control.Feedback type="invalid">
                 {formik.errors.teacher}
               </Form.Control.Feedback>
             </Col>
           </Row>
-
-          <div className='d-flex flex-column align-items-center'>
-
+          <Col className='w-25 d-flex flex-column align-items-center'>
             <div style={{ backgroundColor: selectedColor, width: '200px', height: '80px', borderRadius: '8px', marginBottom: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-              <h5 style={{ color: 'white', height: '20px' }}>TITLE (MORE INFOS)</h5>
+              <h5 style={{ color: 'white', height: '20px' }}>Class Color</h5>
             </div>
-
             <div>
               <SketchPicker color={selectedColor} onChange={(color) => setSelectedColor(color.hex)} />
             </div>
-          </div>
-
-          <Button type="submit" variant="primary">
+          </Col>
+          <Button type="submit" variant="primary" className='mt-3'>
             Add Class
           </Button>
         </Form>

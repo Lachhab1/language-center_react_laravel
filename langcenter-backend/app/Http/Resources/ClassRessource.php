@@ -21,7 +21,6 @@ class ClassRessource extends JsonResource
             'name' => $this->name,
             'school_year' => $this->school_year,
             'description' => $this->description,
-            'capacity' => $this->capacity,
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,
             'level' => $this->level,
