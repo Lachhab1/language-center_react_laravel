@@ -65,17 +65,7 @@ export default function SidebarSec() {
                 {openSidebar && "Class"}
               </NavLink>
             </Nav.Item>
-            {openSidebar ? 
-                    <Nav.Item className="nav-item link-light"><a className="a nav-link link-light  dropdown-toggle" href="#dropPresence" id="menu" data-bs-toggle="collapse"><img src={presence} />{openSidebar && "Attendance"}</a>
-                        <ul className="collapse " id="dropPresence" data-bs-parent="#menu" >
-                            <Nav.Item ><NavLink className="a nav-link link-light" to="/secretary/attendance/student">Student</NavLink></Nav.Item>
-                            <Nav.Item ><NavLink className="a nav-link link-light" to="/secretary/attendance/teacher">Teacher </NavLink></Nav.Item>
-                        </ul>
-                    </Nav.Item>
-                        :
-                    <Nav.Item className="nav-item"><a onClick={handleOpen} className="a nav-link link-light dropdown-toggle " href="#dropFees" id="menu" data-bs-toggle="collapse"><img src={presence} /></a>
-                    </Nav.Item>
-                    }
+            <Nav.Item><NavLink className={"a nav-link link-light"} to="/secretary/attendance"><img src={presence} />{openSidebar && "Attendance "}</NavLink></Nav.Item>
                      {openSidebar ? 
                     <Nav.Item className="nav-item link-light"><a className="a nav-link link-light  dropdown-toggle" href="#dropFees" id="menu" data-bs-toggle="collapse"><img src={paiements} />{openSidebar && "Paiement"}</a>
                         <ul className="collapse

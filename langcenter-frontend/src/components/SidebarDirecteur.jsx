@@ -66,18 +66,7 @@ export default function SidebarDirecteur() {
 
                         
                         {/* Presences le span pour cacher ces elements a fin de remplacer le collapse avec dropdown dans les petits ecrans */}
-
-                        {openSidebar ?
-                            <Nav.Item className="nav-item link-light"><a className="a nav-link link-light  dropdown-toggle" href="#dropPresence" id="menu" data-bs-toggle="collapse"><img src={presence} />{openSidebar && "Attendance"}</a>
-                                <ul className="collapse " id="dropPresence" data-bs-parent="#menu" >
-                                    <Nav.Item ><NavLink className="a nav-link link-light" to="/director/attendance/student">Students</NavLink></Nav.Item>
-                                    <Nav.Item ><NavLink className="a nav-link link-light" to="/director/attendance/teacher">Teachers</NavLink></Nav.Item>
-                                </ul>
-                            </Nav.Item>
-                            :
-                            <Nav.Item className="nav-item"><a onClick={handleOpen} className="a nav-link link-light dropdown-toggle " href="#dropFees" id="menu" data-bs-toggle="collapse"><img src={presence} /></a>
-                            </Nav.Item>
-                        }
+                        <Nav.Item><NavLink className={"a nav-link link-light"} to="/director/attendance"><img src={presence} />{openSidebar && "Attendance "}</NavLink></Nav.Item>
 
 
 
