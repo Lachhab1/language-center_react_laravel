@@ -8,6 +8,7 @@ import { UseStateContext } from '../../context/ContextProvider';
 import axios from '../../api/axios';
 import { useNavigate } from 'react-router-dom';
 
+
 import { Ellipsis } from 'react-awesome-spinners'
 export default function ScheduleTable({ handleDelete }) {
   const tableCustomStyles = {
@@ -49,6 +50,7 @@ export default function ScheduleTable({ handleDelete }) {
   
     useEffect(() => {
         const fetchData = async () => {
+          
       try {
         setPending(true); // Set pending to true before fetching data
         const response = await axios.get('/api/timeTable');
@@ -105,6 +107,76 @@ export default function ScheduleTable({ handleDelete }) {
       },
     ];
     const deleteRow = async (id) => {
+
+       //test
+      console.log("data ", data , "  id ", id )
+       function formatDate(date) {
+         const year = date.getFullYear();
+         const month = String(date.getMonth() + 1).padStart(2, '0');
+         const day = String(date.getDate()).padStart(2, '0');
+         return `${year}-${month}-${day}`;
+       }
+       
+       function getDatesWithSpecificDays(desired_days) {
+         console.log('function called ',dayId[0].end_date);
+         const startDate = new Date(dayId[0].start_date);
+         const endDate = new Date(dayId[0].end_date);
+       
+         const dates = [];
+       
+         for (let date = startDate; date <= endDate; date.setDate(date.getDate() + 1)) {
+           if (desired_days===date.getDay()) {
+             dates.push(formatDate(new Date(date)));
+           }
+         }
+       
+         return dates;
+       }
+       const dayId = data.filter((item) => {
+        if (item.id === id) {
+          return item.day_id;
+        }
+        return null; // Return null if the condition is not met
+      });
+      
+       
+       
+       const day = (dayId[0].day_id == 7 ? 0 : dayId[0].day_id);
+       console.log("days ", dayId[0]);
+
+       console.log("so  id ", day);
+       
+       const result = getDatesWithSpecificDays(day);
+       console.log('res ', result);
+ 
+       axios.delete(`/api/studentsAttendance/${dayId[0].class_id}`, {
+        data: {
+          date: result
+        }
+      })
+        .then(response => {
+          console.log('Response:', response.data);
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+
+        //samething teachers
+        axios.delete(`/api/teachersAttendance/${dayId[0].class_id}`, {
+          data: {
+            date: result
+          }
+        })
+          .then(response => {
+            console.log('Response:', response.data);
+          })
+          .catch(error => {
+            console.error('Error:', error);
+          });
+      
+       
+       // TEST END
+
       try {
         await axios.delete(`/api/timeTable/${id}`);
         setNotification("Timetable deleted successfully");
@@ -118,7 +190,8 @@ export default function ScheduleTable({ handleDelete }) {
         setData((prevData) => prevData.filter((row) => row.id !== id));
       } catch (error) {
         console.error(error);
-      }
+      } 
+      
     };
     
   

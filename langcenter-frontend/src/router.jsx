@@ -7,7 +7,6 @@ import Cours from './views/Cours';
 import PaiementsEns from './views/PaiementsEns';
 import PaiementsEtu from './views/PaiementsEtu';
 import Parents from './views/Parents';
-import PresencesEns from './views/PresencesEns';
 import PresencesEtu from './views/PresencesEtu';
 import Resultats from './views/Resultats';
 import Settings from './views/Settings';
@@ -227,13 +226,6 @@ const router = createBrowserRouter([
                 children: [
                     {
                         path: "/attendance",
-                    },
-                    {
-                        path: "/attendance/teacher",
-                        element: <PresencesEns/>
-                    },
-                    {
-                        path: "/attendance/student",
                         element: <PresencesEtu/>
                     },
                 ]
@@ -487,14 +479,7 @@ const router = createBrowserRouter([
                 path: "/",
                 children: [
                     {
-                        path: "/secretary/attendance",
-                    },
-                    {
-                        path: "/secretary/attendance/teacher",
-                        element: <PresencesEns/>
-                    },
-                    {
-                        path: "/secretary/attendance/student",
+                        path: "/secretary/attendance/",
                         element: <PresencesEtu/>
                     },
                 ]
@@ -636,13 +621,6 @@ const router = createBrowserRouter([
                 children: [
                     {
                         path: "/director/attendance",
-                    },
-                    {
-                        path: "/director/attendance/teacher",
-                        element: <PresencesEns/>
-                    },
-                    {
-                        path: "/director/attendance/student",
                         element: <PresencesEtu/>
                     },
                 ]

@@ -11,6 +11,7 @@ export default function AddSchedule() {
   const [coursData, setCourseData] = useState([]);
   const [classroomsData, setClassroomsData] = useState([]);
   const [groupesData, setGroupesData] = useState([]);
+  const [allDatesData, setAllDaysData] = useState([]);
   const [days, setDays] = useState([]);
   const { user, setNotification, setVariant } = UseStateContext();
   const navigate = useNavigate();
@@ -102,7 +103,65 @@ export default function AddSchedule() {
         classroom_id: values.classroom,
         days: test,
       };
-     
+
+
+      //test
+
+      console.log("day data ",test) 
+      function formatDate(date) {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+      }
+      
+      function getDatesWithSpecificDays(desired_days) {
+        console.log('function called');
+        const startDate = new Date(groupesData[0].start_date);
+        const endDate = new Date(groupesData[0].end_date);
+      
+        const dates = [];
+      
+        for (let date = startDate; date <= endDate; date.setDate(date.getDate() + 1)) {
+          if (desired_days.includes(date.getDay())) {
+            dates.push(formatDate(new Date(date)));
+          }
+        }
+      
+        return dates;
+      }
+      
+      const days = test.map((e) => (e.name == 7 ? 0 : e.name));
+      console.log("groupesData ", groupesData);
+      
+      const result = getDatesWithSpecificDays(days);
+      console.log('res ', result);
+
+      // in student attendace table 
+      axios.post(`/api/studentsAttendance/${groupesData[0].id}`, {
+        dates: result,
+        group: groupesData[0].id,
+      })
+        .then(response => {
+          console.log('Response:', response.data);
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+
+
+      // same thing but in teachers attendace table 
+      axios.post(`/api/teachersAttendance/${groupesData[0].id}`, {
+        dates: result,
+        group: groupesData[0].id,
+      })
+        .then(response => {
+          console.log('Response:', response.data);
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+      // TEST END
     
       axios.post('/api/timeTable', sendData)
         .then((res) => {
@@ -132,6 +191,7 @@ export default function AddSchedule() {
             }, 3000);
           }
         });
+       
     }
     
 

@@ -8,6 +8,7 @@ import TotalMoney from '../images/icons/icons8-incomeT.svg';
 import Expense from '../images/icons/icons8-low-price.svg';
 import TotalExpanse from '../images/icons/icons8-expense.svg';
 import Due from '../images/icons/icons8-credit.svg';
+
 import courses from '../images/icons/courses.svg';
 import classes from '../images/icons/classes.svg';
 import tests from '../images/icons/tests.svg';
