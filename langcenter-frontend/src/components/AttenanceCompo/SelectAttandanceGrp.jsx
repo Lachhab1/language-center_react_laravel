@@ -85,7 +85,7 @@ export default function SelectAttendanceGrp() {
       if (!teacherMap.has(teacherId)) {
         teacherMap.set(teacherId, {
           role: role,
-          id: teacherId,
+          id: teacherId + 1000000000,
           fullName: fullName,
           attendanceData: [],
         });
@@ -232,7 +232,7 @@ export default function SelectAttendanceGrp() {
     {
       headerName: 'Role',
       field: 'role',
-      width: 85,
+      width: 100,
       pinned: 'left',
       cellStyle: (params) => {
         if (params.value === 'teacher') {
@@ -244,10 +244,9 @@ export default function SelectAttendanceGrp() {
       },
 
 
-    },
-    { headerName: 'ID', field: 'id', sortable: true, width: 75, pinned: 'left' },
+    },  
 
-    { headerName: 'Full Name', field: 'fullName', sortable: true, minWidth: 150, pinned: 'left' },
+    { headerName: 'Full Name', field: 'fullName', sortable: true, filter: true, width: 200, pinned: 'left' },
     ...dynamicColumns,
   ];
 
