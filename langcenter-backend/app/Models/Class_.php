@@ -18,7 +18,6 @@ class Class_ extends Model
         'name',
         'school_year',
         'description',
-        'capacity',
         'start_date',
         'end_date',
         'level',

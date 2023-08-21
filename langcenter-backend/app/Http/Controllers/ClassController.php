@@ -42,7 +42,6 @@ class ClassController extends Controller
             'name' => 'required|string|max:254|unique:classes',
             'school_year' => 'required|string|max:254',
             'description' => 'string|nullable',
-            'capacity' => 'required|integer',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after:start_date',
             'level' => 'required|string|max:254',
@@ -54,7 +53,6 @@ class ClassController extends Controller
         $class_->name = $data['name'];
         $class_->school_year = $data['school_year'];
         $class_->description = $data['description'];
-        $class_->capacity = $data['capacity'];
         $class_->start_date = $data['start_date'];
         $class_->end_date = $data['end_date'];
         $class_->level = $data['level'];
@@ -85,7 +83,6 @@ class ClassController extends Controller
             'name' => 'required|string|max:254|unique:classes,name,' . $class_->id,
             'school_year' => 'required|string|max:254',
             'description' => 'string|nullable',
-            'capacity' => 'required|integer',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after:start_date',
             'level' => 'required|string|max:254',
@@ -96,7 +93,6 @@ class ClassController extends Controller
         $class_->name = $data['name'];
         $class_->school_year = $data['school_year'];
         $class_->description = $data['description'];
-        $class_->capacity = $data['capacity'];
         $class_->start_date = $data['start_date'];
         $class_->end_date = $data['end_date'];
         $class_->level = $data['level'];

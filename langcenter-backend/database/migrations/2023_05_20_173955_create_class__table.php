@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('name', 254);
             $table->string('school_year');
             $table->string('description');
-            $table->integer('capacity');
             $table->date('start_date');
             $table->date('end_date');
             $table->string('level');
