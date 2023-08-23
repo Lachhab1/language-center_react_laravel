@@ -36,9 +36,10 @@ class EtudiantController extends Controller
             'parent_prenom' => 'string',
             'parent_sexe' => 'string|nullable',
             'parent_date_naissance' => 'date|nullable',
-            'parent_email' => 'email|unique:parents|nullable',
+            //tell the database i want to check the email feild in parents table and if it is unique
+            'parent_email' => 'email|unique:parents,email|nullable',
             'parent_adresse' => 'string|nullable',
-            'parent_telephone' => 'string|max:13|regex:/^([0-9\s\-\+\(\)]*)$/|min:10|unique:parents|nullable',
+            'parent_telephone' => 'string|max:13|regex:/^([0-9\s\-\+\(\)]*)$/|min:10|unique:parents,telephone|nullable',
         ]);
         $etudiant = new Etudiant();
         $etudiant->nom = $data['nom'];
