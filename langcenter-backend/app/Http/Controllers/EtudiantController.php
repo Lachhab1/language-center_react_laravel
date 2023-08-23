@@ -6,6 +6,7 @@ use App\Models\Etudiant;
 use App\Models\Parent_;
 use Illuminate\Http\Request;
 use App\Http\Resources\EtudiantResource;
+use DateTime;
 
 class EtudiantController extends Controller
 {
@@ -49,6 +50,18 @@ class EtudiantController extends Controller
         $etudiant->email = $data['email'];
         $etudiant->adresse = $data['adresse'];
         $etudiant->telephone = $data['telephone'];
+        $birthDate = new DateTime($data['date_naissance']);
+        $now = new DateTime();
+        $age = $now->diff($birthDate)->y;
+
+        // Assign the age group based on the calculated age
+        if ($age < 13) {
+            $etudiant->age_group = 'kid';
+        } elseif ($age >= 13 && $age < 18) {
+            $etudiant->age_group = 'teenager';
+        } else {
+            $etudiant->age_group = 'adult';
+        }
         if ($request->has('underAge') && $request->underAge == true) {
             $parent = Parent_::where('cin', $request->parent_cin)->first();
             if ($parent) {
@@ -130,6 +143,18 @@ class EtudiantController extends Controller
         $etudiant->email = $request->email;
         $etudiant->adresse = $request->adresse;
         $etudiant->telephone = $request->telephone;
+        $birthDate = new DateTime($data['date_naissance']);
+        $now = new DateTime();
+        $age = $now->diff($birthDate)->y;
+
+        // Assign the age group based on the calculated age
+        if ($age < 13) {
+            $etudiant->age_group = 'kid';
+        } elseif ($age >= 13 && $age < 18) {
+            $etudiant->age_group = 'teenager';
+        } else {
+            $etudiant->age_group = 'adult';
+        }
         $etudiant->save();
         return new EtudiantResource($etudiant);
     }
