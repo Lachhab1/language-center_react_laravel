@@ -33,6 +33,7 @@ class EtudiantResource extends JsonResource
                 return $inscrireClass->class_ != null ? $inscrireClass->class_->cours : null;
             }),
             'level' => $this->level,
+            'age_group' => $this->age_group,
         ];
     }
 }

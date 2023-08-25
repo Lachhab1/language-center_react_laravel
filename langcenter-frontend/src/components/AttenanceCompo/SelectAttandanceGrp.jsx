@@ -1,119 +1,141 @@
-import React, { useState, useEffect } from 'react';
-import { Formik, Field, Form, isEmptyArray } from 'formik';
+import React, { useEffect, useMemo, useState } from 'react';
+import { Formik, Field, Form } from 'formik';
 import * as Yup from 'yup';
 import axios from '../../api/axios';
-import DataTable from 'react-data-table-component';
-import { UseStateContext } from '../../context/ContextProvider';
+import { UseStateContext } from "../../context/ContextProvider";
+import { AgGridReact } from 'ag-grid-react';
+import 'ag-grid-community/styles/ag-grid.css';
+import 'ag-grid-community/styles/ag-theme-alpine.css';
+import absentIcon from '../../images/icons/absent.png';
+import presentIcon from '../../images/icons/present.png';
+import lateIcon from "../../images/icons/late.png";
+import CustomGroupRenderer from './CustomGroupRenderer';
+
+
+import { ModuleRegistry } from '@ag-grid-community/core';
+//import { RowGroupingModule } from '@ag-grid-enterprise/row-grouping';
+
+//ModuleRegistry.registerModules([RowGroupingModule]);
+
+
+
+
+
+
 
 export default function SelectAttendanceGrp() {
   const presenceSchema = Yup.object().shape({
-    date: Yup.string().required('Date is required'),
-    course: Yup.string().required('Course is required'),
-    group: Yup.string().required('Group is required'),
+
+
   });
-  const tableCustomStyles = {
-    headCells: {
-        style: {
-        fontSize: '20px',
-        fontWeight: 'bold',
-        paddingLeft: '0 8px',
-        justifyContent: 'center',
-        backgroundColor: '#f5f5f5',
-        },
-    },
-    cells: {
-        style: {
-        fontSize: '18px',
-        paddingLeft: '0 8px',
-        justifyContent: 'center',
-        },
-    },
-        }
 
   const initialValues = {
-    date: '',
     course: '',
     group: '',
-  };
 
-  const [selectedCoursId, setSelectedCoursId] = useState(0);
-  const [selectedDate, SetSelectedDate] = useState();
+  };
+  const { setNotification, setVariant } = UseStateContext();
+  const [selectedCoursId, setSelectedCoursId] = useState('');
+  const [grpId, setGroupe] = useState('');
   const [groupesData, setGroupesData] = useState([]);
   const [showTable, setShowTable] = useState(false);
   const [tableData, setTableData] = useState([]);
-
-  const {user,setNotification, setVariant } = UseStateContext();
-  
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [attendanceData, setAttendanceData] = useState([]);
   const [coursData, setCourseData] = useState([]);
+  const [datesData, setDatesData] = useState([]);
+  const [studentsData, setStudentsData] = useState([]);
+  const [teachersData, setTeachersData] = useState([]);
 
-  const closeModal = () => setIsModalOpen(false);
 
-   function fillData(valueRes){
-    setTableData([]) //make sure it's empty 
-      valueRes.data.data.map((datar) => {
-        setTableData((prev)=>
-        (
-            [...prev,
-                {
-                id:datar.etudiant.id,
-                fullName:datar.etudiant.nom+" "+datar.etudiant.prenom,
-                absent: datar.isAbsent,
-                reason:datar.reason,
-                }
-              ])
-        )
-            })
+
+  function fillData(valueRes) {
+    console.log("valueRes (fillData parameter) ", valueRes)
+    const studentMap = new Map();
+    const teacherMap = new Map();
+
+
+    valueRes.studentsData.data.result1.forEach((datar) => {
+      const studentId = datar.etudiant.id;
+      const fullName = datar.etudiant.nom + ' ' + datar.etudiant.prenom;
+      const date = datar.date;
+      const attendanceStatus = datar.isAbsent;
+      const role = "student";
+
+      if (!studentMap.has(studentId)) {
+        studentMap.set(studentId, {
+          role: role,
+          id: studentId,
+          fullName: fullName,
+          attendanceData: [],
+        });
+      }
+
+      const studentData = studentMap.get(studentId);
+      studentData.attendanceData.push({ date, attendanceStatus });
+
+      console.log("studentmap ", studentMap.values())
+    });
+
+    valueRes.teachersData.data.data.forEach((datar) => {
+      const teacherId = datar.teacher.id;
+      const fullName = datar.teacher.last_name + ' ' + datar.teacher.first_name;
+      const date = datar.date;
+      const attendanceStatus = datar.isAbsent;
+      const role = "teacher";
+
+      if (!teacherMap.has(teacherId)) {
+        teacherMap.set(teacherId, {
+          role: role,
+          id: teacherId + 1000000000,
+          fullName: fullName,
+          attendanceData: [],
+        });
+      }
+
+      const teacherData = teacherMap.get(teacherId);
+      teacherData.attendanceData.push({ date, attendanceStatus });
+    });
+
+    const updatedTableData = Array.from(teacherMap.values()).concat(Array.from(studentMap.values()));
+    setTableData(updatedTableData);
+
   }
 
-  const handleSubmit = async (values) => {
+  const handleSubmit = async () => {
+
     try {
-      //essayon modfier
-      //etape 1 get 
-      console.log(`submit data /api/studentsAttendance/${values.group}/${values.date}`);
-      const response = await axios.get(`/api/studentsAttendance/${values.group}/${values.date}`);
-      
-      
-      
-      //etape 1 put
-      fillData(response)
-      console.log("modifier : ",tableData)
-      
-      
-      if(!response.data.data.length ){
-        //sinon  donc etape 1 ajouter 
-        console.log(" khawi = add ")
-        await axios.post(`/api/studentsAttendance/${values.group}/${values.date}`, {
-          group: values.group,
-          date: values.date,
-        });
-         //etape 2 get
-        console.log(`submit data /api/studentsAttendance/${values.group}/${values.date}`);
-        const response = await axios.get(`/api/studentsAttendance/${values.group}/${values.date}`);
-        fillData(response)
-        
-      }
-      // Process the response data here
+      const studentResponse = await axios.get(`/api/studentsAttendance/${grpId}`);
+      const teacherResponse = await axios.get(`/api/teachersAttendance/${grpId}`);
+
+
+      setDatesData(studentResponse.data.result2);
+      setStudentsData(studentResponse);
+      setTeachersData(teacherResponse);
+
+      const bothData = {
+        studentsData: studentResponse,
+        teachersData: teacherResponse,
+      };
+
+      fillData(bothData);
+
+      setShowTable(true);
     } catch (error) {
       console.error(error);
     }
-    setShowTable(true);
   };
-  
+
+
 
   useEffect(() => {
     axios.get('/api/cours').then((res) => {
-
       setCourseData(res.data);
     });
-
   }, []);
-
 
   useEffect(() => {
     if (selectedCoursId) {
-      axios.get(`/api/classes?cours_id=${selectedCoursId}`)
+      axios
+        .get(`/api/classes?cours_id=${selectedCoursId}`)
         .then((res) => {
           setGroupesData(res.data);
         })
@@ -121,280 +143,332 @@ export default function SelectAttendanceGrp() {
           console.error(error);
         });
     } else {
-      // If no cours_id is selected, clear the classes data
       setGroupesData([]);
     }
   }, [selectedCoursId]);
 
-    
-  
-  
-
-  const handleViewPresence = async() => {
-    
-
-const grp = document.getElementById("group").value
-
-    const response = await axios.get(`/api/studentsAttendance/${grp}/${selectedDate}`);
-    fillData(response)
-    console.log('red ' ,response)
-      
-      
-    //etape 1 put
-
-    setIsModalOpen(true);
-
-  };
-
-  const handleDataChange = (rowIndex, fieldName, value) => {
-    setTableData((prevData) => {
-      const newData = [...prevData];
-      newData[rowIndex][fieldName] = value;
-      return newData;
+  const handleStatusChange = (row, field, status) => {
+    const date = field.substring(4);
+    const newData = tableData.map((data) => {
+      if (data.id === row.id) {
+        const attendanceData = [...data.attendanceData];
+        const attendanceIndex = attendanceData.findIndex(
+          (item) => item.date === date
+        );
+        if (attendanceIndex !== -1) {
+          attendanceData[attendanceIndex].attendanceStatus = status;
+        } else {
+          attendanceData.push({ date, attendanceStatus: status });
+        }
+        return { ...data, attendanceData };
+      }
+      return data;
     });
+    setTableData(newData);
   };
+
+  const dynamicColumns = [];
+  let currentMonthYear = '';
+
+  const monthYearFormatter = new Intl.DateTimeFormat('en', {
+    month: 'short',
+    year: 'numeric',
+  });
+
+
+
+  datesData.forEach(date => {
+    const monthYear = monthYearFormatter.format(new Date(date));
+    const day = new Date(date).getDate();
+
+    if (monthYear !== currentMonthYear) {
+      dynamicColumns.push({
+        headerName: monthYear,
+        children: [],
+
+      });
+      currentMonthYear = monthYear;
+    }
+
+    dynamicColumns[dynamicColumns.length - 1].children.push({
+      headerName: day.toString(),
+      field: `col_${date}`,
+      colId: date,
+      width: 60,
+      cellRenderer: (params) => {
+
+        const { field } = params.colDef;
+        const date = field.substring(4);
+        const attendanceDataItem = params.data.attendanceData.find(
+          (item) => item.date == date
+        );
+
+        return (
+          <select
+            value={attendanceDataItem?.attendanceStatus || 0}
+            onChange={(e) =>
+              handleStatusChange(params.data, field, parseInt(e.target.value))
+            }
+            style={{
+
+              appearance: "none",
+              border: "none",
+              padding: "0px 5px ",
+
+            }}
+
+          >
+            <option value={0}>--</option>
+            <option value={1} alt="absent">❌</option>
+            <option value={2} alt="present" >✅</option>
+            <option value={3} alt="late">⚠️</option>
+          </select>
+        );
+      },
+    });
+  });
 
   const columns = [
-    { name: 'ID', selector: 'id', sortable: true },
-    { name: 'Full Name', selector: 'fullName', sortable: true },
     {
-      name: 'Absent',
-      selector: 'absent',
-      cell: (row, rowIndex) => (
-        <input
-          type="checkbox"
-          checked={row.absent}
-          onChange={(e) => handleDataChange(rowIndex, 'absent', e.target.checked)}
-          className="form-check-input"
-        />
-      ),
-      sortable: true,
-    },
-    {
-      name: 'Reason',
-      selector: 'reason',
-      cell: (row, rowIndex) => (
-        <input
-          type="text"
-          value={row.reason}
-          onChange={(e) => handleDataChange(rowIndex, 'reason', e.target.value)}
-          className="form-control"
-        />
-      ),
-      sortable: true,
-    },
+      headerName: 'Role',
+      field: 'role',
+      width: 100,
+      pinned: 'left',
+      cellStyle: (params) => {
+        if (params.value === 'teacher') {
+          // changer background color role  'teacher'
+          return { backgroundColor: '#FFCCCC' };
+        }
+        // return an empty object for other cells
+        return {};
+      },
+
+      
+
+    },  
+
+    { headerName: 'Full Name', field: 'fullName', sortable: true, filter: true, width: 200, pinned: 'left' },
+    ...dynamicColumns,
   ];
 
-   const  handleSave = (values) => { 
-      values.map((e)=>{(
-        e.absent ? e.absent=1 : e.absent= 0
-      )})
 
-      console.log("updating values ", values,'  date',selectedDate)
-    axios.put(`/api/studentsAttendance/${values.group}/${selectedDate}`, values ).then((res) => {
-      console.log(res.data);
-      setNotification('attendance updated successfully');
-      setVariant('success');
-      setTimeout(() => {
-        setNotification('');
-        setVariant('');
-      }, 3000);
-    })
-    .catch((error) => {
-      // Handle errors
-      console.error(error);
-      setNotification('An error occurred');
-      setVariant('danger');
-      setTimeout(() => {
-        setNotification('');
-        setVariant('');
-      }, 3000);
-    });
-    
-  };
 
   const handleCoursChange = (e) => {
     const courseId = e.target.value;
-
     setSelectedCoursId(courseId);
   };
 
-  useEffect(() => {
-   
-  }, [selectedCoursId]);
 
- {/*
- const handleGroupeChange = (e) => {
-   const groupId = e.target.value;
-   console.log("grpId",e.target.value)
-   setSelectedGroupeId(groupId);
-  };
-  useEffect(() => {
-    
-    
-  }, [selectedGroupeId]);
-*/}
+  const refresh = async () => {
+    if (datesData.length > 0) {
 
-  return (
-    <div>
-      <Formik
-        initialValues={initialValues}
-        validationSchema={presenceSchema}
-        onSubmit={handleSubmit}
-      >
-        {({ values, errors, touched }) => (
-          <Form>
-            <div className="row mb-3">
-              <div className="col">
-                <label htmlFor="date" className="form-label">
-                  Date:
-                </label>
-                <Field
-                  type="date"
-                  id="date"
-                  name="date"
-                  onChange={(e) => {
-                    SetSelectedDate(e.target.value);
-                    values.date = e.target.value;
-                  }}
-                  className={`form-control ${touched.date && errors.date ? 'is-invalid' : ''
-                    }`}
-                  
-                />
-                {touched.date && errors.date && (
-                  <div className="invalid-feedback">{errors.date}</div>
-                )}
+      const refreshStudents = axios.post(`/api/studentsAttendance/${grpId}`, {
+        dates: datesData,
+        group: groupesData[0].id,
+      })
+
+      const refreshTeachers = axios.post(`/api/teachersAttendance/${grpId}`, {
+        dates: datesData,
+        group: groupesData[0].id,
+      })
+      try {
+        await Promise.all([refreshStudents], [refreshTeachers]);
+
+        setNotification("Attendance refreshed successfully");
+        setVariant("warning");
+        setTimeout(() => {
+          setNotification("");
+          setVariant("");
+        }, 3000);
+      } catch (error) {
+        console.error(error); // Log the error for debugging
+        if (error.response && error.response.status === 422) {
+          formik.setErrors(error.response.data.errors);
+        }
+      }
+
+      handleSubmit();
+
+    };
+    console.log('table data ', tableData)
+  }
+
+    const saveFunc = async () => {
+      console.log("save ", tableData);
+      const studentAttendancePromise = axios.put("/api/studentsAttendance", tableData);
+      const teacherAttendancePromise = axios.put("/api/teachersAttendance", tableData);
+
+      try {
+        await Promise.all([studentAttendancePromise, teacherAttendancePromise]);
+
+        setNotification("Attendance updated successfully");
+        setVariant("success");
+        setTimeout(() => {
+          setNotification("");
+          setVariant("");
+        }, 3000);
+      } catch (error) {
+        console.error(error); // Log the error for debugging
+        if (error.response && error.response.status === 422) {
+          formik.setErrors(error.response.data.errors);
+        }
+      }
+    }
+
+
+
+
+
+    return (
+      <div style={{ width: '100%', height: '100%' }}>
+
+
+        <Formik
+          initialValues={initialValues}
+          validationSchema={presenceSchema}
+          onSubmit={handleSubmit}
+        >
+          {({ values, errors, touched }) => (
+            <Form>
+              <div className="row mb-3">
+                <div className="col">
+                  <label htmlFor="course" className="form-label">
+                    Course:
+                  </label>
+                  <Field
+                    as="select"
+                    id="course"
+                    name="course"
+                    value={selectedCoursId}
+                    className={`form-select ${touched.course && errors.course ? 'is-invalid' : ''}`}
+                    onChange={handleCoursChange}
+                  >
+                    <option value="">Select a course</option>
+                    {coursData.map((course) => (
+                      <option key={course.id} value={course.id}>
+                        {course.title}
+                      </option>
+                    ))}
+                  </Field>
+                  {touched.course && errors.course && (
+                    <div className="invalid-feedback">{errors.course}</div>
+                  )}
+                </div>
+                <div className="col">
+                  <label htmlFor="group" className="form-label">
+                    Group:
+                  </label>
+                  <Field
+
+                    as="select"
+                    id="group"
+                    name="group"
+                    value={grpId}
+                    className={`form-select ${touched.group && errors.group ? 'is-invalid' : ''}`}
+                    onChange={(e) => {
+                      setGroupe(e.target.value);
+                    }}
+                  >
+                    <option value="">Select a group</option>
+                    {groupesData.map((groupe) => (
+                      <option key={groupe.id} value={groupe.id}>
+                        {groupe.name}
+                      </option>
+                    ))}
+                  </Field>
+
+                  {touched.group && errors.group && (
+                    <div className="invalid-feedback">{errors.group}</div>
+                  )}
+
+                </div>
+                <div className="col">
+                  <div>
+                    <br />
+                  </div>
+                  <button
+                    type="submit"
+                    className="btn btn-primary mx-2 mt-2"
+
+                    disabled={errors.group !== undefined}
+                  >
+                    Add/Modify
+                  </button>
+
+
+
+
+                </div>
               </div>
-              <div className="col">
-                <label htmlFor="course" className="form-label">
-                  Course:
-                </label>
-                <Field
-                  as="select"
-                  id="course"
-                  name="course"
-                  value={selectedCoursId}
-                  className={`form-select ${touched.course && errors.course ? 'is-invalid' : ''
-                    }`}  
-                  onChange={(e)=>{(handleCoursChange(e), values.course=selectedCoursId)}}
-                >
-                  <option value="">Select a course</option>
-                  {coursData.map((course) => (
-                    <option key={course.id} value={course.id}>
-                      {course.title}
-                    </option>
-                  ))}
-                  
-                </Field>
-                {touched.course && errors.course && (
+            </Form>
+          )}
+        </Formik>
 
-                  <div className="invalid-feedback">{errors.course}</div>
-                )}
-              </div>
-              <div className="col">
-                <label htmlFor="group" className="form-label">
-                  Group:
-                </label>
-                <Field
-                  as="select"
-                  id="group"
-                  name="group"
-                  className={`form-select ${touched.group && errors.group ? 'is-invalid' : ''
-                    }`}
-                  
-                >
-                  <option value="">Select a group</option>
 
-                  {groupesData.map((groupe) => (
-                    <option key={groupe.id} value={groupe.id}>
-                      {groupe.name}
-                    </option>
-                  ))}
-                </Field>
-                {touched.group && errors.group && (
-                  <div className="invalid-feedback">{errors.group}</div>
-                )}
-              </div>
+
+        {showTable && (
+          <>
+            <div className='d-flex '>
+
+              <button
+                type="button"
+                className="btn btn-warning mx-2 mb-2"
+                onClick={refresh}
+
+              >
+                ↻ Refresh
+              </button>
+
+              <p style={{ color: "gray", marginTop: "5px" }}>Used to add the new students or teacher to the attendance list</p>
+
             </div>
+            <div className="ag-theme-alpine" style={{ maxHeight: '600px', width: '100%', marginBottom: "15px" }}>
+              <AgGridReact
+                rowData={tableData}
+                columnDefs={columns}
+                suppressAggFuncInHeader={true}
+                rowHeight={40}
+                defaultColDef={{
+                  sortable: true,
+                  resizable: true,
+                  filter: true,
+                  minWidth: 75,
+                }}
+                options={{
 
-            <button
-              type="submit"
-              className="btn btn-primary mx-2"
-              disabled={Object.keys(errors).length !== 0}
-            >
-              Add/Modify
-            </button>
-            <button
-              type="button"
-              className={`btn btn-secondary mx-2`}
-              onClick={handleViewPresence}
-              disabled={!values.date  || !values.group}
-            >
-              View Attendance
-            </button>
-          </Form>
+                }}
+                domLayout='autoHeight'
+                onGridReady={(params) => {
+                  const api = params.api;
+                  const gridData = [];
+
+                  api.forEachNodeAfterFilterAndSort((node) => {
+                    const rowData = node.data;
+                    gridData.push(rowData);
+                  });
+
+                  console.log('Ag-Grid Table Data:', gridData);
+                }}
+
+              />
+
+            </div>
+            <div>
+              <button className='btn btn-success' onClick={saveFunc}>
+                save
+              </button>
+            </div>
+          </>
+
+
+
+
+
+          //2
+
+
+
         )}
-      </Formik>
-
-      {showTable && (
-        <div className="my-4">
-          <DataTable columns={columns} data={tableData} pagination customStyles={tableCustomStyles} />
-          <button onClick={()=>handleSave(tableData)} className="btn btn-dark text-light mt-2">
-            Save
-          </button>
-        </div>
-      )}
-
-      {isModalOpen && (
-        <div className="modal modal-xl" tabIndex="-1" role="dialog" style={{ display: 'block' }}>
-          <div className="modal-dialog" role="document">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title">Attendance Report</h5>
-                <button type="button" className="btn-close" onClick={closeModal}></button>
-              </div>
-              <div className="modal-body">
-                <DataTable
-                  customStyles={tableCustomStyles}
-                  columns={[
-                    { name: 'ID', selector: 'id', sortable: true },
-                    { name: 'Full Name', selector: 'fullName', sortable: true },
-                    {
-                      name: 'Absent',
-                      selector: 'absent',
-                      cell: (row) => (row.absent ? 'Absent' : 'Present'),
-                      sortable: true,
-                    },
-                    {
-                      name: 'Reason',
-                      selector: 'reason',
-                      cell: (row, rowIndex) => (
-                        <input
-                          type="text"
-                          value={row.reason}
-                          onChange={(e) =>
-                            handleDataChange(rowIndex, 'reason', e.target.value)
-                          }
-                          className="form-control"
-                          readOnly
-                        />
-                      ),
-                      sortable: true,
-                    },
-                  ]}
-                  data={tableData}
-                  pagination
-                />
-              </div>
-              <div className="modal-footer">
-                <button type="button" className="btn btn-secondary" onClick={closeModal}>
-                  Close
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}
+      </div>
+    );
+  }

@@ -2,7 +2,7 @@ import SelectAttandanceGrp from "../components/AttenanceCompo/SelectAttandanceGr
 export default function PresencesEtu(){
     return(
         <div>
-            <h1>Students attendance</h1>
+            <h1>Attendance</h1>
             <SelectAttandanceGrp />
         </div>
     )

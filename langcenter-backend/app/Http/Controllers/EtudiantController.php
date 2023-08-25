@@ -6,6 +6,7 @@ use App\Models\Etudiant;
 use App\Models\Parent_;
 use Illuminate\Http\Request;
 use App\Http\Resources\EtudiantResource;
+use DateTime;
 
 class EtudiantController extends Controller
 {
@@ -36,9 +37,10 @@ class EtudiantController extends Controller
             'parent_prenom' => 'string',
             'parent_sexe' => 'string|nullable',
             'parent_date_naissance' => 'date|nullable',
-            'parent_email' => 'email|unique:parents|nullable',
+            //tell the database i want to check the email feild in parents table and if it is unique
+            'parent_email' => 'email|unique:parents,email|nullable',
             'parent_adresse' => 'string|nullable',
-            'parent_telephone' => 'string|max:13|regex:/^([0-9\s\-\+\(\)]*)$/|min:10|unique:parents|nullable',
+            'parent_telephone' => 'string|max:13|regex:/^([0-9\s\-\+\(\)]*)$/|min:10|unique:parents,telephone|nullable',
         ]);
         $etudiant = new Etudiant();
         $etudiant->nom = $data['nom'];
@@ -48,6 +50,18 @@ class EtudiantController extends Controller
         $etudiant->email = $data['email'];
         $etudiant->adresse = $data['adresse'];
         $etudiant->telephone = $data['telephone'];
+        $birthDate = new DateTime($data['date_naissance']);
+        $now = new DateTime();
+        $age = $now->diff($birthDate)->y;
+
+        // Assign the age group based on the calculated age
+        if ($age < 13) {
+            $etudiant->age_group = 'kid';
+        } elseif ($age >= 13 && $age < 18) {
+            $etudiant->age_group = 'teenager';
+        } else {
+            $etudiant->age_group = 'adult';
+        }
         if ($request->has('underAge') && $request->underAge == true) {
             $parent = Parent_::where('cin', $request->parent_cin)->first();
             if ($parent) {
@@ -129,6 +143,18 @@ class EtudiantController extends Controller
         $etudiant->email = $request->email;
         $etudiant->adresse = $request->adresse;
         $etudiant->telephone = $request->telephone;
+        $birthDate = new DateTime($data['date_naissance']);
+        $now = new DateTime();
+        $age = $now->diff($birthDate)->y;
+
+        // Assign the age group based on the calculated age
+        if ($age < 13) {
+            $etudiant->age_group = 'kid';
+        } elseif ($age >= 13 && $age < 18) {
+            $etudiant->age_group = 'teenager';
+        } else {
+            $etudiant->age_group = 'adult';
+        }
         $etudiant->save();
         return new EtudiantResource($etudiant);
     }
