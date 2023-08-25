@@ -85,7 +85,7 @@ export default function SelectAttendanceGrp() {
       if (!teacherMap.has(teacherId)) {
         teacherMap.set(teacherId, {
           role: role,
-          id: teacherId + 1000000000,
+          id: teacherId,
           fullName: fullName,
           attendanceData: [],
         });
@@ -150,7 +150,7 @@ export default function SelectAttendanceGrp() {
   const handleStatusChange = (row, field, status) => {
     const date = field.substring(4);
     const newData = tableData.map((data) => {
-      if (data.id === row.id) {
+      if (data.id === row.id && data.role === row.role) {
         const attendanceData = [...data.attendanceData];
         const attendanceIndex = attendanceData.findIndex(
           (item) => item.date === date
@@ -326,7 +326,8 @@ export default function SelectAttendanceGrp() {
         <Formik
           initialValues={initialValues}
           validationSchema={presenceSchema}
-          onSubmit={handleSubmit}
+          onSubmit={() => {
+              selectedCoursId && grpId && handleSubmit()}}
         >
           {({ values, errors, touched }) => (
             <Form>
