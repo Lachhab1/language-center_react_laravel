@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Class_;
+use App\Models\TeacherSalary;
 
 class Teacher extends Model
 {
@@ -28,5 +29,8 @@ class Teacher extends Model
     public function classes()
     {
         return $this->hasMany(Class_::class);
+    }
+    public function teacherSalary(){
+        return $this->hasOne(TeacherSalary::class);
     }
 }
