@@ -10,11 +10,14 @@ class TeacherSalary extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'amount',
         'teacher_id',
+        'salary',
+        'month',
+        'year',
         'created_at',
     ];
-    public function teacher (){
-        return $this->hasOne(Teacher::class);
+    public function teacher()
+    {
+        return $this->belongsTo(Teacher::class);
     }
 }

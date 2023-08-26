@@ -13,9 +13,11 @@ return new class extends Migration
     {
         Schema::create('teacher_salaries', function (Blueprint $table) {
             $table->id();
-            $table->decimal('amount', 8, 2);
+            $table->integer('salary');
             $table->unsignedBigInteger('teacher_id');
             $table->foreign('teacher_id')->references('id')->on('teachers')->onDelete('cascade');
+            $table->integer('month');
+            $table->integer('year');
             $table->timestamps();
         });
     }

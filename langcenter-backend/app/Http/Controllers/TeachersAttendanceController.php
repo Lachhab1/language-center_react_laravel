@@ -88,13 +88,11 @@ class TeachersAttendanceController extends Controller
         /**
          * Show the form for editing the specified resource.
          */
-       
     
         /**
          * Update the specified resource in storage.
          */
     
-         
             public function update(Request $request)
             {
                 $requests = $request->all();
@@ -113,18 +111,14 @@ class TeachersAttendanceController extends Controller
                                 ->where('date', $date)
                                 ->first();
                             
-                           
                                 $existingAttendance->isAbsent = $attendanceStatus;
                                 $existingAttendance->save();
                             
                         }
-        
                     }
                 }
-            
                 return response()->json(['message' => 'Attendance updated successfully'], 200);
             }
-         
 
     /**
      * Remove the specified resource from storage.
