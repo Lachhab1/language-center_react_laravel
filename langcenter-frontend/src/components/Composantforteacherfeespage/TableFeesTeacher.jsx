@@ -44,15 +44,11 @@ export default function TableFeesTeacher()
             selector:row => row.id
         },
         {
-            name:"Name",
+            name:"Full Name",
             selector:row => row.name
         },
         {
-            name:"Gender",
-            selector:row => row.gender
-        },
-        {
-            name:"Hours",
+            name:"worked Hours",
             selector:row => row.hours
         },
         {
@@ -60,11 +56,7 @@ export default function TableFeesTeacher()
             selector:row => row.amount
         },
         {
-            name:"Status",
-            selector:row => row.status 
-        },
-        {
-            name:"Date",
+            name:"Date of payment",
             selector:row => row.date
         },
         {
