@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::table('teachers_attendances', function (Blueprint $table) {
             //
             $table->unsignedBigInteger('class_id')->nullable();
-            $table->foreign('class_id')->references('id')->on('classes');
+            $table->foreign('class_id')->references('id')->on('classes')->onDelete('cascade');
         });
     }
 
