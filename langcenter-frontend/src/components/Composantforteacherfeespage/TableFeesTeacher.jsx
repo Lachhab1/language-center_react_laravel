@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import DataTable from 'react-data-table-component';
 import { BsFillPencilFill } from 'react-icons/bs';
@@ -6,6 +6,7 @@ import { MdDelete } from 'react-icons/md';
 import EditfeesT from './EditfeesT';
 import { UseStateContext } from '../../context/ContextProvider';
 import { Button } from "react-bootstrap"
+import axios from "../../api/axios";
 
 export default function TableFeesTeacher()
 {
@@ -77,6 +78,14 @@ export default function TableFeesTeacher()
       ),
         }
     ]
+    const [feesData,setFeesData]=useState([])
+    useEffect(()=>{
+        axios.get("/fees/teacher").then((res)=>{
+          console.log(res.data.data)
+            setFeesData(res.data.data);
+        })
+    },[])
+
     const Data=[ {id:"1",name:"sopa",gender:"male",hours:"1",amount:"1000",status:"paid",date:"07-05-2022",action: ""}]
     const [Namefilter,setNamefilter]=useState(Data)
     function handelfilterbyname(event)
@@ -112,8 +121,6 @@ export default function TableFeesTeacher()
       }
     }
     return(
-        
-            
             <div>
             <h2>Teachers fees</h2>
             <div className="row offset-1">
