@@ -142,3 +142,6 @@ Route::resource('/expenses', ExpensesController::class);
 
 //teacher salaries
 Route::resource('/salary', TeacherSalaryController::class);
+
+//get hours
+Route::get('/hours/{id}', 'App\Http\Controllers\TeacherHours@getTeacherHours');

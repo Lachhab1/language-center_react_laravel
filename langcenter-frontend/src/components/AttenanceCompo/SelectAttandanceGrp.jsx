@@ -177,7 +177,7 @@ export default function SelectAttendanceGrp() {
 
 
 
-  datesData.forEach(date => {
+  datesData.forEach((date) => {
     const monthYear = monthYearFormatter.format(new Date(date));
     const day = new Date(date).getDate();
 
@@ -226,7 +226,8 @@ export default function SelectAttendanceGrp() {
         );
       },
     });
-  });
+  } 
+  );
 
   const columns = [
     {

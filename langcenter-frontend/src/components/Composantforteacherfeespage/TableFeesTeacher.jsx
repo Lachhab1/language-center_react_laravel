@@ -5,6 +5,7 @@ import { BsFillPencilFill } from 'react-icons/bs';
 import { MdDelete } from 'react-icons/md';
 import EditfeesT from './EditfeesT';
 import { UseStateContext } from '../../context/ContextProvider';
+import { Button } from "react-bootstrap"
 
 export default function TableFeesTeacher()
 {
@@ -115,7 +116,6 @@ export default function TableFeesTeacher()
             
             <div>
             <h2>Teachers fees</h2>
-            
             <div className="row offset-1">
               <div className='col'>
               <input type="text" className="form-control" onChange={handelfilterbyname} placeholder="Search by Name"  />
@@ -127,7 +127,14 @@ export default function TableFeesTeacher()
                             <option value="unpaid">Unpaid</option>
               </select>
               </div>
+              <div className='col'>
+                 <Link to={`${x}/fees/teacher/add`}>
+              <Button variant="primary" className="btn btn-primary" style={{marginLeft:"10px"}}>Add</Button>
+              </Link>
+              </div>
             </div>
+           
+              
             <DataTable
                     columns={col}
                     data={Namefilter}

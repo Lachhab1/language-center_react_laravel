@@ -1,9 +1,9 @@
 
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { useFormik } from 'formik';
-import { Form, Button, Row, Col,Table, Tab } from 'react-bootstrap';
+import { Form, Row, Col,Table, Tab,Button} from 'react-bootstrap';
 import * as Yup from 'yup';
-
+import axios from "../../api/axios"
 export default function AddFeesT()
 {
     const formik = useFormik({
@@ -19,6 +19,19 @@ export default function AddFeesT()
             console.log(values);
           },
         });
+        //get teacher name from database
+        const [teacherData, setTeacherData] = useState([]);
+        useEffect(
+        () => {
+
+            const getTeacherData = async() => {
+                const response = await axios.get('/api/teachers');
+            setTeacherData(response.data.data);
+        };
+        getTeacherData()
+        
+         }
+        ,[])
 
     return(
         <div>
@@ -30,10 +43,19 @@ export default function AddFeesT()
                             id='name'
                             className={`form-control ${formik.errors.name  && formik.touched.name ? 'is-invalid' : ''}`}
                             {...formik.getFieldProps('name')}
-                            />
+                            >
+                            {
+                            teacherData.map((teacher) => (
+                                <option key={teacher?.id} value={teacher?.id}>
+                                    {teacher?.first_name} {teacher?.last_name}
+                                </option>
+                            ))
+
+                            }
                             {formik.touched.name&& formik.errors.name && (
                             <div className='invalid-feedback'>{formik.errors.name}</div>
                             )}
+                            </Form.Select>
                 </Col>  
                 <Col>
                         <Form.Label htmlFor='amount'>Amount*</Form.Label>
