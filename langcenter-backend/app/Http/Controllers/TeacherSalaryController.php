@@ -41,10 +41,10 @@ class TeacherSalaryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(TeacherSalary $teacherSalary)
+    public function show(TeacherSalary $salary)
     {
         //show teacher salary
-        return $teacherSalary;
+        return new TeacherSalaryResource($salary);
     }
 
 

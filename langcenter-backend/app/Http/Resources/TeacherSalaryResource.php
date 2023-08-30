@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Carbon\Carbon;
 
 class TeacherSalaryResource extends JsonResource
 {
@@ -34,8 +35,10 @@ class TeacherSalaryResource extends JsonResource
             'salary' => $this->salary,
             'month' => $Months[$this->month],
             'year' => $this->year,
-            'date' => $this->created_at,
+            'date' => Carbon::parse($this->created_at)->format('d-m-Y'),
             'teacher_name' => $this->teacher->first_name . ' ' . $this->teacher->last_name,
+            'teacher_id' => $this->teacher->id,
+            'hours'=> $this->salary / $this->teacher->hourly_rate,
         ];
     }
 }

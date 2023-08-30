@@ -54,6 +54,14 @@ export default function TableFeesTeacher()
             selector:row => row.hours
         },
         {
+            name:"Year",
+            selector:row => row.year
+        },
+        {
+            name:"Month",
+            selector:row => row.month
+        },
+        {
             name:"Amount",
             selector:row => row.amount
         },
@@ -80,45 +88,35 @@ export default function TableFeesTeacher()
     ]
     const [feesData,setFeesData]=useState([])
     useEffect(()=>{
-        axios.get("/fees/teacher").then((res)=>{
-          console.log(res.data.data)
-            setFeesData(res.data.data);
-        })
+        console.log("useEffect")
+        const getFeesData = async() => {
+            const response = await axios.get('/api/salary');
+            setFeesData(
+                response.data.data.map((row) => ({
+                    id:row.id,
+                    name:row.teacher_name,
+                    hours:row.hours,
+                    amount:row.salary,
+                    year:row.year,
+                    month:row.month,
+                    date:row.date,
+                })
+                )
+            );
+          }
+          getFeesData()
+          console.log(feesData)
     },[])
-
-    const Data=[ {id:"1",name:"sopa",gender:"male",hours:"1",amount:"1000",status:"paid",date:"07-05-2022",action: ""}]
-    const [Namefilter,setNamefilter]=useState(Data)
+    const [Namefilter,setNamefilter]=useState(feesData)
+    useEffect(()=>{
+      setNamefilter(feesData)
+    },[feesData])
     function handelfilterbyname(event)
     {
-      const newData=Data.filter(row =>{
+      const newData=feesData.filter(row =>{
         return row.name.toLowerCase().includes(event.target.value.toLowerCase())
       })
       setNamefilter(newData)
-    }
-    const [Classfilter,setClassfilter]=useState(Data)
-    function handelfilterbyClass(event)
-    {
-      const newData=Data.filter(row =>{
-        return row.class.toLowerCase().includes(event.target.value.toLowerCase())
-      })
-      setNamefilter(newData)
-    }
-
-
-    const [StatusFilter, setStatusFilter] = useState(Data);
-
-    function handleFilterByStatus(event)
-    {
-      const selectedStatus = event.target.value.toLowerCase();
-
-      if (selectedStatus === 'all') {
-        // Afficher toutes les lignes
-        setNamefilter(Data);
-      } else {
-        // Filtrer les lignes en fonction du statut
-        const newData = Data.filter((row) => row.status.toLowerCase() === selectedStatus);
-        setNamefilter(newData);
-      }
     }
     return(
             <div>
@@ -126,13 +124,6 @@ export default function TableFeesTeacher()
             <div className="row offset-1">
               <div className='col'>
               <input type="text" className="form-control" onChange={handelfilterbyname} placeholder="Search by Name"  />
-              </div>
-              <div className='col'>
-              <select className="form-control" onChange={handleFilterByStatus}>
-                            <option value="all">All</option>
-                            <option value="paid">Paid</option>
-                            <option value="unpaid">Unpaid</option>
-              </select>
               </div>
               <div className='col'>
                  <Link to={`${x}/fees/teacher/add`}>

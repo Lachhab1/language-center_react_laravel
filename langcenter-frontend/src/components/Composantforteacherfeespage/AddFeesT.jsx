@@ -13,10 +13,14 @@ export default function AddFeesT()
     const formik = useFormik({
         initialValues: {
             name: '',
+            month: '',
+            year: '',
             amount:'',
         },
         validationSchema: Yup.object({
             name: Yup.string().required('select teacher'),
+            month: Yup.string().required('select month'),
+            year: Yup.string().required('select year'),
             amount: Yup.string().required('enter amount'),
         }),
           onSubmit: (values) => {
@@ -26,8 +30,8 @@ export default function AddFeesT()
             const sendData = {
                 teacher_id:values.name,
                 salary:values.amount,
-                month: month,
-                year:year,
+                month: values.month,
+                year:values.year,
             }
             axios.post('/api/salary',sendData);
             setNotification('Salary has been added successfully');
@@ -56,8 +60,12 @@ export default function AddFeesT()
             ,[])
             useEffect(
                 () => {
+                    const dateData = {
+                        month:formik.values.month,
+                        year:formik.values.year,
+                    }
                     const getHoursData = async() => {
-                    const response = await axios.get(`/api/hours/${formik.values.name}`);
+                    const response = await axios.post(`/api/hours/${formik.values.name}`,dateData);
                     setHoursData(response.data);
                 };
                 getHoursData();
@@ -69,7 +77,7 @@ export default function AddFeesT()
                     }
                 })
 
-            },[formik.values.name])
+            },[formik.values.name,formik.values.month,formik.values.year])
             
             return(
         <div>
@@ -82,6 +90,7 @@ export default function AddFeesT()
                             className={`form-control ${formik.errors.name  && formik.touched.name ? 'is-invalid' : ''}`}
                             {...formik.getFieldProps('name')}
                             >
+                            <option value=''>Select Teacher</option>
                             {
                             teacherData.map((teacher) => (
                                 <option key={teacher?.id} value={teacher?.id}>
@@ -94,7 +103,50 @@ export default function AddFeesT()
                             <div className='invalid-feedback'>{formik.errors.name}</div>
                             )}
                             </Form.Select>
-                </Col>  
+                </Col> 
+                <Col>
+                        <Form.Label htmlFor='month'>Month*</Form.Label>
+                            <Form.Select
+                            id='month'
+                            className={`form-control ${formik.errors.month  && formik.touched.month ? 'is-invalid' : ''}`}
+                            {...formik.getFieldProps('month')}
+                            >
+                            <option value=''>Select Month</option>
+                            <option value='1'>January</option>
+                            <option value='2'>February</option>
+                            <option value='3'>March</option>
+                            <option value='4'>April</option>
+                            <option value='5'>May</option>
+                            <option value='6'>June</option>
+                            <option value='7'>July</option>
+                            <option value='8'>August</option>
+                            <option value='9'>September</option>
+                            <option value='10'>October</option>
+                            <option value='11'>November</option>
+                            <option value='12'>December</option>
+                            {formik.touched.month&& formik.errors.month && (
+                            <div className='invalid-feedback'>{formik.errors.month}</div>
+                            )}
+                            </Form.Select>
+                </Col>
+                <Col>
+                        <Form.Label htmlFor='year'>Year*</Form.Label>
+                            <Form.Select
+                            id='year'
+                            className={`form-control ${formik.errors.year  && formik.touched.year ? 'is-invalid' : ''}`}
+                            {...formik.getFieldProps('year')}
+                            >
+                            <option value=''>Select Year</option>
+                            <option value='2021'>2021</option>
+                            <option value='2022'>2022</option>
+                            <option value='2023'>2023</option>
+                            <option value='2024'>2024</option>  
+                            {formik.touched.year&& formik.errors.year && (
+                            <div className='invalid-feedback'>{formik.errors.year}</div>
+                            )}
+                            </Form.Select>
+                </Col>
+
                 <Col>
                         <Form.Label htmlFor='amount'>Amount*</Form.Label>
                                 

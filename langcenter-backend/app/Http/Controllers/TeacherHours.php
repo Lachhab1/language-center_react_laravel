@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Teacher;
-
+use Carbon\Carbon;
 class TeacherHours extends Controller
 {
-    public function getTeacherHours($id)
+    public function getTeacherHours($id,Request $request)
     {
         $teacher = Teacher::find($id);
         //get hours based on teacher_attendance if isAbsant = 2 then sum the hours correonding to the classes hes teaching
@@ -15,8 +15,12 @@ class TeacherHours extends Controller
         $differnce = 0;
         $hours = 0;
         $minutes = 0;
+        $monthNow = $request->month; 
+        $yearNow = $request->year;
         foreach ($teacher_attendance as $attendance) {
-            if ($attendance->isAbsent == 2 || $attendance->isAbsent == 3) {
+            $month = Carbon::parse($attendance->date)->month;
+            $year = Carbon::parse($attendance->date)->year;
+            if (($month == $monthNow && $year == $yearNow) && ($attendance->isAbsent == 2 || $attendance->isAbsent == 3)) {
                 //get start time and end time from class table
                 $class = $attendance->class;
                 $start_time = $class->timeTable->startTime;
