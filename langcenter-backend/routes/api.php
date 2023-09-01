@@ -145,3 +145,7 @@ Route::resource('/salary', TeacherSalaryController::class);
 
 //get hours
 Route::post('/hours/{id}', 'App\Http\Controllers\TeacherHours@getTeacherHours');
+
+
+//get earning and profit
+Route::get('/profit', 'App\Http\Controllers\Netprofit@getProfit');

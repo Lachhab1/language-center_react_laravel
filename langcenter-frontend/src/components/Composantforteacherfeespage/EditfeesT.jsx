@@ -8,6 +8,9 @@ import { UseStateContext } from '../../context/ContextProvider';
 
 export default function EditfeesT()
 {
+        const [hoursData, setHoursData] = useState([]);
+        const [hourlyRateData, setHourlyRateData] = useState([]);
+
     const navigate = useNavigate();
     const {id} = useParams();
     const { setNotification, setVariant } = UseStateContext();
@@ -34,7 +37,7 @@ export default function EditfeesT()
             }
             axios.put(`/api/salary/${id}`,sendData);
             setNotification('Salary has been updated successfully');
-                setVariant('success');
+                setVariant('warning');
                 setTimeout(() => {
                     setNotification('');
                     setVariant('');
@@ -46,6 +49,7 @@ export default function EditfeesT()
         //get teacher id from salary table
         const [teacherData, setTeacherData] = useState([]);
         const [teacherId, setTeacherId] = useState([]);
+        const [salaryData, setSalaryData] = useState([]);
         useEffect(
             () => {
                 const getTeacherData = async() => {
@@ -58,14 +62,35 @@ export default function EditfeesT()
                 const getTeacherId = async() => {
                     const response = await axios.get(`/api/salary/${id}`);
                     setTeacherId(response.data.data.teacher_id);
-                    console.log(response.data.data.teacher_id);
+                    formik.setValues({
+                    name:teacherId,
+                    month: response.data.data.month_number,
+                    year: response.data.data.year,
+                    amount: response.data.data.salary,
+                })
+                
                 };
                 getTeacherId()
-                formik.setValues({
-                    name:teacherId,
-                })
             }
             ,[teacherId])
+            //get worked hours from hours table
+            useEffect(
+                () => {
+                    axios.get(`/api/salary/${id}`)
+                    .then(response => {
+                    console.log(response);
+                    setHoursData(response.data.data.hours);
+                    })
+                    teacherData.map((teacher) => 
+                    {
+                    if(teacher.id == formik.values.name)
+                    {
+                        setHourlyRateData(teacher.hourly_rate);
+                    }
+                })
+                    
+            }
+            ,[formik.values.name,formik.values.month,formik.values.year])
                         return(
         <div>
             <Form onSubmit={formik.handleSubmit}>
@@ -76,6 +101,7 @@ export default function EditfeesT()
                             id='name'
                             className={`form-control ${formik.errors.name  && formik.touched.name ? 'is-invalid' : ''}`}
                             {...formik.getFieldProps('name')}
+                            disabled
                             >
                             <option value=''>Select Teacher</option>
                             {
@@ -97,6 +123,7 @@ export default function EditfeesT()
                             id='month'
                             className={`form-control ${formik.errors.month  && formik.touched.month ? 'is-invalid' : ''}`}
                             {...formik.getFieldProps('month')}
+                            disabled
                             >
                             <option value=''>Select Month</option>
                             <option value='1'>January</option>
@@ -123,6 +150,7 @@ export default function EditfeesT()
                             id='year'
                             className={`form-control ${formik.errors.year  && formik.touched.year ? 'is-invalid' : ''}`}
                             {...formik.getFieldProps('year')}
+                            disabled
                             >
                             <option value=''>Select Year</option>
                             <option value='2021'>2021</option>
@@ -147,7 +175,31 @@ export default function EditfeesT()
                         </Form.Control.Feedback>
                     </Col>
                     </Row>
+                    <Button variant="secondary" type="submit" className="mt-3">
+                        save
+                    </Button>
                 </Form>
+                <div className='d-flex flex-row-reverse me-5'>  
+                {/* payment table containe paid amount grand total ,worked hours */}
+                <Table striped bordered hover className='w-25' >
+                    <thead>
+                        <tr>
+                        <th>Worked hours</th>
+                        <td>{hoursData}</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                        <th>Hourly rate</th>
+                        <td>{hourlyRateData}</td>
+                        </tr>
+                        <tr>
+                        <th>month salary</th>
+                        <td>{hoursData * hourlyRateData}</td>
+                        </tr>
+                    </tbody>
+                </Table>
+            </div>
             </div>
     )
 }

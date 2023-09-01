@@ -28,7 +28,7 @@ export default function TableFeesTeacher()
         },
     },
         }
-          const {user} = UseStateContext()
+          const {user,setNotification,setVariant} = UseStateContext()
         let x = ""
     if (user && user.role==='admin')
     {
@@ -118,6 +118,16 @@ export default function TableFeesTeacher()
       })
       setNamefilter(newData)
     }
+    const deleteRow = (id) => {
+        axios.delete(`/api/salary/${id}`);
+        setNotification('Salary has been deleted successfully');
+        setVariant('danger');
+        setTimeout(() => {
+          setNotification('');
+          setVariant('');
+        }, 3000);
+        setFeesData(feesData.filter((row) => row.id !== id));
+      };
     return(
             <div>
             <h2>Teachers fees</h2>

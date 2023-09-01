@@ -34,6 +34,7 @@ class TeacherSalaryResource extends JsonResource
             'id' => $this->id,
             'salary' => $this->salary,
             'month' => $Months[$this->month],
+            'month_number' => $this->month,
             'year' => $this->year,
             'date' => Carbon::parse($this->created_at)->format('d-m-Y'),
             'teacher_name' => $this->teacher->first_name . ' ' . $this->teacher->last_name,

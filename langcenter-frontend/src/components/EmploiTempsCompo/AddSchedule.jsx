@@ -199,6 +199,7 @@ export default function AddSchedule() {
             setVariant('danger');
             setTimeout(() => {
               setNotification('');
+              setVariant('');
             }, 3000);
           }
         });
