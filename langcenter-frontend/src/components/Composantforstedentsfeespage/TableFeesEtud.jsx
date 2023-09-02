@@ -9,6 +9,7 @@ import { UseStateContext } from '../../context/ContextProvider';
 import Inscription from '../InscStudDash/Inscription';
 import axios from '../../api/axios';
 import { Ellipsis } from 'react-awesome-spinners'
+import { Button } from 'react-bootstrap';
 
 
 export default function TableFeesEtud()
@@ -54,6 +55,7 @@ export default function TableFeesEtud()
           setData(
               response.data.data.map((row)=>({
                   id:row.id,
+                  inscription_id: row.inscription_id,
                   name:row.etudiant_name,
                   status:row.status,
                   iamount:row.cours_fee,
@@ -88,10 +90,6 @@ export default function TableFeesEtud()
         })
         .catch((error)=>console.log(error));
       }
-
-
-    
-
     const col=[
         {
             name:"ID",
@@ -105,7 +103,11 @@ export default function TableFeesEtud()
             name:"Class",
             selector:row => row.class
         },
-        
+        {
+            name:"Inscription ID",
+            selector:row => row.inscription_id,
+            display: 'none'
+        },
         {
             name:"Status",
             selector:row => row.status,
@@ -149,6 +151,15 @@ export default function TableFeesEtud()
           <button style={{ border: 'none', background: 'none' }} onClick={() => deleteRow(row.id)}>
             <MdDelete style={{ color: 'red', fontSize: '20px' }} />
           </button>
+          {
+            (row.status === 'Unpaid' || row.status === 'Partial Payment')  && (
+                <Link to={`${x}/income/student/add/${row.inscription_id}`} className='text-black'>
+              <Button variant="success" style={{ border: 'none', background: 'none',color: 'black' }}>
+                +
+              </Button>
+              </Link>
+            )
+          }
         </div>
       ),
         }

@@ -83,6 +83,8 @@ import TestPayment from "./components/testFees/index";
 import EditTestPayment from "./components/testFees/edit";
 import AddFeesT from "./components/Composantforteacherfeespage/AddFeesT";
 
+import AddFees from "./components/Composantforstedentsfeespage/AddFeesE";
+
 const router = createBrowserRouter([
         {
             path: '/',
@@ -306,6 +308,10 @@ const router = createBrowserRouter([
                                     path: "/income/student/edit/:id",
                                     element: <EditFees/>
                                     },
+                                    {
+                                        path: "/income/student/add/:id",
+                                        element: <AddFees/>
+                                    }
                                 ]
                             },
                             {

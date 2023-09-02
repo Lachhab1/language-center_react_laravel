@@ -94,7 +94,6 @@ class InscrireClassController extends Controller
         ]);
         $inscrire->payment()->save($payment);
         $negotiatedPrice = $inscrire->negotiated_price;
-
         // Update the payment status based on the payment amount and negotiated price
         $totalPayment = $inscrire->payments->sum('amount');
         if ($totalPayment >= $negotiatedPrice) {
@@ -108,7 +107,6 @@ class InscrireClassController extends Controller
         $inscrire->payment_status = $paymentStatus;
         // Associate the payment with the inscription
         $inscrire->save();
-
         return response()->json([
             'message' => 'Payment registered successfully.',
             'inscrire' => $inscrire,
@@ -171,16 +169,25 @@ class InscrireClassController extends Controller
         }
 
         // Retrieve the associated payment record
-        $payment = $inscrire->payment;
 
-        if (!$payment) {
+        if (!$pay) {
             return response()->json(['message' => 'Payment not found.'], 404);
         }
         // Delete the payment record
-        $payment->delete();
+        $pay->delete();
         // Update the payment status and negotiated price in the inscription
-
-
+        $negotiatedPrice = 0;
+        $negotiatedPrice = $inscrire->negotiated_price;
+        $totalPayment = $inscrire->payments->sum('amount');
+        if ($totalPayment >= $negotiatedPrice) {
+            $inscrire->payment_status = 'Paid';
+        } elseif ($totalPayment > 0) {
+            $inscrire->payment_status = 'Partial Payment';
+        } else {
+            $inscrire->payment_status = 'Unpaid';
+        }
+        $inscrire->save();
+        
         return response()->json(['message' => 'Payment deleted successfully.']);
     }
 }
