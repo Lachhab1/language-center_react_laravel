@@ -189,7 +189,6 @@ function FormC() {
   }
     
     if (formik.values.testLevel === true){
-      debugger;
       let responseTestData = {
         test_id: 1,
         student_id: etudiantId,
@@ -238,6 +237,9 @@ function FormC() {
     if (formik.values.testLevel === true){
       setTotal((prev) => prev + +testPrice);
     }
+    setTotal(
+    (prev) => Math.round(prev,2)
+    )
   },[formik.values.insurrance,formik.values.course,formik.values.testLevel,formik.values.class,formik.values.discount,formik.values.customDiscount]);
   useEffect(() => {
     let res = 0;
@@ -246,13 +248,12 @@ function FormC() {
     } else {
       res = formik.values.discount;
     }
-    formik.setFieldValue('negotiatedPrice',+findCoursFees(formik.values.class) - res * +findCoursFees(formik.values.class) / 100 || 0);
+    formik.setFieldValue('negotiatedPrice',Math.round(+findCoursFees(formik.values.class) - res * +findCoursFees(formik.values.class) / 100,2) || 0);
   },[total,formik.values.discount,formik.values.customDiscount]);
 
   useEffect (() => {
     let negotiatedPrice = formik.values.negotiatedPrice;
-    let res = (+parseFloat(total) - +negotiatedPrice)/(+total) * 100;
-    res = Math.round(res,2);
+    let res = (Math.round(+findCoursFees(formik.values.class),2) - +negotiatedPrice)/(Math.round(+findCoursFees(formik.values.class),2)) * 100;
     switch (res) {
       case 10:
       case 20:
@@ -264,7 +265,7 @@ function FormC() {
           formik.setFieldValue('customDiscount',+res);
         break;
     }
-  },[]);
+  },[formik.values.negotiatedPrice]);
   return (
         <Form noValidate onSubmit={handleSubmit}>
           <Row className='mb-3'>
