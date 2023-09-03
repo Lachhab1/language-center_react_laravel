@@ -73,6 +73,7 @@ function FormC() {
         test: ``,
         testFees: 100,
         testFeesPaid: 0,
+        methode: ``,
       },
     validationSchema: yup.object().shape({
     firstName: yup.string()
@@ -107,6 +108,7 @@ function FormC() {
       test: yup.string(),
       testFees: yup.number(),
       testFeesPaid: yup.number(),
+      methode: yup.string(),
     }),
   onSubmit: (values) => {
     console.log("wewe are here");
@@ -180,6 +182,7 @@ function FormC() {
     const inscriptionId = response2.data.id;
     const paymentData = {
       payment_amount: formik.values.courseFeesPaid,
+      type: formik.values.methode,
     }
     try{
       response3 = await axios.post(`/api/inscrires/${inscriptionId}/register-payment`,paymentData);
@@ -731,6 +734,27 @@ function FormC() {
                 />
               <Form.Control.Feedback className='' type="invalid" tooltip>{formik.errors.courseFeesPaid}</Form.Control.Feedback>
           </Form.Group>
+          <Form.Group
+              as={Col}
+              md={3}
+              sm={6}
+              xs={7}
+              className="position-relative"
+              >
+              <Form.Label>Payment Method</Form.Label>
+              <Form.Select
+              component="select"
+              id="methode"
+              name="methode"
+              {...formik.getFieldProps('methode')}
+              isInvalid={formik.touched.methode && formik.errors.methode}
+              >
+              <option value='cash'>cash</option>
+              <option value='check'>check</option>
+              <option value='bank'>bank</option>
+              </Form.Select>
+              <Form.Control.Feedback type="invalid" tooltip>{formik.errors.methode}</Form.Control.Feedback>
+              </Form.Group>
         </Row>
                 </>
                 : 

@@ -30,7 +30,7 @@ class PaymentResource extends JsonResource
             'negotiated_price' => (float)$this->getNegotiatedPrice(),
             'amount' => (float)$this->amount,
             'payment_date' => $this->payment_date,
-            'remaining' => ((float)$this->getNegotiatedPrice()) - ((float)$total_amount),
+            'remaining' => ((float)$this->getNegotiatedPrice()) - ((float)$total_amount) > 0 ? ((float)$this->getNegotiatedPrice()) - ((float)$total_amount) : 0,
         ];
     }
 }

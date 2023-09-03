@@ -24,13 +24,16 @@ export default function AddFeesE()
   const formik = useFormik({
   initialValues: {
     pamount: '',
+    methode: ''
   },
   validationSchema: Yup.object({
     pamount: Yup.number().required('Paid amount is required'),
+    methode: Yup.string(),
   }),
   onSubmit: (values) => {
     const data = {
       payment_amount:values.pamount,
+      type:values.methode || 'cash',
     }
     axios.post(`/api/inscrires/${id}/register-payment`,data)
     .then((response)=>{
@@ -64,6 +67,14 @@ export default function AddFeesE()
           {formik.touched.pamount && formik.errors.pamount ? (
             <div>{formik.errors.pamount}</div>
           ) : null}
+        </div>
+        <div className="col-4">
+          <label>Payment Method</label>
+          <select className="form-control" name="methode" {...formik.getFieldProps('methode')}>
+            <option value="cash">Cash</option>
+            <option value="cheque">Cheque</option>
+            <option value="bank">Bank</option>
+          </select>
         </div>
         <div className="col-10 mt-4">
           <button className="btn btn-success" type="submit">
