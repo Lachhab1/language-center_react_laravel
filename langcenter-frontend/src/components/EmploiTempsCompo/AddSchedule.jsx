@@ -116,9 +116,18 @@ export default function AddSchedule() {
       }
       
       function getDatesWithSpecificDays(desired_days) {
+        let startDate = new Date();
+        let endDate = new Date();
+        groupesData?.map(
+          (group) => {
+            if (group.id == formik.values.group)
+            {
+              startDate = new Date(group.start_date);
+              endDate = new Date(group.end_date);
+            }
+          }
+        )
         console.log('function called');
-        const startDate = new Date(groupesData[0].start_date);
-        const endDate = new Date(groupesData[0].end_date);
       
         const dates = [];
       
@@ -138,9 +147,10 @@ export default function AddSchedule() {
       console.log('res ', result);
 
       // in student attendace table 
-      axios.post(`/api/studentsAttendance/${groupesData[0].id}`, {
+      // axios.post(`/api/studentsAttendance/${groupesData[0].id}`, {
+        axios.post(`/api/studentsAttendance/${formik.values?.group}`, {
         dates: result,
-        group: groupesData[0].id,
+        group: formik.values.group,
       })
         .then(response => {
           console.log('Response:', response.data);
@@ -151,9 +161,10 @@ export default function AddSchedule() {
 
 
       // same thing but in teachers attendace table 
-      axios.post(`/api/teachersAttendance/${groupesData[0].id}`, {
+      // axios.post(`/api/teachersAttendance/${groupesData[0].id}`, {
+        axios.post(`/api/teachersAttendance/${formik.values?.group}`, {
         dates: result,
-        group: groupesData[0].id,
+        group: formik.values?.group,
       })
         .then(response => {
           console.log('Response:', response.data);
@@ -188,6 +199,7 @@ export default function AddSchedule() {
             setVariant('danger');
             setTimeout(() => {
               setNotification('');
+              setVariant('');
             }, 3000);
           }
         });
@@ -296,7 +308,6 @@ export default function AddSchedule() {
             <Form.Select
               className={`form-select ${formik.errors.group && formik.touched.group ? 'is-invalid' : ''}`}
               {...formik.getFieldProps('group')}
-
             >
               <option value=''>Select a class</option>
               {/* Add options for groups based on selected level */}
@@ -333,10 +344,6 @@ export default function AddSchedule() {
           </Form.Group>
         </Col>
       </Row>
-
-
-
-
       <table>
         <thead>
 

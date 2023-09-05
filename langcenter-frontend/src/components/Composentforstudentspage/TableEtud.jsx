@@ -13,6 +13,7 @@ import female from "../../images/icons/icons8-female (1).svg"
 import Form from 'react-bootstrap/Form';
 export default function TableEtud()
 {
+    const [ageGroup, setAgeGroup] = useState('');
     const tableCustomStyles = {
     headCells: {
         style: {
@@ -45,6 +46,7 @@ const {user,setNotification,setVariant} = UseStateContext()
 const [pending, setPending] = useState(true);
 const [data,setData]=useState([]);
 const [records,setRecords]=useState([]);
+
 const navigate = useNavigate();
 let x = ""
 if (user && user.role==='admin')

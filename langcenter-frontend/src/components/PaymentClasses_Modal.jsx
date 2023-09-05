@@ -37,18 +37,25 @@ export default function PaymentClasses_Modal({showModal,handleClose,selectedItem
             <Modal.Title>Payment Classes</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-            <Form>
                 <Row>
                     <Col>
                         <div>
                             <h5>Payment Details</h5>
+                            <hr/>
+                            <div className="d-flex w-50 justify-content-between">
+                            <div className="text-muted">
+                                Agreed Price : {data?.negotiated_price}
+                            </div>
+                            <div className="text-muted">
+                                Status : {data?.status}
+                            </div>
+                            </div>
                             <table className="table table-striped">
                                 <thead>
                                     <tr>
                                         <th scope="col">Date</th>
                                         <th scope="col">Amount</th>
                                         <th scope="col">Payment Method</th>
-                                        <th scope="col">Aggred Amount</th>
                                         <th scope="col">Remaining</th>
                                         <th scope="col">Status</th>
                                     </tr>
@@ -60,8 +67,7 @@ export default function PaymentClasses_Modal({showModal,handleClose,selectedItem
                                             <tr key={index}>
                                                 <td>{item?.payment_date}</td>
                                                 <td>{item?.amount ? item?.amount : 0}</td>
-                                                <td>cash</td>
-                                                <td>{data?.negotiated_price ? data?.negotiated_price : 0}</td>
+                                                <td>{item?.type}</td>
                                                 <td>{+data?.negotiated_price - totalPaid}</td>
                                                 <td>{data?.status}</td>
                                             </tr>
@@ -72,7 +78,6 @@ export default function PaymentClasses_Modal({showModal,handleClose,selectedItem
                         </div>
                     </Col>
                 </Row>
-            </Form>
         </Modal.Body>
         <Modal.Footer>
             <button className="btn btn-secondary" onClick={handleClose}>Close</button>

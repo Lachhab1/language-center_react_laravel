@@ -23,6 +23,7 @@ use App\Http\Controllers\RegisterTestController;
 use App\Http\Controllers\TestPaymentController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ExpensesController;
+use App\Http\Controllers\TeacherSalaryController;
 
 Route::post('/login', [LoginController::class, 'login']);
 
@@ -138,3 +139,13 @@ Route::resource('/payment', PaymentController::class);
 
 //expenses
 Route::resource('/expenses', ExpensesController::class);
+
+//teacher salaries
+Route::resource('/salary', TeacherSalaryController::class);
+
+//get hours
+Route::post('/hours/{id}', 'App\Http\Controllers\TeacherHours@getTeacherHours');
+
+
+//get earning and profit
+Route::get('/profit', 'App\Http\Controllers\Netprofit@getProfit');

@@ -73,6 +73,7 @@ function FormC() {
         test: ``,
         testFees: 100,
         testFeesPaid: 0,
+        methode: ``,
       },
     validationSchema: yup.object().shape({
     firstName: yup.string()
@@ -107,6 +108,7 @@ function FormC() {
       test: yup.string(),
       testFees: yup.number(),
       testFeesPaid: yup.number(),
+      methode: yup.string(),
     }),
   onSubmit: (values) => {
     console.log("wewe are here");
@@ -180,6 +182,7 @@ function FormC() {
     const inscriptionId = response2.data.id;
     const paymentData = {
       payment_amount: formik.values.courseFeesPaid,
+      type: formik.values.methode,
     }
     try{
       response3 = await axios.post(`/api/inscrires/${inscriptionId}/register-payment`,paymentData);
@@ -189,7 +192,6 @@ function FormC() {
   }
     
     if (formik.values.testLevel === true){
-      debugger;
       let responseTestData = {
         test_id: 1,
         student_id: etudiantId,
@@ -238,6 +240,9 @@ function FormC() {
     if (formik.values.testLevel === true){
       setTotal((prev) => prev + +testPrice);
     }
+    setTotal(
+    (prev) => Math.round(prev,2)
+    )
   },[formik.values.insurrance,formik.values.course,formik.values.testLevel,formik.values.class,formik.values.discount,formik.values.customDiscount]);
   useEffect(() => {
     let res = 0;
@@ -246,13 +251,12 @@ function FormC() {
     } else {
       res = formik.values.discount;
     }
-    formik.setFieldValue('negotiatedPrice',+findCoursFees(formik.values.class) - res * +findCoursFees(formik.values.class) / 100 || 0);
+    formik.setFieldValue('negotiatedPrice',Math.round(+findCoursFees(formik.values.class) - res * +findCoursFees(formik.values.class) / 100,2) || 0);
   },[total,formik.values.discount,formik.values.customDiscount]);
 
   useEffect (() => {
     let negotiatedPrice = formik.values.negotiatedPrice;
-    let res = (+parseFloat(total) - +negotiatedPrice)/(+total) * 100;
-    res = Math.round(res,2);
+    let res = (Math.round(+findCoursFees(formik.values.class),2) - +negotiatedPrice)/(Math.round(+findCoursFees(formik.values.class),2)) * 100;
     switch (res) {
       case 10:
       case 20:
@@ -264,7 +268,7 @@ function FormC() {
           formik.setFieldValue('customDiscount',+res);
         break;
     }
-  },[]);
+  },[formik.values.negotiatedPrice]);
   return (
         <Form noValidate onSubmit={handleSubmit}>
           <Row className='mb-3'>
@@ -730,6 +734,27 @@ function FormC() {
                 />
               <Form.Control.Feedback className='' type="invalid" tooltip>{formik.errors.courseFeesPaid}</Form.Control.Feedback>
           </Form.Group>
+          <Form.Group
+              as={Col}
+              md={3}
+              sm={6}
+              xs={7}
+              className="position-relative"
+              >
+              <Form.Label>Payment Method</Form.Label>
+              <Form.Select
+              component="select"
+              id="methode"
+              name="methode"
+              {...formik.getFieldProps('methode')}
+              isInvalid={formik.touched.methode && formik.errors.methode}
+              >
+              <option value='cash'>cash</option>
+              <option value='check'>check</option>
+              <option value='bank'>bank</option>
+              </Form.Select>
+              <Form.Control.Feedback type="invalid" tooltip>{formik.errors.methode}</Form.Control.Feedback>
+              </Form.Group>
         </Row>
                 </>
                 : 

@@ -83,6 +83,7 @@ class InscrireClassController extends Controller
         $inscrire = InscrireClass::find($id);
         $request->validate([
             'payment_amount' => 'required|integer',
+            'type' => 'string',
         ]);
         $paymentAmount = $request->payment_amount;
         $paymentDate = now();
@@ -91,10 +92,10 @@ class InscrireClassController extends Controller
         $payment = new Payment([
             'amount' => $paymentAmount,
             'payment_date' => $paymentDate,
+            'type' => $request->type,
         ]);
         $inscrire->payment()->save($payment);
         $negotiatedPrice = $inscrire->negotiated_price;
-
         // Update the payment status based on the payment amount and negotiated price
         $totalPayment = $inscrire->payments->sum('amount');
         if ($totalPayment >= $negotiatedPrice) {
@@ -108,7 +109,6 @@ class InscrireClassController extends Controller
         $inscrire->payment_status = $paymentStatus;
         // Associate the payment with the inscription
         $inscrire->save();
-
         return response()->json([
             'message' => 'Payment registered successfully.',
             'inscrire' => $inscrire,
@@ -117,29 +117,28 @@ class InscrireClassController extends Controller
     }
     public function updatePayment(Request $request, $id)
     {
-        $inscrire = InscrireClass::find($id);
+        $payment = Payment::find($id);
+        $inscrire = $payment->inscrireClass;
         $request->validate([
             'payment_amount' => 'required|integer',
+            'type' => 'string',
             'negotiated_price' => 'required|integer',
         ]);
         $paymentAmount = $request->payment_amount;
         $paymentDate = now();
 
         // Retrieve the existing payment record 
-        $payment = $inscrire->payment;
 
         if (!$payment) {
             // If no payment record exists, create a new one
             $payment = new Payment();
         }
-
         // Update the payment record with the new amount and date
         $payment->amount = $paymentAmount;
         $payment->payment_date = $paymentDate;
+        $payment->type = $request->type;
         $payment->save();
-
         $negotiatedPrice = $request->negotiated_price;
-
         // Update the payment status based on the payment amount and negotiated price
         if ($paymentAmount >= $negotiatedPrice) {
             $paymentStatus = 'Paid';
@@ -171,16 +170,25 @@ class InscrireClassController extends Controller
         }
 
         // Retrieve the associated payment record
-        $payment = $inscrire->payment;
 
-        if (!$payment) {
+        if (!$pay) {
             return response()->json(['message' => 'Payment not found.'], 404);
         }
         // Delete the payment record
-        $payment->delete();
+        $pay->delete();
         // Update the payment status and negotiated price in the inscription
-
-
+        $negotiatedPrice = 0;
+        $negotiatedPrice = $inscrire->negotiated_price;
+        $totalPayment = $inscrire->payments->sum('amount');
+        if ($totalPayment >= $negotiatedPrice) {
+            $inscrire->payment_status = 'Paid';
+        } elseif ($totalPayment > 0) {
+            $inscrire->payment_status = 'Partial Payment';
+        } else {
+            $inscrire->payment_status = 'Unpaid';
+        }
+        $inscrire->save();
+        
         return response()->json(['message' => 'Payment deleted successfully.']);
     }
 }

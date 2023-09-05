@@ -22,6 +22,8 @@ import { UseStateContext } from '../context/ContextProvider';
 import axios from "../api/axios"
 import { Navigate } from 'react-router-dom';
 import CardBoostrap from 'react-bootstrap/Card';
+import Salary from '../images/icons/icons8-salary.svg';
+import SalaryT from '../images/icons/icons8-salaryT.svg';
 
 
 import 'react-big-calendar/lib/css/react-big-calendar.css';
@@ -31,7 +33,7 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { Row } from 'react-bootstrap';
 
 const Dashboard = () => {
-
+  const [chartData, setChartData] = useState([]);
   const [femaleCount, setFemaleCount] = useState(0);
   const [maleCount, setMaleCount] = useState(0);
   const [cardsData, setCardsData] = useState([]);
@@ -54,6 +56,8 @@ const Dashboard = () => {
           expenses: response.data.total_expanses,
           expensesMonth: response.data.total_expanses_month,
           due: response.data.due_payment,
+          salary: response.data.total_salary,
+          salary_month: response.data.salary_month,
         });
       } catch (error) {
         console.error(error);
@@ -61,6 +65,15 @@ const Dashboard = () => {
     };
     fetchData();
   }, []);
+
+  useEffect(() => { 
+        axios.get('/api/profit').then((res) => {
+          console.log(res.data);
+          setChartData(res.data);
+      });
+  
+  }, []);
+
   
   const { user,token } = UseStateContext();
   if (!token){
@@ -70,44 +83,6 @@ const Dashboard = () => {
     return <div>Loading...</div>;
   }
 
-  const [chartData, setChartData] = useState({
-    year: [
-      { year: '2021', profit: 5000, expense: 3000 },
-      { year: '2022', profit: 6000, expense: 4000 },
-      { year: '2023', profit: 7000, expense: 5000 },
-    ],
-    month: [
-      { month: 'Jan', profit: 400, expense: 200 },
-      { month: 'Feb', profit: 600, expense: 400 },
-      { month: 'Mar', profit: 800, expense: 300 },
-      { month: 'Apr', profit: 1000, expense: 500 },
-      { month: 'May', profit: 1200, expense: 600 },
-      { month: 'Jun', profit: 1400, expense: 700 },
-      { month: 'Jul', profit: 600, expense: 800 },
-      { month: 'Aug', profit: 800, expense: 900 },
-      { month: 'Sep', profit: 2000, expense: 2000 },
-      { month: 'Oct', profit: 2200, expense: 1100 },
-      { month: 'Nov', profit: 2400, expense: 1200 },
-      { month: 'Dec', profit: 2600, expense: 1300 },
-    ],
-    courses: [
-      { course: 'English', students: 45 },
-      { course: 'French', students: 60 },
-      { course: 'Italian', students: 30 },
-      { course: 'Spanish', students: 55 },
-      { course: 'Arabic', students: 50 },
-    ],
-  });
-
-  const [interval, setInterval] = useState('year');
-  const handleIntervalChange = (value) => {
-    setInterval(value);
-  };
-
-
-
-
-  
   return (
     <div className=''>
       <div className='row justify-content-around'>
@@ -117,6 +92,9 @@ const Dashboard = () => {
         </div>
         <div className='col  mb-4'>
           <Card title='Total Expenses' icon={TotalExpanse} data={cardsData.expenses} />
+        </div>
+        <div className='col  mb-4'>
+          <Card title='Total Salary' icon={SalaryT} data={cardsData.salary} />
         </div>
         <div className='col  mb-4'>
           <Card title='Total Due' icon={Due} data={cardsData.due} />
@@ -129,7 +107,9 @@ const Dashboard = () => {
         <div className='col  mb-4'>
           <Card title='Expenses' icon={Expense} data={cardsData.expensesMonth} />
         </div>
-        
+        <div className='col  mb-4'>
+          <Card title='Salary' icon={Salary} data={cardsData.salary_month} />
+        </div>
         </Row>
         <Row>
         <div className='col  mb-4'>
@@ -155,16 +135,13 @@ const Dashboard = () => {
       </div>
         <div className='row'>
         <div className='col-6 mx-auto mb-4 Charts'>
-          <LineChart data={chartData} interval={interval} onIntervalChange={handleIntervalChange} />
+          <LineChart data={chartData} />
         </div>
         <div className='col-4 mx-auto mb-4 Charts'>
           <DoughnutChart maleCount={maleCount} femaleCount={femaleCount} />
         </div>
         </div>
       <div className='row'>
-        <div className='col-11 mx-auto mb-4 Charts'>
-          <BarChart data={chartData.courses} />
-        </div>
         <div className='col-11 mx-auto mb-4 Charts'>
         {/* <TimetableScheduler data={timetableData} /> */}
         </div>

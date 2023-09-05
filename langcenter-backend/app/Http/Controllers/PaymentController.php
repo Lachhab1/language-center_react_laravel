@@ -29,7 +29,8 @@ class PaymentController extends Controller
      */
     public function show(Payment $payment)
     {
-        //
+        //get the payment
+        return new PaymentResource($payment);
     }
 
     /**

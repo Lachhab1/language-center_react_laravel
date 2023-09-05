@@ -37,7 +37,6 @@ export default function AddClass({showModal,handleClose,selectedItem,id}) {
         customDiscount: ``,
         insurrance: false,
         course: false,
-        testLevel: false,
         courseName: '',
       },
     validationSchema: yup.object().shape({
@@ -48,7 +47,6 @@ export default function AddClass({showModal,handleClose,selectedItem,id}) {
         customDiscount: yup.number(),
         insurrance: yup.boolean(),
         course: yup.boolean(),
-        testLevel: yup.boolean(),
   }),
   onSubmit: (values) => {
     console.log("wewe are here");
@@ -74,7 +72,7 @@ export default function AddClass({showModal,handleClose,selectedItem,id}) {
       class_id: formik.values.class,
       negotiated_price: formik.values.negotiatedPrice,
     }
-        if (formik.values.insurrance === true || formik.values.testLevel === true || formik.values.course === true){
+        if (formik.values.insurrance === true || formik.values.course === true){
                 if (formik.values.course === false){
                 inscriptionData = {
                 etudiant_id: etudiantId,
@@ -119,10 +117,6 @@ export default function AddClass({showModal,handleClose,selectedItem,id}) {
       console.log("course");
       total += +findCoursFees(formik.values.class);
     }
-    if (formik.values.testLevel){
-      console.log("testLevel");
-      total += 150;
-    }
     return total;
   }
   setTotal(getTotals());
@@ -166,13 +160,6 @@ export default function AddClass({showModal,handleClose,selectedItem,id}) {
               >
               <Form.Label className='h3' >Payment options</Form.Label>
               <div className='d-flex'>
-            <Form.Check // prettier-ignore
-              type="switch"
-              id="custom-switch"
-              label="Test"
-              {...formik.getFieldProps('testLevel')}
-              className={`me-3 fs-4 ${formik.values.testLevel === true ? "text-warning" : ''}`}
-              />
             <Form.Check // prettier-ignore
               type="switch"
               id="custom-switch"

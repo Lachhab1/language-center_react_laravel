@@ -14,8 +14,13 @@ class PaymentResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $total_amount = 0;
+        foreach ($this->inscrireClass->payments as $payment) {
+            $total_amount += $payment->amount;
+        }
         return [
             'id' => $this->id,
+            'inscription_id' => $this->inscrireClass->id,
             'etudiant_name' => $this->getEtudiantName(),
             'classe_name' => $this->getClasseName(),
             'classe_id' => $this->getClasseId(),
@@ -25,7 +30,7 @@ class PaymentResource extends JsonResource
             'negotiated_price' => (float)$this->getNegotiatedPrice(),
             'amount' => (float)$this->amount,
             'payment_date' => $this->payment_date,
-            'remaining' => ((float)$this->getNegotiatedPrice()) - ((float)$this->amount),
+            'remaining' => ((float)$this->getNegotiatedPrice()) - ((float)$total_amount) > 0 ? ((float)$this->getNegotiatedPrice()) - ((float)$total_amount) : 0,
         ];
     }
 }

@@ -13,6 +13,7 @@ use App\Models\Classroom;
 use App\Models\Tests;
 use App\Models\Cours;
 use App\Models\Expenses;
+use App\Models\TeacherSalary;
 
 class NumberController extends Controller
 {
@@ -35,11 +36,21 @@ class NumberController extends Controller
         $total_expanses_month = 0;
         $total_expanses = 0;
         $total_payment_month = 0;
+        $total_salary = 0;
+        $salaries = 0;
         foreach ($expanses_month as $expanse) {
             $total_expanses_month += (float)$expanse->expense_amount;
         }
         foreach (Expenses::all() as $expanse) {
             $total_expanses += (float)$expanse->expense_amount;
+        }
+        //teacher salary
+        foreach (TeacherSalary::all() as $salary) {
+            $total_salary += (float)$salary->salary;
+        }
+        //salary month
+        foreach (TeacherSalary::whereMonth('created_at',date('m'))->get() as $salary) {
+            $salaries += (float)$salary->salary;
         }
         foreach ($payments as $payment) {
             $total_payment += (float)$payment->amount;
@@ -69,6 +80,8 @@ class NumberController extends Controller
             'total_expanses' => (float) $total_expanses,
             'total_expanses_month' => (float) $total_expanses_month,
             'due_payment' => (float) $due_payment,
+            'total_salary' => (float) $total_salary,
+            'salary_month' => (float) $salaries,
         ]);
     }
 }

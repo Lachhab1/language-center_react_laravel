@@ -26,15 +26,18 @@ export default function EditFees()
     iamount: '',
     aamount: '',
     pamount: '',
+    methode: 'cash'
   },
   validationSchema: Yup.object({
     aamount: Yup.number().required('Agreed amount is required'),
     pamount: Yup.number().required('Paid amount is required'),
+    methode: Yup.string(),
   }),
   onSubmit: (values) => {
     const data = {
       negotiated_price:values.aamount,
       payment_amount:values.pamount,
+      type:values.methode || 'cash',
     }
     axios.put(`/api/update-payment/${id}`,data)
     .then((response)=>{
@@ -52,14 +55,14 @@ export default function EditFees()
   },
   });
       useEffect(()=>{
-        const fetchData = async() => axios.get('/api/inscrire-classes/'+id).then((response)=>{
+        const fetchData = async() => axios.get('/api/payment/'+id).then((response)=>{
             console.log(response.data.data);
             formik.setValues(
                 {
-                    id:response.data.data.id,
-                    iamount: Math.round(response.data.data.cours.price),
+                    iamount: Math.round(response.data.data.cours_fee),
                     aamount:Math.round(response.data.data.negotiated_price),
-                    pamount:Math.round(response.data.data.payment.amount),
+                    pamount:Math.round(response.data.data.amount),
+                    methode:response.data.data.type
                 }
             );
               })
@@ -110,6 +113,18 @@ export default function EditFees()
           {formik.touched.pamount && formik.errors.pamount ? (
             <div>{formik.errors.pamount}</div>
           ) : null}
+        </div>
+        <div className="col-4">
+          <label>Method</label>
+          <select
+            className="form-control"
+            name="methode"
+            {...formik.getFieldProps('methode')}
+          >
+            <option value="cash">Cash</option>
+            <option value="cheque">Cheque</option>
+            <option value="bank">Bank</option>
+          </select>
         </div>
         <div className="col-10 mt-4">
           <button className="btn btn-success" type="submit">

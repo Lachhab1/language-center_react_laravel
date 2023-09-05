@@ -38,7 +38,6 @@ const EditGroup = () => {
       start_date: '',
       end_date: '',
       description: '',
-      capacity: '',
     },
     validationSchema: Yup.object({
       groupName: Yup.string().required('Group name is required'),
@@ -48,7 +47,6 @@ const EditGroup = () => {
       start_date: Yup.string().required('Start date is required'),
       end_date: Yup.string().required('End date is required'),
       description: Yup.string(),
-      capacity: Yup.number().required('Capacity is required'),
     }),
     onSubmit: (values) => {
       handleSubmit(values);
@@ -66,7 +64,6 @@ const EditGroup = () => {
         start_date: res.data.data.start_date,
         end_date: res.data.data.end_date,
         description: res.data.data.description,
-        capacity: res.data.data.capacity,
         teacher: res.data.data.teacher.id,
       });
     });
@@ -271,20 +268,6 @@ const EditGroup = () => {
           />
           <Form.Control.Feedback type="invalid">
             {formik.errors.description}
-          </Form.Control.Feedback>
-        </Col>
-        <Col md={6} className="mb-3">
-          <Form.Label htmlFor="capacity">Capacity*</Form.Label>
-          <Form.Control
-            id="capacity"
-            type="number"
-            {...formik.getFieldProps('capacity')}
-            isInvalid={
-              formik.touched.capacity && formik.errors.capacity
-            }
-          />
-          <Form.Control.Feedback type="invalid">
-            {formik.errors.capacity}
           </Form.Control.Feedback>
         </Col>
         <Col md={6} className="mb-3">
