@@ -4,6 +4,7 @@ const axiosCleint= axios.create({
     headers: {
         "Accept": "application/json",
         "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
     },
 });
 axiosCleint.interceptors.request.use((config) => {
