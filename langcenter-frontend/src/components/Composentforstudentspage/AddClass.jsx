@@ -38,6 +38,7 @@ export default function AddClass({showModal,handleClose,selectedItem,id}) {
         insurrance: false,
         course: false,
         courseName: '',
+        payment_method: '',
       },
     validationSchema: yup.object().shape({
     class: yup.string().required("required"),
@@ -47,6 +48,8 @@ export default function AddClass({showModal,handleClose,selectedItem,id}) {
         customDiscount: yup.number(),
         insurrance: yup.boolean(),
         course: yup.boolean(),
+        courseName: yup.string(),
+        payment_method: yup.string(),
   }),
   onSubmit: (values) => {
     console.log("wewe are here");
@@ -89,6 +92,7 @@ export default function AddClass({showModal,handleClose,selectedItem,id}) {
     const inscriptionId = response2.data.id;
     const paymentData = {
      payment_amount: formik.values.courseFeesPaid,
+     type: formik.values.payment_method,
     }
     try{
       response3 = await axios.post(`/api/inscrires/${inscriptionId}/register-payment`,paymentData);
@@ -149,7 +153,6 @@ export default function AddClass({showModal,handleClose,selectedItem,id}) {
     <Modal show={showModal} onHide={handleClose} size="lg">
         <Modal.Header closeButton>
             <Modal.Title>Add Class</Modal.Title>
-            
         </Modal.Header>
         <Modal.Body>
             <Form noValidate onSubmit={handleSubmit}>
@@ -310,6 +313,30 @@ export default function AddClass({showModal,handleClose,selectedItem,id}) {
                 />
               <Form.Control.Feedback className='' type="invalid" tooltip>{formik.errors.courseFeesPaid}</Form.Control.Feedback>
           </Form.Group>
+          <Form.Group
+              as={Col}
+              md="3"
+              sm="6"
+              xs="12"
+              controlId="validationFormik1"
+              className='position-relative'
+              >
+              <Form.Label className="mt-3">Payment Method</Form.Label>
+              <Form.Select
+              component="select"
+              id="payment_method"
+              name="payment_method"
+              {...formik.getFieldProps('payment_method')}
+              isInvalid={formik.touched.payment_method && formik.errors.payment_method}
+              >
+              <option value=''>choose Payment Method</option>
+              <option value='cash'>Cash</option>
+              <option value='check'>Check</option>
+              <option value='credit card'>Credit Card</option>
+              <option value='bank transfer'>Bank Transfer</option>
+              </Form.Select>
+              <Form.Control.Feedback type="invalid" tooltip>{formik.errors.payment_method}</Form.Control.Feedback>
+              </Form.Group>
         </Row>
         </Form>
         </Modal.Body>

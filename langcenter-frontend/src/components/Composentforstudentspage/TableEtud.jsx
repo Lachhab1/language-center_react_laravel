@@ -7,12 +7,14 @@ import { Link, Navigate,useNavigate } from "react-router-dom";
 import axios from "../../api/axios";
 import { Ellipsis } from 'react-awesome-spinners'
 import { UseStateContext } from "../../context/ContextProvider";
-import AddClass from "./addClass";
+import AddClass from "./AddClass.jsx";
 import male from "../../images/icons/icons8-male (1).svg"
 import female from "../../images/icons/icons8-female (1).svg"
 import Form from 'react-bootstrap/Form';
+import ParentModal from "./ParentModal";
 export default function TableEtud()
 {
+    const [ParentModalShow, setParentModalShow] = useState(false);
     const [ageGroup, setAgeGroup] = useState('');
     const tableCustomStyles = {
     headCells: {
@@ -32,6 +34,7 @@ export default function TableEtud()
         },
     },
         }
+    const handleCloseParent = () => setParentModalShow(false);
     const [showModal, setShowModal] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
     const [selectedOption, setSelectedOption] = useState(null);
@@ -76,6 +79,7 @@ useEffect(() => {
                     gender: datar.sexe,
                     class:  classesString,
                     parents:datar.parent?  (datar.parent?.nom+" "+datar.parent?.prenom) : "_________",
+                    parent_id:datar.parent?.id,
                     status:true,
                     level: datar?.level?.id,
                     }
@@ -172,9 +176,29 @@ const col=[
         ),
     },
     {
+        name: "parent id",
+        selector: row => row.parent_id,
+    },
+    {
         name:"Parents",
         selector:row => row.parents,
-        sortable: true 
+        sortable: true,
+        cell: (row) => (
+            <div style={{ display: 'flex', gap: '0px' }}>
+                <div className="py-2 fs-6 text-center opacity-25 badge badge-pill badge-success px-3 py-2 m-2 font-weight-bold"
+                    style={{
+                    color: row.parents == "_________" ? 'red' : 'black',
+                    fontWeight: 'bold',
+                    fontFamily: 'monospace',
+                    cursor: 'pointer',
+                    }}
+                    onClick={() => setParentModalShow(true)}
+                    >
+                    {row.parents}
+                </div>
+                <ParentModal showModal={ParentModalShow} handleClose={handleCloseParent} id={6}/>
+            </div>
+        )
     },
     {
         name:"Level",
