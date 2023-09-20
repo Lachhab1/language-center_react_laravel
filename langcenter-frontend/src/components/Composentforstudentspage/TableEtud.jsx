@@ -14,6 +14,7 @@ import Form from 'react-bootstrap/Form';
 import ParentModal from "./ParentModal";
 export default function TableEtud()
 {
+    const [selectedID, setSelectedID] = useState(null);
     const [ParentModalShow, setParentModalShow] = useState(false);
     const [ageGroup, setAgeGroup] = useState('');
     const tableCustomStyles = {
@@ -49,7 +50,11 @@ const {user,setNotification,setVariant} = UseStateContext()
 const [pending, setPending] = useState(true);
 const [data,setData]=useState([]);
 const [records,setRecords]=useState([]);
-
+const handleParentClick = (idP) => {
+    console.log(idP);
+    setSelectedID(idP);
+    setParentModalShow(true);
+};
 const navigate = useNavigate();
 let x = ""
 if (user && user.role==='admin')
@@ -79,7 +84,7 @@ useEffect(() => {
                     gender: datar.sexe,
                     class:  classesString,
                     parents:datar.parent?  (datar.parent?.nom+" "+datar.parent?.prenom) : "_________",
-                    parent_id:datar.parent?.id,
+                    parent_id:datar.parent?.id ,
                     status:true,
                     level: datar?.level?.id,
                     }
@@ -192,11 +197,18 @@ const col=[
                     fontFamily: 'monospace',
                     cursor: 'pointer',
                     }}
-                    onClick={() => setParentModalShow(true)}
+                    onClick={() => {
+                        row.parent_id &&
+                        handleParentClick(row?.parent_id);
+                        }}
                     >
                     {row.parents}
                 </div>
-                <ParentModal showModal={ParentModalShow} handleClose={handleCloseParent} id={6}/>
+                {
+                row.parent_id && 
+                selectedID === row.parent_id &&
+                <ParentModal showModal={ParentModalShow} handleClose={handleCloseParent} id={selectedID}/>
+                }
             </div>
         )
     },
