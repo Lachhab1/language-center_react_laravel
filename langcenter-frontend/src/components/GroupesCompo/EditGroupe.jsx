@@ -155,7 +155,7 @@ const EditGroup = () => {
 
       <Row>
         <Col md={6} className="mb-3">
-          <Form.Label htmlFor="groupName">Class Name*</Form.Label>
+          <Form.Label htmlFor="groupName">Class Name<span className='text-danger'>*</span></Form.Label>
           <Form.Control
             id="groupName"
             type="text"
@@ -169,7 +169,7 @@ const EditGroup = () => {
         </Col>
 
         <Col md={6} className="mb-3">
-          <Form.Label htmlFor="course">Course*</Form.Label>
+          <Form.Label htmlFor="course">Course<span className='text-danger'>*</span></Form.Label>
           <Form.Select
             id="course"
             {...formik.getFieldProps('course')}
@@ -191,7 +191,7 @@ const EditGroup = () => {
           </Form.Control.Feedback>
         </Col>
         <Col md={6} className="mb-3">
-          <Form.Label htmlFor="level">Level*</Form.Label>
+          <Form.Label htmlFor="level">Level<span className='text-danger'>*</span></Form.Label>
           <Form.Select
             id="level"
             {...formik.getFieldProps('level')}
@@ -214,7 +214,7 @@ const EditGroup = () => {
           </Form.Control.Feedback>
         </Col>
         <Col md={6} className="mb-3">
-          <Form.Label htmlFor="school_year">School Year*</Form.Label>
+          <Form.Label htmlFor="school_year">School Year<span className='text-danger'>*</span></Form.Label>
           <Form.Control
 
             id="school_year"
@@ -229,7 +229,7 @@ const EditGroup = () => {
           </Form.Control.Feedback>
         </Col>
         <Col md={6} className="mb-3">
-          <Form.Label htmlFor="start_date">Start Date*</Form.Label>
+          <Form.Label htmlFor="start_date">Start Date<span className='text-danger'>*</span></Form.Label>
           <Form.Control
 
             id="start_date"
@@ -244,7 +244,7 @@ const EditGroup = () => {
           </Form.Control.Feedback>
         </Col>
         <Col md={6} className="mb-3">
-          <Form.Label htmlFor="end_date">End Date*</Form.Label>
+          <Form.Label htmlFor="end_date">End Date<span className='text-danger'>*</span></Form.Label>
           <Form.Control
             id="end_date"
             type="date"
@@ -271,7 +271,7 @@ const EditGroup = () => {
           </Form.Control.Feedback>
         </Col>
         <Col md={6} className="mb-3">
-          <Form.Label htmlFor="teacher">Teacher*</Form.Label>
+          <Form.Label htmlFor="teacher">Teacher<span className='text-danger'>*</span></Form.Label>
           <Form.Select
 
             id="teacher"

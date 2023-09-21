@@ -96,7 +96,7 @@ function EditParent() {
       <Row className='mb-3'>
         <h3>Parents</h3>
         <Form.Group as={Col} md="3" sm="6" xs="12" controlId="validationFormik1032" className='position-relative'>
-          <Form.Label>First name</Form.Label>
+          <Form.Label>First name <span className='text-danger'>*</span></Form.Label>
           <Form.Control
             type="text"
             name="guardfName"
@@ -109,7 +109,7 @@ function EditParent() {
           </Form.Control.Feedback>
         </Form.Group>
         <Form.Group as={Col} md="3" sm="6" xs="12" controlId="validationFormik1" className='position-relative'>
-          <Form.Label>Last name</Form.Label>
+          <Form.Label>Last name<span className='text-danger'>*</span></Form.Label>
           <Form.Control
             type="text"
             name="guardLName"
@@ -122,7 +122,7 @@ function EditParent() {
           </Form.Control.Feedback>
         </Form.Group>
         <Form.Group as={Col} md="3" sm="6" xs="12" className="position-relative">
-          <Form.Label>Email</Form.Label>
+          <Form.Label>Email<span className='text-danger'>*</span></Form.Label>
           <Form.Control
             type="email"
             placeholder="Email"
@@ -135,7 +135,7 @@ function EditParent() {
           </Form.Control.Feedback>
         </Form.Group>
         <Form.Group as={Col} md="3" sm="6" xs="12" className="position-relative">
-          <Form.Label>Phone</Form.Label>
+          <Form.Label>Phone<span className='text-danger'>*</span></Form.Label>
           <Form.Control
             type="tel"
             placeholder="Phone"
@@ -148,7 +148,7 @@ function EditParent() {
           </Form.Control.Feedback>
         </Form.Group>
         <Form.Group as={Col} md="3" sm="6" xs="12" className="position-relative">
-          <Form.Label>CIN</Form.Label>
+          <Form.Label>CIN<span className='text-danger'>*</span></Form.Label>
           <Form.Control
             type="text"
             placeholder="CIN"
@@ -161,7 +161,7 @@ function EditParent() {
           </Form.Control.Feedback>
         </Form.Group>
         <Form.Group as={Col} md="3" sm="6" xs="12" className="position-relative">
-          <Form.Label>Gender</Form.Label>
+          <Form.Label>Gender<span className='text-danger'>*</span></Form.Label>
           <Form.Control
             as="select"
             name="guardGender"
@@ -177,7 +177,7 @@ function EditParent() {
           </Form.Control.Feedback>
         </Form.Group>
         <Form.Group as={Col} md="3" sm="6" xs="12" className="position-relative">
-          <Form.Label>Birthday</Form.Label>
+          <Form.Label>Birthday<span className='text-danger'>*</span></Form.Label>
           <Form.Control
             type="date"
             name="guardBirthday"
@@ -189,7 +189,7 @@ function EditParent() {
           </Form.Control.Feedback>
         </Form.Group>
         <Form.Group as={Col} md="3" sm="6" xs="12" className="position-relative">
-          <Form.Label>address</Form.Label>
+          <Form.Label>address <span className='text-danger'>*</span></Form.Label>
           <Form.Control
 
             type="text"

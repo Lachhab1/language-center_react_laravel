@@ -82,7 +82,7 @@ export default function EditCourse() {
 
         <div className='mb-3 col-4'>
           <label htmlFor='course_name' className='form-label'>
-            Course Name*
+            Course Name <span className='text-danger'>*</span>
           </label>
           <input
             type='text'
@@ -97,7 +97,7 @@ export default function EditCourse() {
 
         <div className='mb-3 col-4'>
           <label htmlFor='duration' className='form-label'>
-            Duration*
+            Duration <span className='text-danger'>*</span>
           </label>
           <input
             type='text'
@@ -126,7 +126,7 @@ export default function EditCourse() {
         </div>
         <div className='mb-3 col-4'>
           <label htmlFor='price' className='form-label'>
-            Price*
+            Price <span className='text-danger'>*</span>
           </label>
           <input
 
