@@ -69,7 +69,6 @@ const AddGroup = () => {
       }, 3000);
       navigate(`${x}/class`);
     });
-
   };
 
   // Fetch available courses and levels from the database
@@ -81,6 +80,14 @@ const AddGroup = () => {
       setCourseData(res.data);
     });
 
+  }, []);
+  //fetch levels from api
+  const [levels, setLevels] = useState([]);
+  useEffect(() => {
+    axios.get('/api/levels').then((res) => {
+      // console.log(res.data);
+      setLevels(res.data);
+    });
   }, []);
 
   const availableLevels = [
@@ -130,7 +137,7 @@ const AddGroup = () => {
 
           <Row>
             <Col md={6} className="mb-3">
-              <Form.Label htmlFor="groupName">Class Name*</Form.Label>
+              <Form.Label htmlFor="groupName">Class Name<span className='text-danger'>*</span></Form.Label>
               <Form.Control
                 id="groupName"
                 type="text"
@@ -143,7 +150,7 @@ const AddGroup = () => {
             </Col>
 
             <Col md={6} className="mb-3">
-              <Form.Label htmlFor="course">Course*</Form.Label>
+              <Form.Label htmlFor="course">Course<span className='text-danger'>*</span></Form.Label>
               <Form.Select
                 id="course"
                 {...formik.getFieldProps('course')}
@@ -166,7 +173,7 @@ const AddGroup = () => {
               </Form.Control.Feedback>
             </Col>
             <Col md={6} className="mb-3">
-              <Form.Label htmlFor="level">Level*</Form.Label>
+              <Form.Label htmlFor="level">Level<span className='text-danger'>*</span></Form.Label>
               <Form.Select
                 id="level"
                 {...formik.getFieldProps('level')}
@@ -180,7 +187,7 @@ const AddGroup = () => {
                 disabled={!selectedCourse}
               >
                 <option value="">Select level</option>
-                {availableLevels.map((level) => (
+                {levels.map((level) => (
                   <option key={level.id} value={level.name}>
                     {level.name}
                   </option>
@@ -191,7 +198,7 @@ const AddGroup = () => {
               </Form.Control.Feedback>
             </Col>
             <Col md={6} className="mb-3">
-              <Form.Label htmlFor="school_year">School Year*</Form.Label>
+              <Form.Label htmlFor="school_year">School Year<span className='text-danger'>*</span></Form.Label>
               <Form.Control
 
                 id="school_year"
@@ -206,7 +213,7 @@ const AddGroup = () => {
               </Form.Control.Feedback>
             </Col>
             <Col md={6} className="mb-3">
-              <Form.Label htmlFor="start_date">Start Date*</Form.Label>
+              <Form.Label htmlFor="start_date">Start Date<span className='text-danger'>*</span></Form.Label>
               <Form.Control
 
                 id="start_date"
@@ -221,7 +228,7 @@ const AddGroup = () => {
               </Form.Control.Feedback>
             </Col>
             <Col md={6} className="mb-3">
-              <Form.Label htmlFor="end_date">End Date*</Form.Label>
+              <Form.Label htmlFor="end_date">End Date<span className='text-danger'>*</span></Form.Label>
               <Form.Control
                 id="end_date"
                 type="date"
@@ -248,7 +255,7 @@ const AddGroup = () => {
               </Form.Control.Feedback>
             </Col>
             <Col md={6} className="mb-3">
-              <Form.Label htmlFor="teacher">Teacher*</Form.Label>
+              <Form.Label htmlFor="teacher">Teacher<span className='text-danger'>*</span></Form.Label>
               <Form.Select
                 id="teacher"
                 {...formik.getFieldProps('teacher')}

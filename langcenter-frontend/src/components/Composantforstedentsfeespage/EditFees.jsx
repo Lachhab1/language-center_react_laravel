@@ -122,7 +122,7 @@ export default function EditFees()
             {...formik.getFieldProps('methode')}
           >
             <option value="cash">Cash</option>
-            <option value="cheque">Cheque</option>
+            <option value="check">Check</option>
             <option value="bank">Bank</option>
           </select>
         </div>

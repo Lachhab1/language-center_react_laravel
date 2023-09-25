@@ -72,7 +72,7 @@ export default function AddFeesE()
           <label>Payment Method</label>
           <select className="form-control" name="methode" {...formik.getFieldProps('methode')}>
             <option value="cash">Cash</option>
-            <option value="cheque">Cheque</option>
+            <option value="check">Check</option>
             <option value="bank">Bank</option>
           </select>
         </div>

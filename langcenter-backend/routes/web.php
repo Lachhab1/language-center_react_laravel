@@ -16,7 +16,3 @@ use App\Http\Controllers\TimeTableController;
 Route::get('/', function () {
     return view('welcome');
 });
-
-
-
-Route::post('/timetables', 'TimeTableController@store');
