@@ -72,7 +72,7 @@ export default function SelectAttendanceGrp() {
       const studentData = studentMap.get(studentId);
       studentData.attendanceData.push({ date, attendanceStatus });
 
-      console.log("studentmap ", studentMap.values())
+      //console.log("studentmap ", studentMap.values())
     });
 
     valueRes.teachersData.data.data.forEach((datar) => {
@@ -296,8 +296,8 @@ export default function SelectAttendanceGrp() {
 
     const saveFunc = async () => {
       console.log("save ", tableData);
-      const studentAttendancePromise = axios.put("/api/studentsAttendance", tableData);
-      const teacherAttendancePromise = axios.put("/api/teachersAttendance", tableData);
+      const studentAttendancePromise = axios.put("/api/studentsAttendance/"+grpId, tableData);
+      const teacherAttendancePromise = axios.put("/api/teachersAttendance/"+grpId, tableData);
 
       try {
         await Promise.all([studentAttendancePromise, teacherAttendancePromise]);

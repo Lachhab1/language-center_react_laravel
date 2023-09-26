@@ -47,7 +47,7 @@ class TeachersAttendanceController extends Controller
             foreach ($dates as $date) {
                 // Check if an attendance record already exists for the teacher and date
                 $existingAttendance = TeachersAttendance::where('teacher_id', $teacher_id)
-                    ->where('date', $date)
+                    ->where('date', $date)->where('class_id', $class_id)
                     ->first();
 
                 if (!$existingAttendance) {
@@ -75,11 +75,11 @@ class TeachersAttendanceController extends Controller
      */
 
 
-    //public function show(studentsAttendance $studentsAttendance)
+    //public function show(teachersAttendance $teachersAttendance)
     public function show($class_id)
     {
         $TeacherIdBasedOnGrp = Class_::where('id', $class_id)->pluck("teacher_id");
-        $result = TeachersAttendance::where('teacher_id', $TeacherIdBasedOnGrp)
+        $result = TeachersAttendance::where('teacher_id', $TeacherIdBasedOnGrp)->where('class_id', $class_id)
             ->get();
 
         return teachersAttendanceResource::collection($result);
@@ -94,7 +94,7 @@ class TeachersAttendanceController extends Controller
      * Update the specified resource in storage.
      */
 
-    public function update(Request $request)
+    public function update($class_id, Request $request)
     {
         $requests = $request->all();
 
@@ -109,7 +109,7 @@ class TeachersAttendanceController extends Controller
                     $attendanceStatus = $data['attendanceStatus'];
 
                     $existingAttendance = TeachersAttendance::where('teacher_id', $teacherId)
-                        ->where('date', $date)
+                        ->where('date', $date)->where('class_id', $class_id)
                         ->first();
 
                     $existingAttendance->isAbsent = $attendanceStatus;
@@ -130,7 +130,7 @@ class TeachersAttendanceController extends Controller
         $teachers = Class_::where('id', $class_id)->pluck('teacher_id');
 
         $result = teachersAttendance::whereIn('date', $date)
-            ->whereIn('teacher_id', $teachers)
+            ->whereIn('teacher_id', $teachers)->where('class_id', $class_id)
             ->delete();
 
         return response()->json(['message' => 'Rows deleted successfully', 'rows_deleted' => $result], 200);

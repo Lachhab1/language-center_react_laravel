@@ -150,7 +150,7 @@ export default function AddSchedule() {
       // axios.post(`/api/studentsAttendance/${groupesData[0].id}`, {
         axios.post(`/api/studentsAttendance/${formik.values?.group}`, {
         dates: result,
-        group: formik.values.group,
+        group: formik.values?.group,
       })
         .then(response => {
           console.log('Response:', response.data);

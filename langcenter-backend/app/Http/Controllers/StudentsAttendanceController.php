@@ -36,7 +36,7 @@ class StudentsAttendanceController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store($class_id, Request $request)
+    public function store($class_id, Request $request)  //post
     {
         $dates = $request->input('dates');
         $students = InscrireClass::where('class__id', $class_id)->pluck('etudiant_id');
@@ -47,7 +47,7 @@ class StudentsAttendanceController extends Controller
             foreach ($dates as $date) {
                 // Check if an attendance record already exists for the student and date
                 $existingAttendance = StudentsAttendance::where('student_id', $student_id)
-                    ->where('date', $date)
+                    ->where('date', $date)->where('class_id', $class_id)
                     ->first();
 
                 if (!$existingAttendance) {
@@ -56,6 +56,7 @@ class StudentsAttendanceController extends Controller
                         'student_id' => $student_id,
                         'isAbsent' => '0',
                         'reason' => '',
+                        'class_id' => $class_id,  //case student study in 2 classes in same day
                     ]);
 
                     $studentsAttendance[] = $attendance;
@@ -79,7 +80,7 @@ class StudentsAttendanceController extends Controller
     public function show($class_id)
     {
         $result1 = studentsAttendance::join('inscrire_classes', 'students_attendances.student_id', '=', 'inscrire_classes.etudiant_id')
-            ->where('inscrire_classes.class__id', $class_id)
+            ->where('inscrire_classes.class__id', $class_id)->where('students_attendances.class_id', $class_id)
             ->get();
 
         $distinctDates = $result1->pluck('date')->unique();
@@ -102,36 +103,34 @@ class StudentsAttendanceController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request)
+    public function update($class_id, Request $request)  //put
     {
         $requests = $request->all();
-    
+
         foreach ($requests as $req) {
             if ($req['role'] === 'student') {
 
                 $studentId = $req['id'];
                 $attendanceData = $req['attendanceData'];
-                
+
                 foreach ($attendanceData as $data) {
                     $date = $data['date'];
                     $attendanceStatus = $data['attendanceStatus'];
-                    
-                    $existingAttendance = StudentsAttendance::where('student_id', $studentId)
-                        ->where('date', $date)
-                        ->first();
-                    
-                   
-                        $existingAttendance->isAbsent = $attendanceStatus;
-                        $existingAttendance->save();
-                    
-                }
 
+                    $existingAttendance = StudentsAttendance::where('student_id', $studentId)
+                        ->where('date', $date)->where('class_id', $class_id)
+                        ->first();
+
+
+                    $existingAttendance->isAbsent = $attendanceStatus;
+                    $existingAttendance->save();
+                }
             }
         }
-    
+
         return response()->json(['message' => 'Attendance updated successfully'], 200);
     }
-    
+
 
 
 
@@ -146,7 +145,7 @@ class StudentsAttendanceController extends Controller
         $students = InscrireClass::where('class__id', $class_id)->pluck('etudiant_id');
 
         $result = StudentsAttendance::whereIn('date', $date)
-            ->whereIn('student_id', $students)
+            ->whereIn('student_id', $students)->where('class_id', $class_id,)
             ->delete();
 
         return response()->json(['message' => 'Rows deleted successfully', 'rows_deleted' => $result], 200);

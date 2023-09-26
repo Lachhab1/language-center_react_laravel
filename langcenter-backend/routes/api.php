@@ -95,7 +95,7 @@ Route::get('/number', 'App\Http\Controllers\NumberController@index');
 Route::get('/studentsAttendance/{class_id}/', 'App\Http\Controllers\StudentsAttendanceController@show');
 Route::get('/studentsAttendance', 'App\Http\Controllers\StudentsAttendanceController@index');
 Route::post('/studentsAttendance/{class_id}', 'App\Http\Controllers\StudentsAttendanceController@store');
-Route::put('/studentsAttendance', 'App\Http\Controllers\StudentsAttendanceController@update');
+Route::put('/studentsAttendance/{class_id}', 'App\Http\Controllers\StudentsAttendanceController@update');
 Route::delete('/studentsAttendance/{class_id}', 'App\Http\Controllers\StudentsAttendanceController@destroy');
 
 
@@ -103,7 +103,7 @@ Route::delete('/studentsAttendance/{class_id}', 'App\Http\Controllers\StudentsAt
 Route::get('/teachersAttendance/{class_id}', 'App\Http\Controllers\TeachersAttendanceController@show');
 Route::get('/teachersAttendance', 'App\Http\Controllers\TeachersAttendanceController@index');
 Route::post('/teachersAttendance/{class_id}', 'App\Http\Controllers\TeachersAttendanceController@store');
-Route::put('/teachersAttendance', 'App\Http\Controllers\TeachersAttendanceController@update');
+Route::put('/teachersAttendance/{class_id}', 'App\Http\Controllers\TeachersAttendanceController@update');
 Route::delete('/teachersAttendance/{class_id}', 'App\Http\Controllers\TeachersAttendanceController@destroy');
 
 //levels api

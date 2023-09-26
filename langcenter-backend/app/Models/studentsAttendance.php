@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class studentsAttendance extends Model
 {
     use HasFactory;
-    protected $fillable = ['date','student_id','isAbsent','reason',];
+    protected $fillable = ['date', 'student_id', 'isAbsent', 'reason', 'class_id'];
     protected $table = 'students_attendances';
     public function etudiant()
     {
