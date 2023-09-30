@@ -33,6 +33,21 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { Row } from 'react-bootstrap';
 
 const Dashboard = () => {
+  const date = new Date()
+  const Months = [
+          'Janvier',
+           'Février',
+           'Mars',
+            'Avril',
+            'Mai',
+            'Juin',
+            'Juillet',
+            'Août',
+            'Septembre',
+            'Octobre',
+             'Novembre',
+            'Décembre',
+  ]
   const [chartData, setChartData] = useState([]);
   const [femaleCount, setFemaleCount] = useState(0);
   const [maleCount, setMaleCount] = useState(0);
@@ -102,13 +117,13 @@ const Dashboard = () => {
         </Row>
         <Row>
         <div className='col  mb-4'>
-          <Card title='Earnings' icon={moneyGreen} data={cardsData.paymentsMonth} />
+          <Card title={`Earnings for ${Months[date.getMonth()]}`} icon={moneyGreen} data={cardsData.paymentsMonth} />
         </div>
         <div className='col  mb-4'>
-          <Card title='Expenses' icon={Expense} data={cardsData.expensesMonth} />
+          <Card title={`Expenses for ${Months[date.getMonth()]}`} icon={Expense} data={cardsData.expensesMonth} />
         </div>
         <div className='col  mb-4'>
-          <Card title='Salary' icon={Salary} data={cardsData.salary_month} />
+          <Card title={`Salary for ${Months[date.getMonth()]}`} icon={Salary} data={cardsData.salary_month} />
         </div>
         </Row>
         <Row>

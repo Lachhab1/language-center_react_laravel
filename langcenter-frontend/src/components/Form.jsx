@@ -31,8 +31,10 @@ function FormC() {
   useEffect(() => {
     axios.get('/api/classes').then((res) => {
       setClassData(res.data);
+      console.log(res);
     });
   }, []);
+
   // Fetch available tests from the database
   useEffect(() => {
     axios.get('/api/tests').then((res) => {
@@ -638,7 +640,7 @@ function FormC() {
               <option value=''>choose Class</option>
                 {classData.map((classe) => (
                   <option key={classe.id} value={classe.id}>
-                    {classe.name}
+                    {classe.name + " (" +classe.cours.title + ")"}
                   </option>
                 ))}
               </Form.Select>

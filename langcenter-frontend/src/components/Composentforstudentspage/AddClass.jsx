@@ -150,7 +150,7 @@ export default function AddClass({showModal,handleClose,selectedItem,id}) {
     }
   },[formik.values.negotiatedPrice])
   return (
-    <Modal show={showModal} onHide={handleClose} size="lg">
+    <Modal show={showModal} onHide={handleClose} size="xl">
         <Modal.Header closeButton>
             <Modal.Title>Add Class</Modal.Title>
         </Modal.Header>

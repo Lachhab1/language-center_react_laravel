@@ -49,7 +49,7 @@ class NumberController extends Controller
             $total_salary += (float)$salary->salary;
         }
         //salary month
-        foreach (TeacherSalary::whereMonth('created_at',date('m'))->get() as $salary) {
+        foreach (TeacherSalary::whereMonth('created_at', date('m'))->get() as $salary) {
             $salaries += (float)$salary->salary;
         }
         foreach ($payments as $payment) {
@@ -82,6 +82,7 @@ class NumberController extends Controller
             'due_payment' => (float) $due_payment,
             'total_salary' => (float) $total_salary,
             'salary_month' => (float) $salaries,
+            'month' => date('m')
         ]);
     }
 }
