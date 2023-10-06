@@ -25,6 +25,8 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ExpensesController;
 use App\Http\Controllers\TeacherSalaryController;
 
+use App\Http\Controllers\HolidayController;
+
 Route::post('/login', [LoginController::class, 'login']);
 
 
@@ -149,3 +151,10 @@ Route::post('/hours/{id}', 'App\Http\Controllers\TeacherHours@getTeacherHours');
 
 //get earning and profit
 Route::get('/profit', 'App\Http\Controllers\Netprofit@getProfit');
+
+
+//Holidays 
+Route::post('/holiday', [HolidayController::class, 'store']);
+Route::get('/holiday', 'App\Http\Controllers\HolidayController@index');
+Route::put('/holiday/{id}', 'App\Http\Controllers\holidayController@update');
+Route::delete('/holiday/{id}', 'App\Http\Controllers\holidayController@destroy');
