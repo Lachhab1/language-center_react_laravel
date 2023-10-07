@@ -48,8 +48,10 @@ class HolidayController extends Controller
      */
     public function show(Holiday $holiday)
     {
+
         return response()->json(['Holiday' => $holiday]);
     }
+
 
     /**
      * Show the form for editing the specified resource.

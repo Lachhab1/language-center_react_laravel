@@ -156,5 +156,6 @@ Route::get('/profit', 'App\Http\Controllers\Netprofit@getProfit');
 //Holidays 
 Route::post('/holiday', [HolidayController::class, 'store']);
 Route::get('/holiday', 'App\Http\Controllers\HolidayController@index');
-Route::put('/holiday/{id}', 'App\Http\Controllers\holidayController@update');
-Route::delete('/holiday/{id}', 'App\Http\Controllers\holidayController@destroy');
+Route::get('/holiday/{holiday}', [HolidayController::class, 'show']);
+Route::put('/holiday/{holiday}', 'App\Http\Controllers\holidayController@update');
+Route::delete('/holiday/{holiday}', 'App\Http\Controllers\holidayController@destroy');

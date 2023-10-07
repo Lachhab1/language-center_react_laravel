@@ -24,9 +24,7 @@ const AddHoliday = () => {
       endDate: '',
     },
     validationSchema: Yup.object({
-      name: Yup.string()
-        .max(15, 'Must be 15 characters or less')
-        .required('Required'),
+      name: Yup.string().required('Required'),
       startDate: Yup.string().required('Required'),
       endDate: Yup.string().required('Required'),
     }),
