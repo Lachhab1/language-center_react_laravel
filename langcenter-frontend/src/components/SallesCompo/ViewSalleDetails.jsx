@@ -19,11 +19,15 @@ export default function ViewSalleDetails() {
         setClassroom(classroomData);
 
         // Fetch timetable data for the classroom
-        const timetableResponse = await axios.get(`/api/timeTable?classroom_id=${id}`);
+        const timetableResponse = await axios.get(
+          `/api/timeTable?classroom_id=${id}`
+        );
         const timetableData = timetableResponse.data.timetable;
-
+        console.log(timetableData);
         // Generate events from the timetable data if it exists
-        const events = timetableData ? generateEventsFromTimetable(timetableData) : [];
+        const events = timetableData
+          ? generateEventsFromTimetable(timetableData)
+          : [];
         setEvents(events);
       } catch (error) {
         console.log('Error fetching classroom details:', error);
@@ -35,28 +39,48 @@ export default function ViewSalleDetails() {
 
   const generateEventsFromTimetable = (timetableData) => {
     const events = timetableData.flatMap((entry) => {
+      const startDate = moment(entry.start_date); // Convert start_date to a moment object
+      const endDate = moment(entry.end_date); // Convert end_date to a moment object
       const recurringEvents = [];
-      const startDateTime = moment().isoWeekday(entry.day_id).set({
-        hour: entry.startTime.split(':')[0],
-        minute: entry.startTime.split(':')[1],
-        second: entry.startTime.split(':')[2],
-      });
-  
-      const endDateTime = moment().isoWeekday(entry.day_id).set({
-        hour: entry.finishTime.split(':')[0],
-        minute: entry.finishTime.split(':')[1],
-        second: entry.finishTime.split(':')[2],
-      });
-  
-      let currentDateTime = moment(startDateTime);
-  
-      while (currentDateTime.isSameOrBefore(moment(entry.end_date).startOf('week'))) {
-        if (currentDateTime.isSameOrAfter(moment(entry.start_date).startOf('week'))) {
-          const start = currentDateTime.toDate();
-          const end = moment(endDateTime)
-            .add(currentDateTime.diff(startDateTime))
+      const startDateTime = moment()
+        .isoWeekday(entry.day_id)
+        .set({
+          hour: entry.startTime.split(':')[0],
+          minute: entry.startTime.split(':')[1],
+          second: entry.startTime.split(':')[2],
+        });
+
+      const endDateTime = moment()
+        .isoWeekday(entry.day_id)
+        .set({
+          hour: entry.finishTime.split(':')[0],
+          minute: entry.finishTime.split(':')[1],
+          second: entry.finishTime.split(':')[2],
+        });
+
+      let currentDateTime = moment(startDate); // Start from startDate
+
+      while (currentDateTime.isSameOrBefore(endDate)) {
+        if (
+          currentDateTime.isoWeekday() === entry.day_id &&
+          currentDateTime.isSameOrAfter(startDate)
+        ) {
+          const start = moment(currentDateTime)
+            .set({
+              hour: startDateTime.hours(),
+              minute: startDateTime.minutes(),
+              second: startDateTime.seconds(),
+            })
             .toDate();
-  
+
+          const end = moment(currentDateTime)
+            .set({
+              hour: endDateTime.hours(),
+              minute: endDateTime.minutes(),
+              second: endDateTime.seconds(),
+            })
+            .toDate();
+
           recurringEvents.push({
             id: entry.id,
             title: `${entry.course_title} ${entry.class_name} (classroom: ${entry.classroom_name})`,
@@ -65,18 +89,15 @@ export default function ViewSalleDetails() {
             event_color: entry.event_color,
           });
         }
-  
-        currentDateTime = currentDateTime.add(1, 'week');
+
+        currentDateTime = currentDateTime.add(1, 'day'); // Add one day at a time
       }
-  
+
       return recurringEvents;
     });
-  
+
     return events;
   };
-  
-  
-  
 
   const getEventStyle = (event) => {
     const style = {
@@ -99,21 +120,27 @@ export default function ViewSalleDetails() {
 
   return (
     <div>
-      <h5>Classroom ID: <span style={{ color: "red" }}>{classroom.id}</span></h5>
-      <h5>Name: <span style={{ color: "red" }}>{classroom.name}</span></h5>
-      <h5>Capacity: <span style={{ color: "red" }}>{classroom.capacity}</span></h5>
+      <h5>
+        Classroom ID: <span style={{ color: 'red' }}>{classroom.id}</span>
+      </h5>
+      <h5>
+        Name: <span style={{ color: 'red' }}>{classroom.name}</span>
+      </h5>
+      <h5>
+        Capacity: <span style={{ color: 'red' }}>{classroom.capacity}</span>
+      </h5>
       <h3>Calendar:</h3>
       <Calendar
         localizer={localizer}
         events={events}
         eventPropGetter={getEventStyle}
-        startAccessor="start"
-        endAccessor="end"
+        startAccessor='start'
+        endAccessor='end'
         style={{ height: 500 }}
         min={new Date().setHours(8, 0, 0)} // Set the minimum time to 8:00 AM
         max={new Date().setHours(20, 0, 0)} // Set the maximum time to 8:00 PM
         views={['day', 'work_week', 'week', 'month']} // Optionally restrict the views
-        defaultView="week" // Set the default view to 'week'
+        defaultView='week' // Set the default view to 'week'
       />
     </div>
   );
