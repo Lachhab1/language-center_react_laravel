@@ -17,14 +17,13 @@ const AddGroup = () => {
   const { user, setNotification, setVariant } = UseStateContext();
   const [teacherData, setTeacherDate] = useState([]);
   const navigate = useNavigate();
-  let x = ""
+  let x = '';
   if (user && user.role === 'admin') {
-    x = ""
+    x = '';
   } else if (user && user.role === 'director') {
-    x = "/director"
-  }
-  else {
-    x = "/secretary"
+    x = '/director';
+  } else {
+    x = '/secretary';
   }
 
   const validationSchema = Yup.object({
@@ -59,6 +58,7 @@ const AddGroup = () => {
       teacher_id: values.teacher,
       event_color: selectedColor,
     };
+    console.log('send data : ', sendData);
     axios.post('/api/classes', sendData).then((res) => {
       console.log(res.data);
       setNotification('CLass added successfully');
@@ -79,7 +79,6 @@ const AddGroup = () => {
       // console.log(res.data);
       setCourseData(res.data);
     });
-
   }, []);
   //fetch levels from api
   const [levels, setLevels] = useState([]);
@@ -114,7 +113,6 @@ const AddGroup = () => {
     });
   }, []);
 
-
   const handleCourseChange = (e) => {
     const courseId = e.target.value;
     setSelectedCourse(courseId);
@@ -132,27 +130,31 @@ const AddGroup = () => {
       onSubmit={handleSubmit}
     >
       {(formik) => (
-        <Form onSubmit={formik.handleSubmit} className="addGroup">
+        <Form onSubmit={formik.handleSubmit} className='addGroup'>
           <h1>Add Class</h1>
 
           <Row>
-            <Col md={6} className="mb-3">
-              <Form.Label htmlFor="groupName">Class Name<span className='text-danger'>*</span></Form.Label>
+            <Col md={6} className='mb-3'>
+              <Form.Label htmlFor='groupName'>
+                Class Name<span className='text-danger'>*</span>
+              </Form.Label>
               <Form.Control
-                id="groupName"
-                type="text"
+                id='groupName'
+                type='text'
                 {...formik.getFieldProps('groupName')}
                 isInvalid={formik.touched.groupName && formik.errors.groupName}
               />
-              <Form.Control.Feedback type="invalid">
+              <Form.Control.Feedback type='invalid'>
                 {formik.errors.groupName}
               </Form.Control.Feedback>
             </Col>
 
-            <Col md={6} className="mb-3">
-              <Form.Label htmlFor="course">Course<span className='text-danger'>*</span></Form.Label>
+            <Col md={6} className='mb-3'>
+              <Form.Label htmlFor='course'>
+                Course<span className='text-danger'>*</span>
+              </Form.Label>
               <Form.Select
-                id="course"
+                id='course'
                 {...formik.getFieldProps('course')}
                 value={selectedCourse}
                 onChange={(e) => {
@@ -161,129 +163,147 @@ const AddGroup = () => {
                 }}
                 isInvalid={formik.touched.course && formik.errors.course}
               >
-                <option value="">Select course</option>
+                <option value=''>Select course</option>
                 {coursData.map((course) => (
                   <option key={course.id} value={course.id}>
                     {course.title}
                   </option>
                 ))}
               </Form.Select>
-              <Form.Control.Feedback type="invalid">
+              <Form.Control.Feedback type='invalid'>
                 {formik.errors.course}
               </Form.Control.Feedback>
             </Col>
-            <Col md={6} className="mb-3">
-              <Form.Label htmlFor="level">Level<span className='text-danger'>*</span></Form.Label>
+            <Col md={6} className='mb-3'>
+              <Form.Label htmlFor='level'>
+                Level<span className='text-danger'>*</span>
+              </Form.Label>
               <Form.Select
-                id="level"
+                id='level'
                 {...formik.getFieldProps('level')}
                 value={selectedLevel}
-                onChange={(e
-                ) => {
+                onChange={(e) => {
                   handleLevelChange(e);
                   formik.handleChange(e);
                 }}
                 isInvalid={formik.touched.level && formik.errors.level}
                 disabled={!selectedCourse}
               >
-                <option value="">Select level</option>
+                <option value=''>Select level</option>
                 {levels.map((level) => (
                   <option key={level.id} value={level.name}>
                     {level.name}
                   </option>
                 ))}
               </Form.Select>
-              <Form.Control.Feedback type="invalid">
+              <Form.Control.Feedback type='invalid'>
                 {formik.errors.level}
               </Form.Control.Feedback>
             </Col>
-            <Col md={6} className="mb-3">
-              <Form.Label htmlFor="school_year">School Year<span className='text-danger'>*</span></Form.Label>
+            <Col md={6} className='mb-3'>
+              <Form.Label htmlFor='school_year'>
+                School Year<span className='text-danger'>*</span>
+              </Form.Label>
               <Form.Control
-
-                id="school_year"
-                type="text"
+                id='school_year'
+                type='text'
                 {...formik.getFieldProps('school_year')}
                 isInvalid={
                   formik.touched.school_year && formik.errors.school_year
                 }
               />
-              <Form.Control.Feedback type="invalid">
+              <Form.Control.Feedback type='invalid'>
                 {formik.errors.school_year}
               </Form.Control.Feedback>
             </Col>
-            <Col md={6} className="mb-3">
-              <Form.Label htmlFor="start_date">Start Date<span className='text-danger'>*</span></Form.Label>
+            <Col md={6} className='mb-3'>
+              <Form.Label htmlFor='start_date'>
+                Start Date<span className='text-danger'>*</span>
+              </Form.Label>
               <Form.Control
-
-                id="start_date"
-                type="date"
+                id='start_date'
+                type='date'
                 {...formik.getFieldProps('start_date')}
                 isInvalid={
                   formik.touched.start_date && formik.errors.start_date
                 }
               />
-              <Form.Control.Feedback type="invalid">
+              <Form.Control.Feedback type='invalid'>
                 {formik.errors.start_date}
               </Form.Control.Feedback>
             </Col>
-            <Col md={6} className="mb-3">
-              <Form.Label htmlFor="end_date">End Date<span className='text-danger'>*</span></Form.Label>
+            <Col md={6} className='mb-3'>
+              <Form.Label htmlFor='end_date'>
+                End Date<span className='text-danger'>*</span>
+              </Form.Label>
               <Form.Control
-                id="end_date"
-                type="date"
+                id='end_date'
+                type='date'
                 {...formik.getFieldProps('end_date')}
                 isInvalid={formik.touched.end_date && formik.errors.end_date}
               />
-              <Form.Control.Feedback type="invalid">
+              <Form.Control.Feedback type='invalid'>
                 {formik.errors.end_date}
               </Form.Control.Feedback>
             </Col>
-            <Col md={6} className="mb-3">
-              <Form.Label htmlFor="description">Description</Form.Label>
+            <Col md={6} className='mb-3'>
+              <Form.Label htmlFor='description'>Description</Form.Label>
               <Form.Control
-
-                id="description"
-                type="text"
+                id='description'
+                type='text'
                 {...formik.getFieldProps('description')}
                 isInvalid={
                   formik.touched.description && formik.errors.description
                 }
               />
-              <Form.Control.Feedback type="invalid">
+              <Form.Control.Feedback type='invalid'>
                 {formik.errors.description}
               </Form.Control.Feedback>
             </Col>
-            <Col md={6} className="mb-3">
-              <Form.Label htmlFor="teacher">Teacher<span className='text-danger'>*</span></Form.Label>
+            <Col md={6} className='mb-3'>
+              <Form.Label htmlFor='teacher'>
+                Teacher<span className='text-danger'>*</span>
+              </Form.Label>
               <Form.Select
-                id="teacher"
+                id='teacher'
                 {...formik.getFieldProps('teacher')}
-                isInvalid={
-                  formik.touched.teacher && formik.errors.teacher
-                }
+                isInvalid={formik.touched.teacher && formik.errors.teacher}
               >
-                <option value="">Select teacher</option>
+                <option value=''>Select teacher</option>
                 {teacherData.map((teacher) => (
                   <option key={teacher.id} value={teacher.id}>
                     {teacher.name}
                   </option>
                 ))}
               </Form.Select>
-              <Form.Control.Feedback type="invalid">
+              <Form.Control.Feedback type='invalid'>
                 {formik.errors.teacher}
               </Form.Control.Feedback>
             </Col>
           </Row>
           <Col className='w-25 d-flex flex-column align-items-center'>
-            <div style={{ backgroundColor: selectedColor, width: '200px', height: '80px', borderRadius: '8px', marginBottom: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <div
+              style={{
+                backgroundColor: selectedColor,
+                width: '200px',
+                height: '80px',
+                borderRadius: '8px',
+                marginBottom: '20px',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
               <h5 style={{ color: 'white', height: '20px' }}>Class Color</h5>
             </div>
             <div>
-              <SketchPicker color={selectedColor} onChange={(color) => setSelectedColor(color.hex)} />
+              <SketchPicker
+                color={selectedColor}
+                onChange={(color) => setSelectedColor(color.hex)}
+              />
             </div>
           </Col>
-          <Button type="submit" variant="primary" className='mt-3'>
+          <Button type='submit' variant='primary' className='mt-3'>
             Add Class
           </Button>
         </Form>

@@ -15,10 +15,8 @@ const TimetableScheduler = () => {
   const [classScheduleData, SetClassScheduleData] = useState([]);
   const [event, SetEvent] = useState([]);
   const [HolidaysEvent, SetHolidaysEvent] = useState([]);
-
   const [femaleCount, setFemaleCount] = useState(0);
   const [maleCount, setMaleCount] = useState(0);
-  const [cmp, setCmp] = useState(0);
 
   //fetch the data of holidays
   useEffect(() => {
@@ -33,9 +31,6 @@ const TimetableScheduler = () => {
       } catch (error) {
         console.log('Error fetching holidays details:', error);
       }
-
-      console.log('fetchHolidays cmp = ', cmp);
-      setCmp(cmp + 1);
     };
 
     fetchHolidays();
@@ -61,16 +56,14 @@ const TimetableScheduler = () => {
               second: 0,
             })
             .toDate(),
-          event_color:
-            ' radial-gradient(circle, rgba(255,201,35,1) 4%, rgba(255,61,52,1) 30%, rgba(187,42,200,1) 57%, rgba(0,0,0,1) 100%)',
+          event_color: 'linear-gradient(to right, #fc00ff 0%,#00dbde 100%)',
         })
       );
-      SetHolidaysEvent(newEvents); 
+      SetHolidaysEvent(newEvents);
     }
-    console.log('generateEventsFromHolidays cmp = ', cmp);
-    setCmp(cmp + 1);
   };
 
+  // ...
   useEffect(() => {
     console.log('useEffect class schedule info Called');
     const groupeSchedule = async () => {
@@ -78,13 +71,17 @@ const TimetableScheduler = () => {
         const response = await axios.get(`http://127.0.0.1:8000/api/timeTable`);
 
         SetClassScheduleData(response.data);
+        const generatedEvents = generateEventsFromTimetable(response.data);
+        SetEvent([...HolidaysEvent, ...generatedEvents]);
       } catch (error) {
         console.log('Error fetching class schedule details:', error);
       }
     };
 
     groupeSchedule();
-  }, []);
+  }, [HolidaysEvent]);
+
+  // ...
 
   useEffect(() => {
     console.log('useEffect generate events Called');
@@ -93,9 +90,6 @@ const TimetableScheduler = () => {
       console.log('genr ', generatedEvents);
       SetEvent([...HolidaysEvent, ...generatedEvents]);
     }
-
-    console.log('genrets events clled ? cmp = ', cmp);
-    setCmp(cmp + 1);
   }, [classScheduleData]);
 
   const generateEventsFromTimetable = (timetableData) => {

@@ -19,9 +19,7 @@ export default function ViewSalleDetails() {
         const response = await axios.get(`/api/holiday`);
         const holidays = response.data;
         setHolidaysData(holidays);
-
-        // Once holidays are fetched, generate events
-        generateEventsFromHolidays(holidays);
+        generateEventsFromHolidays(holidays); 
       } catch (error) {
         console.log('Error fetching holidays details:', error);
       }
@@ -30,6 +28,7 @@ export default function ViewSalleDetails() {
     fetchHolidays();
   }, []);
 
+  console.log('ayman wa3r ', holidaysData);
   useEffect(() => {
     const fetchClassroomDetails = async () => {
       try {
@@ -37,14 +36,10 @@ export default function ViewSalleDetails() {
         const classroomData = response.data.classroom;
         setClassroom(classroomData);
 
-        // Fetch timetable data for the classroom
         const timetableResponse = await axios.get(
           `/api/timeTable?classroom_id=${id}`
         );
-
         const timetableData = timetableResponse.data.timetable;
-        console.log(timetableData);
-        // Generate events from the timetable data if it exists
         const newEvents = timetableData
           ? generateEventsFromTimetable(timetableData)
           : [];
@@ -56,7 +51,7 @@ export default function ViewSalleDetails() {
     };
 
     fetchClassroomDetails();
-  }, [id]);
+  }, [id, HolidaysEvent]); // Assurez-vous d'inclure HolidaysEvent comme dépendance
 
   const generateEventsFromHolidays = (holidays) => {
     const newEvents = [];
@@ -78,8 +73,7 @@ export default function ViewSalleDetails() {
               second: 0,
             })
             .toDate(),
-          event_color:
-            ' radial-gradient(circle, rgba(255,201,35,1) 4%, rgba(255,61,52,1) 30%, rgba(187,42,200,1) 57%, rgba(0,0,0,1) 100%)',
+          event_color: 'linear-gradient(to right, #fc00ff 0%,#00dbde 100%)',
         })
       );
       SetHolidaysEvent(newEvents);
@@ -180,6 +174,7 @@ export default function ViewSalleDetails() {
         Capacity: <span style={{ color: 'red' }}>{classroom.capacity}</span>
       </h5>
       <h3>Calendar:</h3>
+
       <Calendar
         localizer={localizer}
         events={events}
