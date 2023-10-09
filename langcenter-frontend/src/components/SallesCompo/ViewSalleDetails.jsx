@@ -7,9 +7,28 @@ import axios from '../../api/axios';
 
 export default function ViewSalleDetails() {
   const localizer = momentLocalizer(moment);
+  const [holidaysData, setHolidaysData] = useState([]);
+  const [HolidaysEvent, SetHolidaysEvent] = useState([]);
   const [classroom, setClassroom] = useState(null);
   const [events, setEvents] = useState([]);
   const { id } = useParams();
+
+  useEffect(() => {
+    const fetchHolidays = async () => {
+      try {
+        const response = await axios.get(`/api/holiday`);
+        const holidays = response.data;
+        setHolidaysData(holidays);
+
+        // Once holidays are fetched, generate events
+        generateEventsFromHolidays(holidays);
+      } catch (error) {
+        console.log('Error fetching holidays details:', error);
+      }
+    };
+
+    fetchHolidays();
+  }, []);
 
   useEffect(() => {
     const fetchClassroomDetails = async () => {
@@ -22,13 +41,15 @@ export default function ViewSalleDetails() {
         const timetableResponse = await axios.get(
           `/api/timeTable?classroom_id=${id}`
         );
+
         const timetableData = timetableResponse.data.timetable;
         console.log(timetableData);
         // Generate events from the timetable data if it exists
-        const events = timetableData
+        const newEvents = timetableData
           ? generateEventsFromTimetable(timetableData)
           : [];
-        setEvents(events);
+
+        setEvents([...HolidaysEvent, ...newEvents]);
       } catch (error) {
         console.log('Error fetching classroom details:', error);
       }
@@ -36,6 +57,35 @@ export default function ViewSalleDetails() {
 
     fetchClassroomDetails();
   }, [id]);
+
+  const generateEventsFromHolidays = (holidays) => {
+    const newEvents = [];
+    if (holidays) {
+      holidays.map((holi) =>
+        newEvents.push({
+          title: holi.name,
+          start: moment(holi.start_date)
+            .set({
+              hour: 0,
+              minute: 0,
+              second: 0,
+            })
+            .toDate(),
+          end: moment(holi.end_date)
+            .set({
+              hour: 0,
+              minute: 0,
+              second: 0,
+            })
+            .toDate(),
+          event_color:
+            ' radial-gradient(circle, rgba(255,201,35,1) 4%, rgba(255,61,52,1) 30%, rgba(187,42,200,1) 57%, rgba(0,0,0,1) 100%)',
+        })
+      );
+      SetHolidaysEvent(newEvents);
+    }
+  };
+  //console.log('events ', events);
 
   const generateEventsFromTimetable = (timetableData) => {
     const events = timetableData.flatMap((entry) => {
@@ -101,7 +151,7 @@ export default function ViewSalleDetails() {
 
   const getEventStyle = (event) => {
     const style = {
-      backgroundColor: event.event_color,
+      background: event.event_color,
       borderRadius: '5px',
       opacity: 0.8,
       color: 'white',
