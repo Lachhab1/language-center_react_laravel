@@ -33,7 +33,7 @@ class LanguageLevelController extends Controller
      */
     public function show(LanguageLevel $languageLevel)
     {
-        //
+        return response($languageLevel);
     }
 
 

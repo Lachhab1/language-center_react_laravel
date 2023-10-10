@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Formik } from 'formik';
+import { Formik,useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import axios from '../../api/axios';
@@ -25,17 +25,9 @@ const AddGroup = () => {
   } else {
     x = '/secretary';
   }
-
-  const validationSchema = Yup.object({
-    groupName: Yup.string().required('Group name is required'),
-    course: Yup.string().required('Course is required'),
-    level: Yup.string().required('Level is required'),
-    school_year: Yup.string().required('School year is required'),
-    start_date: Yup.string().required('Start date is required'),
-    end_date: Yup.string().required('End date is required'),
-    description: Yup.string(),
-  });
-  const initialValues = {
+  const formik = useFormik(
+    {
+    initialValues : {
     groupName: '',
     course: '',
     level: '',
@@ -43,33 +35,21 @@ const AddGroup = () => {
     start_date: '',
     end_date: '',
     description: '',
-  };
+  },
+  validationSchema : Yup.object({
+    groupName: Yup.string().required('Group name is required'),
+    course: Yup.string().required('Course is required'),
+    level: Yup.string().required('Level is required'),
+    school_year: Yup.string().required('School year is required'),
+    start_date: Yup.string().required('Start date is required'),
+    end_date: Yup.string().required('End date is required'),
+    description: Yup.string(),
+  })
+}
+  )
 
-  const handleSubmit = (values) => {
-    // Handle form submission and add group
-    const sendData = {
-      name: values.groupName,
-      cours_id: values.course,
-      school_year: values.school_year,
-      start_date: values.start_date,
-      end_date: values.end_date,
-      description: values.description,
-      level: values.level,
-      teacher_id: values.teacher,
-      event_color: selectedColor,
-    };
-    console.log('send data : ', sendData);
-    axios.post('/api/classes', sendData).then((res) => {
-      console.log(res.data);
-      setNotification('CLass added successfully');
-      setVariant('success');
-      setTimeout(() => {
-        setNotification('');
-        setVariant('');
-      }, 3000);
-      navigate(`${x}/class`);
-    });
-  };
+
+ 
 
   // Fetch available courses and levels from the database
   // Replace this with your actual API call to fetch data
@@ -113,9 +93,15 @@ const AddGroup = () => {
     });
   }, []);
 
+const [courseName,setCourseName] = useState("");
   const handleCourseChange = (e) => {
     const courseId = e.target.value;
     setSelectedCourse(courseId);
+    setCourseName(
+      coursData.find(
+        item => item.id == e.target.value
+      )
+    )
   };
 
   const handleLevelChange = (e) => {
@@ -123,36 +109,52 @@ const AddGroup = () => {
     setSelectedLevel(levelId);
   };
 
+  // const value = {
+  //   groupName : (
+  // }
+  useEffect(
+   () => {
+    formik.setFieldValue('groupName',
+     (courseName?.title || "") + (selectedLevel ? "":"")  + " " + (selectedLevel || "")
+    )
+   },[selectedCourse,selectedLevel]
+  )
+
+   const handleSubmit = async(e) => {
+    e.preventDefault();
+    // Handle form submission and add group
+    const sendData = {
+      name: formik.values.groupName,
+      cours_id: formik.values.course,
+      school_year: formik.values.school_year,
+      start_date: formik.values.start_date,
+      end_date: formik.values.end_date,
+      description: formik.values.description,
+      level: formik.values.level,
+      teacher_id: formik.values.teacher,
+      event_color: selectedColor,
+    };
+    axios.post('/api/classes', sendData).then((res) => {
+      console.log(res.data);
+      setNotification('CLass added successfully');
+      setVariant('success');
+      setTimeout(() => {
+        setNotification('');
+        setVariant('');
+      }, 3000);
+      navigate(`${x}/class`);
+    });
+  };
+
   return (
-    <Formik
-      initialValues={initialValues}
-      validationSchema={validationSchema}
-      onSubmit={handleSubmit}
-    >
-      {(formik) => (
-        <Form onSubmit={formik.handleSubmit} className='addGroup'>
+
+      
+        <Form onSubmit={handleSubmit} className="addGroup">
           <h1>Add Class</h1>
 
           <Row>
-            <Col md={6} className='mb-3'>
-              <Form.Label htmlFor='groupName'>
-                Class Name<span className='text-danger'>*</span>
-              </Form.Label>
-              <Form.Control
-                id='groupName'
-                type='text'
-                {...formik.getFieldProps('groupName')}
-                isInvalid={formik.touched.groupName && formik.errors.groupName}
-              />
-              <Form.Control.Feedback type='invalid'>
-                {formik.errors.groupName}
-              </Form.Control.Feedback>
-            </Col>
-
-            <Col md={6} className='mb-3'>
-              <Form.Label htmlFor='course'>
-                Course<span className='text-danger'>*</span>
-              </Form.Label>
+            <Col md={6} className="mb-3">
+              <Form.Label htmlFor="course">Course<span className='text-danger'>*</span></Form.Label>
               <Form.Select
                 id='course'
                 {...formik.getFieldProps('course')}
@@ -200,10 +202,19 @@ const AddGroup = () => {
                 {formik.errors.level}
               </Form.Control.Feedback>
             </Col>
-            <Col md={6} className='mb-3'>
-              <Form.Label htmlFor='school_year'>
-                School Year<span className='text-danger'>*</span>
-              </Form.Label>
+            <Col md={6} className="mb-3">
+              <Form.Label htmlFor="groupName">Class Name<span className='text-danger'>*</span></Form.Label>
+              <Form.Control
+                id="groupName"
+                type="text"
+                {...formik.getFieldProps('groupName')}
+              />
+              <Form.Control.Feedback type="invalid">
+                {formik.errors.groupName}
+              </Form.Control.Feedback>
+            </Col>
+            <Col md={6} className="mb-3">
+              <Form.Label htmlFor="school_year">School Year<span className='text-danger'>*</span></Form.Label>
               <Form.Control
                 id='school_year'
                 type='text'
@@ -307,8 +318,6 @@ const AddGroup = () => {
             Add Class
           </Button>
         </Form>
-      )}
-    </Formik>
   );
 };
 

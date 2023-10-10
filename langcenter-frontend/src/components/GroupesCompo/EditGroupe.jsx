@@ -69,6 +69,15 @@ const EditGroup = () => {
     });
   }, []);
 
+  //fetch levels from api
+  const [levels, setLevels] = useState([]);
+  useEffect(() => {
+    axios.get('/api/levels').then((res) => {
+      // console.log(res.data);
+      setLevels(res.data);
+    });
+  }, []);
+
 
 
 
@@ -203,7 +212,7 @@ const EditGroup = () => {
             isInvalid={formik.touched.level && formik.errors.level}
           >
             <option value="">Select level</option>
-            {availableLevels.map((level) => (
+            {levels.map((level) => (
               <option key={level.id} value={level.name}>
                 {level.name}
               </option>
