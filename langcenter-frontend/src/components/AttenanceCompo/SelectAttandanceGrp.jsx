@@ -35,7 +35,7 @@ export default function SelectAttendanceGrp() {
   const [teachersData, setTeachersData] = useState([]);
 
   const [holidaysData, setHolidaysData] = useState([]);
-
+  const [newTimeTable, setnewTimeTable] = useState([]);
   function fillData(valueRes) {
     console.log('valueRes (fillData parameter) ', valueRes);
     const studentMap = new Map();
@@ -168,7 +168,6 @@ export default function SelectAttendanceGrp() {
     const monthYear = monthYearFormatter.format(new Date(date));
     const day = new Date(date).getDate();
 
-   
     if (monthYear !== currentMonthYear) {
       dynamicColumns.push({
         headerName: monthYear,
@@ -178,81 +177,81 @@ export default function SelectAttendanceGrp() {
     }
 
     // ...
-dynamicColumns[dynamicColumns.length - 1].children.push({
-  headerName: day.toString(),
-  field: `col_${date}`,
-  colId: date,
-  width: 60,
-  cellRenderer: (params) => {
-    const { field } = params.colDef;
-    const date = field.substring(4);
-    const attendanceDataItem = params.data.attendanceData.find(
-      (item) => item.date == date
-    );
+    dynamicColumns[dynamicColumns.length - 1].children.push({
+      headerName: day.toString(),
+      field: `col_${date}`,
+      colId: date,
+      width: 60,
+      cellRenderer: (params) => {
+        const { field } = params.colDef;
+        const date = field.substring(4);
+        const attendanceDataItem = params.data.attendanceData.find(
+          (item) => item.date == date
+        );
 
-    // Function to check if a date falls within any holiday period
-    const isDateInHoliday = (date) => {
-      for (const holiday of holidaysData) {
-        const startDate = new Date(holiday.start_date);
-        const endDate = new Date(holiday.end_date);
-        if (date >= startDate && date <= endDate) {
-          return true;
-        }
-      }
-      return false;
-    };
+        // Function to check if a date falls within any holiday period
+        const isDateInHoliday = (date) => {
+          for (const holiday of holidaysData) {
+            const startDate = new Date(holiday.start_date);
+            const endDate = new Date(holiday.end_date);
+            if (date >= startDate && date <= endDate) {
+              return true;
+            }
+          }
+          return false;
+        };
 
-    return (
-      <select
-        value={attendanceDataItem?.attendanceStatus || (isDateInHoliday(new Date(date)) ? 4 : 0)}
-        onChange={(e) =>
-          handleStatusChange(params.data, field, parseInt(e.target.value))
-        }
-        style={{
-          appearance: 'none',
-          border: 'none',
-          padding: '0px 5px ',
-        }}
-      >
-        <option value={0}>--</option>
-        <option value={1} alt='absent'>
-          ❌
-        </option>
-        <option value={2} alt='present'>
-          ✅
-        </option>
-        <option value={3} alt='late'>
-          ⚠️
-        </option>
-        <option value={4} alt='holiday'>
-          🎉
-        </option>
-      </select>
-    );
-  },
-});
-// ...
-
+        return (
+          <select
+            value={
+              attendanceDataItem?.attendanceStatus ||
+              (isDateInHoliday(new Date(date)) ? 4 : 0)
+            }
+            onChange={(e) =>
+              handleStatusChange(params.data, field, parseInt(e.target.value))
+            }
+            style={{
+              appearance: 'none',
+              border: 'none',
+              padding: '0px 5px ',
+            }}
+          >
+            <option value={0}>--</option>
+            <option value={1} alt='absent'>
+              ❌
+            </option>
+            <option value={2} alt='present'>
+              ✅
+            </option>
+            <option value={3} alt='late'>
+              ⚠️
+            </option>
+            <option value={4} alt='holiday' disabled>
+              🎉
+            </option>
+          </select>
+        );
+      },
+    });
+    // ...
   });
 
-  
-         // if date betwenn holdiay.start and holiday.end   select value = H : holidays , you can use Hospital emoji
-    //else dir hadchi li lt7t
+  // if date betwenn holdiay.start and holiday.end   select value = H : holidays , you can use Hospital emoji
+  //else dir hadchi li lt7t
 
-    useEffect(() => {
-      const fetchHolidays = async () => {
-        try {
-          const response = await axios.get(`/api/holiday`);
-          const holidays = response.data;
-          setHolidaysData(holidays);
-        } catch (error) {
-          console.log('Error fetching holidays details:', error);
-        }
-      };
+  useEffect(() => {
+    const fetchHolidays = async () => {
+      try {
+        const response = await axios.get(`/api/holiday`);
+        const holidays = response.data;
+        setHolidaysData(holidays);
+      } catch (error) {
+        console.log('Error fetching holidays details:', error);
+      }
+    };
 
-      fetchHolidays();
-    }, [tableData]);
-
+    fetchHolidays();
+  }, [tableData]);
 
   const columns = [
     {
@@ -287,18 +286,78 @@ dynamicColumns[dynamicColumns.length - 1].children.push({
   };
 
   const refresh = async () => {
+    // Fetch timetable data
+    let timetableData;
+    try {
+      const class_id = grpId;
+      const response = await axios.get(`/api/timeTable?class_id=${class_id}`);
+      timetableData = response.data.timetable;
+    } catch (error) {
+      console.log('error ', error);
+    }
+
+    // Generate new dates
+    function formatDate(date) {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    }
+
+    function getDatesWithSpecificDays(start_date, end_date, desired_days) {
+      const startDate = new Date(start_date);
+      const endDate = new Date(end_date);
+
+      const dates = [];
+
+      for (
+        let date = startDate;
+        date <= endDate;
+        date.setDate(date.getDate() + 1)
+      ) {
+        if (desired_days.includes(date.getDay())) {
+          dates.push(formatDate(new Date(date)));
+        }
+      }
+
+      return dates;
+    }
+
+    const desired_days = [];
+    let start_date = new Date();
+    let end_date = new Date();
+
+    timetableData.forEach((entry) => {
+      start_date = entry.start_date;
+      end_date = entry.end_date;
+      const day_id = entry.day_id;
+
+      desired_days.push(day_id);
+    });
+
+    const generatedDates = getDatesWithSpecificDays(
+      start_date,
+      end_date,
+      desired_days
+    );
+
+    // Update newTimeTable state
+    setnewTimeTable(generatedDates);
+    console.log('ayayayya ', generatedDates);
+
     if (datesData.length > 0) {
       const refreshStudents = axios.post(`/api/studentsAttendance/${grpId}`, {
-        dates: datesData,
+        dates: generatedDates, // Use generatedDates here
         group: groupesData[0].id,
       });
 
       const refreshTeachers = axios.post(`/api/teachersAttendance/${grpId}`, {
-        dates: datesData,
+        dates: generatedDates, // Use generatedDates here
         group: groupesData[0].id,
       });
+
       try {
-        await Promise.all([refreshStudents], [refreshTeachers]);
+        await Promise.all([refreshStudents, refreshTeachers]);
 
         setNotification('Attendance refreshed successfully');
         setVariant('warning');
@@ -472,6 +531,10 @@ dynamicColumns[dynamicColumns.length - 1].children.push({
                 console.log('Ag-Grid Table Data:', gridData);
               }}
             />
+            <span style={{ fontSize: '1.25rem' }}>
+              ❌:Absent &nbsp;&nbsp;✅:Present &nbsp;&nbsp;⚠️:Late
+              &nbsp;&nbsp;🎉:Holiday
+            </span>
           </div>
           <div>
             <button className='btn btn-success' onClick={saveFunc}>

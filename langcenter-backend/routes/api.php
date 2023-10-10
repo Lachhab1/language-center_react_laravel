@@ -78,6 +78,8 @@ Route::get('/timeTable/{id}', 'App\Http\Controllers\TimeTablesController@show');
 Route::put('/timeTable/{timeTable}', 'App\Http\Controllers\TimeTablesController@update');
 Route::delete('/timeTable/{timeTable}', 'App\Http\Controllers\TimeTablesController@destroy');
 //Route::get('/timeTable', [TimeTableController::class, 'index']);
+//Route::get('/timetable/class/{class_id}', 'TimetableController@getClassTimetable');
+
 
 //days
 Route::get('/days', 'App\Http\Controllers\DaysController@index');

@@ -19,7 +19,7 @@ export default function ViewSalleDetails() {
         const response = await axios.get(`/api/holiday`);
         const holidays = response.data;
         setHolidaysData(holidays);
-        generateEventsFromHolidays(holidays); 
+        generateEventsFromHolidays(holidays);
       } catch (error) {
         console.log('Error fetching holidays details:', error);
       }
@@ -40,9 +40,11 @@ export default function ViewSalleDetails() {
           `/api/timeTable?classroom_id=${id}`
         );
         const timetableData = timetableResponse.data.timetable;
+        console.log('timetable data ', timetableData);
         const newEvents = timetableData
           ? generateEventsFromTimetable(timetableData)
           : [];
+        console.log('new Events  ', newEvents);
 
         setEvents([...HolidaysEvent, ...newEvents]);
       } catch (error) {

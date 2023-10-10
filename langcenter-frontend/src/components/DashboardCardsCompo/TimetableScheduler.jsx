@@ -68,7 +68,7 @@ const TimetableScheduler = () => {
     console.log('useEffect class schedule info Called');
     const groupeSchedule = async () => {
       try {
-        const response = await axios.get(`http://127.0.0.1:8000/api/timeTable`);
+        const response = await axios.get(`/api/timeTable`);
 
         SetClassScheduleData(response.data);
         const generatedEvents = generateEventsFromTimetable(response.data);
@@ -87,7 +87,6 @@ const TimetableScheduler = () => {
     console.log('useEffect generate events Called');
     if (classScheduleData.length > 0) {
       const generatedEvents = generateEventsFromTimetable(classScheduleData);
-      console.log('genr ', generatedEvents);
       SetEvent([...HolidaysEvent, ...generatedEvents]);
     }
   }, [classScheduleData]);
@@ -186,6 +185,26 @@ const TimetableScheduler = () => {
           defaultView='week'
           eventPropGetter={getEventStyle}
         />
+      </div>
+      <div style={{ padding: '1rem' }}>
+        <div
+          style={{
+            display: 'inline-block',
+
+            height: '20px',
+            width: '37px',
+            background: 'linear-gradient(to right, #fc00ff 0%,#00dbde 100%)',
+          }}
+        ></div>{' '}
+        <p
+          style={{
+            display: 'inline-block',
+            fontSize: '1.4rem',
+            fontWeight: '500',
+          }}
+        >
+          HOLIDAYS EVENTS
+        </p>
       </div>
     </div>
   );

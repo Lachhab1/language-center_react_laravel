@@ -13,7 +13,16 @@ use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 
 class TimeTablesController extends Controller
+
 {
+
+    public function getClassTimetable($class_id)
+{
+    $timetable = time_tables::where('class_id', $class_id)->get();
+
+    return response()->json(['timetable' => $timetable]);
+}
+
     /**
      * Display a listing of the resource.
      */   public function index(Request $request)
