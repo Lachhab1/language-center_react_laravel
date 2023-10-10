@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Resources\InscrireClassRessource;
 use App\Models\Etudiant;
 use App\Models\Payment;
+use App\Models\Class_;
+use App\Models\LanguageLevel;
 
 
 class InscrireClassController extends Controller
@@ -29,10 +31,17 @@ class InscrireClassController extends Controller
             ]);
             $inscrireClass = new InscrireClass();
             $etudiant = Etudiant::findOrFail($request->etudiant_id);
+
+
             //check if the request has class
             if ($request->class_id) {
                 $inscrireClass->etudiant()->associate($etudiant);
                 $inscrireClass->class_()->associate($request->class_id);
+                //store level
+                $level = Class_::findOrFail($request->class_id)->level;
+                $level_record = LanguageLevel::where('name', $level)->first();
+                $etudiant->level_id = $level_record->id;
+                $etudiant->save();
             } else {
                 $inscrireClass->etudiant()->associate($etudiant);
             }
@@ -188,7 +197,7 @@ class InscrireClassController extends Controller
             $inscrire->payment_status = 'Unpaid';
         }
         $inscrire->save();
-        
+
         return response()->json(['message' => 'Payment deleted successfully.']);
     }
 }
