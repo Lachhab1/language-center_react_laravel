@@ -15,6 +15,7 @@ import paiements from "../images/icons/paiements.svg";
 import parents from "../images/icons/parents.svg";
 import presence from "../images/icons/presence.svg";
 import salles from "../images/icons/salles.svg";
+import holidays from '../images/icons/holidays.svg';
 import { UseStateContext } from '../context/ContextProvider';
 
 
@@ -46,6 +47,12 @@ export default function SidebarDirecteur() {
                         <Nav.Item><NavLink className="a nav-link link-light" to="/director/course"><img src={cours} />{openSidebar && "Courses"}</NavLink></Nav.Item>
                         <Nav.Item><NavLink className="a nav-link link-light" to="/director/teacher"><img src={enseignant} />{openSidebar && "Teachers"}</NavLink></Nav.Item>
                         <Nav.Item><NavLink className="a nav-link link-light" to="/director/classroom"><img src={salles} />{openSidebar && "Classrooms"}</NavLink></Nav.Item>
+                        <Nav.Item>
+              <NavLink className='a nav-link link-light' to='/director/holidays'>
+                <img src={holidays} />
+                {openSidebar && 'Holidays'}
+              </NavLink>
+            </Nav.Item>
                         <Nav.Item><NavLink className="a nav-link link-light" to="/director/schedule"><img src={empTemps} />{openSidebar && "Schedules"}</NavLink></Nav.Item>
                        
                         {/* Paiements: le span pour cacher ces elements a fin de remplacer le collapse avec dropdown dans les petits ecrans */}

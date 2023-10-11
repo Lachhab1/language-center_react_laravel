@@ -8,6 +8,7 @@ import { UseStateContext } from '../../context/ContextProvider';
 const AddHoliday = () => {
   const { user, setNotification, setVariant } = UseStateContext();
   const navigate = useNavigate();
+  
   let x = '';
   if (user && user.role === 'admin') {
     x = '';

@@ -98,7 +98,7 @@ const HolidaysTable = () => {
   return (
     <div>
       <h2>
-        <a href='/holidays/addHoliday'>Add Holiday</a>
+        <a href={`${x}/holidays/addHoliday`}>Add Holiday</a>
       </h2>
       <DataTable
         columns={columns}

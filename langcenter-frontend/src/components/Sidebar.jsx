@@ -67,12 +67,6 @@ export default function Sidebar() {
         <div className='Sidebar h-100 fs-6'>
           <Nav className='flex-column' defaultActiveKey='/dashboard'>
             <Nav.Item>
-              <NavLink className='a nav-link link-light' to='/holidays'>
-                <img src={holidays} />
-                {openSidebar && 'Holidays'}
-              </NavLink>
-            </Nav.Item>
-            <Nav.Item>
               <NavLink className='a nav-link link-light' to='/dashboard'>
                 <img src={dashboard} />
                 {openSidebar && 'Dashboard'}
@@ -187,6 +181,12 @@ export default function Sidebar() {
               <NavLink className='a nav-link link-light' to='/classroom'>
                 <img src={salles} />
                 {openSidebar && 'Classrooms'}
+              </NavLink>
+            </Nav.Item>
+            <Nav.Item>
+              <NavLink className='a nav-link link-light' to='/holidays'>
+                <img src={holidays} />
+                {openSidebar && 'Holidays'}
               </NavLink>
             </Nav.Item>
             <Nav.Item>

@@ -12,6 +12,7 @@ import parents from "../../images/icons/parents.svg";
 import paiements from "../../images/icons/paiements.svg";
 import results from "../../images/icons/results.svg";
 import disco from "../../images/icons/logout.svg";
+import holidays from '../../images/icons/holidays.svg';
 import { UseStateContext } from '../../context/ContextProvider';
 
 export default function SidebarSec() {
@@ -63,6 +64,12 @@ export default function SidebarSec() {
               <NavLink className="a nav-link link-light" to="/secretary/class">
                 <img src={groupes} alt="Group Icon" />
                 {openSidebar && "Class"}
+              </NavLink>
+            </Nav.Item>
+            <Nav.Item>
+              <NavLink className='a nav-link link-light' to='/secretary/holidays'>
+                <img src={holidays} />
+                {openSidebar && 'Holidays'}
               </NavLink>
             </Nav.Item>
             <Nav.Item><NavLink className={"a nav-link link-light"} to="/secretary/attendance"><img src={presence} />{openSidebar && "Attendance "}</NavLink></Nav.Item>

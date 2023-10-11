@@ -431,6 +431,27 @@ const router = createBrowserRouter([
         ],
       },
       {
+        path: '/',
+        children: [
+          {
+            path: '/secretary/student',
+            element: <Etudiants />,
+          },
+          {
+            path: '/secretary/student/:id',
+            element: <StudentsDetail />,
+          },
+          {
+            path: '/secretary/student/addStudent',
+            element: <AddEtudiant />,
+          },
+          {
+            path: '/secretary/student/editStudent/:id',
+            element: <EditEtudiant />,
+          },
+        ],
+      },
+      {
         path: '/secretary/fees',
         children: [
           {
