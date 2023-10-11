@@ -8,7 +8,7 @@ import { UseStateContext } from '../../context/ContextProvider';
 const AddHoliday = () => {
   const { user, setNotification, setVariant } = UseStateContext();
   const navigate = useNavigate();
-  
+
   let x = '';
   if (user && user.role === 'admin') {
     x = '';
@@ -74,47 +74,82 @@ const AddHoliday = () => {
     },
   });
   return (
-    <form onSubmit={formik.handleSubmit}>
-      <label htmlFor='name'>Holiday name</label>
-      <input
-        id='name'
-        name='name'
-        type='text'
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-        value={formik.values.name}
-      />
-      {formik.touched.name && formik.errors.name ? (
-        <div>{formik.errors.name}</div>
-      ) : null}
+    <form
+      onSubmit={formik.handleSubmit}
+      className='row g-3 needs-validation'
+      noValidate
+    >
+      <div className='col-md-4 position-relative'>
+        <label htmlFor='name' className='form-label'>
+          Holiday name
+        </label>
+        <input
+          id='name'
+          name='name'
+          type='text'
+          className={`form-control ${
+            formik.touched.name && formik.errors.name ? 'is-invalid' : ''
+          }`}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.name}
+          required
+        />
+        {formik.touched.name && formik.errors.name ? (
+          <div className='invalid-feedback'>{formik.errors.name}</div>
+        ) : null}
+      </div>
 
-      <label htmlFor='startDate'>Start Date</label>
-      <input
-        id='startDate'
-        name='startDate'
-        type='date'
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-        value={formik.values.startDate}
-      />
-      {formik.touched.startDate && formik.errors.startDate ? (
-        <div>{formik.errors.startDate}</div>
-      ) : null}
+      <div className='col-md-4 position-relative'>
+        <label htmlFor='startDate' className='form-label'>
+          Start Date
+        </label>
+        <input
+          id='startDate'
+          name='startDate'
+          type='date'
+          className={`form-control ${
+            formik.touched.startDate && formik.errors.startDate
+              ? 'is-invalid'
+              : ''
+          }`}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.startDate}
+          required
+        />
+        {formik.touched.startDate && formik.errors.startDate ? (
+          <div className='invalid-feedback'>{formik.errors.startDate}</div>
+        ) : null}
+      </div>
 
-      <label htmlFor='endDate'> End Date </label>
-      <input
-        id='endDate'
-        name='endDate'
-        type='date'
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-        value={formik.values.endDate}
-      />
-      {formik.touched.endDate && formik.errors.endDate ? (
-        <div>{formik.errors.endDate}</div>
-      ) : null}
+      <div className='col-md-4 position-relative'>
+        <label htmlFor='endDate' className='form-label'>
+          {' '}
+          End Date{' '}
+        </label>
+        <input
+          id='endDate'
+          name='endDate'
+          type='date'
+          className={`form-control ${
+            formik.touched.endDate && formik.errors.endDate ? 'is-invalid' : ''
+          }`}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.endDate}
+          required
+        />
+        {formik.touched.endDate && formik.errors.endDate ? (
+          <div className='invalid-feedback'>{formik.errors.endDate}</div>
+        ) : null}
+      </div>
 
-      <button type='submit'>Submit</button>
+      <div className='col-12'>
+        <button type='submit' className='btn btn-primary'>
+          Submit
+        </button>
+      </div>
     </form>
   );
 };

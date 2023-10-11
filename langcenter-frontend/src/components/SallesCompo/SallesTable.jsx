@@ -73,7 +73,7 @@ const filteredData = data.filter((item)=>{
     {
       name: "actions",
       cell: (row) => (
-        <div>
+        <div  className="actions" style={{ display: 'flex', gap: '0px' }}>
           <Link to={`${x}/classroom/details/${row.id}`}>
             <button style={{ border: "none", background: "none" }} title="details">
               <FaEye style={{ color: "lightBlue", fontSize: "16px" }} />

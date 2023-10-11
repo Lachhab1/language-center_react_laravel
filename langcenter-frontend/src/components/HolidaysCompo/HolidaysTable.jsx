@@ -72,18 +72,13 @@ const HolidaysTable = () => {
     {
       name: 'actions',
       cell: (row) => (
-        <div>
-          {/* <Link to={`${x}/classroom/details/${row.id}`}>
-            <button style={{ border: "none", background: "none" }} title="details">
-              <FaEye style={{ color: "lightBlue", fontSize: "16px" }} />
-            </button>
-          </Link> */}
-
+        <div className='actions' style={{ display: 'flex', gap: '0px' }}>
           <Link to={`${x}/holidays/editHoliday/${row.id}`}>
             <button style={{ border: 'none', background: 'none' }} title='edit'>
               <BsFillPencilFill style={{ color: 'orange', fontSize: '15px' }} />
             </button>
           </Link>
+
           <button
             style={{ border: 'none', background: 'none' }}
             onClick={() => deleteRow(row.id)}
@@ -97,9 +92,11 @@ const HolidaysTable = () => {
   ];
   return (
     <div>
-      <h2>
-        <a href={`${x}/holidays/addHoliday`}>Add Holiday</a>
-      </h2>
+      <div style={{ margin: '0 16px', float: 'right' }}>
+        <Link to={`${x}/holidays/addHoliday`}>
+          <button className='btn btn-danger'>Add Holiday</button>
+        </Link>
+      </div>
       <DataTable
         columns={columns}
         data={holidaysData}
