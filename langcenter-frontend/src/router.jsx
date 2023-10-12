@@ -4,11 +4,9 @@ import Dashboard from './views/Dashboard';
 import Error404 from './views/Error404';
 import Login from './views/Login';
 import Cours from './views/Cours';
-import PaiementsEns from './views/PaiementsEns';
 import PaiementsEtu from './views/PaiementsEtu';
 import Parents from './views/Parents';
 import PresencesEtu from './views/PresencesEtu';
-import Resultats from './views/Resultats';
 import Settings from './views/Settings';
 import Utilisateurs from './views/Utlisateurs';
 
@@ -34,8 +32,6 @@ import EditFeesT from './components/Composantforteacherfeespage/EditfeesT';
 import TableFeesTeacher from './components/Composantforteacherfeespage/TableFeesTeacher';
 
 import EditFees from './components/Composantforstedentsfeespage/EditFees';
-import TableFeesEtud from './components/Composantforstedentsfeespage/TableFeesEtud';
-
 import EditParent from './components/Composantforparentpage/EditParent';
 import AddParent from './components/Composantforparentpage/AddParent';
 import ParentDetails from './components/Composantforparentpage/ParentDetails';
@@ -53,13 +49,10 @@ import Groupes from './views/Groupes';
 import AddGroupe from './components/GroupesCompo/AddGroupe';
 import EditGroupe from './components/GroupesCompo/EditGroupe';
 import ViewGroupe from './components/GroupesCompo/ViewGroupe';
-import EditNote from './components/ComponentResults/EditNote';
-import AddNote from './components/ComponentResults/AddNote';
 import AddCourse from './components/Composantsforcoursepage/AddCourse';
 import EditCourse from './components/Composantsforcoursepage/EditCourse';
 import SecretaryLayout from './layouts/secretarylayout/SecretaryLayout';
 import DashboardDirecteur from './views/DashboardDirecteur';
-import DashbordSec from './components/DashbordSec/DashbordSec';
 import DirecteurLayout from './layouts/directeurlayout/DirecteurLayout';
 import ScheduleTable from './components/EmploiTempsCompo/ScheduleTable';
 
@@ -70,7 +63,6 @@ import Test from './components/TestComponents/index';
 import Levels from './components/LevelComponents/index';
 import AddLevel from './components/LevelComponents/add';
 import EditLevel from './components/LevelComponents/edit';
-import EditTest from './components/TestComponents/editTest';
 //import for depenses
 import Depenses from './components/Depenses/Depenses';
 import AddExpense from './components/Depenses/Add';
