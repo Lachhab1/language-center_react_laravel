@@ -65,7 +65,6 @@ import ScheduleTable from './components/EmploiTempsCompo/ScheduleTable';
 
 //import for tests
 import Test from './components/TestComponents/index';
-import AddTest from './components/TestComponents/AddTest';
 
 //import for levels
 import Levels from './components/LevelComponents/index';
