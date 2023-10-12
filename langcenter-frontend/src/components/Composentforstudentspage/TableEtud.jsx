@@ -7,21 +7,74 @@ import { Link, Navigate,useNavigate } from "react-router-dom";
 import axios from "../../api/axios";
 import { Ellipsis } from 'react-awesome-spinners'
 import { UseStateContext } from "../../context/ContextProvider";
-
+import AddClass from "./AddClass.jsx";
+import male from "../../images/icons/icons8-male (1).svg"
+import female from "../../images/icons/icons8-female (1).svg"
+import Form from 'react-bootstrap/Form';
+import ParentModal from "./ParentModal";
 export default function TableEtud()
 {
+    const [selectedID, setSelectedID] = useState(null);
+    const [ParentModalShow, setParentModalShow] = useState(false);
+    const [ageGroup, setAgeGroup] = useState('');
+    const tableCustomStyles = {
+    headCells: {
+        style: {
+        fontSize: '20px',
+        fontWeight: 'bold',
+        paddingLeft: '0 8px',
+        justifyContent: 'center',
+        backgroundColor: '#f5f5f5',
+        },
+    },
+    cells: {
+        style: {
+        fontSize: '18px',
+        paddingLeft: '0 8px',
+        justifyContent: 'center',
+        },
+    },
+        }
+    const handleCloseParent = () => setParentModalShow(false);
+    const [showModal, setShowModal] = useState(false);
+    const [selectedItem, setSelectedItem] = useState(null);
+    const [selectedOption, setSelectedOption] = useState(null);
+    //functions to hadnle modal show and close
+    const handleListClick = (item) => {
+        setSelectedItem(item);
+        setShowModal(true);
+    };
+    const handleClose = () => setShowModal(false);
+    const [levels,setLevels]=useState([]);
 const {user,setNotification,setVariant} = UseStateContext()
 const [pending, setPending] = useState(true);
 const [data,setData]=useState([]);
 const [records,setRecords]=useState([]);
+const handleParentClick = (idP) => {
+    console.log(idP);
+    setSelectedID(idP);
+    setParentModalShow(true);
+};
 const navigate = useNavigate();
-
+let x = ""
+if (user && user.role==='admin')
+{
+    x = ""
+} else if (user && user.role==='director')
+{
+    x="/director"
+}
+else{
+    x="/secretary"
+}
 useEffect(() => {
     const timeout = setTimeout(async() => {
         const response = await axios.get("/api/etudiants");
+        const levels = await axios.get("/api/levels");
+        setLevels(levels.data);
         response.data.data.map((datar) => {
-            const classes = datar?.classes.map((item) => item.name) || [];
-            const classesString = classes.length > 0 ? classes.join(', ') : 'No class';
+            const classes = datar?.classes.map((item) => `${item?.name}`) || [];
+            const classesString = classes.length > 0 && classes != "undefined" ? classes.join(', ') : 'No class';
             setData((prev)=>
             (
                 [...prev,
@@ -30,8 +83,10 @@ useEffect(() => {
                     name:datar.prenom+" "+datar.nom,
                     gender: datar.sexe,
                     class:  classesString,
-                    parents:datar.parent?  (datar.parent?.nom+" "+datar.parent?.prenom) : "No parent",
+                    parents:datar.parent?  (datar.parent?.nom+" "+datar.parent?.prenom) : "_________",
+                    parent_id:datar.parent?.id ,
                     status:true,
+                    level: datar?.level?.id,
                     }
                 ])
             )
@@ -52,22 +107,17 @@ const deleteRow = async (id) => {
     setTimeout(() => {
         setNotification("");
         setVariant("");
-    }, 3000);
-    navigate("/student");
+        window.location.reload();
+    }, 7000);
 };
-let x = ""
-if (user && user.role==='admin')
-{
-    x = ""
-} else if (user && user.role==='director')
-{
-    x="/director"
-}
-else{
-    x="/secretary"
-}
-
-
+const handleChange = async (e,id) => {
+    const level = e.target.value;
+    const response = {
+        student_id: id,
+        level_id: level,
+    }
+    await axios.post(`/api/assignLevel`, JSON.stringify(response));
+};
 
 
 
@@ -93,16 +143,90 @@ const col=[
     {
         name:"Gender",
         selector:row => row.gender,
+        sortable: true ,
+        cell: (row) => (
+            <div style={{ display: 'flex', gap: '0px' }}>
+                {row.gender === "male" 
+                    ?
+                        (
+                            <img src={male} width={"30px"}/>
+                        )
+                        :
+                        (
+                        <div>
+                            <img src={female} width={"30px"}/>
+                        </div>
+                        )
+                }
+            </div>
+        ),
     },
     {
         name:"Class",
         selector:row => row.class,
-        sortable: true 
+        sortable: true ,
+        cell: (row) => (
+            <div style={{ display: 'flex',justifyContent: 'space-between'}}>
+                <div className="py-2 fs-6"
+                    style={{
+                    color: row.class == "No class" ? 'red' : 'black',
+                    fontWeight: 'bold',
+                    fontFamily: 'monospace',
+                    }}>
+                    {row.class}
+                </div>
+                <span className="fw-bold fs-4 text-center opacity-25 addClass" onClick={() => handleListClick(row)}>+</span>
+                <AddClass showModal={showModal} handleClose={handleClose} selectedItem={selectedItem} id={row.id}/>           
+            </div>
+        ),
+    },
+    {
+        name: "parent id",
+        selector: row => row.parent_id,
     },
     {
         name:"Parents",
         selector:row => row.parents,
-        sortable: true 
+        sortable: true,
+        cell: (row) => (
+            <div style={{ display: 'flex', gap: '0px' }}>
+                <div className="py-2 fs-6 text-center opacity-25 badge badge-pill badge-success px-3 py-2 m-2 font-weight-bold"
+                    style={{
+                    color: row.parents == "_________" ? 'red' : 'black',
+                    fontWeight: 'bold',
+                    fontFamily: 'monospace',
+                    cursor: 'pointer',
+                    }}
+                    onClick={() => {
+                        row.parent_id &&
+                        handleParentClick(row?.parent_id);
+                        }}
+                    >
+                    {row.parents}
+                </div>
+                {
+                row.parent_id && 
+                selectedID === row.parent_id &&
+                <ParentModal showModal={ParentModalShow} handleClose={handleCloseParent} id={selectedID}/>
+                }
+            </div>
+        )
+    },
+    {
+        name:"Level",
+        selector:row => row.level,
+        sortable: true,
+        cell: (row) => (
+            <>
+                <Form.Select defaultValue={row.level} size="md" onChange={(e) => handleChange(e, row.id)}>
+                <option value="">Select level</option>
+                {levels?.map((level) => (
+                <option key={level.id} value={level.id}>{level.name}</option>
+                ))}
+                </Form.Select>
+                <br />
+                </>
+        ),
     },
     {
         name:"Status",
@@ -123,7 +247,7 @@ const col=[
         name:"Action",
         selector:row => row.action,
         cell: (row) => (
-        <div style={{ display: 'flex', gap: '0px' }}>
+        <div className="actions" style={{ display: 'flex', gap: '0px' }}>
             <Link to={`${x}/student/${row.id}`}>
             <button style={{ border: 'none', background: 'none'}}>
               <BsFillEyeFill style={{ color: 'green', fontSize: '20px' }} />
@@ -148,7 +272,6 @@ const col=[
                 setRecords(data)
             },[data]
         )
-
         function  handlefilter(event)
         {
                  const newData = data.filter(row => {
@@ -165,11 +288,9 @@ const col=[
                 })
                 setRecords(newData);
         }
-        
     return(
-
     <div>
-        <div className="row offset-1">
+        <div className="row offset-1 my-2">
             <div className="col">
                  <input type="text" className="form-control" placeholder="Search by Name" onChange={handlefilter}/>
             </div>
@@ -186,6 +307,7 @@ const col=[
                     fixedHeader
                     pagination
                     progressPending={pending}
+                    customStyles={tableCustomStyles}
                     progressComponent={<Ellipsis  size={64}
                         color='#D60A0B'
                         sizeUnit='px' />}

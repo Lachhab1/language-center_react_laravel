@@ -10,6 +10,24 @@ import axios from '../../api/axios';
 import { Ellipsis } from 'react-awesome-spinners'
 
 export default function ClassPage() {
+  const tableCustomStyles = {
+    headCells: {
+        style: {
+        fontSize: '20px',
+        fontWeight: 'bold',
+        paddingLeft: '0 8px',
+        justifyContent: 'center',
+        backgroundColor: '#f5f5f5',
+        },
+    },
+    cells: {
+        style: {
+        fontSize: '18px',
+        paddingLeft: '0 8px',
+        justifyContent: 'center',
+        },
+    },
+        }
   const {user,setNotification,setVariant} = UseStateContext()
   const [nameFilter, setNameFilter] = useState('');
   const [courseFilter, setCourseFilter] = useState('');
@@ -99,7 +117,7 @@ else{
       name: 'Action',
       selector: (row) => row.action,
       cell: (row) => (
-        <div style={{ display: 'flex', gap: '0px' }}>
+        <div className="actions" style={{ display: 'flex', gap: '0px' }}>
           <Link to={`${x}/class/details/${row.id}`}>
             <button style={{ border: 'none', background: 'none' }}>
               <FaEye style={{ color: 'lightBlue', fontSize: '16px' }} />
@@ -131,6 +149,12 @@ else{
     navigate(`${x}/class`);
   };
 
+  const filteredData = classData.filter((item) => {
+    const nameMatch = item.name.toLowerCase().includes(nameFilter.toLowerCase());
+    const coursMatch = item.course.toLowerCase().includes(courseFilter.toLowerCase());
+    return nameMatch && coursMatch;
+  });
+
   return (
     <div>
       <div className="d-flex justify-content-around">
@@ -152,10 +176,13 @@ else{
           <button className="btn btn-danger">Add Class</button>
           </Link>
           </div>
-          <DataTable columns={columns} data={classData}
+          <DataTable columns={columns} data={filteredData}
           fixedHeader
+          className="mt-4"
                     pagination
                     progressPending={pending}
+                    highlightOnHover
+                    customStyles={tableCustomStyles}
                     progressComponent={<Ellipsis  size={64}
                         color='#D60A0B'
                         sizeUnit='px' />}

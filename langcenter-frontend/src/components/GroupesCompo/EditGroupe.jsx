@@ -38,7 +38,6 @@ const EditGroup = () => {
       start_date: '',
       end_date: '',
       description: '',
-      capacity: '',
     },
     validationSchema: Yup.object({
       groupName: Yup.string().required('Group name is required'),
@@ -48,7 +47,6 @@ const EditGroup = () => {
       start_date: Yup.string().required('Start date is required'),
       end_date: Yup.string().required('End date is required'),
       description: Yup.string(),
-      capacity: Yup.number().required('Capacity is required'),
     }),
     onSubmit: (values) => {
       handleSubmit(values);
@@ -66,9 +64,17 @@ const EditGroup = () => {
         start_date: res.data.data.start_date,
         end_date: res.data.data.end_date,
         description: res.data.data.description,
-        capacity: res.data.data.capacity,
         teacher: res.data.data.teacher.id,
       });
+    });
+  }, []);
+
+  //fetch levels from api
+  const [levels, setLevels] = useState([]);
+  useEffect(() => {
+    axios.get('/api/levels').then((res) => {
+      // console.log(res.data);
+      setLevels(res.data);
     });
   }, []);
 
@@ -158,7 +164,7 @@ const EditGroup = () => {
 
       <Row>
         <Col md={6} className="mb-3">
-          <Form.Label htmlFor="groupName">Class Name*</Form.Label>
+          <Form.Label htmlFor="groupName">Class Name<span className='text-danger'>*</span></Form.Label>
           <Form.Control
             id="groupName"
             type="text"
@@ -172,7 +178,7 @@ const EditGroup = () => {
         </Col>
 
         <Col md={6} className="mb-3">
-          <Form.Label htmlFor="course">Course*</Form.Label>
+          <Form.Label htmlFor="course">Course<span className='text-danger'>*</span></Form.Label>
           <Form.Select
             id="course"
             {...formik.getFieldProps('course')}
@@ -194,7 +200,7 @@ const EditGroup = () => {
           </Form.Control.Feedback>
         </Col>
         <Col md={6} className="mb-3">
-          <Form.Label htmlFor="level">Level*</Form.Label>
+          <Form.Label htmlFor="level">Level<span className='text-danger'>*</span></Form.Label>
           <Form.Select
             id="level"
             {...formik.getFieldProps('level')}
@@ -206,7 +212,7 @@ const EditGroup = () => {
             isInvalid={formik.touched.level && formik.errors.level}
           >
             <option value="">Select level</option>
-            {availableLevels.map((level) => (
+            {levels.map((level) => (
               <option key={level.id} value={level.name}>
                 {level.name}
               </option>
@@ -217,7 +223,7 @@ const EditGroup = () => {
           </Form.Control.Feedback>
         </Col>
         <Col md={6} className="mb-3">
-          <Form.Label htmlFor="school_year">School Year*</Form.Label>
+          <Form.Label htmlFor="school_year">School Year<span className='text-danger'>*</span></Form.Label>
           <Form.Control
 
             id="school_year"
@@ -232,7 +238,7 @@ const EditGroup = () => {
           </Form.Control.Feedback>
         </Col>
         <Col md={6} className="mb-3">
-          <Form.Label htmlFor="start_date">Start Date*</Form.Label>
+          <Form.Label htmlFor="start_date">Start Date<span className='text-danger'>*</span></Form.Label>
           <Form.Control
 
             id="start_date"
@@ -247,7 +253,7 @@ const EditGroup = () => {
           </Form.Control.Feedback>
         </Col>
         <Col md={6} className="mb-3">
-          <Form.Label htmlFor="end_date">End Date*</Form.Label>
+          <Form.Label htmlFor="end_date">End Date<span className='text-danger'>*</span></Form.Label>
           <Form.Control
             id="end_date"
             type="date"
@@ -274,21 +280,7 @@ const EditGroup = () => {
           </Form.Control.Feedback>
         </Col>
         <Col md={6} className="mb-3">
-          <Form.Label htmlFor="capacity">Capacity*</Form.Label>
-          <Form.Control
-            id="capacity"
-            type="number"
-            {...formik.getFieldProps('capacity')}
-            isInvalid={
-              formik.touched.capacity && formik.errors.capacity
-            }
-          />
-          <Form.Control.Feedback type="invalid">
-            {formik.errors.capacity}
-          </Form.Control.Feedback>
-        </Col>
-        <Col md={6} className="mb-3">
-          <Form.Label htmlFor="teacher">Teacher*</Form.Label>
+          <Form.Label htmlFor="teacher">Teacher<span className='text-danger'>*</span></Form.Label>
           <Form.Select
 
             id="teacher"

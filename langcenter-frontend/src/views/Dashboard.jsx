@@ -3,7 +3,16 @@ import Card from '../components/DashboardCardsCompo/Card';
 import student from '../images/icons/student4dash.png';
 import teacher from '../images/icons/teacher4dash.png';
 import money from '../images/icons/money4dash.png';
-import parents from '../images/icons/parent4dash.png';
+import moneyGreen from '../images/icons/icons8-dollar.svg';
+import TotalMoney from '../images/icons/icons8-incomeT.svg';
+import Expense from '../images/icons/icons8-low-price.svg';
+import TotalExpanse from '../images/icons/icons8-expense.svg';
+import Due from '../images/icons/icons8-credit.svg';
+
+import courses from '../images/icons/courses.svg';
+import classes from '../images/icons/classes.svg';
+import tests from '../images/icons/tests.svg';
+import classrooms from '../images/icons/classroom.svg';
 import DoughnutChart from '../components/DashboardCardsCompo/DoughnutChart';
 import LineChart from '../components/DashboardCardsCompo/LineChart';
 import BarChart from '../components/DashboardCardsCompo/BarChart';
@@ -13,15 +22,33 @@ import { UseStateContext } from '../context/ContextProvider';
 import axios from "../api/axios"
 import { Navigate } from 'react-router-dom';
 import CardBoostrap from 'react-bootstrap/Card';
+import Salary from '../images/icons/icons8-salary.svg';
+import SalaryT from '../images/icons/icons8-salaryT.svg';
 
 
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 
 import 'react-big-calendar/lib/css/react-big-calendar.css';
+import { Row } from 'react-bootstrap';
 
 const Dashboard = () => {
-
+  const date = new Date()
+  const Months = [
+          'Janvier',
+           'Février',
+           'Mars',
+            'Avril',
+            'Mai',
+            'Juin',
+            'Juillet',
+            'Août',
+            'Septembre',
+            'Octobre',
+             'Novembre',
+            'Décembre',
+  ]
+  const [chartData, setChartData] = useState([]);
   const [femaleCount, setFemaleCount] = useState(0);
   const [maleCount, setMaleCount] = useState(0);
   const [cardsData, setCardsData] = useState([]);
@@ -35,8 +62,17 @@ const Dashboard = () => {
           students: response.data.etudiants,
           teachers: response.data.teachers,
           parents: response.data.parents,
-          courses: response.data.courses,
           payments: response.data.total_payment,
+          paymentsMonth: response.data.total_payment_month,
+          courses: response.data.totalCourses,
+          classes: response.data.totalClasses,
+          tests : response.data.totalTests,
+          classrooms: response.data.totalClassrooms,
+          expenses: response.data.total_expanses,
+          expensesMonth: response.data.total_expanses_month,
+          due: response.data.due_payment,
+          salary: response.data.total_salary,
+          salary_month: response.data.salary_month,
         });
       } catch (error) {
         console.error(error);
@@ -44,6 +80,15 @@ const Dashboard = () => {
     };
     fetchData();
   }, []);
+
+  useEffect(() => { 
+        axios.get('/api/profit').then((res) => {
+          console.log(res.data);
+          setChartData(res.data);
+      });
+  
+  }, []);
+
   
   const { user,token } = UseStateContext();
   if (!token){
@@ -53,72 +98,65 @@ const Dashboard = () => {
     return <div>Loading...</div>;
   }
 
-  const [chartData, setChartData] = useState({
-    year: [
-      { year: '2021', profit: 5000, expense: 3000 },
-      { year: '2022', profit: 6000, expense: 4000 },
-      { year: '2023', profit: 7000, expense: 5000 },
-    ],
-    month: [
-      { month: 'Jan', profit: 400, expense: 200 },
-      { month: 'Feb', profit: 600, expense: 400 },
-      { month: 'Mar', profit: 800, expense: 300 },
-      { month: 'Apr', profit: 1000, expense: 500 },
-      { month: 'May', profit: 1200, expense: 600 },
-      { month: 'Jun', profit: 1400, expense: 700 },
-      { month: 'Jul', profit: 600, expense: 800 },
-      { month: 'Aug', profit: 800, expense: 900 },
-      { month: 'Sep', profit: 2000, expense: 2000 },
-      { month: 'Oct', profit: 2200, expense: 1100 },
-      { month: 'Nov', profit: 2400, expense: 1200 },
-      { month: 'Dec', profit: 2600, expense: 1300 },
-    ],
-    courses: [
-      { course: 'English', students: 45 },
-      { course: 'French', students: 60 },
-      { course: 'Italian', students: 30 },
-      { course: 'Spanish', students: 55 },
-      { course: 'Arabic', students: 50 },
-    ],
-  });
-
-  const [interval, setInterval] = useState('year');
-  const handleIntervalChange = (value) => {
-    setInterval(value);
-  };
-
-
-
-
-  
   return (
     <div className=''>
       <div className='row justify-content-around'>
+        <Row>
+          <div className='col  mb-4'>
+          <Card title='Total Earnings' icon={TotalMoney} data={cardsData.payments} />
+        </div>
+        <div className='col  mb-4'>
+          <Card title='Total Expenses' icon={TotalExpanse} data={cardsData.expenses} />
+        </div>
+        <div className='col  mb-4'>
+          <Card title='Total Salary' icon={SalaryT} data={cardsData.salary} />
+        </div>
+        <div className='col  mb-4'>
+          <Card title='Total Due' icon={Due} data={cardsData.due} />
+        </div>
+        </Row>
+        <Row>
+        <div className='col  mb-4'>
+          <Card title={`Earnings for ${Months[date.getMonth()]}`} icon={moneyGreen} data={cardsData.paymentsMonth} />
+        </div>
+        <div className='col  mb-4'>
+          <Card title={`Expenses for ${Months[date.getMonth()]}`} icon={Expense} data={cardsData.expensesMonth} />
+        </div>
+        <div className='col  mb-4'>
+          <Card title={`Salary for ${Months[date.getMonth()]}`} icon={Salary} data={cardsData.salary_month} />
+        </div>
+        </Row>
+        <Row>
         <div className='col  mb-4'>
           <Card  title='Students' icon={student} data={cardsData.students} />
         </div>
         <div className='col  mb-4'>
           <Card title='Teachers' col-md- icon={teacher} data={cardsData.teachers} />
         </div>
+        
+        </Row>
+        <Row>
+
         <div className='col  mb-4'>
-          <Card title='Parents' icon={parents} data={cardsData.parents} />
+          <Card title='Courses' icon={courses} data={cardsData.courses} />
         </div>
         <div className='col  mb-4'>
-          <Card title='Earnings' icon={money} data={cardsData.payments} />
+          <Card title='Classes' icon={classes} data={cardsData.classes} />
         </div>
+        <div className='col  mb-4'>
+          <Card title='Classrooms' icon={classrooms} data={cardsData.classrooms} />
+          </div>
+        </Row>
       </div>
         <div className='row'>
         <div className='col-6 mx-auto mb-4 Charts'>
-          <LineChart data={chartData} interval={interval} onIntervalChange={handleIntervalChange} />
+          <LineChart data={chartData} />
         </div>
         <div className='col-4 mx-auto mb-4 Charts'>
           <DoughnutChart maleCount={maleCount} femaleCount={femaleCount} />
         </div>
         </div>
       <div className='row'>
-        <div className='col-11 mx-auto mb-4 Charts'>
-          <BarChart data={chartData.courses} />
-        </div>
         <div className='col-11 mx-auto mb-4 Charts'>
         {/* <TimetableScheduler data={timetableData} /> */}
         </div>

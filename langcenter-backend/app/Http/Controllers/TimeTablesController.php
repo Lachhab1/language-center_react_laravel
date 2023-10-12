@@ -13,7 +13,16 @@ use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 
 class TimeTablesController extends Controller
+
 {
+
+    public function getClassTimetable($class_id)
+{
+    $timetable = time_tables::where('class_id', $class_id)->get();
+
+    return response()->json(['timetable' => $timetable]);
+}
+
     /**
      * Display a listing of the resource.
      */   public function index(Request $request)
@@ -24,8 +33,11 @@ class TimeTablesController extends Controller
             $query = time_tables::select(
                 
                 'time_tables.id',
+                'time_tables.class_id',
+            
                 'cours.title as course_title',
                 'classes.name as class_name',
+
                 'classrooms.name as classroom_name',
                 'time_tables.startTime',
                 'time_tables.finishTime',
@@ -53,6 +65,7 @@ class TimeTablesController extends Controller
             $class_id = $request->query('class_id');
             $query = time_tables::select(
                 'time_tables.id',
+                'time_tables.class_id',
                 'cours.title as course_title',
                 'classes.name as class_name',
                 'classrooms.name as classroom_name',
@@ -81,6 +94,7 @@ class TimeTablesController extends Controller
         } else{
             $timeTables = time_tables::select(
                 'time_tables.id',
+                'time_tables.class_id',
                 'cours.title as course_title',
                 'classes.name as class_name',
                 'classrooms.name as classroom_name',

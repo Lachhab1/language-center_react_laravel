@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Etudiant;
 use App\Models\InscrireClass;
 use App\Models\Cours;
+use App\Models\Payment;
+use App\Models\Teacher;
+use App\Models\TeacherAttendance;
+use App\Models\time_tables;
 
 class Class_ extends Model
 {
@@ -17,7 +21,6 @@ class Class_ extends Model
         'name',
         'school_year',
         'description',
-        'capacity',
         'start_date',
         'end_date',
         'level',
@@ -42,5 +45,13 @@ class Class_ extends Model
     public function teacher()
     {
         return $this->belongsTo(Teacher::class, 'teacher_id', 'id');
+    }
+    public function teacherAttendance()
+    {
+        return $this->hasMany(TeacherAttendance::class, 'class_id', 'id');
+    }
+    public function timeTable()
+    {
+        return $this->hasOne(time_tables::class, 'class_id', 'id');
     }
 }

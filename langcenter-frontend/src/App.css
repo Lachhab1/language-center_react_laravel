@@ -13,11 +13,12 @@
 
 
 }
-
-* {
-  font-family: 'Inter', sans-serif;
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Lato', sans-serif;
 }
-
 .contents {
   min-height: calc(100vh - 60px);
 }
@@ -279,16 +280,7 @@ body,
 
 
 /* photo profile (Avatar) test ayman*/
-.FormContainer {
-  display: flex;
-  margin: 10px;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: white;
-  border-radius: 15px;
-  border: 1px solid black;
-}
+
 
 .EditAvatar {
   margin-left: 25px;
@@ -305,4 +297,49 @@ body,
   background-color: rgba(221, 222, 238, 0.5);
 }
 
+.inputStyle{
+  color: #656565;
+  background-color: rgba(221, 222, 238, 0.5);
+}
+
+
+/* add class button*/
+.addClass {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+  border-radius: 7px;
+  color: white;
+  font-weight: 600;
+  font-size: 20px;
+  cursor: pointer;
+}
+.addClass a{
+  color: white;
+  text-decoration: none;
+}
+.addClass:hover{
+  color: black;
+  text-decoration: none;
+}
+.modal-backdrop {
+  background-color: transparent;
+}
+
+/* actions style */
+.actions {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.actions button > *{
+  margin: 5px;
+}
+.actions button:hover > *{
+  padding: .1em;
+  border-radius: 5px;
+  transition: all .3s ease-in-out;
+
+}
 

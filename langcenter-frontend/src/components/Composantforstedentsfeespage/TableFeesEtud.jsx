@@ -9,10 +9,31 @@ import { UseStateContext } from '../../context/ContextProvider';
 import Inscription from '../InscStudDash/Inscription';
 import axios from '../../api/axios';
 import { Ellipsis } from 'react-awesome-spinners'
+import { Button } from 'react-bootstrap';
 
 
 export default function TableFeesEtud()
 { 
+  const [nameFilter,setNameFilter]= useState('');
+  const [status2,setStatus2]= useState('all');
+    const tableCustomStyles = {
+    headCells: {
+        style: {
+        fontSize: '20px',
+        fontWeight: 'bold',
+        paddingLeft: '0 8px',
+        justifyContent: 'center',
+        backgroundColor: '#f5f5f5',
+        },
+    },
+    cells: {
+        style: {
+        fontSize: '18px',
+        paddingLeft: '0 8px',
+        justifyContent: 'center',
+        },
+    },
+        }
     const {user,setNotification,setVariant} = UseStateContext()
     const [data,setData]=useState([]);
     const [pending, setPending] = useState(true);
@@ -29,19 +50,20 @@ export default function TableFeesEtud()
       }
     useEffect(()=>{
       
-       const fetchData = async() => axios.get('/api/inscrire-classes').then((response)=>{
+       const fetchData = async() => axios.get('/api/payment').then((response)=>{
           console.log(response.data.data);
           setData(
               response.data.data.map((row)=>({
                   id:row.id,
-                  name:row.etudiant.nom + " " + row.etudiant.prenom,
+                  inscription_id: row.inscription_id,
+                  name:row.etudiant_name,
                   status:row.status,
-                  iamount:row.cours.price,
+                  iamount:row.cours_fee,
                   aamount:row.negotiated_price,
-                  pamount:row.payment.amount,
-                  ramount: row.negotiated_price - row.payment.amount > 0 ? row.negotiated_price - row.payment.amount : 0,
-                  class:row.class.name,
-                  date:row.updated_at,
+                  pamount:row.amount,
+                  ramount:Number(row.remaining),
+                  class:row.classe_name,
+                  date:row.payment_date,
               }))
           );
             })
@@ -68,10 +90,6 @@ export default function TableFeesEtud()
         })
         .catch((error)=>console.log(error));
       }
-
-
-    
-
     const col=[
         {
             name:"ID",
@@ -85,7 +103,11 @@ export default function TableFeesEtud()
             name:"Class",
             selector:row => row.class
         },
-        
+        {
+            name:"Inscription ID",
+            selector:row => row.inscription_id,
+            display: 'none'
+        },
         {
             name:"Status",
             selector:row => row.status,
@@ -97,15 +119,15 @@ export default function TableFeesEtud()
       ),
         },
         {
-          name:"Amount",
+          name:"Cours Price",
           selector:row => row.iamount
       },
       {
-          name:"Agreed ",
-          selector:row => row.aamount
+          name:"Total",
+          selector:row => row.aamount,
       },
       {
-          name:"Paid ",
+          name:"Paid",
           selector:row => row.pamount
       },
       {
@@ -113,15 +135,15 @@ export default function TableFeesEtud()
           selector:row => row.ramount
       },
         {
-            name:"Date",
+            name:"Date of Payment",
             selector:row => row.date
         },
         {
             name:"Action",
             selector:row => row.action,
             cell: (row) => (
-        <div style={{ display: 'flex', gap: '0px' }}>
-          <Link to={`${x}/fees/student/edit/${row.id}`}>
+        <div className="actions" style={{ display: 'flex', gap: '0px' }}>
+          <Link to={`${x}/income/student/edit/${row.id}`}>
             <button style={{ border: 'none', background: 'none' }}>
               <BsFillPencilFill style={{ color: 'orange' }} />
             </button>
@@ -129,6 +151,15 @@ export default function TableFeesEtud()
           <button style={{ border: 'none', background: 'none' }} onClick={() => deleteRow(row.id)}>
             <MdDelete style={{ color: 'red', fontSize: '20px' }} />
           </button>
+          {
+            (row.status === 'Unpaid' || row.status === 'Partial Payment')  && (
+                <Link to={`${x}/income/student/add/${row.inscription_id}`} className='text-black'>
+              <Button variant="success" style={{ border: 'none', background: 'none',color: 'black' }}>
+                +
+              </Button>
+              </Link>
+            )
+          }
         </div>
       ),
         }
@@ -167,13 +198,26 @@ export default function TableFeesEtud()
     //     setNamefilter(newData);
     //   }
     // }
-    
-  
 
-
+    const filteredData = data.filter((item)=>item.name.toLowerCase().includes(nameFilter.toLowerCase()) && ( item.status.toLowerCase()===status2.toLowerCase() || status2==='all' ) ) 
+    console.log(status2 , ' aes')
     return(
         <div>
-            
+           
+            <div className='row'>
+              <div className='col'>
+
+                <input type="text" name="name" className="form-control" placeholder='Search by name' value={nameFilter} onChange={(e)=>setNameFilter(e.target.value)}/>
+              </div>
+              <div className='col'>
+
+                <select type="selectStatus" className="form-control" onChange={(e)=>setStatus2(e.target.value)}  >
+                <option value="all">All</option>
+                  <option value="unpaid">Unpaid</option>
+                  <option value="paid">Paid</option>
+                </select>
+              </div>
+            </div>
             {/* <div className="row offset-1">
               <div className='col'>
               <input type="text" className="form-control"  placeholder="Search by Name"  />
@@ -191,9 +235,11 @@ export default function TableFeesEtud()
             </div> */}
             <DataTable
                     columns={col}
-                    data={data}
+                    data={filteredData}
                     fixedHeader
                     pagination
+                    customStyles={tableCustomStyles}
+                    className="mt-4"
                     progressPending={pending}
                     progressComponent={<Ellipsis  size={64}
                     color='#D60A0B'

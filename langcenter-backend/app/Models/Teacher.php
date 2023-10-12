@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Class_;
+use App\Models\TeacherSalary;
+use App\Models\TeachersAttendance;
 
 class Teacher extends Model
 {
-    use HasFactory;
     use HasFactory;
 
     protected $fillable = [
@@ -29,5 +30,13 @@ class Teacher extends Model
     public function classes()
     {
         return $this->hasMany(Class_::class);
+    }
+    public function teacherSalary()
+    {
+        return $this->hasOne(TeacherSalary::class);
+    }
+    public function teacher_attendance()
+    {
+        return $this->hasMany(TeachersAttendance::class, 'teacher_id', 'id');
     }
 }

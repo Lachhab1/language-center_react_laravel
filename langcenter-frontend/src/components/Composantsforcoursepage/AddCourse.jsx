@@ -63,7 +63,7 @@ export default function AddCourse() {
 
         <div className='mb-3 col-4'>
           <label htmlFor='course_name' className='form-label'>
-            Course Name*
+            Course Name<span className='text-danger'>*</span>
           </label>
           <input
             type='text'
@@ -78,7 +78,7 @@ export default function AddCourse() {
 
         <div className='mb-3 col-4'>
           <label htmlFor='duration' className='form-label'>
-            Duration*
+            Duration<span className='text-danger'>*</span>
           </label>
           <input
             type='text'
@@ -107,7 +107,7 @@ export default function AddCourse() {
         </div>
         <div className='mb-3 col-4'>
           <label htmlFor='price' className='form-label'>
-            Price*
+            Price<span className='text-danger'>*</span>
           </label>
           <input
 

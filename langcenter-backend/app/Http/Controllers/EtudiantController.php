@@ -6,6 +6,7 @@ use App\Models\Etudiant;
 use App\Models\Parent_;
 use Illuminate\Http\Request;
 use App\Http\Resources\EtudiantResource;
+use DateTime;
 
 class EtudiantController extends Controller
 {
@@ -28,17 +29,18 @@ class EtudiantController extends Controller
             'prenom' => 'required|string',
             'date_naissance' => 'required|date',
             'sexe' => 'required|string',
-            'email' => 'required|email|unique:etudiants',
+            'email' => 'email|unique:etudiants|nullable',
             'adresse' => 'required|string',
-            'telephone' => 'required|string|max:13|regex:/^([0-9\s\-\+\(\)]*)$/|min:10|unique:etudiants',
+            'telephone' => 'string|max:13|regex:/^([0-9\s\-\+\(\)]*)$/|min:10|unique:etudiants|nullable',
             'parent_cin' => 'string',
             'parent_nom' => 'string',
             'parent_prenom' => 'string',
-            'parent_sexe' => 'string',
-            'parent_date_naissance' => 'date',
-            'parent_email' => 'email',
-            'parent_adresse' => 'string',
-            'parent_telephone' => 'string|max:13|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
+            'parent_sexe' => 'string|nullable',
+            'parent_date_naissance' => 'date|nullable',
+            //tell the database i want to check the email feild in parents table and if it is unique
+            'parent_email' => 'email|unique:parents,email|nullable',
+            'parent_adresse' => 'string|nullable',
+            'parent_telephone' => 'string|max:13|regex:/^([0-9\s\-\+\(\)]*)$/|min:10|unique:parents,telephone|nullable',
         ]);
         $etudiant = new Etudiant();
         $etudiant->nom = $data['nom'];
@@ -48,6 +50,18 @@ class EtudiantController extends Controller
         $etudiant->email = $data['email'];
         $etudiant->adresse = $data['adresse'];
         $etudiant->telephone = $data['telephone'];
+        $birthDate = new DateTime($data['date_naissance']);
+        $now = new DateTime();
+        $age = $now->diff($birthDate)->y;
+
+        // Assign the age group based on the calculated age
+        if ($age < 13) {
+            $etudiant->age_group = 'kid';
+        } elseif ($age >= 13 && $age < 18) {
+            $etudiant->age_group = 'teenager';
+        } else {
+            $etudiant->age_group = 'adult';
+        }
         if ($request->has('underAge') && $request->underAge == true) {
             $parent = Parent_::where('cin', $request->parent_cin)->first();
             if ($parent) {
@@ -129,6 +143,18 @@ class EtudiantController extends Controller
         $etudiant->email = $request->email;
         $etudiant->adresse = $request->adresse;
         $etudiant->telephone = $request->telephone;
+        $birthDate = new DateTime($data['date_naissance']);
+        $now = new DateTime();
+        $age = $now->diff($birthDate)->y;
+
+        // Assign the age group based on the calculated age
+        if ($age < 13) {
+            $etudiant->age_group = 'kid';
+        } elseif ($age >= 13 && $age < 18) {
+            $etudiant->age_group = 'teenager';
+        } else {
+            $etudiant->age_group = 'adult';
+        }
         $etudiant->save();
         return new EtudiantResource($etudiant);
     }
@@ -140,8 +166,6 @@ class EtudiantController extends Controller
     {
         // Delete the inscrireClass
         $etudiant->load('inscrireClasses');
-
-
         $etudiant->inscrireClasses->each(function ($inscrireClass) {
             $inscrireClass->delete();
         });
@@ -151,7 +175,6 @@ class EtudiantController extends Controller
             $etudiant->parent_->delete();
         }
         $etudiant->delete();
-
         return response()->json(null, 204);
     }
 }

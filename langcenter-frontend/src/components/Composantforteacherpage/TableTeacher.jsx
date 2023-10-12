@@ -10,6 +10,24 @@ import { Ellipsis } from 'react-awesome-spinners';
 
 
 export default function TableTeacher() {
+  const tableCustomStyles = {
+    headCells: {
+        style: {
+        fontSize: '20px',
+        fontWeight: 'bold',
+        paddingLeft: '0 8px',
+        justifyContent: 'center',
+        backgroundColor: '#f5f5f5',
+        },
+    },
+    cells: {
+        style: {
+        fontSize: '18px',
+        paddingLeft: '0 8px',
+        justifyContent: 'center',
+        },
+    },
+        }
   const [teacherData, setTeacherDate] = useState([]);
   const {user,setNotification,setVariant} = UseStateContext()
   const [nameFilter, setNameFilter] = useState('');
@@ -107,7 +125,7 @@ export default function TableTeacher() {
       name: 'Action',
       selector: (row) => row.action,
       cell: (row) => (
-        <div style={{ display: 'flex', gap: '0px' }}>
+        <div className="actions" style={{ display: 'flex', gap: '0px' }}>
           <Link to={`${x}/teacher/details/${row.id}`}>
             <button style={{ border: 'none', background: 'none' }}>
               <FaEye style={{ color: 'lightBlue', fontSize: '16px' }} />
@@ -147,9 +165,11 @@ export default function TableTeacher() {
           <button className="btn btn-danger">Add Teacher</button>
         </Link>
       </div>
-      <DataTable columns={col} data={teacherData} fixedHeader
+      <DataTable columns={col} data={filteredData} fixedHeader
                     pagination
                     progressPending={pending}
+                    className="mt-4"
+                    customStyles={tableCustomStyles}
                     progressComponent={<Ellipsis  size={64}
                     color='#D60A0B'
                     sizeUnit='px' />} />
