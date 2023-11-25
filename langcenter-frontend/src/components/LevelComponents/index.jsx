@@ -61,11 +61,6 @@ export default function index() {
             selector: row => row.action,
             cell: row => (
             <div className="actions" style={{ display: 'flex', gap: '0px' }}>
-                <Link to={`${x}/levels/${row.id}`}>
-                    <button style={{ border: 'none', background: 'none'}}>
-                        <BsFillEyeFill style={{ color: 'green', fontSize: '20px' }} />
-                    </button>
-                </Link>
                 <Link to={`${x}/levels/edit/${row.id}`}>
                     <button style={{ border: 'none', background: 'none' }}>
                         <BsFillPencilFill style={{ color: 'orange' }} />
@@ -117,6 +112,7 @@ export default function index() {
     };
 
     const filteredData = data.filter((item)=>item.name.toLowerCase().includes(nameFilter.toLocaleLowerCase()))
+    
 
     return (
             <div>
